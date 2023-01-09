@@ -64,7 +64,7 @@ dependencies {
 
     implementation "com.ctre.phoenix:api-java:${phoniexVersion}"
     implementation "com.ctre.phoenix:wpiapi-java:${phoniexVersion}"
-     implementation "com.revrobotics.frc:REVLib-java:${revVersion}"
+    implementation "com.revrobotics.frc:REVLib-java:${revVersion}"
     // implementation "com.kauailabs.navx.frc:navx-java:${kauailabsVersion}"
     implementation "org.photonvision:PhotonLib-java:${photonVisionVersion}"
     implementation "org.photonvision:PhotonTargeting-java:${photonVisionVersion}"
@@ -86,7 +86,11 @@ wpi.sim.addGui().defaultEnabled = true
 wpi.sim.addDriverstation()
 
 jar {
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
