@@ -1,23 +1,21 @@
+import edu.wpi.first.gradlerio.GradleRIOPlugin
+
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2023.1.1"
+    id "edu.wpi.first.GradleRIO" version '2023.1.1'
     id 'com.diffplug.spotless' version '6.12.0'
 }
-
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
 deploy {
     targets {
         roborio(getTargetTypeClass('RoboRIO')) {
-            team = project.frc.getTeamNumber()
+            team = project.frc.getTeamOrDefault(540)
             debug = project.frc.getDebugOrDefault(false)
 
             artifacts {
                 frcJava(getArtifactTypeClass('FRCJavaArtifact')) {}
-
                 frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
                     files = project.fileTree('src/main/deploy')
                     directory = '/home/lvuser/deploy'
@@ -34,14 +32,16 @@ wpi.java.debugJni = false
 def includeDesktopSupport = false
 
 repositories {
-    mavenCentral()
     mavenLocal()
+    mavenCentral()
 
-    maven { url = uri('https://jitpack.io')}
+    maven { url = uri("https://www.jitpack.io") }
+    maven { url = uri('https://frcmaven.wpi.edu/artifactory/release/') }
     maven { url = uri('https://maven.ctr-electronics.com/release/') }
     maven { url = uri('https://maven.revrobotics.com/') }
     maven { url = uri("https://repo1.maven.org/maven2/") }
     maven { url = uri("https://maven.photonvision.org/repository/internal") }
+    maven { url = uri("https://maven.photonvision.org/repository/snapshots") }
 }
 
 dependencies {
@@ -62,45 +62,69 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
+    testImplementation 'junit:junit:4.13.2'
+
     implementation "com.ctre.phoenix:api-java:${phoniexVersion}"
     implementation "com.ctre.phoenix:wpiapi-java:${phoniexVersion}"
     implementation "com.revrobotics.frc:REVLib-java:${revVersion}"
-    // implementation "com.kauailabs.navx.frc:navx-java:${kauailabsVersion}"
     implementation "org.photonvision:PhotonLib-java:${photonVisionVersion}"
     implementation "org.photonvision:PhotonTargeting-java:${photonVisionVersion}"
-
-    implementation "com.github.Talon540Programming:TalonLib:main-SNAPSHOT"
-
-    // Test Platforms
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-}
-
-test {
-    useJUnitPlatform()
-    systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
+    implementation "com.github.Talon540Programming:TalonLib:${talonlibVersion}"
 }
 
 wpi.sim.addGui().defaultEnabled = true
 wpi.sim.addDriverstation()
 
 jar {
-    from {
-        configurations.runtimeClasspath.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
-    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
+// Configure jar and deploy tasks
 deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
 
-tasks.withType(JavaCompile) {
-    options.compilerArgs.add '-XDstringConcat=inline'
+spotless {
+    java {
+        target fileTree('.') {
+            include '**/*.java'
+            exclude '**/build/**', '**/build-*/**', '.idea'
+        }
+        toggleOffOn()
+        googleJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    groovyGradle {
+        target fileTree('.') {
+            include '**/*.gradle'
+            exclude '**/build/**', '**/build-*/**', '.idea'
+        }
+        greclipse()
+        indentWithSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    format 'xml', {
+        target fileTree('.') {
+            include '**/*.xml'
+            exclude '**/build/**', '**/build-*/**', '.idea'
+        }
+        eclipseWtp('xml')
+        trimTrailingWhitespace()
+        indentWithSpaces(2)
+        endWithNewline()
+    }
+    format 'misc', {
+        target fileTree('.') {
+            include '**/*.md', '**/.gitignore'
+            exclude '**/build/**', '**/build-*/**', '.idea'
+        }
+        trimTrailingWhitespace()
+        indentWithSpaces(2)
+        endWithNewline()
+    }
 }
-
-apply from: 'javastyle.gradle'
