@@ -35,7 +35,7 @@ repositories {
     mavenLocal()
     mavenCentral()
 
-    maven { url = uri("https://www.jitpack.io") }
+    maven { url = uri('https://jitpack.io') }
     maven { url = uri('https://frcmaven.wpi.edu/artifactory/release/') }
     maven { url = uri('https://maven.ctr-electronics.com/release/') }
     maven { url = uri('https://maven.revrobotics.com/') }
@@ -76,7 +76,11 @@ wpi.sim.addGui().defaultEnabled = true
 wpi.sim.addDriverstation()
 
 jar {
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
     manifest GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
