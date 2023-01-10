@@ -14,4 +14,14 @@ public class HardwareDevices {
     public static final CANDeviceConfig kBackLeftConfig = new CANDeviceConfig(0); // TODO
     public static final CANDeviceConfig kBackRightConfig = new CANDeviceConfig(0); // TODO
   }
+
+  public static class Arm {
+    public static final CANDeviceConfig kArmRotationLeader = new CANDeviceConfig(0); // TODO
+    public static final CANDeviceConfig kArmRotationFollower = new CANDeviceConfig(0); // TODO
+    public static final CANDeviceConfig kArmExtension = new CANDeviceConfig(0); // TODO
+
+    public static int kPhaseOneSensorPort = 0; // TODO
+    public static int kPhaseTwoSensorPort = 0; // TODO
+    public static int kPhaseThreeSensorPort = 0; // TODO
+  }
 }
