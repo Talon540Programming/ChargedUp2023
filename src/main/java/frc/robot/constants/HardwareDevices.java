@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import org.talon540.hardware.CANDeviceConfig;
 
 public class HardwareDevices {
@@ -20,6 +22,9 @@ public class HardwareDevices {
     public static final CANDeviceConfig kArmRotationFollower = new CANDeviceConfig(0); // TODO
     public static final CANDeviceConfig kArmExtension = new CANDeviceConfig(0); // TODO
     public static final CANDeviceConfig kArmRotationEncoder = new CANDeviceConfig(0); // TODO
+
+    public static final NeutralMode kArmRotationNeutralMode = NeutralMode.Brake;
+    public static final NeutralMode kArmExtensionNeutralMode = NeutralMode.Brake;
 
     public static int kPhaseOneSensorPort = 0; // TODO
     public static int kPhaseTwoSensorPort = 0; // TODO

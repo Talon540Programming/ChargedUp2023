@@ -25,16 +25,22 @@ public class ArmExtensionBase extends SubsystemBase {
   private final WPI_TalonFX extensionMotor =
       new WPI_TalonFX(Arm.kArmExtension.id, Arm.kArmExtension.controller);
 
+  public ArmExtensionBase() {
+    this.extensionMotor.setNeutralMode(Arm.kArmExtensionNeutralMode);
+  }
+
   @Override
   public void periodic() {
     ArmExtensionPosition currentArmPosition = getCurrentPosition();
     // Because Unknown represents the arm moving between two points, it is considered unknown.
     if (currentArmPosition != ArmExtensionPosition.kUnknown)
       lastExtensionPosition = currentArmPosition;
+
+    this.extensionMotor.setInverted(isWinchFlipped);
   }
 
   public void setExtensionPercent(double percent) {
-    extensionMotor.set(ControlMode.PercentOutput, isWinchFlipped ? -percent : percent);
+    extensionMotor.set(ControlMode.PercentOutput, percent);
   }
 
   public void stopExtension() {
