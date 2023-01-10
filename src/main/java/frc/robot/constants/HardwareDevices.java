@@ -21,7 +21,6 @@ public class HardwareDevices {
     public static final CANDeviceConfig kArmExtension = new CANDeviceConfig(0); // TODO
     public static final CANDeviceConfig kArmRotationEncoder = new CANDeviceConfig(0); // TODO
 
-
     public static int kPhaseOneSensorPort = 0; // TODO
     public static int kPhaseTwoSensorPort = 0; // TODO
     public static int kPhaseThreeSensorPort = 0; // TODO
