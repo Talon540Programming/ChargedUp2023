@@ -18,7 +18,6 @@ public class ArmExtensionBase extends SubsystemBase {
 
   private final DigitalInput ArmStartSensor = new DigitalInput(Arm.kArmBasePort);
   private final DigitalInput ArmEndSensor = new DigitalInput(Arm.kArmEndPort);
-
   private final DigitalInput NodeOneSensor = new DigitalInput(Arm.kNodeSlotOnePort);
   private final DigitalInput NodeTwoSensor = new DigitalInput(Arm.kNodeSlotTwoPort);
   private final DigitalInput NodeThreeSensor = new DigitalInput(Arm.kNodeSlotThreePort);
@@ -42,6 +41,10 @@ public class ArmExtensionBase extends SubsystemBase {
       lastExtensionPosition = currentArmPosition;
 
     this.extensionMotor.setInverted(isWinchFlipped);
+
+    if(currentArmPosition == ArmExtensionPosition.kStart || currentArmPosition == ArmExtensionPosition.kEnd)
+      // Stop the motor from over-wrapping the winch
+      extensionMotor.stopMotor();
   }
 
   public void setExtensionPercent(double percent) {
