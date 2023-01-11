@@ -1,7 +1,6 @@
 package frc.robot.constants;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import org.talon540.hardware.CANDeviceConfig;
 
 public class HardwareDevices {

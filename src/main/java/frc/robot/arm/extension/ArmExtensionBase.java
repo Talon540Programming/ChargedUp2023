@@ -42,7 +42,8 @@ public class ArmExtensionBase extends SubsystemBase {
 
     this.extensionMotor.setInverted(isWinchFlipped);
 
-    if(currentArmPosition == ArmExtensionPosition.kStart || currentArmPosition == ArmExtensionPosition.kEnd)
+    if (currentArmPosition == ArmExtensionPosition.kStart
+        || currentArmPosition == ArmExtensionPosition.kEnd)
       // Stop the motor from over-wrapping the winch
       extensionMotor.stopMotor();
   }
@@ -56,7 +57,7 @@ public class ArmExtensionBase extends SubsystemBase {
   }
 
   public ArmExtensionPosition getCurrentPosition() {
-    if(ArmStartSensor.get()) {
+    if (ArmStartSensor.get()) {
       return ArmExtensionPosition.kStart;
     } else if (NodeOneSensor.get()) {
       return ArmExtensionPosition.kNodeOne;
@@ -64,7 +65,7 @@ public class ArmExtensionBase extends SubsystemBase {
       return ArmExtensionPosition.kNodeTwo;
     } else if (NodeThreeSensor.get()) {
       return ArmExtensionPosition.kNodeThree;
-    } else if(ArmEndSensor.get()) {
+    } else if (ArmEndSensor.get()) {
       return ArmExtensionPosition.kEnd;
     } else {
       return ArmExtensionPosition.kUnknown;

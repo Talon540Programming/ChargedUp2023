@@ -18,8 +18,10 @@ public class ArmRotationBase extends SubsystemBase {
 
   public ArmRotationBase() {
     // Configure rotation motors
-     this.rotationLeader = new WPI_TalonFX(Arm.kArmRotationLeader.id, Arm.kArmRotationLeader.controller);
-     this.rotationFollower = new WPI_TalonFX(Arm.kArmRotationFollower.id, Arm.kArmRotationFollower.controller);
+    this.rotationLeader =
+        new WPI_TalonFX(Arm.kArmRotationLeader.id, Arm.kArmRotationLeader.controller);
+    this.rotationFollower =
+        new WPI_TalonFX(Arm.kArmRotationFollower.id, Arm.kArmRotationFollower.controller);
 
     this.rotationLeader.setNeutralMode(Arm.kArmRotationNeutralMode);
     this.rotationFollower.setNeutralMode(Arm.kArmRotationNeutralMode);
@@ -27,22 +29,23 @@ public class ArmRotationBase extends SubsystemBase {
     this.rotationFollower.follow(rotationLeader);
 
     // Configure rotation encoder
-    this.rotationEncoder = new WPI_CANCoder(Arm.kArmRotationEncoder.id, Arm.kArmRotationEncoder.controller);
+    this.rotationEncoder =
+        new WPI_CANCoder(Arm.kArmRotationEncoder.id, Arm.kArmRotationEncoder.controller);
   }
 
   public void setRotationPercent(double percent) {
-      rotationLeader.set(ControlMode.PercentOutput, percent);
+    rotationLeader.set(ControlMode.PercentOutput, percent);
   }
 
   public double getArmPosition() {
-      return rotationEncoder.getAbsolutePosition();
+    return rotationEncoder.getAbsolutePosition();
   }
 
   public boolean isAtForwardLimit() {
-      return forwardBeamBreak.get();
+    return forwardBeamBreak.get();
   }
 
   public boolean isAtRearLimit() {
-      return rearBeamBreak.get();
+    return rearBeamBreak.get();
   }
 }
