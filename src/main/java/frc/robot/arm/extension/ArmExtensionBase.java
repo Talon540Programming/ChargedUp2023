@@ -8,15 +8,20 @@ import frc.robot.constants.HardwareDevices.Arm;
 
 public class ArmExtensionBase extends SubsystemBase {
   public enum ArmExtensionPosition {
+    kStart,
     kNodeOne,
     kNodeTwo,
     kNodeThree,
+    kEnd,
     kUnknown
   }
 
-  private final DigitalInput NodeOneSensor = new DigitalInput(Arm.kPhaseOneSensorPort);
-  private final DigitalInput NodeTwoSensor = new DigitalInput(Arm.kPhaseTwoSensorPort);
-  private final DigitalInput NodeThreeSensor = new DigitalInput(Arm.kPhaseThreeSensorPort);
+  private final DigitalInput ArmStartSensor = new DigitalInput(Arm.kArmBasePort);
+  private final DigitalInput ArmEndSensor = new DigitalInput(Arm.kArmEndPort);
+
+  private final DigitalInput NodeOneSensor = new DigitalInput(Arm.kNodeSlotOnePort);
+  private final DigitalInput NodeTwoSensor = new DigitalInput(Arm.kNodeSlotTwoPort);
+  private final DigitalInput NodeThreeSensor = new DigitalInput(Arm.kNodeSlotThreePort);
 
   private ArmExtensionPosition lastExtensionPosition = ArmExtensionPosition.kUnknown;
 
@@ -48,12 +53,16 @@ public class ArmExtensionBase extends SubsystemBase {
   }
 
   public ArmExtensionPosition getCurrentPosition() {
-    if (NodeOneSensor.get()) {
+    if(ArmStartSensor.get()) {
+      return ArmExtensionPosition.kStart;
+    } else if (NodeOneSensor.get()) {
       return ArmExtensionPosition.kNodeOne;
     } else if (NodeTwoSensor.get()) {
       return ArmExtensionPosition.kNodeTwo;
     } else if (NodeThreeSensor.get()) {
       return ArmExtensionPosition.kNodeThree;
+    } else if(ArmEndSensor.get()) {
+      return ArmExtensionPosition.kEnd;
     } else {
       return ArmExtensionPosition.kUnknown;
     }

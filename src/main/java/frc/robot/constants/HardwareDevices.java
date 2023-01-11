@@ -26,8 +26,10 @@ public class HardwareDevices {
     public static final NeutralMode kArmRotationNeutralMode = NeutralMode.Brake;
     public static final NeutralMode kArmExtensionNeutralMode = NeutralMode.Brake;
 
-    public static int kPhaseOneSensorPort = 0; // TODO
-    public static int kPhaseTwoSensorPort = 0; // TODO
-    public static int kPhaseThreeSensorPort = 0; // TODO
+    public static int kArmBasePort = 0; // TODO
+    public static int kNodeSlotOnePort = 0; // TODO
+    public static int kNodeSlotTwoPort = 0; // TODO
+    public static int kNodeSlotThreePort = 0; // TODO
+    public static int kArmEndPort = 0; // TODO
   }
 }
