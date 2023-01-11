@@ -6,7 +6,13 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.HardwareDevices.Arm;
 
+/**
+ * Subsystem used to extend the arm forward and backwards. Has utilities to automatically stop the arm from over-wrapping itself.
+ */
 public class ArmExtensionBase extends SubsystemBase {
+  /**
+   * Constants used to identify HAL sensors located on the Arm of the robot.
+   */
   public enum ArmExtensionPosition {
     kStart,
     kNodeOne,
@@ -51,6 +57,11 @@ public class ArmExtensionBase extends SubsystemBase {
       extensionMotor.stopMotor();
   }
 
+  /**
+   * Set the percent output of the extension motor. The inversion from winch being flipped is automatically handled.
+   *
+   * @param percent output percent [-1, 1].
+   */
   public void setExtensionPercent(double percent) {
     extensionMotor.set(ControlMode.PercentOutput, percent);
   }
@@ -59,6 +70,11 @@ public class ArmExtensionBase extends SubsystemBase {
     extensionMotor.stopMotor();
   }
 
+  /**
+   * Get the current position of the arm. Returns unknown if none of the sensors are engaged.
+   *
+   * @return current position of the arm as a {@link ArmExtensionPosition}.
+   */
   public ArmExtensionPosition getCurrentPosition() {
     if (ArmStartSensor.get()) {
       return ArmExtensionPosition.kStart;
@@ -75,14 +91,29 @@ public class ArmExtensionBase extends SubsystemBase {
     }
   }
 
+  /**
+   * Get the last <b>known</b> position of the extension arm. Useful if trying to optimize moving the arm to a specific position.
+   *
+   * @return last known position of the arm as a {@link ArmExtensionPosition}.
+   */
   public ArmExtensionPosition getLastPosition() {
     return lastExtensionPosition;
   }
 
+  /**
+   * Return the state of the winch.
+   *
+   * @return returns true if the cable is flipped around the winch.
+   */
   public boolean isWinchFlipped() {
     return isWinchFlipped;
   }
 
+  /**
+   * Set the state of the winch.
+   *
+   * @param flipped True if the winch is flipped and the motor control needs to be inverted.
+   */
   public void setWinchFlipped(boolean flipped) {
     isWinchFlipped = flipped;
   }
