@@ -7,9 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.HardwareDevices.Arm;
 
-/**
- * Subsystem used to manage the rotation aspect of the arm.
- */
+/** Subsystem used to manage the rotation aspect of the arm. */
 public class ArmRotationBase extends SubsystemBase {
   private final WPI_TalonFX rotationLeader;
   private final WPI_TalonFX rotationFollower;
@@ -37,7 +35,8 @@ public class ArmRotationBase extends SubsystemBase {
   }
 
   /**
-   * Set the output percent of the arm rotation motor. Automatically sets the second motor with follower mode.
+   * Set the output percent of the arm rotation motor. Automatically sets the second motor with
+   * follower mode.
    *
    * @param percent percent to set [-1, 1].
    */
@@ -55,7 +54,8 @@ public class ArmRotationBase extends SubsystemBase {
   }
 
   /**
-   * Return if the forward beam break sensor is broken. Useful for stopping the arm from forcing itself past this point and damaging itself.
+   * Return if the forward beam break sensor is broken. Useful for stopping the arm from forcing
+   * itself past this point and damaging itself.
    *
    * @return if the forward beam break sensor is true.
    */
@@ -64,7 +64,8 @@ public class ArmRotationBase extends SubsystemBase {
   }
 
   /**
-   * Return if the rear beam break sensor is broken. Useful for stopping the arm from forcing itself past this point and damaging itself.
+   * Return if the rear beam break sensor is broken. Useful for stopping the arm from forcing itself
+   * past this point and damaging itself.
    *
    * @return if the rear beam break sensor is true.
    */

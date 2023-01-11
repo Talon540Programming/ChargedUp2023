@@ -5,9 +5,7 @@ import frc.robot.arm.extension.ArmExtensionBase;
 import frc.robot.arm.extension.ArmExtensionBase.ArmExtensionPosition;
 import frc.robot.constants.Constants;
 
-/**
- * Command used to extend the arm to the position defined by a HAL sensor on the arm itself.
- */
+/** Command used to extend the arm to the position defined by a HAL sensor on the arm itself. */
 public class ExtendToPosition extends CommandBase {
   private final ArmExtensionBase extensionBase;
   private final ArmExtensionPosition targetPosition;

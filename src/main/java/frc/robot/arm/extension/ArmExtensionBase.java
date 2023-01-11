@@ -7,12 +7,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.HardwareDevices.Arm;
 
 /**
- * Subsystem used to extend the arm forward and backwards. Has utilities to automatically stop the arm from over-wrapping itself.
+ * Subsystem used to extend the arm forward and backwards. Has utilities to automatically stop the
+ * arm from over-wrapping itself.
  */
 public class ArmExtensionBase extends SubsystemBase {
-  /**
-   * Constants used to identify HAL sensors located on the Arm of the robot.
-   */
+  /** Constants used to identify HAL sensors located on the Arm of the robot. */
   public enum ArmExtensionPosition {
     kStart,
     kNodeOne,
@@ -58,7 +57,8 @@ public class ArmExtensionBase extends SubsystemBase {
   }
 
   /**
-   * Set the percent output of the extension motor. The inversion from winch being flipped is automatically handled.
+   * Set the percent output of the extension motor. The inversion from winch being flipped is
+   * automatically handled.
    *
    * @param percent output percent [-1, 1].
    */
@@ -92,7 +92,8 @@ public class ArmExtensionBase extends SubsystemBase {
   }
 
   /**
-   * Get the last <b>known</b> position of the extension arm. Useful if trying to optimize moving the arm to a specific position.
+   * Get the last <b>known</b> position of the extension arm. Useful if trying to optimize moving
+   * the arm to a specific position.
    *
    * @return last known position of the arm as a {@link ArmExtensionPosition}.
    */
