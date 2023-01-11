@@ -22,7 +22,7 @@ public class ArmExtensionBase extends SubsystemBase {
   private final DigitalInput NodeTwoSensor = new DigitalInput(Arm.kNodeSlotTwoPort);
   private final DigitalInput NodeThreeSensor = new DigitalInput(Arm.kNodeSlotThreePort);
 
-  private ArmExtensionPosition lastExtensionPosition = ArmExtensionPosition.kUnknown;
+  private ArmExtensionPosition lastExtensionPosition;
 
   private boolean isWinchFlipped = false;
 
@@ -31,6 +31,9 @@ public class ArmExtensionBase extends SubsystemBase {
 
   public ArmExtensionBase() {
     this.extensionMotor.setNeutralMode(Arm.kArmExtensionNeutralMode);
+
+    // Do this once in initialization in case the arm is all the way down or up. // TESTME
+    this.lastExtensionPosition = getCurrentPosition();
   }
 
   @Override
