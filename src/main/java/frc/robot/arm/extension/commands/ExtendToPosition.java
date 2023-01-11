@@ -38,7 +38,7 @@ public class ExtendToPosition extends CommandBase {
 
     // Get the position of the target relative to the last position
     extensionBase.setExtensionPercent(
-        Math.signum(targetPosition.compareTo(lastKnownArmPosition)) * Constants.kExtensionRate);
+        Math.signum(targetPosition.compareTo(lastKnownArmPosition)) * Constants.kArmExtensionRate);
   }
 
   @Override
