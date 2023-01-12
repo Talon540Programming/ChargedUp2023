@@ -32,7 +32,7 @@ public class ExtendToPosition extends CommandBase {
     if (lastKnownArmPosition == ArmExtensionPosition.kUnknown) {
       // The position of the arm is unknown, move forward until it is known, hopefully before it
       // hits the absolute max.
-      extensionBase.setExtensionPercent(0.5);
+      extensionBase.setExtensionPercent(Constants.kArmExtensionRate);
       return;
     }
 
