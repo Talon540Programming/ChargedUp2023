@@ -51,8 +51,10 @@ public class DrivetrainBase extends SubsystemBase {
           Drivetrain.kWheelRadiusMeters,
           Drivetrain.kDrivetrainGearRatio);
 
-  private final PIDController m_leftPIDController = new PIDController(0, 0, 0);
-  private final PIDController m_rightPIDController = new PIDController(0, 0, 0);
+  private final PIDController m_leftPIDController =
+      new PIDController(Drivetrain.PIDValues.kP, Drivetrain.PIDValues.kI, Drivetrain.PIDValues.kD);
+  private final PIDController m_rightPIDController =
+      new PIDController(Drivetrain.PIDValues.kP, Drivetrain.PIDValues.kI, Drivetrain.PIDValues.kD);
 
   private final SimpleMotorFeedforward m_driveFeedForward = new SimpleMotorFeedforward(0, 0);
 
