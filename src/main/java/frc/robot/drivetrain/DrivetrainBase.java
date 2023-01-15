@@ -52,11 +52,14 @@ public class DrivetrainBase extends SubsystemBase {
           Drivetrain.kDrivetrainGearRatio);
 
   private final PIDController m_leftPIDController =
-      new PIDController(Drivetrain.PIDValues.kP, Drivetrain.PIDValues.kI, Drivetrain.PIDValues.kD);
+      new PIDController(
+          Drivetrain.ControlValues.kP, Drivetrain.ControlValues.kI, Drivetrain.ControlValues.kD);
   private final PIDController m_rightPIDController =
-      new PIDController(Drivetrain.PIDValues.kP, Drivetrain.PIDValues.kI, Drivetrain.PIDValues.kD);
+      new PIDController(
+          Drivetrain.ControlValues.kP, Drivetrain.ControlValues.kI, Drivetrain.ControlValues.kD);
 
-  private final SimpleMotorFeedforward m_driveFeedForward = new SimpleMotorFeedforward(0, 0);
+  private final SimpleMotorFeedforward m_driveFeedForward =
+      new SimpleMotorFeedforward(Drivetrain.ControlValues.kS, Drivetrain.ControlValues.kV);
 
   private final DifferentialDrivePoseEstimator m_driveOdometry;
 

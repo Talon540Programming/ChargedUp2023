@@ -13,19 +13,20 @@ public class Constants {
     public static final double kDrivetrainGearRatio = 54.0 / 20.0; // TODO
 
     public static final double kTrackWidthMeters = 0; // TODO
-    public static final double kWheelRadiusInches = 3;
+    public static final double kWheelRadiusInches = 3; // TODO
     public static final double kWheelRadiusMeters = Units.inchesToMeters(kWheelRadiusInches);
 
     public static final DifferentialDriveKinematics kDrivetrainKinematics =
         new DifferentialDriveKinematics(kTrackWidthMeters);
 
-    public static final NeutralMode kDrivetrainNeutralMode = NeutralMode.Brake;
+    public static final NeutralMode kDrivetrainNeutralMode = NeutralMode.Brake; // TODO
 
-    public static class PIDValues {
+    public static class ControlValues {
       public static final double kP = 0; // TODO
       public static final double kI = 0; // TODO
       public static final double kD = 0; // TODO
-      public static final double kF = 0; // TODO
+      public static final double kS = 0; // TODO
+      public static final double kV = 0; // TODO
     }
   }
 }
