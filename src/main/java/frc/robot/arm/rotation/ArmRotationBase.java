@@ -9,29 +9,20 @@ import frc.robot.constants.HardwareDevices.Arm;
 
 /** Subsystem used to manage the rotation aspect of the arm. */
 public class ArmRotationBase extends SubsystemBase {
-  private final WPI_TalonFX rotationLeader;
-  private final WPI_TalonFX rotationFollower;
+  private final WPI_TalonFX rotationLeader = new WPI_TalonFX(Arm.Rotation.kArmRotationLeader.id, Arm.Rotation.kArmRotationLeader.controller);
+  private final WPI_TalonFX rotationFollower = new WPI_TalonFX(Arm.Rotation.kArmRotationFollower.id, Arm.Rotation.kArmRotationFollower.controller);
 
-  private final WPI_CANCoder rotationEncoder;
+  private final WPI_CANCoder rotationEncoder = new WPI_CANCoder(Arm.Rotation.kArmRotationEncoder.id, Arm.Rotation.kArmRotationEncoder.controller);
 
-  private final DigitalInput forwardBeamBreak = new DigitalInput(0);
-  private final DigitalInput rearBeamBreak = new DigitalInput(0);
+  private final DigitalInput forwardBeamBreak = new DigitalInput(Arm.Rotation.kForwardBeamBreakPort);
+  private final DigitalInput rearBeamBreak = new DigitalInput(Arm.Rotation.kRearBeamBreakPort);
 
   public ArmRotationBase() {
     // Configure rotation motors
-    this.rotationLeader =
-        new WPI_TalonFX(Arm.kArmRotationLeader.id, Arm.kArmRotationLeader.controller);
-    this.rotationFollower =
-        new WPI_TalonFX(Arm.kArmRotationFollower.id, Arm.kArmRotationFollower.controller);
-
-    this.rotationLeader.setNeutralMode(Arm.kArmRotationNeutralMode);
-    this.rotationFollower.setNeutralMode(Arm.kArmRotationNeutralMode);
+    this.rotationLeader.setNeutralMode(Arm.Rotation.kArmRotationNeutralMode);
+    this.rotationFollower.setNeutralMode(Arm.Rotation.kArmRotationNeutralMode);
 
     this.rotationFollower.follow(rotationLeader);
-
-    // Configure rotation encoder
-    this.rotationEncoder =
-        new WPI_CANCoder(Arm.kArmRotationEncoder.id, Arm.kArmRotationEncoder.controller);
   }
 
   /**

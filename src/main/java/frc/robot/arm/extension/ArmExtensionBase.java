@@ -21,21 +21,21 @@ public class ArmExtensionBase extends SubsystemBase {
     kUnknown
   }
 
-  private final DigitalInput ArmStartSensor = new DigitalInput(Arm.kArmBasePort);
-  private final DigitalInput ArmEndSensor = new DigitalInput(Arm.kArmEndPort);
-  private final DigitalInput NodeOneSensor = new DigitalInput(Arm.kNodeSlotOnePort);
-  private final DigitalInput NodeTwoSensor = new DigitalInput(Arm.kNodeSlotTwoPort);
-  private final DigitalInput NodeThreeSensor = new DigitalInput(Arm.kNodeSlotThreePort);
+  private final DigitalInput ArmStartSensor = new DigitalInput(Arm.Extension.kArmBasePort);
+  private final DigitalInput ArmEndSensor = new DigitalInput(Arm.Extension.kArmEndPort);
+  private final DigitalInput NodeOneSensor = new DigitalInput(Arm.Extension.kNodeSlotOnePort);
+  private final DigitalInput NodeTwoSensor = new DigitalInput(Arm.Extension.kNodeSlotTwoPort);
+  private final DigitalInput NodeThreeSensor = new DigitalInput(Arm.Extension.kNodeSlotThreePort);
 
   private ArmExtensionPosition lastExtensionPosition;
 
   private boolean isWinchFlipped = false;
 
   private final WPI_TalonFX extensionMotor =
-      new WPI_TalonFX(Arm.kArmExtension.id, Arm.kArmExtension.controller);
+      new WPI_TalonFX(Arm.Extension.kArmExtension.id, Arm.Extension.kArmExtension.controller);
 
   public ArmExtensionBase() {
-    this.extensionMotor.setNeutralMode(Arm.kArmExtensionNeutralMode);
+    this.extensionMotor.setNeutralMode(Arm.Extension.kArmExtensionNeutralMode);
 
     // Do this once in initialization in case the arm is all the way down or up. // TESTME
     this.lastExtensionPosition = getCurrentPosition();
