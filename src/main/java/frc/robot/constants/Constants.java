@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+
 public class Constants {
   public static class Arm {
     public static class Extension {
@@ -7,8 +9,13 @@ public class Constants {
     }
 
     public static class Rotation {
-      public static final double kMaxRotationalVelocity = 0; // TODO
-      public static final double kMaxRotationalAcceleration = 0; // TODO
+      public static final double kMaxVelocityRadPerSec = 0; // TODO
+      public static final double kMaxAccelerationRadPerSecSquared = 0; // TODO
+
+      public static final TrapezoidProfile.Constraints kRotationalConstraint = new TrapezoidProfile.Constraints(
+              kMaxVelocityRadPerSec,
+              kMaxAccelerationRadPerSecSquared
+      );
 
       // Gearbox * Sprocket
       public static final double kGearRatio = 0; // TODO
