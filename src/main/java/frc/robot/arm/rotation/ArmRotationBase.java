@@ -58,7 +58,7 @@ public class ArmRotationBase extends SubsystemBase {
    * @return if the forward beam break sensor is true.
    */
   public boolean isAtForwardLimit() {
-    return forwardBeamBreak.get();
+    return !forwardBeamBreak.get();
   }
 
   /**
@@ -68,6 +68,6 @@ public class ArmRotationBase extends SubsystemBase {
    * @return if the rear beam break sensor is true.
    */
   public boolean isAtRearLimit() {
-    return rearBeamBreak.get();
+    return !rearBeamBreak.get();
   }
 }
