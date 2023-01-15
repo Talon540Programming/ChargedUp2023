@@ -9,12 +9,19 @@ import frc.robot.constants.HardwareDevices.Arm;
 
 /** Subsystem used to manage the rotation aspect of the arm. */
 public class ArmRotationBase extends SubsystemBase {
-  private final WPI_TalonFX rotationLeader = new WPI_TalonFX(Arm.Rotation.kArmRotationLeader.id, Arm.Rotation.kArmRotationLeader.controller);
-  private final WPI_TalonFX rotationFollower = new WPI_TalonFX(Arm.Rotation.kArmRotationFollower.id, Arm.Rotation.kArmRotationFollower.controller);
+  private final WPI_TalonFX rotationLeader =
+      new WPI_TalonFX(
+          Arm.Rotation.kArmRotationLeader.id, Arm.Rotation.kArmRotationLeader.controller);
+  private final WPI_TalonFX rotationFollower =
+      new WPI_TalonFX(
+          Arm.Rotation.kArmRotationFollower.id, Arm.Rotation.kArmRotationFollower.controller);
 
-  private final WPI_CANCoder rotationEncoder = new WPI_CANCoder(Arm.Rotation.kArmRotationEncoder.id, Arm.Rotation.kArmRotationEncoder.controller);
+  private final WPI_CANCoder rotationEncoder =
+      new WPI_CANCoder(
+          Arm.Rotation.kArmRotationEncoder.id, Arm.Rotation.kArmRotationEncoder.controller);
 
-  private final DigitalInput forwardBeamBreak = new DigitalInput(Arm.Rotation.kForwardBeamBreakPort);
+  private final DigitalInput forwardBeamBreak =
+      new DigitalInput(Arm.Rotation.kForwardBeamBreakPort);
   private final DigitalInput rearBeamBreak = new DigitalInput(Arm.Rotation.kRearBeamBreakPort);
 
   public ArmRotationBase() {
