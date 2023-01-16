@@ -30,6 +30,9 @@ public class ArmRotationBase extends SubsystemBase {
     this.rotationFollower.setNeutralMode(Arm.Rotation.kArmRotationNeutralMode);
 
     this.rotationFollower.follow(rotationLeader);
+
+    this.rotationEncoder.configFactoryDefault();
+    this.rotationEncoder.configAllSettings(Arm.Rotation.getRotationEncoderConfig());
   }
 
   /**
@@ -43,12 +46,21 @@ public class ArmRotationBase extends SubsystemBase {
   }
 
   /**
-   * Return the position of the rotation encoder.
+   * Return the position of the arm from the rotation encoder.
    *
-   * @return position of the rotation encoder.
+   * @return position of the arm in radians.
    */
   public double getArmPosition() {
-    return rotationEncoder.getAbsolutePosition();
+    return rotationEncoder.getPosition();
+  }
+
+  /**
+   * Return the velocity of arm rotation.
+   *
+   * @return velocity of arm rotation in radians per second.
+   */
+  public double getArmVelocity() {
+    return rotationEncoder.getVelocity();
   }
 
   /**
