@@ -12,7 +12,9 @@ public class Constants {
       public static final double kMaxVelocityRadiansPerSecond = 0; // TODO
       public static final double kMaxAccelerationRadiansPerSecondSquared = 0; // TODO
 
-      public static final TrapezoidProfile.Constraints kRotationConstraints = new TrapezoidProfile.Constraints(kMaxVelocityRadiansPerSecond, kMaxAccelerationRadiansPerSecondSquared);
+      public static final TrapezoidProfile.Constraints kRotationConstraints =
+          new TrapezoidProfile.Constraints(
+              kMaxVelocityRadiansPerSecond, kMaxAccelerationRadiansPerSecondSquared);
 
       // Gearbox * Sprocket
       public static final double kGearRatio = 0; // TODO
