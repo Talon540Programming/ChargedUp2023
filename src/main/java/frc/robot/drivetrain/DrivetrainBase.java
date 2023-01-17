@@ -10,6 +10,7 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -68,7 +69,7 @@ public class DrivetrainBase extends SubsystemBase {
           Drivetrain.ControlValues.kP, Drivetrain.ControlValues.kI, Drivetrain.ControlValues.kD);
 
   private final SimpleMotorFeedforward m_driveFeedForward =
-      new SimpleMotorFeedforward(Drivetrain.ControlValues.kS, Drivetrain.ControlValues.kV);
+      new SimpleMotorFeedforward(Drivetrain.ControlValues.kS, Drivetrain.ControlValues.kV, Drivetrain.ControlValues.kA);
 
   private final DifferentialDrivePoseEstimator m_driveOdometry;
   // endregion
@@ -76,9 +77,8 @@ public class DrivetrainBase extends SubsystemBase {
   public DrivetrainBase() {
     this.m_leftGroup.setInverted(true);
 
-    setNeutralMode(Drivetrain.kDrivetrainNeutralMode);
+    setNeutralMode(Drivetrain.kDrivetrainDefaultNeutralMode);
 
-    zeroHeading();
     resetEncoders();
 
     this.m_driveOdometry =
@@ -100,9 +100,9 @@ public class DrivetrainBase extends SubsystemBase {
         kLeftSensor.getLinearVelocity(), kRightSensor.getLinearVelocity());
   }
 
-  public void setFromWheelSpeeds(DifferentialDriveWheelSpeeds speeds) {
-    double leftFeedForward = m_driveFeedForward.calculate(speeds.leftMetersPerSecond);
-    double rightFeedForward = m_driveFeedForward.calculate(speeds.rightMetersPerSecond);
+  public void setFromWheelSpeeds(DifferentialDriveWheelSpeeds speeds, double leftAcceleration, double rightAcceleration) {
+    double leftFeedForward = m_driveFeedForward.calculate(speeds.leftMetersPerSecond, leftAcceleration);
+    double rightFeedForward = m_driveFeedForward.calculate(speeds.rightMetersPerSecond, rightAcceleration);
 
     double leftOutput =
         m_leftPIDController.calculate(kLeftSensor.getLinearVelocity(), speeds.leftMetersPerSecond);
@@ -112,6 +112,10 @@ public class DrivetrainBase extends SubsystemBase {
 
     m_leftGroup.setVoltage(leftOutput + leftFeedForward);
     m_rightGroup.setVoltage(rightOutput + rightFeedForward);
+  }
+
+  public void setFromWheelSpeeds(DifferentialDriveWheelSpeeds speeds) {
+    setFromWheelSpeeds(speeds, 0, 0);
   }
 
   public ChassisSpeeds getChassisSpeed() {
@@ -142,8 +146,18 @@ public class DrivetrainBase extends SubsystemBase {
     m_rightGroup.setVoltage(rightVolts);
   }
 
+  public void stop() {
+    m_leftGroup.stopMotor();
+    m_rightGroup.stopMotor();
+  }
+
   public Pose2d getRobotPosition() {
     return m_driveOdometry.getEstimatedPosition();
+  }
+
+  public void resetOdometry(Pose2d position) {
+    resetEncoders();
+    m_driveOdometry.resetPosition(m_gyro.getRotation2d(), kLeftSensor.getPosition(), kRightSensor.getPosition(), position);
   }
 
   public void addEstimatedPose(Pose2d estimatedPose, double timestampSeconds) {
@@ -166,6 +180,11 @@ public class DrivetrainBase extends SubsystemBase {
   public void resetEncoders() {
     this.kLeftSensor.resetEncoder();
     this.kRightSensor.resetEncoder();
+  }
+
+  public void resetControllers() {
+    m_leftPIDController.reset();
+    m_rightPIDController.reset();
   }
 
   public void setNeutralMode(NeutralMode mode) {

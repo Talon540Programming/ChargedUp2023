@@ -21,14 +21,21 @@ public class Constants {
     public static final DifferentialDriveKinematics kDrivetrainKinematics =
         new DifferentialDriveKinematics(kTrackWidthMeters);
 
-    public static final NeutralMode kDrivetrainNeutralMode = NeutralMode.Brake; // TODO
+    public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.Brake; // TODO
 
     public static class ControlValues {
       public static final double kP = 0; // TODO
       public static final double kI = 0; // TODO
       public static final double kD = 0; // TODO
+
       public static final double kS = 0; // TODO
       public static final double kV = 0; // TODO
+      public static final double kA = 0; // TODO
+
+      public static class Trajectory {
+        public static final double kRamseteB = 2.0;
+        public static final double kRamseteZeta = 0.7;
+      }
     }
   }
 }
