@@ -60,7 +60,8 @@ public class FollowTrajectory extends CommandBase {
     drivetrainBase.resetControllers();
 
     // Set the robot position to the initial position of the trajectory.
-    drivetrainBase.resetOdometry(targetTrajectory.getInitialPose()); // TODO, should this be moved outside of the command?
+    drivetrainBase.resetOdometry(
+        targetTrajectory.getInitialPose()); // TODO, should this be moved outside of the command?
   }
 
   @Override
