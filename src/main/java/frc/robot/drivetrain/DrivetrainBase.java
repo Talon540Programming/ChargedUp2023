@@ -25,38 +25,38 @@ public class DrivetrainBase extends SubsystemBase {
       new WPI_Pigeon2(
           HardwareDevices.kRobotGyroConfig.id, HardwareDevices.kRobotGyroConfig.controller);
 
-  private final WPI_TalonFX m_frontLeft =
+  private final WPI_TalonFX m_leftLeader =
       new WPI_TalonFX(
-          HardwareDevices.Drivetrain.kFrontLeftConfig.id,
-          HardwareDevices.Drivetrain.kFrontLeftConfig.controller);
-  private final WPI_TalonFX m_frontRight =
+          HardwareDevices.Drivetrain.kLeftLeader.id,
+          HardwareDevices.Drivetrain.kLeftLeader.controller);
+  private final WPI_TalonFX m_rightLeader =
       new WPI_TalonFX(
-          HardwareDevices.Drivetrain.kFrontRightConfig.id,
-          HardwareDevices.Drivetrain.kFrontRightConfig.controller);
-  private final WPI_TalonFX m_backLeft =
+          HardwareDevices.Drivetrain.kRightLeader.id,
+          HardwareDevices.Drivetrain.kRightLeader.controller);
+  private final WPI_TalonFX m_leftFollower =
       new WPI_TalonFX(
-          HardwareDevices.Drivetrain.kBackLeftConfig.id,
-          HardwareDevices.Drivetrain.kBackLeftConfig.controller);
-  private final WPI_TalonFX m_backRight =
+          HardwareDevices.Drivetrain.kLeftFollower.id,
+          HardwareDevices.Drivetrain.kLeftFollower.controller);
+  private final WPI_TalonFX m_rightFollower =
       new WPI_TalonFX(
-          HardwareDevices.Drivetrain.kBackRightConfig.id,
-          HardwareDevices.Drivetrain.kBackRightConfig.controller);
+          HardwareDevices.Drivetrain.kRightFollower.id,
+          HardwareDevices.Drivetrain.kRightFollower.controller);
 
   // endregion
 
   private final MotorControllerGroup m_leftGroup =
-      new MotorControllerGroup(m_frontLeft, m_backLeft);
+      new MotorControllerGroup(m_leftLeader, m_leftFollower);
   private final MotorControllerGroup m_rightGroup =
-      new MotorControllerGroup(m_frontRight, m_backRight);
+      new MotorControllerGroup(m_rightLeader, m_rightFollower);
 
   private final TalonFXMechanism kLeftSensor =
       new TalonFXMechanism(
-          m_frontLeft.getSensorCollection(),
+          m_leftLeader.getSensorCollection(),
           Drivetrain.kWheelRadiusMeters,
           Drivetrain.kDrivetrainGearRatio);
   private final TalonFXMechanism kRightSensor =
       new TalonFXMechanism(
-          m_frontRight.getSensorCollection(),
+          m_rightLeader.getSensorCollection(),
           Drivetrain.kWheelRadiusMeters,
           Drivetrain.kDrivetrainGearRatio);
 
@@ -74,6 +74,7 @@ public class DrivetrainBase extends SubsystemBase {
   private final DifferentialDrivePoseEstimator m_driveOdometry;
   // endregion
 
+  /** Create the drivetrain subsystem. Configures and resets encoder. */
   public DrivetrainBase() {
     this.m_leftGroup.setInverted(true);
 
@@ -95,11 +96,25 @@ public class DrivetrainBase extends SubsystemBase {
     updateOdometry();
   }
 
+  /**
+   * Get the current wheel speeds of the drivetrain.
+   *
+   * @return current wheel speeds.
+   */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
         kLeftSensor.getLinearVelocity(), kRightSensor.getLinearVelocity());
   }
 
+  /**
+   * Set the wheel speeds of the drivetrain using a PID loop + Feed Forward control (closed loop).
+   * The controllers must be reset prior to using this method via {@link
+   * DrivetrainBase#resetControllers()}.
+   *
+   * @param speeds speeds to set.
+   * @param leftAcceleration acceleration of the left side for the Feed Forward loop.
+   * @param rightAcceleration acceleration of the right side for the Feed Forward loop.
+   */
   public void setFromWheelSpeeds(
       DifferentialDriveWheelSpeeds speeds, double leftAcceleration, double rightAcceleration) {
     double leftFeedForward =
@@ -116,22 +131,54 @@ public class DrivetrainBase extends SubsystemBase {
     tankDriveVoltage(leftOutput + leftFeedForward, rightOutput + rightFeedForward);
   }
 
+  /**
+   * Set the wheel speeds of the drivetrain using a PID loop + Feed Forward control (closed loop).
+   * The controllers must be reset prior to using this method via {@link
+   * DrivetrainBase#resetControllers()}. Assumes an acceleration of 0.
+   *
+   * @param speeds speeds to set.
+   */
   public void setFromWheelSpeeds(DifferentialDriveWheelSpeeds speeds) {
     setFromWheelSpeeds(speeds, 0, 0);
   }
 
+  /**
+   * Get the current Chassis Speed of the drivetrain.
+   *
+   * @return current Chassis Speed of the drivetrain.
+   */
   public ChassisSpeeds getChassisSpeed() {
     return Drivetrain.kDrivetrainKinematics.toChassisSpeeds(getWheelSpeeds());
   }
 
+  /**
+   * Set the speed of the drivetrain from a {@link ChassisSpeeds} object using a PID loop + Feed
+   * Forward control (closed loop). The controllers must be reset prior to using this method via
+   * {@link DrivetrainBase#resetControllers()}. Uses an acceleration of 0.
+   *
+   * @param chassisSpeed chassis speed to set.
+   */
   public void setFromChassisSpeed(ChassisSpeeds chassisSpeed) {
     setFromWheelSpeeds(Drivetrain.kDrivetrainKinematics.toWheelSpeeds(chassisSpeed));
   }
 
+  /**
+   * Set the speed of the drivetrain from linear and rotational forces.
+   *
+   * @param linearSpeed linear velocity to apply in meters per second.
+   * @param angularSpeed rotational velocity to apply in radians per second.
+   */
   public void setFromForces(double linearSpeed, double angularSpeed) {
     setFromChassisSpeed(new ChassisSpeeds(linearSpeed, 0, angularSpeed));
   }
 
+  /**
+   * Drive the robot using standard tank drive from left and right percent. The {@link
+   * RobotDriveBase#kDefaultDeadband} deadband value is used. <b>Input values are not squared</b>
+   *
+   * @param leftPercent percent to apply to the left side of the drivetrain [-1, 1].
+   * @param rightPercent percent to apply to the right side of the drivetrain [-1, 1].
+   */
   public void tankDrivePercent(double leftPercent, double rightPercent) {
     leftPercent = MathUtil.applyDeadband(leftPercent, RobotDriveBase.kDefaultDeadband);
     rightPercent = MathUtil.applyDeadband(rightPercent, RobotDriveBase.kDefaultDeadband);
@@ -143,57 +190,99 @@ public class DrivetrainBase extends SubsystemBase {
     m_rightGroup.set(rightPercent);
   }
 
+  /**
+   * Drive the robot based on output voltage to set to each side of the drivetrain. This is useful
+   * when controlling the drivetrain using closed loop control via Feed Forward control. <b>This
+   * already checks the battery voltage</b>.
+   *
+   * @param leftVolts output voltage for the left side of the drivetrain.
+   * @param rightVolts output voltage for the right side of the drivetrain.
+   */
   public void tankDriveVoltage(double leftVolts, double rightVolts) {
     m_rightGroup.setVoltage(leftVolts);
     m_rightGroup.setVoltage(rightVolts);
   }
 
+  /** Stop the drivetrain from moving (sets speed to 0). */
   public void stop() {
     m_leftGroup.stopMotor();
     m_rightGroup.stopMotor();
   }
 
+  /**
+   * Get the estimated current position of the robot as a {@link Pose2d} object. Uses odometry
+   * combined with a fused Kalman filter with Vision measurements via the {@link
+   * DifferentialDrivePoseEstimator} class.
+   *
+   * @return estimated position of the robot.
+   */
   public Pose2d getRobotPosition() {
     return m_driveOdometry.getEstimatedPosition();
   }
 
+  /**
+   * Reset the estimated position of the robot to a position.
+   *
+   * @param position position to reset the robot to.
+   */
   public void resetOdometry(Pose2d position) {
     resetEncoders();
     m_driveOdometry.resetPosition(
         m_gyro.getRotation2d(), kLeftSensor.getPosition(), kRightSensor.getPosition(), position);
   }
 
+  /**
+   * Add a Vision measurement to the Pose Estimator that can be used to account for system noise.
+   *
+   * @param estimatedPose the estimated position of the robot.
+   * @param timestampSeconds the robot start time timestamp of the estimated position.
+   */
   public void addEstimatedPose(Pose2d estimatedPose, double timestampSeconds) {
     m_driveOdometry.addVisionMeasurement(estimatedPose, timestampSeconds);
   }
 
+  /**
+   * Add a Vision measurement to the Pose Estimator that can be used to account for system noise.
+   *
+   * @param estimatedPose the estimated position of the robot.
+   * @param timestampSeconds the robot start time timestamp of the estimated position.
+   */
   public void addEstimatedPose(Pose3d estimatedPose, double timestampSeconds) {
     addEstimatedPose(estimatedPose.toPose2d(), timestampSeconds);
   }
 
+  /** Update the odometry with the current encoder and gyro data. */
   private void updateOdometry() {
     m_driveOdometry.update(
         m_gyro.getRotation2d(), kLeftSensor.getPosition(), kRightSensor.getPosition());
   }
 
+  /** Zero the heading of the gyro. */
   public void zeroHeading() {
     m_gyro.reset();
   }
 
+  /** Reset the drivetrain encoders to 0. */
   public void resetEncoders() {
     this.kLeftSensor.resetEncoder();
     this.kRightSensor.resetEncoder();
   }
 
+  /** Reset the PID controllers used for closed loop control. */
   public void resetControllers() {
     m_leftPIDController.reset();
     m_rightPIDController.reset();
   }
 
+  /**
+   * Set the neutral mode of the drivetrain motors.
+   *
+   * @param mode Neutral mode to set the drivetrain motors to.
+   */
   public void setNeutralMode(NeutralMode mode) {
-    m_frontLeft.setNeutralMode(mode);
-    m_frontRight.setNeutralMode(mode);
-    m_backLeft.setNeutralMode(mode);
-    m_backRight.setNeutralMode(mode);
+    m_leftLeader.setNeutralMode(mode);
+    m_rightLeader.setNeutralMode(mode);
+    m_leftFollower.setNeutralMode(mode);
+    m_rightFollower.setNeutralMode(mode);
   }
 }

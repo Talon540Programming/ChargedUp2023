@@ -17,7 +17,7 @@ public class FollowTrajectory extends CommandBase {
   private final Trajectory targetTrajectory;
   private final boolean stopWhenDone;
 
-  // Exists to interpolate the trajectory
+  // Exists to get the acceleration of the given target wheel speed.
   private DifferentialDriveWheelSpeeds previousWheelSpeeds;
 
   private final RamseteController m_ramseteController =
@@ -25,6 +25,13 @@ public class FollowTrajectory extends CommandBase {
           Constants.Drivetrain.ControlValues.Trajectory.kRamseteB,
           Constants.Drivetrain.ControlValues.Trajectory.kRamseteZeta);
 
+  /**
+   * Construct a command that can follow the path provided by the provided trajectory.
+   *
+   * @param drivetrainBase Drivetrain subsystem.
+   * @param trajectory Trajectory to follow.
+   * @param stopWhenDone whether to stop the drivetrain from moving at the end of the trajectory.
+   */
   public FollowTrajectory(
       DrivetrainBase drivetrainBase, Trajectory trajectory, boolean stopWhenDone) {
     addRequirements(drivetrainBase);
@@ -34,6 +41,13 @@ public class FollowTrajectory extends CommandBase {
     this.stopWhenDone = stopWhenDone;
   }
 
+  /**
+   * Construct a command that can follow the path provided by the provided trajectory. Automatically
+   * stops the drivetrain at the end of the command.
+   *
+   * @param drivetrainBase Drivetrain subsystem.
+   * @param trajectory Trajectory to follow.
+   */
   public FollowTrajectory(DrivetrainBase drivetrainBase, Trajectory trajectory) {
     this(drivetrainBase, trajectory, true);
   }
