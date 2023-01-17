@@ -14,6 +14,6 @@ public abstract class RawDrivetrainControl extends CommandBase {
 
   @Override
   public void execute() {
-    this.m_drivetrainBase.setPercent(kLeftPercent, kRightPercent);
+    this.m_drivetrainBase.tankDrivePercent(kLeftPercent, kRightPercent);
   }
 }

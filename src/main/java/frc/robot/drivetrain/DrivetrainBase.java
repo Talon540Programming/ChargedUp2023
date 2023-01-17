@@ -1,5 +1,6 @@
 package frc.robot.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.MathUtil;
@@ -71,12 +72,9 @@ public class DrivetrainBase extends SubsystemBase {
   // endregion
 
   public DrivetrainBase() {
-    this.m_frontLeft.setNeutralMode(Drivetrain.kDrivetrainNeutralMode);
-    this.m_frontRight.setNeutralMode(Drivetrain.kDrivetrainNeutralMode);
-    this.m_backLeft.setNeutralMode(Drivetrain.kDrivetrainNeutralMode);
-    this.m_backRight.setNeutralMode(Drivetrain.kDrivetrainNeutralMode);
-
     this.m_leftGroup.setInverted(true);
+
+    setNeutralMode(Drivetrain.kDrivetrainNeutralMode);
 
     zeroHeading();
     resetEncoders();
@@ -86,7 +84,7 @@ public class DrivetrainBase extends SubsystemBase {
             Drivetrain.kDrivetrainKinematics,
             m_gyro.getRotation2d(),
             kLeftSensor.getPosition(),
-              kRightSensor.getPosition(),
+                kRightSensor.getPosition(),
             new Pose2d());
   }
 
@@ -168,5 +166,12 @@ public class DrivetrainBase extends SubsystemBase {
   public void resetEncoders() {
     this.kLeftSensor.resetEncoder();
     this.kRightSensor.resetEncoder();
+  }
+
+  public void setNeutralMode(NeutralMode mode) {
+    m_frontLeft.setNeutralMode(mode);
+    m_frontRight.setNeutralMode(mode);
+    m_backLeft.setNeutralMode(mode);
+    m_backRight.setNeutralMode(mode);
   }
 }
