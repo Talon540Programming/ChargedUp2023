@@ -44,8 +44,10 @@ public class DrivetrainBase extends SubsystemBase {
 
   // endregion
 
-  private final MotorControllerGroup m_leftGroup = new MotorControllerGroup(m_frontLeft, m_backLeft);
-  private final MotorControllerGroup m_rightGroup = new MotorControllerGroup(m_frontRight, m_backRight);
+  private final MotorControllerGroup m_leftGroup =
+      new MotorControllerGroup(m_frontLeft, m_backLeft);
+  private final MotorControllerGroup m_rightGroup =
+      new MotorControllerGroup(m_frontRight, m_backRight);
 
   private final TalonFXMechanism kLeftSensor =
       new TalonFXMechanism(
@@ -84,7 +86,7 @@ public class DrivetrainBase extends SubsystemBase {
             Drivetrain.kDrivetrainKinematics,
             m_gyro.getRotation2d(),
             kLeftSensor.getPosition(),
-                kRightSensor.getPosition(),
+            kRightSensor.getPosition(),
             new Pose2d());
   }
 
@@ -94,7 +96,8 @@ public class DrivetrainBase extends SubsystemBase {
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(kLeftSensor.getLinearVelocity(), kRightSensor.getLinearVelocity());
+    return new DifferentialDriveWheelSpeeds(
+        kLeftSensor.getLinearVelocity(), kRightSensor.getLinearVelocity());
   }
 
   public void setFromWheelSpeeds(DifferentialDriveWheelSpeeds speeds) {
@@ -105,7 +108,7 @@ public class DrivetrainBase extends SubsystemBase {
         m_leftPIDController.calculate(kLeftSensor.getLinearVelocity(), speeds.leftMetersPerSecond);
     double rightOutput =
         m_rightPIDController.calculate(
-                kRightSensor.getLinearVelocity(), speeds.rightMetersPerSecond);
+            kRightSensor.getLinearVelocity(), speeds.rightMetersPerSecond);
 
     m_leftGroup.setVoltage(leftOutput + leftFeedForward);
     m_rightGroup.setVoltage(rightOutput + rightFeedForward);
@@ -124,12 +127,8 @@ public class DrivetrainBase extends SubsystemBase {
   }
 
   public void tankDrivePercent(double leftPercent, double rightPercent) {
-    leftPercent = MathUtil.applyDeadband(leftPercent,
-            RobotDriveBase.kDefaultDeadband
-    );
-    rightPercent = MathUtil.applyDeadband(rightPercent,
-            RobotDriveBase.kDefaultDeadband
-    );
+    leftPercent = MathUtil.applyDeadband(leftPercent, RobotDriveBase.kDefaultDeadband);
+    rightPercent = MathUtil.applyDeadband(rightPercent, RobotDriveBase.kDefaultDeadband);
 
     leftPercent = MathUtil.clamp(leftPercent, -1.0, 1.0);
     leftPercent = MathUtil.clamp(leftPercent, -1.0, 1.0);
@@ -156,7 +155,8 @@ public class DrivetrainBase extends SubsystemBase {
   }
 
   private void updateOdometry() {
-    m_driveOdometry.update(m_gyro.getRotation2d(), kLeftSensor.getPosition(), kRightSensor.getPosition());
+    m_driveOdometry.update(
+        m_gyro.getRotation2d(), kLeftSensor.getPosition(), kRightSensor.getPosition());
   }
 
   public void zeroHeading() {
