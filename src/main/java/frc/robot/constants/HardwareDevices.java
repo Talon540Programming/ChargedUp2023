@@ -6,9 +6,9 @@ public class HardwareDevices {
   public static final CANDeviceConfig kRobotGyroConfig = new CANDeviceConfig(0); // TODO
 
   public static class Drivetrain {
-    public static final CANDeviceConfig kFrontLeftConfig = new CANDeviceConfig(0); // TODO
-    public static final CANDeviceConfig kFrontRightConfig = new CANDeviceConfig(0); // TODO
-    public static final CANDeviceConfig kBackLeftConfig = new CANDeviceConfig(0); // TODO
-    public static final CANDeviceConfig kBackRightConfig = new CANDeviceConfig(0); // TODO
+    public static final CANDeviceConfig kLeftLeader = new CANDeviceConfig(0); // TODO
+    public static final CANDeviceConfig kLeftFollower = new CANDeviceConfig(0); // TODO
+    public static final CANDeviceConfig kRightLeader = new CANDeviceConfig(0); // TODO
+    public static final CANDeviceConfig kRightFollower = new CANDeviceConfig(0); // TODO
   }
 }
