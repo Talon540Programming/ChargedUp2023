@@ -113,8 +113,7 @@ public class DrivetrainBase extends SubsystemBase {
         m_rightPIDController.calculate(
             kRightSensor.getLinearVelocity(), speeds.rightMetersPerSecond);
 
-    m_leftGroup.setVoltage(leftOutput + leftFeedForward);
-    m_rightGroup.setVoltage(rightOutput + rightFeedForward);
+    tankDriveVoltage(leftOutput + leftFeedForward, rightOutput + rightFeedForward);
   }
 
   public void setFromWheelSpeeds(DifferentialDriveWheelSpeeds speeds) {
