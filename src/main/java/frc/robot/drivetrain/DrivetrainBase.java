@@ -10,7 +10,6 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -69,7 +68,8 @@ public class DrivetrainBase extends SubsystemBase {
           Drivetrain.ControlValues.kP, Drivetrain.ControlValues.kI, Drivetrain.ControlValues.kD);
 
   private final SimpleMotorFeedforward m_driveFeedForward =
-      new SimpleMotorFeedforward(Drivetrain.ControlValues.kS, Drivetrain.ControlValues.kV, Drivetrain.ControlValues.kA);
+      new SimpleMotorFeedforward(
+          Drivetrain.ControlValues.kS, Drivetrain.ControlValues.kV, Drivetrain.ControlValues.kA);
 
   private final DifferentialDrivePoseEstimator m_driveOdometry;
   // endregion
@@ -100,9 +100,12 @@ public class DrivetrainBase extends SubsystemBase {
         kLeftSensor.getLinearVelocity(), kRightSensor.getLinearVelocity());
   }
 
-  public void setFromWheelSpeeds(DifferentialDriveWheelSpeeds speeds, double leftAcceleration, double rightAcceleration) {
-    double leftFeedForward = m_driveFeedForward.calculate(speeds.leftMetersPerSecond, leftAcceleration);
-    double rightFeedForward = m_driveFeedForward.calculate(speeds.rightMetersPerSecond, rightAcceleration);
+  public void setFromWheelSpeeds(
+      DifferentialDriveWheelSpeeds speeds, double leftAcceleration, double rightAcceleration) {
+    double leftFeedForward =
+        m_driveFeedForward.calculate(speeds.leftMetersPerSecond, leftAcceleration);
+    double rightFeedForward =
+        m_driveFeedForward.calculate(speeds.rightMetersPerSecond, rightAcceleration);
 
     double leftOutput =
         m_leftPIDController.calculate(kLeftSensor.getLinearVelocity(), speeds.leftMetersPerSecond);
@@ -157,7 +160,8 @@ public class DrivetrainBase extends SubsystemBase {
 
   public void resetOdometry(Pose2d position) {
     resetEncoders();
-    m_driveOdometry.resetPosition(m_gyro.getRotation2d(), kLeftSensor.getPosition(), kRightSensor.getPosition(), position);
+    m_driveOdometry.resetPosition(
+        m_gyro.getRotation2d(), kLeftSensor.getPosition(), kRightSensor.getPosition(), position);
   }
 
   public void addEstimatedPose(Pose2d estimatedPose, double timestampSeconds) {
