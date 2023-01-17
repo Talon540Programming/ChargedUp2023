@@ -3,9 +3,6 @@ package frc.robot.constants;
 import org.talon540.hardware.CANDeviceConfig;
 
 public class HardwareDevices {
-  public static final int kDriverXboxControllerId = 0; // TODO
-  public static final int kArmControllerXboxControllerId = 0; // TODO
-
   public static final CANDeviceConfig kRobotGyroConfig = new CANDeviceConfig(0); // TODO
 
   public static class Drivetrain {
