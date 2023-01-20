@@ -10,10 +10,11 @@ import frc.robot.constants.Constants;
 import frc.robot.drivetrain.DrivetrainBase;
 
 public class FollowTrajectory extends CommandBase {
+  private final DrivetrainBase m_drivetrainBase;
+
   private final Timer m_timer = new Timer();
   private double previousTime;
 
-  private final DrivetrainBase drivetrainBase;
   private final Trajectory targetTrajectory;
   private final boolean stopWhenDone;
 
@@ -34,11 +35,11 @@ public class FollowTrajectory extends CommandBase {
    */
   public FollowTrajectory(
       DrivetrainBase drivetrainBase, Trajectory trajectory, boolean stopWhenDone) {
-    addRequirements(drivetrainBase);
-
-    this.drivetrainBase = drivetrainBase;
+    this.m_drivetrainBase = drivetrainBase;
     this.targetTrajectory = trajectory;
     this.stopWhenDone = stopWhenDone;
+
+    addRequirements(drivetrainBase);
   }
 
   /**
@@ -71,10 +72,10 @@ public class FollowTrajectory extends CommandBase {
     m_timer.start();
 
     // Reset the internal PID controller values
-    drivetrainBase.resetControllers();
+    m_drivetrainBase.resetControllers();
 
     // Set the robot position to the initial position of the trajectory.
-    drivetrainBase.resetOdometry(
+    m_drivetrainBase.resetOdometry(
         targetTrajectory.getInitialPose()); // TODO, should this be moved outside of the command?
   }
 
@@ -86,7 +87,7 @@ public class FollowTrajectory extends CommandBase {
       // This is the first node of the trajectory.
       // Stop so that the current velocity doesn't impact later speeds. // TODO: lead previous
       // speeds into future speeds?
-      drivetrainBase.stop();
+      m_drivetrainBase.stop();
       previousTime = currentTime;
       return;
     }
@@ -94,12 +95,12 @@ public class FollowTrajectory extends CommandBase {
     DifferentialDriveWheelSpeeds targetWheelSpeeds =
         Constants.Drivetrain.kDrivetrainKinematics.toWheelSpeeds(
             m_ramseteController.calculate(
-                drivetrainBase.getRobotPosition(), targetTrajectory.sample(currentTime)));
+                m_drivetrainBase.getRobotPosition(), targetTrajectory.sample(currentTime)));
 
     double deltaTime = currentTime - previousTime;
 
     // Calculate the acceleration of the robot from the last and current wheel speeds
-    drivetrainBase.setFromWheelSpeeds(
+    m_drivetrainBase.setFromWheelSpeeds(
         targetWheelSpeeds,
         (targetWheelSpeeds.leftMetersPerSecond - previousWheelSpeeds.leftMetersPerSecond)
             / deltaTime,
@@ -119,6 +120,6 @@ public class FollowTrajectory extends CommandBase {
   public void end(boolean interrupted) {
     m_timer.stop();
 
-    if (interrupted || stopWhenDone) drivetrainBase.stop();
+    if (interrupted || stopWhenDone) m_drivetrainBase.stop();
   }
 }

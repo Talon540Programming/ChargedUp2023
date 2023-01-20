@@ -24,6 +24,8 @@ public class Constants {
 
     public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.Brake; // TODO
 
+    public static final double kRobotStabilizationTolerance = 0.5;
+
     public static class ControlValues {
       public static class WheelSpeed {
         public static final double kP = 0; // TODO
@@ -38,6 +40,12 @@ public class Constants {
       public static class Trajectory {
         public static final double kRamseteB = 2.0;
         public static final double kRamseteZeta = 0.7;
+      }
+
+      public static class Stabilization {
+        public static final double kP = 1.0 / 30.0; // TODO
+        public static final double kI = 0; // TODO
+        public static final double kD = 0; // TODO
       }
     }
   }

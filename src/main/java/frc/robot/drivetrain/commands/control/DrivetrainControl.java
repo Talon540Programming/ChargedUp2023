@@ -8,8 +8,9 @@ public abstract class DrivetrainControl extends CommandBase {
   private final DrivetrainBase m_drivetrainBase;
 
   public DrivetrainControl(DrivetrainBase drivetrainBase) {
-    addRequirements(drivetrainBase);
     this.m_drivetrainBase = drivetrainBase;
+
+    addRequirements(drivetrainBase);
   }
 
   @Override
