@@ -21,7 +21,7 @@ import org.talon540.sensors.TalonFXMechanism;
 public class DrivetrainBase extends SubsystemBase {
   // region: config
   // region: hardware
-  private final WPI_Pigeon2 m_gyro =
+  public final WPI_Pigeon2 m_gyro =
       new WPI_Pigeon2(
           HardwareDevices.kRobotGyroConfig.id, HardwareDevices.kRobotGyroConfig.controller);
 
@@ -62,14 +62,20 @@ public class DrivetrainBase extends SubsystemBase {
 
   private final PIDController m_leftPIDController =
       new PIDController(
-          Drivetrain.ControlValues.kP, Drivetrain.ControlValues.kI, Drivetrain.ControlValues.kD);
+          Drivetrain.ControlValues.WheelSpeed.kP,
+          Drivetrain.ControlValues.WheelSpeed.kI,
+          Drivetrain.ControlValues.WheelSpeed.kD);
   private final PIDController m_rightPIDController =
       new PIDController(
-          Drivetrain.ControlValues.kP, Drivetrain.ControlValues.kI, Drivetrain.ControlValues.kD);
+          Drivetrain.ControlValues.WheelSpeed.kP,
+          Drivetrain.ControlValues.WheelSpeed.kI,
+          Drivetrain.ControlValues.WheelSpeed.kD);
 
   private final SimpleMotorFeedforward m_driveFeedForward =
       new SimpleMotorFeedforward(
-          Drivetrain.ControlValues.kS, Drivetrain.ControlValues.kV, Drivetrain.ControlValues.kA);
+          Drivetrain.ControlValues.WheelSpeed.kS,
+          Drivetrain.ControlValues.WheelSpeed.kV,
+          Drivetrain.ControlValues.WheelSpeed.kA);
 
   private final DifferentialDrivePoseEstimator m_driveOdometry;
   // endregion
@@ -284,5 +290,10 @@ public class DrivetrainBase extends SubsystemBase {
     m_rightLeader.setNeutralMode(mode);
     m_leftFollower.setNeutralMode(mode);
     m_rightFollower.setNeutralMode(mode);
+  }
+
+  /** Reset the neutral mode of the drivetrain to the default mode. */
+  public void resetNeutralMode() {
+    setNeutralMode(Drivetrain.kDrivetrainDefaultNeutralMode);
   }
 }
