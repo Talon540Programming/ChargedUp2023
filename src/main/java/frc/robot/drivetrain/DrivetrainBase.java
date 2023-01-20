@@ -77,7 +77,7 @@ public class DrivetrainBase extends SubsystemBase {
           Drivetrain.ControlValues.WheelSpeed.kV,
           Drivetrain.ControlValues.WheelSpeed.kA);
 
-  private final DifferentialDrivePoseEstimator m_driveOdometry;
+  private final DifferentialDrivePoseEstimator m_poseEstimator;
   // endregion
 
   /** Create the drivetrain subsystem. Configures and resets encoder. */
@@ -88,7 +88,7 @@ public class DrivetrainBase extends SubsystemBase {
 
     resetEncoders();
 
-    this.m_driveOdometry =
+    this.m_poseEstimator =
         new DifferentialDrivePoseEstimator(
             Drivetrain.kDrivetrainKinematics,
             m_gyro.getRotation2d(),
@@ -190,7 +190,7 @@ public class DrivetrainBase extends SubsystemBase {
     rightPercent = MathUtil.applyDeadband(rightPercent, RobotDriveBase.kDefaultDeadband);
 
     leftPercent = MathUtil.clamp(leftPercent, -1.0, 1.0);
-    leftPercent = MathUtil.clamp(leftPercent, -1.0, 1.0);
+    rightPercent = MathUtil.clamp(rightPercent, -1.0, 1.0);
 
     m_leftGroup.set(leftPercent);
     m_rightGroup.set(rightPercent);
@@ -223,7 +223,7 @@ public class DrivetrainBase extends SubsystemBase {
    * @return estimated position of the robot.
    */
   public Pose2d getRobotPosition() {
-    return m_driveOdometry.getEstimatedPosition();
+    return m_poseEstimator.getEstimatedPosition();
   }
 
   /**
@@ -233,7 +233,7 @@ public class DrivetrainBase extends SubsystemBase {
    */
   public void resetOdometry(Pose2d position) {
     resetEncoders();
-    m_driveOdometry.resetPosition(
+    m_poseEstimator.resetPosition(
         m_gyro.getRotation2d(), kLeftSensor.getPosition(), kRightSensor.getPosition(), position);
   }
 
@@ -244,7 +244,7 @@ public class DrivetrainBase extends SubsystemBase {
    * @param timestampSeconds the robot start time timestamp of the estimated position.
    */
   public void addEstimatedPose(Pose2d estimatedPose, double timestampSeconds) {
-    m_driveOdometry.addVisionMeasurement(estimatedPose, timestampSeconds);
+    m_poseEstimator.addVisionMeasurement(estimatedPose, timestampSeconds);
   }
 
   /**
@@ -259,7 +259,7 @@ public class DrivetrainBase extends SubsystemBase {
 
   /** Update the odometry with the current encoder and gyro data. */
   private void updateOdometry() {
-    m_driveOdometry.update(
+    m_poseEstimator.update(
         m_gyro.getRotation2d(), kLeftSensor.getPosition(), kRightSensor.getPosition());
   }
 
