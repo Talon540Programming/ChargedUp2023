@@ -205,7 +205,7 @@ public class DrivetrainBase extends SubsystemBase {
    * @param rightVolts output voltage for the right side of the drivetrain.
    */
   public void tankDriveVoltage(double leftVolts, double rightVolts) {
-    m_rightGroup.setVoltage(leftVolts);
+    m_leftGroup.setVoltage(leftVolts);
     m_rightGroup.setVoltage(rightVolts);
   }
 
