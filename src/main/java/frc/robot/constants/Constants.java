@@ -1,10 +1,24 @@
 package frc.robot.constants;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
+import java.io.IOException;
+
 public class Constants {
+  public static final AprilTagFieldLayout kFieldLayout;
+
+  static {
+    try {
+      kFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to load Field Layout");
+    }
+  }
+
   public static class Drivetrain {
     public static final double kMaxDrivetrainVelocityMetersPerSecond = 0; // TODO
     public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 0; // TODO
@@ -12,7 +26,7 @@ public class Constants {
     public static final double kMaxDrivetrainRotationalAccelerationRadiansPerSecondSquared =
         0; // TODO
 
-    public static final double kDrivetrainGearRatio = 54.0 / 20.0; // TODO
+    public static final double kDrivetrainGearRatio = 54.0 / 20.0;
 
     public static final double kTrackWidthInches = 19.618320; // TODO
     public static final double kTrackWidthMeters = Units.inchesToMeters(kTrackWidthInches);
