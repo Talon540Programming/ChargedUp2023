@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants.Drivetrain;
 import frc.robot.constants.HardwareDevices;
@@ -84,7 +85,7 @@ public class DrivetrainBase extends SubsystemBase {
   public DrivetrainBase() {
     this.m_leftGroup.setInverted(true);
 
-    this.m_gyro.reset();
+    zeroHeading();
 
     setNeutralMode(Drivetrain.kDrivetrainDefaultNeutralMode);
 
@@ -102,6 +103,9 @@ public class DrivetrainBase extends SubsystemBase {
   @Override
   public void periodic() {
     updateOdometry();
+
+    SmartDashboard.putNumberArray(
+        "gyro_data", new double[] {m_gyro.getRoll(), m_gyro.getPitch(), m_gyro.getYaw()});
   }
 
   /**
