@@ -84,6 +84,8 @@ public class DrivetrainBase extends SubsystemBase {
   public DrivetrainBase() {
     this.m_leftGroup.setInverted(true);
 
+    this.m_gyro.reset();
+
     setNeutralMode(Drivetrain.kDrivetrainDefaultNeutralMode);
 
     resetEncoders();

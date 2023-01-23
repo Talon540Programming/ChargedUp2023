@@ -20,8 +20,8 @@ public class Constants {
   }
 
   public static class Drivetrain {
-    public static final double kMaxDrivetrainVelocityMetersPerSecond = 0; // TODO
-    public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 0; // TODO
+    public static final double kMaxDrivetrainVelocityMetersPerSecond = 4;
+    public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5;
     public static final double kMaxDrivetrainRotationalVelocityRadiansPerSecond = 0; // TODO
     public static final double kMaxDrivetrainRotationalAccelerationRadiansPerSecondSquared =
         0; // TODO
@@ -30,13 +30,13 @@ public class Constants {
 
     public static final double kTrackWidthInches = 19.618320; // TODO
     public static final double kTrackWidthMeters = Units.inchesToMeters(kTrackWidthInches);
-    public static final double kWheelRadiusInches = 3; // TODO
+    public static final double kWheelRadiusInches = 3;
     public static final double kWheelRadiusMeters = Units.inchesToMeters(kWheelRadiusInches);
 
     public static final DifferentialDriveKinematics kDrivetrainKinematics =
         new DifferentialDriveKinematics(kTrackWidthMeters);
 
-    public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.Brake; // TODO
+    public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.Coast;
 
     public static final double kRobotStabilizationTolerance = 0.5;
 
