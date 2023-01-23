@@ -12,7 +12,8 @@ import frc.robot.drivetrain.commands.control.XboxControllerDriveControl;
 import org.talon540.control.XboxController.TalonXboxController;
 
 public class RobotContainer {
-  private final TalonXboxController m_driverController = new TalonXboxController(HardwareDevices.kDriverXboxControllerPort);
+  private final TalonXboxController m_driverController =
+      new TalonXboxController(HardwareDevices.kDriverXboxControllerPort);
 
   private final DrivetrainBase m_drivetrainBase = new DrivetrainBase();
 
@@ -21,7 +22,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_drivetrainBase.setDefaultCommand(new XboxControllerDriveControl(m_drivetrainBase, m_driverController));
+    m_drivetrainBase.setDefaultCommand(
+        new XboxControllerDriveControl(m_drivetrainBase, m_driverController));
   }
 
   public Command getAutonomousCommand() {
