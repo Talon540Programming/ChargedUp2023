@@ -2,9 +2,12 @@ import edu.wpi.first.gradlerio.GradleRIOPlugin
 
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version '2023.1.1'
+    id "edu.wpi.first.GradleRIO" version '2023.2.1'
     id 'com.diffplug.spotless' version '6.12.0'
 }
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
@@ -36,12 +39,6 @@ repositories {
     mavenCentral()
 
     maven { url = uri('https://jitpack.io') }
-    maven { url = uri('https://frcmaven.wpi.edu/artifactory/release/') }
-    maven { url = uri('https://maven.ctr-electronics.com/release/') }
-    maven { url = uri('https://maven.revrobotics.com/') }
-    maven { url = uri("https://repo1.maven.org/maven2/") }
-    maven { url = uri("https://maven.photonvision.org/repository/internal") }
-    maven { url = uri("https://maven.photonvision.org/repository/snapshots") }
 }
 
 dependencies {
@@ -64,12 +61,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
 
-    implementation "com.ctre.phoenix:api-java:${phoniexVersion}"
-    implementation "com.ctre.phoenix:wpiapi-java:${phoniexVersion}"
-    implementation "com.revrobotics.frc:REVLib-java:${revVersion}"
-    implementation "org.photonvision:PhotonLib-java:${photonVisionVersion}"
-    implementation "org.photonvision:PhotonTargeting-java:${photonVisionVersion}"
-    implementation "com.github.Talon540Programming:TalonLib:${talonlibVersion}"
+    implementation "com.github.Talon540Programming:TalonLib:2023-SNAPSHOT"
 }
 
 wpi.sim.addGui().defaultEnabled = true
