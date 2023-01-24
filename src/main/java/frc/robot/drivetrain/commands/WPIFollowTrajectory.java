@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.Constants;
 import frc.robot.drivetrain.DrivetrainBase;
 
-public class FollowTrajectory extends CommandBase {
+public class WPIFollowTrajectory extends CommandBase {
   private final DrivetrainBase m_drivetrainBase;
 
   private final Timer m_timer = new Timer();
@@ -33,7 +33,7 @@ public class FollowTrajectory extends CommandBase {
    * @param trajectory Trajectory to follow.
    * @param stopWhenDone whether to stop the drivetrain from moving at the end of the trajectory.
    */
-  public FollowTrajectory(
+  public WPIFollowTrajectory(
       DrivetrainBase drivetrainBase, Trajectory trajectory, boolean stopWhenDone) {
     this.m_drivetrainBase = drivetrainBase;
     this.targetTrajectory = trajectory;
@@ -49,7 +49,7 @@ public class FollowTrajectory extends CommandBase {
    * @param drivetrainBase Drivetrain subsystem.
    * @param trajectory Trajectory to follow.
    */
-  public FollowTrajectory(DrivetrainBase drivetrainBase, Trajectory trajectory) {
+  public WPIFollowTrajectory(DrivetrainBase drivetrainBase, Trajectory trajectory) {
     this(drivetrainBase, trajectory, true);
   }
 
