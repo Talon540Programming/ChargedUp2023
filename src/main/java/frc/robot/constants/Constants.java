@@ -26,7 +26,7 @@ public class Constants {
     public static final double kMaxDrivetrainRotationalAccelerationRadiansPerSecondSquared =
         0; // TODO
 
-    public static final double kDrivetrainGearRatio = 54.0 / 20.0;
+    public static final double kDrivetrainGearRatio = 11.78;
 
     public static final double kTrackWidthInches = 19.618320; // TODO
     public static final double kTrackWidthMeters = Units.inchesToMeters(kTrackWidthInches);
