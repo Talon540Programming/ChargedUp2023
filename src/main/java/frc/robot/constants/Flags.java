@@ -1,6 +1,6 @@
 package frc.robot.constants;
 
-public class Flags {
+public final class Flags {
   public enum RobotMode {
     /** Running on the proto robot. */
     PROTO,

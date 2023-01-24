@@ -8,7 +8,7 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.constants.Flags.*;
 import java.io.IOException;
 
-public class Constants {
+public final class Constants {
   public static final AprilTagFieldLayout kFieldLayout;
 
   public static final RobotMode kCurrentMode = RobotMode.PROTO;
