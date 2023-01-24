@@ -20,7 +20,7 @@ public class StabilizeRobot extends CommandBase {
 
     // We want a robot pitch of 0;
     m_stabilizationController.setSetpoint(0.0);
-    m_stabilizationController.setTolerance(Drivetrain.kRobotStabilizationTolerance);
+    m_stabilizationController.setTolerance(Drivetrain.kRobotStabilizationToleranceDegrees);
 
     addRequirements(drivetrainBase);
   }

@@ -28,7 +28,7 @@ public class Constants {
 
     public static final double kDrivetrainGearRatio = 11.78;
 
-    public static final double kTrackWidthInches = 19.618320; // TODO
+    public static final double kTrackWidthInches = 19.618320; // TODO test in SysID
     public static final double kTrackWidthMeters = Units.inchesToMeters(kTrackWidthInches);
     public static final double kWheelRadiusInches = 3;
     public static final double kWheelRadiusMeters = Units.inchesToMeters(kWheelRadiusInches);
@@ -38,7 +38,7 @@ public class Constants {
 
     public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.Coast;
 
-    public static final double kRobotStabilizationTolerance = 0.5;
+    public static final double kRobotStabilizationToleranceDegrees = 1;
 
     public static class ControlValues {
       public static class WheelSpeed {
