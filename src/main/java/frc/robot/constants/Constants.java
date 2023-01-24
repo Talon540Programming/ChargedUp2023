@@ -5,8 +5,8 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
-import java.io.IOException;
 import frc.robot.constants.Flags.*;
+import java.io.IOException;
 
 public class Constants {
   public static final AprilTagFieldLayout kFieldLayout;
