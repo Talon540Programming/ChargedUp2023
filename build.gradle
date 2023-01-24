@@ -2,8 +2,9 @@ import edu.wpi.first.gradlerio.GradleRIOPlugin
 
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version '2023.2.1'
-    id 'com.diffplug.spotless' version '6.12.0'
+    id "edu.wpi.first.GradleRIO" version "2023.2.1"
+    id 'com.diffplug.spotless' version "6.12.0"
+    id "com.peterabeles.gversion" version "1.10"
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -18,7 +19,10 @@ deploy {
             debug = project.frc.getDebugOrDefault(false)
 
             artifacts {
-                frcJava(getArtifactTypeClass('FRCJavaArtifact')) {}
+                frcJava(getArtifactTypeClass('FRCJavaArtifact')) {
+                    gcType = edu.wpi.first.gradlerio.deploy.roborio.GarbageCollectorType.Other
+                    jvmArgs << '-XX:+UseG1GC'
+                }
                 frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
                     files = project.fileTree('src/main/deploy')
                     directory = '/home/lvuser/deploy'
@@ -32,13 +36,23 @@ def deployArtifact = deploy.targets.roborio.artifacts.frcJava
 
 wpi.java.debugJni = false
 
-def includeDesktopSupport = false
+def includeDesktopSupport = true
 
 repositories {
     mavenLocal()
-    mavenCentral()
 
     maven { url = uri('https://jitpack.io') }
+    maven {
+        url = uri("https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit")
+        credentials {
+            username = "Mechanical-Advantage-Bot"
+            password = "\u0067\u0068\u0070\u005f\u006e\u0056\u0051\u006a\u0055\u004f\u004c\u0061\u0079\u0066\u006e\u0078\u006e\u0037\u0051\u0049\u0054\u0042\u0032\u004c\u004a\u006d\u0055\u0070\u0073\u0031\u006d\u0037\u004c\u005a\u0030\u0076\u0062\u0070\u0063\u0051"
+        }
+    }
+}
+
+configurations.configureEach {
+    exclude group: "edu.wpi.first.wpilibj"
 }
 
 dependencies {
@@ -59,28 +73,45 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.4.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
 
+    annotationProcessor "org.littletonrobotics.akit.junction:junction-autolog:2.1.1"
     implementation "com.github.Talon540Programming:TalonLib:2023-SNAPSHOT"
 }
 
-wpi.sim.addGui().defaultEnabled = true
+test {
+    useJUnitPlatform()
+    systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
+}
+
+wpi.sim.addGui()
 wpi.sim.addDriverstation()
 
 jar {
-    from {
-        configurations.runtimeClasspath.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
-// Configure jar and deploy tasks
 deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs.add '-XDstringConcat=inline'
+}
+
+project.compileJava.dependsOn(createVersionFile)
+gversion {
+    srcDir       = "src/main/java/"
+    classPackage = "frc.robot"
+    className    = "BuildConstants"
+    dateFormat   = "yyyy-MM-dd HH:mm:ss z"
+    timeZone     = "America/New_York"
+    indent       = "  "
+}
 
 spotless {
     java {
