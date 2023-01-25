@@ -11,33 +11,26 @@ public final class Constants {
 
   public enum RobotMode {
     REAL,
-    REPLAY,
-    SIM
+    REPLAY
   }
 
   public enum RobotType {
     ROBOT_2023P,
-    ROBOT_2023C,
-    ROBOT_SIM
+    ROBOT_2023C
   }
 
   public static RobotType getRobotType() {
-    if (RobotBase.isReal()) {
-      if (kRobotType == RobotType.ROBOT_SIM) {
-        throw new RuntimeException(
-            "Invalid Robot Type selected. Type cannot be SIM if robot is real");
-      } else {
-        return kRobotType;
-      }
-    } else {
-      return kRobotType;
+    if (RobotBase.isSimulation()) {
+      throw new RuntimeException(
+          "Invalid Robot Type selected. Type cannot be SIM if robot is real");
     }
+
+    return kRobotType;
   }
 
   public static RobotMode getRobotMode() {
     return switch (getRobotType()) {
       case ROBOT_2023P, ROBOT_2023C -> RobotBase.isReal() ? RobotMode.REAL : RobotMode.REPLAY;
-      case ROBOT_SIM -> RobotMode.SIM;
       default -> RobotMode.REAL;
     };
   }

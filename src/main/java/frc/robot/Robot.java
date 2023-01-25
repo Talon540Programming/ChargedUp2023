@@ -47,9 +47,6 @@ public class Robot extends LoggedRobot {
         LoggedSystemStats.getInstance();
         LoggedPowerDistribution.getInstance();
       }
-      case SIM -> {
-        logger.addDataReceiver(new NT4Publisher());
-      }
       case REPLAY -> {
         setUseTiming(false);
         String path = LogFileUtil.findReplayLog();
@@ -116,10 +113,4 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void testExit() {}
-
-  @Override
-  public void simulationInit() {}
-
-  @Override
-  public void simulationPeriodic() {}
 }

@@ -35,10 +35,6 @@ public class RobotContainer {
         driveIO = new DriveIOFalcon();
         gyroIO = new GyroIOPigeon();
       }
-      case SIM -> {
-        driveIO = null;
-        gyroIO = null;
-      }
       default -> {
         driveIO = new DriveIO() {};
         gyroIO = new GyroIO() {};
