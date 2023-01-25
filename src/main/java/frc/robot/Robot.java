@@ -4,16 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.logging.LoggerUtil;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Flags;
 import frc.robot.constants.HardwareDevices;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggedDriverStation;
-import org.littletonrobotics.junction.inputs.LoggedPowerDistribution;
 import org.littletonrobotics.junction.inputs.LoggedSystemStats;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
@@ -36,6 +37,16 @@ public class Robot extends LoggedRobot {
         logger.addDataReceiver(
             new WPILOGWriter(Constants.Logging.kLogFolders.get(Constants.kCurrentMode)));
         logger.addDataReceiver(new NT4Publisher());
+
+        LoggedDriverStation.getInstance();
+        LoggedSystemStats.getInstance();
+        if (Constants.kCurrentMode == Flags.RobotMode.PROTO) {
+          new PowerDistribution(
+              HardwareDevices.PROTO.kRobotGyroConfig.id, HardwareDevices.PROTO.kPowerDistType);
+        } else {
+          new PowerDistribution(
+              HardwareDevices.COMP.kRobotGyroConfig.id, HardwareDevices.COMP.kPowerDistType);
+        }
       }
 
         // Replaying a log, set up replay source
@@ -56,17 +67,6 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-
-    LoggedSystemStats.getInstance().periodic();
-    LoggedDriverStation.getInstance().periodic();
-
-    switch (Constants.kCurrentMode) {
-      case PROTO -> LoggedPowerDistribution.getInstance(
-              HardwareDevices.PROTO.kPowerDistConfig.id, HardwareDevices.PROTO.kPowerDistType)
-          .periodic();
-      case COMP -> {} // TODO
-      default -> LoggedPowerDistribution.getInstance().periodic();
-    }
   }
 
   @Override

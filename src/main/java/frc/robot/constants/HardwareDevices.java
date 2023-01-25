@@ -23,7 +23,9 @@ public final class HardwareDevices {
   }
 
   public static final class COMP {
-    public static final CANDeviceConfig kRobotGyroConfig = new CANDeviceConfig(0); // TODO
+    public static final PowerDistribution.ModuleType kPowerDistType =
+        PowerDistribution.ModuleType.kRev;
+    public static final CANDeviceConfig kRobotGyroConfig = new CANDeviceConfig(1);
 
     public static class Drivetrain {
       public static final CANDeviceConfig kLeftLeader = new CANDeviceConfig(0); // TODO
