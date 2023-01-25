@@ -4,13 +4,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.logging.LoggerUtil;
 import frc.robot.constants.Constants;
-import frc.robot.constants.Flags;
-import frc.robot.constants.HardwareDevices;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -32,15 +30,25 @@ public class Robot extends LoggedRobot {
     LoggerUtil.initializeLoggerMetadata(logger);
 
     // Set up data receivers & replay source
-    switch (Constants.kCurrentMode) {
-      case COMP, PROTO -> {
-        logger.addDataReceiver(
-            new WPILOGWriter(Constants.Logging.kLogFolders.get(Constants.kCurrentMode)));
+    switch (Constants.getRobotMode()) {
+      case REAL -> {
+        String path = Constants.Logging.getLogPath();
+
+        if (path != null) {
+          logger.addDataReceiver(new WPILOGWriter(path));
+        } else {
+          DriverStation.reportError(
+              "No log path set for current robot. Data will NOT be logged.", false);
+        }
+
         logger.addDataReceiver(new NT4Publisher());
 
         LoggedDriverStation.getInstance();
         LoggedSystemStats.getInstance();
         LoggedPowerDistribution.getInstance();
+      }
+      case SIM -> {
+        logger.addDataReceiver(new NT4Publisher());
       }
       case REPLAY -> {
         setUseTiming(false);
