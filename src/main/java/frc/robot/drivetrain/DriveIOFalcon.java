@@ -1,14 +1,11 @@
 package frc.robot.drivetrain;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Flags.NeutralMode;
 import frc.robot.constants.HardwareDevices;
@@ -107,36 +104,16 @@ public class DriveIOFalcon implements DriveIO {
 
   @Override
   public void updateInputs(DriveIOInputs inputs) {
-    inputs.LeftPosition = getLeftPositionMeters();
-    inputs.LeftVelocity = getLeftVelocityMetersPerSecond();
-    inputs.RightPosition = getRightPositionMeters();
-    inputs.RightVelocity = getRightVelocityMetersPerSecond();
-    inputs.GyroYaw = m_gyro.getYaw();
-  }
+    inputs.LeftPositionMeters = m_leftSensors.getPosition();
+    inputs.LeftVelocityMetersPerSecond = m_leftSensors.getLinearVelocity();
+    inputs.RightPositionMeters = m_rightSensors.getPosition();
+    inputs.RightVelocityMetersPerSecond = m_rightSensors.getLinearVelocity();
 
-  @Override
-  public double getLeftPositionMeters() {
-    return m_leftSensors.getPosition();
-  }
+    inputs.GyroYawRad = Math.toRadians(m_gyro.getYaw());
+    inputs.GyroPitchRad = Math.toRadians(m_gyro.getPitch());
+    inputs.GyroRollRad = Math.toRadians(m_gyro.getRoll());
 
-  @Override
-  public double getLeftVelocityMetersPerSecond() {
-    return m_leftSensors.getLinearVelocity();
-  }
-
-  @Override
-  public double getRightPositionMeters() {
-    return m_rightSensors.getPosition();
-  }
-
-  @Override
-  public double getRightVelocityMetersPerSecond() {
-    return m_rightSensors.getLinearVelocity();
-  }
-
-  @Override
-  public Rotation2d getHeading() {
-    return m_gyro.getRotation2d();
+    inputs.GyroRateRadPerSecond = Math.toRadians(m_gyro.getRate());
   }
 
   @Override
@@ -151,26 +128,12 @@ public class DriveIOFalcon implements DriveIO {
   }
 
   @Override
-  public double getRate() {
-    return m_gyro.getRate();
-  }
-
-  @Override
   public void setVoltage(double leftVolts, double rightVolts) {
     leftVolts = MathUtil.clamp(leftVolts, -12.0, 12.0);
     rightVolts = MathUtil.clamp(rightVolts, -12.0, 12.0);
 
     m_leftLeader.setVoltage(leftVolts);
     m_rightLeader.setVoltage(rightVolts);
-  }
-
-  @Override
-  public void setPercent(double leftPercent, double rightPercent) {
-    leftPercent = MathUtil.clamp(leftPercent, -1, 1);
-    rightPercent = MathUtil.clamp(rightPercent, -1, 1);
-
-    m_leftLeader.set(ControlMode.PercentOutput, leftPercent);
-    m_rightLeader.set(TalonFXControlMode.PercentOutput, rightPercent);
   }
 
   @Override

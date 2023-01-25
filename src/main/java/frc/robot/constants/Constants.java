@@ -26,13 +26,13 @@ public final class Constants {
     public static final double kMaxDrivetrainVelocityMetersPerSecond = 4;
     public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5;
     public static final double kMaxDrivetrainRotationalVelocityRadiansPerSecond = 0; // TODO
-    public static final double kMaxDrivetrainRotationalAccelerationRadiansPerSecondSquared =
-        0; // TODO
+    public static final double kMaxDrivetrainRotationalAccelerationRadiansPerSecondSquared = 0; // TODO
 
     public static final double kDrivetrainGearRatio = 11.78;
 
     public static final double kTrackWidthInches = 19.618320; // TODO test in SysID
     public static final double kTrackWidthMeters = Units.inchesToMeters(kTrackWidthInches);
+
     public static final double kWheelRadiusInches = 3;
     public static final double kWheelRadiusMeters = Units.inchesToMeters(kWheelRadiusInches);
 

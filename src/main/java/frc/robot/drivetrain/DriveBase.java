@@ -14,8 +14,8 @@ import frc.robot.constants.Flags;
 import org.littletonrobotics.junction.Logger;
 
 public class DriveBase extends SubsystemBase {
-  public final DriveIO m_io;
-  private final DriveIOInputsAutoLogged m_inputs = new DriveIOInputsAutoLogged();
+  private final DriveIO m_io;
+  public final DriveIOInputsAutoLogged m_inputs = new DriveIOInputsAutoLogged();
   private final DifferentialDrivePoseEstimator m_odometry;
 
   public DriveBase(DriveIO driveIO) {
@@ -26,12 +26,14 @@ public class DriveBase extends SubsystemBase {
 
     m_io.setNeutralMode(Drivetrain.kDrivetrainDefaultNeutralMode);
 
+    m_io.updateInputs(m_inputs);
+
     this.m_odometry =
         new DifferentialDrivePoseEstimator(
             Drivetrain.kDrivetrainKinematics,
-            new Rotation2d(),
-            m_io.getLeftPositionMeters(),
-            m_io.getRightPositionMeters(),
+            Rotation2d.fromRadians(m_inputs.GyroYawRad),
+            m_inputs.LeftPositionMeters,
+            m_inputs.RightPositionMeters,
             new Pose2d());
   }
 
@@ -40,9 +42,8 @@ public class DriveBase extends SubsystemBase {
     m_io.updateInputs(m_inputs);
     Logger.getInstance().processInputs("Drive", m_inputs);
 
-    // Data in DriveIO is automatically logged using AutoLog
-
-    m_odometry.update(m_io.getHeading(), getLeftPositionMeters(), getRightPositionMeters());
+    // Data in DriveIO is automatically logged using AutoLog. Odometry is handled in subsystem.
+    m_odometry.update(Rotation2d.fromRadians(m_inputs.GyroYawRad), m_inputs.LeftVelocityMetersPerSecond, m_inputs.RightVelocityMetersPerSecond);
     Logger.getInstance().recordOutput("Odometry", getPose());
   }
 
@@ -57,7 +58,10 @@ public class DriveBase extends SubsystemBase {
     leftPercent = MathUtil.applyDeadband(leftPercent, RobotDriveBase.kDefaultDeadband);
     rightPercent = MathUtil.applyDeadband(rightPercent, RobotDriveBase.kDefaultDeadband);
 
-    m_io.setPercent(leftPercent, rightPercent);
+    leftPercent = MathUtil.clamp(leftPercent, -1, 1);
+    rightPercent = MathUtil.clamp(rightPercent, -1, 1);
+
+    m_io.setVoltage(leftPercent * 12.0, rightPercent * 12.0);
   }
 
   /**
@@ -73,51 +77,13 @@ public class DriveBase extends SubsystemBase {
   }
 
   /**
-   * Get the position of the left side of the drivetrain. This already accounts for gear ratio and
-   * wheel radius.
-   *
-   * @return distance in meters.
-   */
-  public double getLeftPositionMeters() {
-    return m_io.getLeftPositionMeters();
-  }
-
-  /**
-   * Get the velocity of the left side of the drivetrain.
-   *
-   * @return velocity in meters per second.
-   */
-  public double getLeftVelocityMetersPerSecond() {
-    return m_io.getLeftVelocityMetersPerSecond();
-  }
-
-  /**
-   * Get the position of the right side of the drivetrain. This already accounts for gear ratio and
-   * wheel radius.
-   *
-   * @return distance in meters.
-   */
-  public double getRightPositionMeters() {
-    return m_io.getRightPositionMeters();
-  }
-
-  /**
-   * Get the velocity of the right side of the drivetrain.
-   *
-   * @return velocity in meters per second.
-   */
-  public double getRightVelocityMetersPerSecond() {
-    return m_io.getRightVelocityMetersPerSecond();
-  }
-
-  /**
    * Get the current speed of the drivetrain wheels.
    *
    * @return current drivetrain wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(
-        getLeftVelocityMetersPerSecond(), getRightVelocityMetersPerSecond());
+    return new DifferentialDriveWheelSpeeds(m_inputs.LeftVelocityMetersPerSecond,
+            m_inputs.RightVelocityMetersPerSecond);
   }
 
   /**
@@ -153,7 +119,7 @@ public class DriveBase extends SubsystemBase {
   public void resetPosition(Pose2d position) {
     m_io.resetEncoders();
     m_odometry.resetPosition(
-        m_io.getHeading(), getLeftPositionMeters(), getRightPositionMeters(), position);
+        Rotation2d.fromRadians(m_inputs.GyroYawRad), m_inputs.LeftVelocityMetersPerSecond, m_inputs.RightVelocityMetersPerSecond, position);
   }
 
   /**
