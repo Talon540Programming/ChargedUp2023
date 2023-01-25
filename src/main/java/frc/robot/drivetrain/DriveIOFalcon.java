@@ -24,8 +24,8 @@ public class DriveIOFalcon implements DriveIO {
 
   /** Create the DriveIO. */
   public DriveIOFalcon() {
-    switch (Constants.kCurrentMode) {
-      case PROTO -> {
+    switch (Constants.getRobotType()) {
+      case ROBOT_2023P -> {
         m_leftLeader =
             new WPI_TalonFX(
                 HardwareDevices.PROTO.Drivetrain.kLeftLeader.id,
@@ -43,7 +43,7 @@ public class DriveIOFalcon implements DriveIO {
                 HardwareDevices.PROTO.Drivetrain.kRightFollower.id,
                 HardwareDevices.PROTO.Drivetrain.kRightFollower.controller);
       }
-      case COMP -> {
+      case ROBOT_2023C -> {
         m_leftLeader =
             new WPI_TalonFX(
                 HardwareDevices.COMP.Drivetrain.kLeftLeader.id,

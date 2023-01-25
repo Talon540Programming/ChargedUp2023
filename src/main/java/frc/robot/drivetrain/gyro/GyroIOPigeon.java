@@ -11,14 +11,14 @@ public class GyroIOPigeon implements GyroIO {
 
   /** Create a GyroIO using a {@link WPI_Pigeon2}. */
   public GyroIOPigeon() {
-    switch (Constants.kCurrentMode) {
-      case PROTO -> {
+    switch (Constants.getRobotType()) {
+      case ROBOT_2023P -> {
         m_gyro =
             new WPI_Pigeon2(
                 HardwareDevices.PROTO.kRobotGyroConfig.id,
                 HardwareDevices.PROTO.kRobotGyroConfig.controller);
       }
-      case COMP -> {
+      case ROBOT_2023C -> {
         m_gyro =
             new WPI_Pigeon2(
                 HardwareDevices.COMP.kRobotGyroConfig.id,
