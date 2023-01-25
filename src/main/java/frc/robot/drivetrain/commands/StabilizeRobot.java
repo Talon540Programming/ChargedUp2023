@@ -3,10 +3,11 @@ package frc.robot.drivetrain.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.Constants.Drivetrain;
-import frc.robot.drivetrain.DrivetrainBase;
+import frc.robot.constants.Flags;
+import frc.robot.drivetrain.DriveBase;
 
 public class StabilizeRobot extends CommandBase {
-  private final DrivetrainBase m_drivetrainBase;
+  private final DriveBase m_driveBase;
 
   private final PIDController m_stabilizationController =
       new PIDController(
@@ -14,29 +15,28 @@ public class StabilizeRobot extends CommandBase {
           Drivetrain.ControlValues.Stabilization.kI,
           Drivetrain.ControlValues.Stabilization.kD);
 
-  public StabilizeRobot(DrivetrainBase drivetrainBase) {
-    m_drivetrainBase = drivetrainBase;
+  public StabilizeRobot(DriveBase driveBase) {
+    m_driveBase = driveBase;
 
-    // We want a robot pitch of 0;
+    // We want a robot pitch of 0.
     m_stabilizationController.setSetpoint(0.0);
     m_stabilizationController.setTolerance(Drivetrain.kRobotStabilizationToleranceDegrees);
 
-    addRequirements(drivetrainBase);
+    addRequirements(driveBase);
   }
 
   @Override
   public void initialize() {
     m_stabilizationController.reset();
-    // m_drivetrainBase.setNeutralMode(NeutralMode.Brake);
+    m_driveBase.setNeutralMode(Flags.NeutralMode.BRAKE);
   }
 
   @Override
   public void execute() {
-    // double measurement = m_drivetrainBase.m_gyro.getPitch();
-    // double outputPercent = -m_stabilizationController.calculate(measurement);
+    double measurement = Math.toDegrees(m_driveBase.m_inputs.GyroPitchRad);
+    double outputPercent = -m_stabilizationController.calculate(measurement);
 
-    // m_drivetrainBase.tankDrivePercent(
-    //     outputPercent, outputPercent); // TODO swap this to closed loop control?
+    m_driveBase.tankDrivePercent(outputPercent, outputPercent);
   }
 
   @Override
@@ -46,7 +46,7 @@ public class StabilizeRobot extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    // m_drivetrainBase.resetNeutralMode();
-    // m_drivetrainBase.stop();
+    m_driveBase.resetNeutralMode();
+    m_driveBase.stop();
   }
 }

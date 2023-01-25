@@ -1,20 +1,20 @@
 package frc.robot.drivetrain.commands.control;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.drivetrain.DrivetrainBase;
+import frc.robot.drivetrain.DriveBase;
 
 public abstract class DrivetrainControl extends CommandBase {
   protected double kLeftPercent, kRightPercent;
-  private final DrivetrainBase m_drivetrainBase;
+  private final DriveBase m_driveBase;
 
-  public DrivetrainControl(DrivetrainBase drivetrainBase) {
-    this.m_drivetrainBase = drivetrainBase;
+  protected DrivetrainControl(DriveBase driveBase) {
+    this.m_driveBase = driveBase;
 
-    addRequirements(drivetrainBase);
+    addRequirements(driveBase);
   }
 
   @Override
   public void execute() {
-    // this.m_drivetrainBase.tankDrivePercent(kLeftPercent, kRightPercent);
+    this.m_driveBase.tankDrivePercent(kLeftPercent, kRightPercent);
   }
 }
