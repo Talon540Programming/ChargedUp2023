@@ -1,7 +1,7 @@
 package frc.lib.logging;
 
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.robot.BuildConstants;
+import frc.generated.BuildConstants;
 import frc.robot.constants.Constants;
 import org.littletonrobotics.junction.Logger;
 
