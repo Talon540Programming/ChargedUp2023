@@ -3,7 +3,15 @@ package frc.lib.logging;
 import frc.robot.BuildConstants;
 import org.littletonrobotics.junction.Logger;
 
+/**
+ * Utilities used by the AdvantageKit Logger.
+ */
 public class LoggerUtil {
+    /**
+     * Initialize the Logger with the auto-generated data from the build.
+     *
+     * @param logger logger to update.
+     */
     public static void initializeLoggerMetadata(Logger logger) {
         // Record metadata from generated state file.
         logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);

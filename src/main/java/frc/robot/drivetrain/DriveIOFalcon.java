@@ -10,6 +10,9 @@ import frc.robot.constants.Flags.NeutralMode;
 import frc.robot.constants.HardwareDevices;
 import org.talon540.sensors.TalonFXMechanism;
 
+/**
+ * {@link DriveIO} used for interfacing with a series of {@link WPI_TalonFX} devices for a Differential Drivetrain.
+ */
 public class DriveIOFalcon implements DriveIO {
   private final WPI_TalonFX m_leftLeader;
   private final WPI_TalonFX m_rightLeader;
@@ -19,6 +22,9 @@ public class DriveIOFalcon implements DriveIO {
   private final TalonFXMechanism m_leftSensors;
   private final TalonFXMechanism m_rightSensors;
 
+  /**
+   * Create the DriveIO.
+   */
   public DriveIOFalcon() {
     switch (Constants.kCurrentMode) {
       case PROTO -> {

@@ -23,6 +23,12 @@ public class DriveBase extends SubsystemBase {
 
   private final DifferentialDrivePoseEstimator m_odometry;
 
+  /**
+   * Create the drivetrain subsystem.
+   *
+   * @param driveIO Drive interface to use.
+   * @param gyroIO Gyro interface to use.
+   */
   public DriveBase(DriveIO driveIO, GyroIO gyroIO) {
     this.m_io = driveIO;
     this.m_gyro = gyroIO;

@@ -5,9 +5,15 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
 
+/**
+ * GyroIO using a {@link WPI_Pigeon2}.
+ */
 public class GyroIOPigeon implements GyroIO {
   private final WPI_Pigeon2 m_gyro;
 
+  /**
+   * Create a GyroIO using a {@link WPI_Pigeon2}.
+   */
   public GyroIOPigeon() {
     switch (Constants.kCurrentMode) {
       case PROTO -> {
@@ -27,6 +33,11 @@ public class GyroIOPigeon implements GyroIO {
     }
   }
 
+  /**
+   * Get the Gyro object used by the IO.
+   *
+   * @return gyro.
+   */
   public WPI_Pigeon2 getGyro() {
     return m_gyro;
   }
