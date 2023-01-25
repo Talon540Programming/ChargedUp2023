@@ -30,10 +30,14 @@ public class RobotContainer {
     DriveIO driveIO;
     GyroIO gyroIO;
 
-    switch (Constants.kCurrentMode) {
-      case COMP, PROTO -> {
+    switch (Constants.getRobotMode()) {
+      case REAL -> {
         driveIO = new DriveIOFalcon();
         gyroIO = new GyroIOPigeon();
+      }
+      case SIM -> {
+        driveIO = null;
+        gyroIO = null;
       }
       default -> {
         driveIO = new DriveIO() {};
