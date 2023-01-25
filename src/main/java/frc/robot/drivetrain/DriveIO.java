@@ -4,9 +4,7 @@ import frc.lib.logging.LoggedIO;
 import frc.robot.constants.Flags.NeutralMode;
 import org.littletonrobotics.junction.AutoLog;
 
-/**
-* IO interfacing layer used to represent devices used in a Differential Drivetrain.
-*/
+/** IO interfacing layer used to represent devices used in a Differential Drivetrain. */
 public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
   @AutoLog
   public static class DriveIOInputs {
@@ -35,8 +33,6 @@ public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
    */
   public default void setNeutralMode(NeutralMode mode) {}
 
-  /**
-   * Reset the values of the drivetrain encoders.
-   */
+  /** Reset the values of the drivetrain encoders. */
   public default void resetEncoders() {}
 }

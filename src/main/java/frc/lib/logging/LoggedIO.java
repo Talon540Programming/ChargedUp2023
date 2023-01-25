@@ -1,7 +1,8 @@
 package frc.lib.logging;
 
 /**
- * Represents an IO interface that can control a {@link org.littletonrobotics.junction.inputs.LoggableInputs}.
+ * Represents an IO interface that can control a {@link
+ * org.littletonrobotics.junction.inputs.LoggableInputs}.
  *
  * @param <T> Loggable Inputs that are updated.
  */

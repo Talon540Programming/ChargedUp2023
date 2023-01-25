@@ -6,9 +6,7 @@ import frc.lib.logging.LoggedIO;
 import frc.robot.constants.Constants;
 import org.littletonrobotics.junction.AutoLog;
 
-/**
- * IO interfacing layer used to represent a gyroscope.
- */
+/** IO interfacing layer used to represent a gyroscope. */
 public interface GyroIO extends LoggedIO<GyroIO.GyroIOInputs> {
   @AutoLog
   public static class GyroIOInputs {
@@ -57,9 +55,7 @@ public interface GyroIO extends LoggedIO<GyroIO.GyroIOInputs> {
     return 0;
   }
 
-  /**
-   * Reset the yaw of the gyro to 0.
-   */
+  /** Reset the yaw of the gyro to 0. */
   public default void resetHeading() {}
 
   /**
@@ -73,7 +69,8 @@ public interface GyroIO extends LoggedIO<GyroIO.GyroIOInputs> {
   }
 
   /**
-   * Represent the position of the gyroscope as a {@link Rotation3d} object. Used to supplement the weak WPI interface.
+   * Represent the position of the gyroscope as a {@link Rotation3d} object. Used to supplement the
+   * weak WPI interface.
    *
    * @return gyro data as a Rotation3d.
    */
