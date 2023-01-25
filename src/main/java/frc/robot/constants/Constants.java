@@ -1,28 +1,14 @@
 package frc.robot.constants;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import frc.robot.constants.Flags.*;
-import java.io.IOException;
 import java.util.Map;
 
 public final class Constants {
-  public static final AprilTagFieldLayout kFieldLayout;
-
   public static final RobotMode kCurrentMode = RobotMode.PROTO;
 
-  static {
-    try {
-      kFieldLayout =
-          AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
-    } catch (IOException e) {
-      throw new RuntimeException("Unable to load Field Layout");
-    }
-  }
-
-  public static class Drivetrain {
+  public static final class Drivetrain {
     public static final double kMaxDrivetrainVelocityMetersPerSecond = 4;
     public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5;
     public static final double kMaxDrivetrainRotationalVelocityRadiansPerSecond = 0; // TODO
@@ -68,7 +54,7 @@ public final class Constants {
     }
   }
 
-  public static class Logging {
+  public static final class Logging {
     public static final Map<RobotMode, String> kLogFolders =
         Map.of(RobotMode.PROTO, "/media/sda1", RobotMode.COMP, "/media/sda1");
   }
