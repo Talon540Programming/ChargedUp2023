@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.Constants;
-import frc.robot.constants.Flags.NeutralMode;
 import frc.robot.constants.HardwareDevices;
 import org.talon540.sensors.TalonFXMechanism;
 
@@ -120,7 +119,7 @@ public class DriveIOFalcon implements DriveIO {
   }
 
   @Override
-  public void setNeutralMode(NeutralMode mode) {
+  public void setNeutralMode(DriveNeutralMode mode) {
     switch (mode) {
       case COAST -> {
         m_leftLeader.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);

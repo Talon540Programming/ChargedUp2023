@@ -7,9 +7,4 @@ public final class Flags {
     SIM,
     REPLAY
   }
-
-  public enum NeutralMode {
-    BRAKE,
-    COAST
-  }
 }

@@ -3,6 +3,7 @@ package frc.robot.constants;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import frc.robot.constants.Flags.*;
+import frc.robot.drivetrain.DriveIO.DriveNeutralMode;
 import java.util.Map;
 
 public final class Constants {
@@ -26,7 +27,7 @@ public final class Constants {
     public static final DifferentialDriveKinematics kDrivetrainKinematics =
         new DifferentialDriveKinematics(kTrackWidthMeters);
 
-    public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.COAST;
+    public static final DriveNeutralMode kDrivetrainDefaultNeutralMode = DriveNeutralMode.COAST;
 
     public static final double kRobotStabilizationToleranceDegrees = 1;
 

@@ -9,7 +9,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants.Drivetrain;
-import frc.robot.constants.Flags;
+import frc.robot.drivetrain.DriveIO.DriveNeutralMode;
 import frc.robot.drivetrain.gyro.GyroIO;
 import frc.robot.drivetrain.gyro.GyroIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
@@ -171,7 +171,7 @@ public class DriveBase extends SubsystemBase {
    *
    * @param mode Neutral mode to set the drivetrain motors to.
    */
-  public void setNeutralMode(Flags.NeutralMode mode) {
+  public void setNeutralMode(DriveNeutralMode mode) {
     m_io.setNeutralMode(mode);
   }
 
