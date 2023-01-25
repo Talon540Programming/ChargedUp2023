@@ -6,9 +6,12 @@ public final class Flags {
     PROTO,
     /** Running on the comp robot. */
     COMP,
-    /** Running a physics simulator. */
-    SIM,
     /** Replaying from a log file. */
     REPLAY
+  }
+
+  public enum NeutralMode {
+    BRAKE,
+    COAST
   }
 }

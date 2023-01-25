@@ -72,11 +72,11 @@ public class WPIFollowTrajectory extends CommandBase {
     m_timer.start();
 
     // Reset the internal PID controller values
-    m_drivetrainBase.resetControllers();
+    // m_drivetrainBase.resetControllers();
 
     // Set the robot position to the initial position of the trajectory.
-    m_drivetrainBase.resetOdometry(
-        targetTrajectory.getInitialPose()); // TODO, should this be moved outside of the command?
+    // m_drivetrainBase.resetOdometry(
+    //     targetTrajectory.getInitialPose()); // TODO, should this be moved outside of the command?
   }
 
   @Override
@@ -87,27 +87,27 @@ public class WPIFollowTrajectory extends CommandBase {
       // This is the first node of the trajectory.
       // Stop so that the current velocity doesn't impact later speeds. // TODO: lead previous
       // speeds into future speeds?
-      m_drivetrainBase.stop();
+      // m_drivetrainBase.stop();
       previousTime = currentTime;
       return;
     }
 
-    DifferentialDriveWheelSpeeds targetWheelSpeeds =
-        Constants.Drivetrain.kDrivetrainKinematics.toWheelSpeeds(
-            m_ramseteController.calculate(
-                m_drivetrainBase.getRobotPosition(), targetTrajectory.sample(currentTime)));
+    // DifferentialDriveWheelSpeeds targetWheelSpeeds =
+    // Constants.Drivetrain.kDrivetrainKinematics.toWheelSpeeds(
+    //     m_ramseteController.calculate(
+    //         m_drivetrainBase.getRobotPosition(), targetTrajectory.sample(currentTime)));
 
     double deltaTime = currentTime - previousTime;
 
     // Calculate the acceleration of the robot from the last and current wheel speeds
-    m_drivetrainBase.setFromWheelSpeeds(
-        targetWheelSpeeds,
-        (targetWheelSpeeds.leftMetersPerSecond - previousWheelSpeeds.leftMetersPerSecond)
-            / deltaTime,
-        (targetWheelSpeeds.rightMetersPerSecond - previousWheelSpeeds.rightMetersPerSecond)
-            / deltaTime);
+    // m_drivetrainBase.setFromWheelSpeeds(
+    //     targetWheelSpeeds,
+    //     (targetWheelSpeeds.leftMetersPerSecond - previousWheelSpeeds.leftMetersPerSecond)
+    //         / deltaTime,
+    //     (targetWheelSpeeds.rightMetersPerSecond - previousWheelSpeeds.rightMetersPerSecond)
+    //         / deltaTime);
 
-    previousWheelSpeeds = targetWheelSpeeds;
+    // previousWheelSpeeds = targetWheelSpeeds;
     previousTime = currentTime;
   }
 
@@ -120,6 +120,6 @@ public class WPIFollowTrajectory extends CommandBase {
   public void end(boolean interrupted) {
     m_timer.stop();
 
-    if (interrupted || stopWhenDone) m_drivetrainBase.stop();
+    // if (interrupted || stopWhenDone) m_drivetrainBase.stop();
   }
 }

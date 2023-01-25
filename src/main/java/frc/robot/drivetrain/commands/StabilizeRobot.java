@@ -1,6 +1,5 @@
 package frc.robot.drivetrain.commands;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.Constants.Drivetrain;
@@ -28,16 +27,16 @@ public class StabilizeRobot extends CommandBase {
   @Override
   public void initialize() {
     m_stabilizationController.reset();
-    m_drivetrainBase.setNeutralMode(NeutralMode.Brake);
+    // m_drivetrainBase.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
   public void execute() {
-    double measurement = m_drivetrainBase.m_gyro.getPitch();
-    double outputPercent = -m_stabilizationController.calculate(measurement);
+    // double measurement = m_drivetrainBase.m_gyro.getPitch();
+    // double outputPercent = -m_stabilizationController.calculate(measurement);
 
-    m_drivetrainBase.tankDrivePercent(
-        outputPercent, outputPercent); // TODO swap this to closed loop control?
+    // m_drivetrainBase.tankDrivePercent(
+    //     outputPercent, outputPercent); // TODO swap this to closed loop control?
   }
 
   @Override
@@ -47,7 +46,7 @@ public class StabilizeRobot extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_drivetrainBase.resetNeutralMode();
-    m_drivetrainBase.stop();
+    // m_drivetrainBase.resetNeutralMode();
+    // m_drivetrainBase.stop();
   }
 }

@@ -7,9 +7,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.Constants;
+import frc.robot.constants.Flags;
+import frc.robot.constants.HardwareDevices;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggedDriverStation;
+import org.littletonrobotics.junction.inputs.LoggedPowerDistribution;
+import org.littletonrobotics.junction.inputs.LoggedSystemStats;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
@@ -39,13 +44,8 @@ public class Robot extends LoggedRobot {
     switch (Constants.kCurrentMode) {
         // Running on a real robot, log to a USB stick
       case COMP, PROTO -> {
-        logger.addDataReceiver(new WPILOGWriter("/media/sda1/"));
-        logger.addDataReceiver(new NT4Publisher());
-      }
-
-        // Running a physics simulator, log to local folder
-      case SIM -> {
-        logger.addDataReceiver(new WPILOGWriter(""));
+        logger.addDataReceiver(
+            new WPILOGWriter(Constants.Logging.kLogFolders.get(Constants.kCurrentMode)));
         logger.addDataReceiver(new NT4Publisher());
       }
 
@@ -67,6 +67,16 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
+    LoggedSystemStats.getInstance().periodic();
+    LoggedDriverStation.getInstance().periodic();
+
+    switch(Constants.kCurrentMode) {
+      case PROTO -> LoggedPowerDistribution.getInstance(
+              HardwareDevices.PROTO.kPowerDistConfig.id, HardwareDevices.PROTO.kPowerDistType).periodic();
+      case COMP -> {} // TODO
+      default -> LoggedPowerDistribution.getInstance().periodic();
+    }
   }
 
   @Override

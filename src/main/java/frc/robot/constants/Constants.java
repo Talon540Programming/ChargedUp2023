@@ -1,12 +1,12 @@
 package frc.robot.constants;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import frc.robot.constants.Flags.*;
 import java.io.IOException;
+import java.util.Map;
 
 public final class Constants {
   public static final AprilTagFieldLayout kFieldLayout;
@@ -39,7 +39,7 @@ public final class Constants {
     public static final DifferentialDriveKinematics kDrivetrainKinematics =
         new DifferentialDriveKinematics(kTrackWidthMeters);
 
-    public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.Coast;
+    public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.COAST;
 
     public static final double kRobotStabilizationToleranceDegrees = 1;
 
@@ -65,5 +65,10 @@ public final class Constants {
         public static final double kD = 0; // TODO
       }
     }
+  }
+
+  public static class Logging {
+    public static final Map<RobotMode, String> kLogFolders =
+        Map.of(RobotMode.PROTO, "/media/sda1", RobotMode.COMP, "/media/sda1");
   }
 }
