@@ -40,9 +40,9 @@ public class GyroIOPigeon implements GyroIO {
 
   @Override
   public void updateInputs(GyroIOInputs inputs) {
-    inputs.GyroYawRad = Math.toRadians(m_gyro.getYaw());
-    inputs.GyroPitchRad = Math.toRadians(m_gyro.getPitch());
-    inputs.GyroRollRad = Math.toRadians(m_gyro.getRoll());
+    inputs.GyroYawRad = getYaw();
+    inputs.GyroPitchRad = getPitch();
+    inputs.GyroRollRad = getRoll();
     inputs.GyroRateRadPerSecond = Math.toRadians(m_gyro.getRate());
   }
 
