@@ -20,11 +20,6 @@ public final class Constants {
   }
 
   public static RobotType getRobotType() {
-    if (RobotBase.isSimulation()) {
-      throw new RuntimeException(
-          "Invalid Robot Type selected. Type cannot be SIM if robot is real");
-    }
-
     return kRobotType;
   }
 
