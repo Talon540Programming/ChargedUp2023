@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.Constants.Drivetrain;
 import frc.robot.constants.Flags;
 import frc.robot.drivetrain.DriveBase;
+import frc.robot.drivetrain.DriveIO;
 
 public class StabilizeRobot extends CommandBase {
   private final DriveBase m_driveBase;
@@ -28,7 +29,7 @@ public class StabilizeRobot extends CommandBase {
   @Override
   public void initialize() {
     m_stabilizationController.reset();
-    m_driveBase.setNeutralMode(Flags.NeutralMode.BRAKE);
+    m_driveBase.setNeutralMode(DriveIO.DriveNeutralMode.BRAKE);
   }
 
   @Override
