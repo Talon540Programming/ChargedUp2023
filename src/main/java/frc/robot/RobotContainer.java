@@ -33,7 +33,7 @@ public class RobotContainer {
     switch (Constants.kCurrentMode) {
       case COMP, PROTO -> {
         driveIO = new DriveIOFalcon();
-        gyroIO = new GyroIOPigeon() {};
+        gyroIO = new GyroIOPigeon();
       }
       default -> {
         driveIO = new DriveIO() {};

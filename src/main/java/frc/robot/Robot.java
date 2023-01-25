@@ -15,6 +15,7 @@ import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggedDriverStation;
+import org.littletonrobotics.junction.inputs.LoggedPowerDistribution;
 import org.littletonrobotics.junction.inputs.LoggedSystemStats;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
@@ -32,7 +33,6 @@ public class Robot extends LoggedRobot {
 
     // Set up data receivers & replay source
     switch (Constants.kCurrentMode) {
-        // Running on a real robot, log to a USB stick
       case COMP, PROTO -> {
         logger.addDataReceiver(
             new WPILOGWriter(Constants.Logging.kLogFolders.get(Constants.kCurrentMode)));
@@ -40,21 +40,13 @@ public class Robot extends LoggedRobot {
 
         LoggedDriverStation.getInstance();
         LoggedSystemStats.getInstance();
-        if (Constants.kCurrentMode == Flags.RobotMode.PROTO) {
-          new PowerDistribution(
-              HardwareDevices.PROTO.kRobotGyroConfig.id, HardwareDevices.PROTO.kPowerDistType);
-        } else {
-          new PowerDistribution(
-              HardwareDevices.COMP.kRobotGyroConfig.id, HardwareDevices.COMP.kPowerDistType);
-        }
+        LoggedPowerDistribution.getInstance();
       }
-
-        // Replaying a log, set up replay source
       case REPLAY -> {
         setUseTiming(false);
-        String logPath = LogFileUtil.findReplayLog();
-        logger.setReplaySource(new WPILOGReader(logPath));
-        logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
+        String path = LogFileUtil.findReplayLog();
+        logger.setReplaySource(new WPILOGReader(path));
+        logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(path, "_sim")));
       }
     }
 
