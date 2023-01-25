@@ -1,9 +1,9 @@
 package frc.robot.drivetrain;
 
+import frc.lib.logging.LoggedIO;
 import frc.robot.constants.Flags.NeutralMode;
 import org.littletonrobotics.junction.AutoLog;
 
-public interface DriveIO {
 public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
   @AutoLog
   public static class DriveIOInputs {
@@ -11,11 +11,6 @@ public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
     public double LeftVelocityMetersPerSecond = 0.0;
     public double RightPositionMeters = 0.0;
     public double RightVelocityMetersPerSecond = 0.0;
-
-    public double GyroYawRad = 0.0;
-    public double GyroPitchRad = 0.0;
-    public double GyroRollRad = 0.0;
-    public double GyroRateRadPerSecond = 0.0;
   }
 
   /**
@@ -23,6 +18,7 @@ public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
    *
    * @param inputs inputs to update.
    */
+  @Override
   public default void updateInputs(DriveIOInputs inputs) {}
 
   public default void setVoltage(double leftVolts, double rightVolts) {}
@@ -30,6 +26,4 @@ public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
   public default void setNeutralMode(NeutralMode mode) {}
 
   public default void resetEncoders() {}
-
-  public default void zeroHeading() {}
 }

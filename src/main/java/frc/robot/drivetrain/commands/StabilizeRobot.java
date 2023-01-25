@@ -33,7 +33,7 @@ public class StabilizeRobot extends CommandBase {
 
   @Override
   public void execute() {
-    double measurement = Math.toDegrees(m_driveBase.m_inputs.GyroPitchRad);
+    double measurement = Math.toDegrees(m_driveBase.m_gyro.getPitch());
     double outputPercent = -m_stabilizationController.calculate(measurement);
 
     m_driveBase.tankDrivePercent(outputPercent, outputPercent);

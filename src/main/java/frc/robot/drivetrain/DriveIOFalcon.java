@@ -12,8 +12,6 @@ import frc.robot.constants.HardwareDevices;
 import org.talon540.sensors.TalonFXMechanism;
 
 public class DriveIOFalcon implements DriveIO {
-  private final WPI_Pigeon2 m_gyro;
-
   private final WPI_TalonFX m_leftLeader;
   private final WPI_TalonFX m_rightLeader;
   private final WPI_TalonFX m_leftFollower;
@@ -108,23 +106,12 @@ public class DriveIOFalcon implements DriveIO {
     inputs.LeftVelocityMetersPerSecond = m_leftSensors.getLinearVelocity();
     inputs.RightPositionMeters = m_rightSensors.getPosition();
     inputs.RightVelocityMetersPerSecond = m_rightSensors.getLinearVelocity();
-
-    inputs.GyroYawRad = Math.toRadians(m_gyro.getYaw());
-    inputs.GyroPitchRad = Math.toRadians(m_gyro.getPitch());
-    inputs.GyroRollRad = Math.toRadians(m_gyro.getRoll());
-
-    inputs.GyroRateRadPerSecond = Math.toRadians(m_gyro.getRate());
   }
 
   @Override
   public void resetEncoders() {
     m_leftSensors.resetEncoder();
     m_rightSensors.resetEncoder();
-  }
-
-  @Override
-  public void zeroHeading() {
-    m_gyro.reset();
   }
 
   @Override

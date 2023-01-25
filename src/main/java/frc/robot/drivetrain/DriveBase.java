@@ -11,42 +11,52 @@ import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants.Drivetrain;
 import frc.robot.constants.Flags;
+import frc.robot.drivetrain.gyro.GyroIO;
+import frc.robot.drivetrain.gyro.GyroIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class DriveBase extends SubsystemBase {
-  private final DriveIO m_io;
-  public final DriveIOInputsAutoLogged m_inputs = new DriveIOInputsAutoLogged();
+  public final DriveIO m_io;
+  public final DriveIOInputsAutoLogged m_driveInputs = new DriveIOInputsAutoLogged();
+
+  public final GyroIO m_gyro;
+  public final GyroIOInputsAutoLogged m_gyroInputs = new GyroIOInputsAutoLogged();
+
   private final DifferentialDrivePoseEstimator m_odometry;
 
-  public DriveBase(DriveIO driveIO) {
+  public DriveBase(DriveIO driveIO, GyroIO gyroIO) {
     this.m_io = driveIO;
+    this.m_gyro = gyroIO;
 
     m_io.resetEncoders();
-    m_io.zeroHeading();
+    m_gyro.resetHeading();
 
     m_io.setNeutralMode(Drivetrain.kDrivetrainDefaultNeutralMode);
 
-    m_io.updateInputs(m_inputs);
+    m_io.updateInputs(m_driveInputs);
 
     this.m_odometry =
         new DifferentialDrivePoseEstimator(
             Drivetrain.kDrivetrainKinematics,
-            Rotation2d.fromRadians(m_inputs.GyroYawRad),
-            m_inputs.LeftPositionMeters,
-            m_inputs.RightPositionMeters,
+            m_gyro.getRotation2d(),
+            m_driveInputs.LeftPositionMeters,
+            m_driveInputs.RightPositionMeters,
             new Pose2d());
   }
 
   @Override
   public void periodic() {
-    m_io.updateInputs(m_inputs);
-    Logger.getInstance().processInputs("Drive", m_inputs);
+    m_gyro.updateInputs(m_gyroInputs);
+    Logger.getInstance().processInputs("Drive/Gyro", m_gyroInputs);
+
+    m_io.updateInputs(m_driveInputs);
+    Logger.getInstance().processInputs("Drive", m_driveInputs);
 
     // Data in DriveIO is automatically logged using AutoLog. Odometry is handled in subsystem.
     m_odometry.update(
-        Rotation2d.fromRadians(m_inputs.GyroYawRad),
-        m_inputs.LeftVelocityMetersPerSecond,
-        m_inputs.RightVelocityMetersPerSecond);
+        m_gyro.getRotation2d(),
+        m_driveInputs.LeftVelocityMetersPerSecond,
+        m_driveInputs.RightVelocityMetersPerSecond);
     Logger.getInstance().recordOutput("Odometry", getPose());
   }
 
@@ -86,7 +96,7 @@ public class DriveBase extends SubsystemBase {
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
-        m_inputs.LeftVelocityMetersPerSecond, m_inputs.RightVelocityMetersPerSecond);
+        m_driveInputs.LeftVelocityMetersPerSecond, m_driveInputs.RightVelocityMetersPerSecond);
   }
 
   /**
@@ -122,9 +132,9 @@ public class DriveBase extends SubsystemBase {
   public void resetPosition(Pose2d position) {
     m_io.resetEncoders();
     m_odometry.resetPosition(
-        Rotation2d.fromRadians(m_inputs.GyroYawRad),
-        m_inputs.LeftVelocityMetersPerSecond,
-        m_inputs.RightVelocityMetersPerSecond,
+        m_gyro.getRotation2d(),
+        m_driveInputs.LeftVelocityMetersPerSecond,
+        m_driveInputs.RightVelocityMetersPerSecond,
         position);
   }
 
