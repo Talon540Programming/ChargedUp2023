@@ -26,7 +26,8 @@ public final class Constants {
     public static final double kMaxDrivetrainVelocityMetersPerSecond = 4;
     public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5;
     public static final double kMaxDrivetrainRotationalVelocityRadiansPerSecond = 0; // TODO
-    public static final double kMaxDrivetrainRotationalAccelerationRadiansPerSecondSquared = 0; // TODO
+    public static final double kMaxDrivetrainRotationalAccelerationRadiansPerSecondSquared =
+        0; // TODO
 
     public static final double kDrivetrainGearRatio = 11.78;
 

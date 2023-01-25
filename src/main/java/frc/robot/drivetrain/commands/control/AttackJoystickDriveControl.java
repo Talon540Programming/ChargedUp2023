@@ -17,7 +17,7 @@ public class AttackJoystickDriveControl extends DrivetrainControl {
    * @param rightJoystick right attack joystick.
    */
   public AttackJoystickDriveControl(
-          DriveBase driveBase, Joystick leftJoystick, Joystick rightJoystick) {
+      DriveBase driveBase, Joystick leftJoystick, Joystick rightJoystick) {
     super(driveBase);
     this.leftJoystick = leftJoystick;
     this.rightJoystick = rightJoystick;
@@ -31,7 +31,7 @@ public class AttackJoystickDriveControl extends DrivetrainControl {
    * @param rightJoystick right attack joystick.
    */
   public AttackJoystickDriveControl(
-          DriveBase driveBase, CommandJoystick leftJoystick, CommandJoystick rightJoystick) {
+      DriveBase driveBase, CommandJoystick leftJoystick, CommandJoystick rightJoystick) {
     this(driveBase, leftJoystick.getHID(), rightJoystick.getHID());
   }
 

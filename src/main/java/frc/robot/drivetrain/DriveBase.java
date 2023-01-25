@@ -43,7 +43,10 @@ public class DriveBase extends SubsystemBase {
     Logger.getInstance().processInputs("Drive", m_inputs);
 
     // Data in DriveIO is automatically logged using AutoLog. Odometry is handled in subsystem.
-    m_odometry.update(Rotation2d.fromRadians(m_inputs.GyroYawRad), m_inputs.LeftVelocityMetersPerSecond, m_inputs.RightVelocityMetersPerSecond);
+    m_odometry.update(
+        Rotation2d.fromRadians(m_inputs.GyroYawRad),
+        m_inputs.LeftVelocityMetersPerSecond,
+        m_inputs.RightVelocityMetersPerSecond);
     Logger.getInstance().recordOutput("Odometry", getPose());
   }
 
@@ -82,8 +85,8 @@ public class DriveBase extends SubsystemBase {
    * @return current drivetrain wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(m_inputs.LeftVelocityMetersPerSecond,
-            m_inputs.RightVelocityMetersPerSecond);
+    return new DifferentialDriveWheelSpeeds(
+        m_inputs.LeftVelocityMetersPerSecond, m_inputs.RightVelocityMetersPerSecond);
   }
 
   /**
@@ -119,7 +122,10 @@ public class DriveBase extends SubsystemBase {
   public void resetPosition(Pose2d position) {
     m_io.resetEncoders();
     m_odometry.resetPosition(
-        Rotation2d.fromRadians(m_inputs.GyroYawRad), m_inputs.LeftVelocityMetersPerSecond, m_inputs.RightVelocityMetersPerSecond, position);
+        Rotation2d.fromRadians(m_inputs.GyroYawRad),
+        m_inputs.LeftVelocityMetersPerSecond,
+        m_inputs.RightVelocityMetersPerSecond,
+        position);
   }
 
   /**
