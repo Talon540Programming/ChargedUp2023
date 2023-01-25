@@ -9,11 +9,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Drivetrain;
 import frc.robot.constants.Flags;
 import org.littletonrobotics.junction.Logger;
-
 
 public class DriveBase extends SubsystemBase {
   public final DriveIO m_io;
@@ -63,8 +61,7 @@ public class DriveBase extends SubsystemBase {
   }
 
   /**
-   * Drive the robot based on output voltage to set to each side of the drivetrain. This is
-   useful
+   * Drive the robot based on output voltage to set to each side of the drivetrain. This is useful
    * when controlling the drivetrain using closed loop control via Feed Forward control. <b>This
    * already checks the battery voltage</b>.
    *
@@ -76,7 +73,8 @@ public class DriveBase extends SubsystemBase {
   }
 
   /**
-   * Get the position of the left side of the drivetrain. This already accounts for gear ratio and wheel radius.
+   * Get the position of the left side of the drivetrain. This already accounts for gear ratio and
+   * wheel radius.
    *
    * @return distance in meters.
    */
@@ -94,7 +92,8 @@ public class DriveBase extends SubsystemBase {
   }
 
   /**
-   * Get the position of the right side of the drivetrain. This already accounts for gear ratio and wheel radius.
+   * Get the position of the right side of the drivetrain. This already accounts for gear ratio and
+   * wheel radius.
    *
    * @return distance in meters.
    */
@@ -117,7 +116,8 @@ public class DriveBase extends SubsystemBase {
    * @return current drivetrain wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(getLeftVelocityMetersPerSecond(), getRightVelocityMetersPerSecond());
+    return new DifferentialDriveWheelSpeeds(
+        getLeftVelocityMetersPerSecond(), getRightVelocityMetersPerSecond());
   }
 
   /**
@@ -153,7 +153,7 @@ public class DriveBase extends SubsystemBase {
   public void resetPosition(Pose2d position) {
     m_io.resetEncoders();
     m_odometry.resetPosition(
-            m_io.getHeading(), getLeftPositionMeters(), getRightPositionMeters(), position);
+        m_io.getHeading(), getLeftPositionMeters(), getRightPositionMeters(), position);
   }
 
   /**

@@ -8,7 +8,8 @@ public final class HardwareDevices {
   public static final int kDepositionXboxControllerPort = 1;
 
   public static final class PROTO {
-    public static final PowerDistribution.ModuleType kPowerDistType = PowerDistribution.ModuleType.kCTRE;
+    public static final PowerDistribution.ModuleType kPowerDistType =
+        PowerDistribution.ModuleType.kCTRE;
     public static final CANDeviceConfig kPowerDistConfig = new CANDeviceConfig(0);
 
     public static final CANDeviceConfig kRobotGyroConfig = new CANDeviceConfig(1);
