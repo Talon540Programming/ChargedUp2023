@@ -15,13 +15,16 @@ public interface GyroIO extends LoggedIO<GyroIO.GyroIOInputs> {
         public double GyroRateRadPerSecond = 0.0;
     }
 
-    public Rotation2d getRotation2d();
+    @Override
+    public default void updateInputs(GyroIOInputs inputs) {};
 
-    public double getYaw();
-    public double getPitch();
-    public double getRoll();
+    public default Rotation2d getRotation2d() { return new Rotation2d();};
 
-    public void resetHeading();
+    public default double getYaw() { return 0; };
+    public default double getPitch() { return 0; };
+    public default double getRoll() { return 0; };
+
+    public default void resetHeading() {};
 
     public default boolean isLevel() {
         return Math.abs(getPitch()) < Math.toRadians(Constants.Drivetrain.kRobotStabilizationToleranceDegrees);

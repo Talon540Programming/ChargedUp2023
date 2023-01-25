@@ -11,6 +11,8 @@ import frc.robot.constants.HardwareDevices;
 import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
+import frc.robot.drivetrain.gyro.GyroIO;
+import frc.robot.drivetrain.gyro.GyroIOPigeon;
 import org.talon540.control.XboxController.TalonXboxController;
 
 public class RobotContainer {
@@ -25,17 +27,20 @@ public class RobotContainer {
 
   public RobotContainer() {
     DriveIO driveIO;
+    GyroIO gyroIO;
 
     switch (Constants.kCurrentMode) {
       case COMP, PROTO -> {
         driveIO = new DriveIOFalcon();
+        gyroIO = new GyroIOPigeon() {};
       }
       default -> {
         driveIO = new DriveIO() {};
+        gyroIO = new GyroIO() {};
       }
     }
 
-    m_driveBase = new DriveBase(driveIO);
+    m_driveBase = new DriveBase(driveIO, gyroIO);
 
     configureBindings();
   }

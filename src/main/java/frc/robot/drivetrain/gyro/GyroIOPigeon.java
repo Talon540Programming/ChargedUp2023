@@ -1,19 +1,26 @@
 package frc.robot.drivetrain.gyro;
 
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.constants.Constants;
+import frc.robot.constants.HardwareDevices;
 
 public class GyroIOPigeon implements GyroIO {
     private final WPI_Pigeon2 m_gyro;
 
-    public GyroIOPigeon(int id, String controller) {
-        m_gyro = new WPI_Pigeon2(id, controller);
-    }
-
-    public GyroIOPigeon(int id) {
-        // Empty string to follow CTRE.
-        this(id, "");
+    public GyroIOPigeon() {
+        switch (Constants.kCurrentMode) {
+            case PROTO -> {
+                m_gyro = new WPI_Pigeon2(HardwareDevices.PROTO.kRobotGyroConfig.id, HardwareDevices.PROTO.kRobotGyroConfig.controller);
+            }
+            case COMP -> {
+                m_gyro = new WPI_Pigeon2(HardwareDevices.COMP.kRobotGyroConfig.id, HardwareDevices.COMP.kRobotGyroConfig.controller);
+            }
+            default -> throw new RuntimeException(
+                    "Shouldn't be using this IO system if running on a SIM robot");
+        }
     }
 
     public WPI_Pigeon2 getGyro() {

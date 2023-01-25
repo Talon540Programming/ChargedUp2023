@@ -23,10 +23,6 @@ public class DriveIOFalcon implements DriveIO {
   public DriveIOFalcon() {
     switch (Constants.kCurrentMode) {
       case PROTO -> {
-        m_gyro =
-            new WPI_Pigeon2(
-                HardwareDevices.PROTO.kRobotGyroConfig.id,
-                HardwareDevices.PROTO.kRobotGyroConfig.controller);
         m_leftLeader =
             new WPI_TalonFX(
                 HardwareDevices.PROTO.Drivetrain.kLeftLeader.id,
@@ -45,10 +41,6 @@ public class DriveIOFalcon implements DriveIO {
                 HardwareDevices.PROTO.Drivetrain.kRightFollower.controller);
       }
       case COMP -> {
-        m_gyro =
-            new WPI_Pigeon2(
-                HardwareDevices.COMP.kRobotGyroConfig.id,
-                HardwareDevices.COMP.kRobotGyroConfig.controller);
         m_leftLeader =
             new WPI_TalonFX(
                 HardwareDevices.COMP.Drivetrain.kLeftLeader.id,
