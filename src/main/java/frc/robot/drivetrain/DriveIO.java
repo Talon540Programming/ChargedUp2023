@@ -4,6 +4,7 @@ import frc.robot.constants.Flags.NeutralMode;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface DriveIO {
+public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
   @AutoLog
   public static class DriveIOInputs {
     public double LeftPositionMeters = 0.0;
