@@ -11,6 +11,7 @@ import frc.robot.constants.HardwareDevices;
 import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
+import frc.robot.drivetrain.commands.control.XboxControllerDriveControl;
 import frc.robot.drivetrain.gyro.GyroIO;
 import frc.robot.drivetrain.gyro.GyroIOPigeon;
 import org.talon540.control.XboxController.TalonXboxController;
@@ -45,7 +46,9 @@ public class RobotContainer {
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    m_driveBase.setDefaultCommand(new XboxControllerDriveControl(m_driveBase, m_driverController));
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
