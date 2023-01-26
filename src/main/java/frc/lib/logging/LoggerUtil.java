@@ -6,6 +6,7 @@ import frc.robot.constants.Constants;
 import org.littletonrobotics.junction.Logger;
 
 /** Utilities used by the AdvantageKit Logger. */
+@SuppressWarnings("DataFlowIssue")
 public class LoggerUtil {
   /**
    * Initialize the Logger with the auto-generated data from the build.

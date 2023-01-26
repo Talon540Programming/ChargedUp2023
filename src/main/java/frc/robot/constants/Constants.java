@@ -25,6 +25,7 @@ public final class Constants {
     return kRobotType;
   }
 
+  @SuppressWarnings("UnnecessaryDefault")
   public static RobotMode getRobotMode() {
     return switch (getRobotType()) {
       case ROBOT_2020C, ROBOT_2022C, ROBOT_2023P, ROBOT_2023C -> RobotBase.isReal()

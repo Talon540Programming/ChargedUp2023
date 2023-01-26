@@ -6,7 +6,7 @@ import org.littletonrobotics.junction.AutoLog;
 /** IO interfacing layer used to represent devices used in a Differential Drivetrain. */
 public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
   @AutoLog
-  public static class DriveIOInputs {
+  class DriveIOInputs {
     public double LeftPositionMeters = 0.0;
     public double LeftVelocityMetersPerSecond = 0.0;
     public double RightPositionMeters = 0.0;
@@ -14,7 +14,7 @@ public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
   }
 
   @Override
-  public default void updateInputs(DriveIOInputs inputs) {}
+  default void updateInputs(DriveIOInputs inputs) {}
 
   /**
    * Drive the robot based on output voltage to set to each side of the drivetrain. This is useful
@@ -23,19 +23,19 @@ public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
    * @param leftVolts output voltage for the left side of the drivetrain.
    * @param rightVolts output voltage for the right side of the drivetrain.
    */
-  public default void setVoltage(double leftVolts, double rightVolts) {}
+  default void setVoltage(double leftVolts, double rightVolts) {}
 
   /**
    * Set the neutral mode of the drivetrain motors.
    *
    * @param mode Neutral mode to set the drivetrain motors to.
    */
-  public default void setNeutralMode(DriveNeutralMode mode) {}
+  default void setNeutralMode(DriveNeutralMode mode) {}
 
   /** Reset the values of the drivetrain encoders. */
-  public default void resetEncoders() {}
+  default void resetEncoders() {}
 
-  public enum DriveNeutralMode {
+  enum DriveNeutralMode {
     BRAKE,
     COAST
   }

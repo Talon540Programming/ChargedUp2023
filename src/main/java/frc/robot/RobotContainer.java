@@ -79,9 +79,7 @@ public class RobotContainer {
               new GyroIOPigeon2(
                   new GyroIOPigeon2.GyroIOPigeon2Config(HardwareDevices.COMP2022.kRobotGyroConfig));
         }
-        default -> {
-          throw new RuntimeException("Unknown Robot Type");
-        }
+        default -> throw new RuntimeException("Unknown Robot Type");
       }
     } else {
       driveIO = new DriveIO() {};
