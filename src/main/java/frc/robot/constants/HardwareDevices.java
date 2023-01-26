@@ -28,7 +28,18 @@ public final class HardwareDevices {
     }
   }
 
-  public static final class BOT2020 {
+  public static final class COMP2022 {
+    public static final CANDeviceConfig kRobotGyroConfig = new CANDeviceConfig(1);
+
+    public static class Drivetrain {
+      public static final CANDeviceConfig kLeftLeader = new CANDeviceConfig(8);
+      public static final CANDeviceConfig kLeftFollower = new CANDeviceConfig(9);
+      public static final CANDeviceConfig kRightLeader = new CANDeviceConfig(10);
+      public static final CANDeviceConfig kRightFollower = new CANDeviceConfig(11);
+    }
+  }
+
+  public static final class COMP2020 {
     public static final CANDeviceConfig kRobotGyroConfig = new CANDeviceConfig(1);
 
     public static class Drivetrain {
