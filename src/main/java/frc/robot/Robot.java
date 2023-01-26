@@ -32,7 +32,7 @@ public class Robot extends LoggedRobot {
     // Set up data receivers & replay source
     switch (Constants.getRobotMode()) {
       case REAL -> {
-        String path = Constants.Logging.getLogPath();
+        String path = LoggerUtil.getUSBPath();
 
         if (path != null) {
           logger.addDataReceiver(new WPILOGWriter(path));

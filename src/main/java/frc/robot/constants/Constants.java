@@ -4,7 +4,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.drivetrain.DriveIO.DriveNeutralMode;
-import java.util.Map;
 
 public final class Constants {
   private static final RobotType kRobotType = RobotType.ROBOT_2023P;
@@ -33,15 +32,6 @@ public final class Constants {
           : RobotMode.REPLAY;
       default -> RobotMode.REAL;
     };
-  }
-
-  public static final class Logging {
-    private static final Map<RobotType, String> kLogFolders =
-        Map.of(RobotType.ROBOT_2023P, "/media/sda1", RobotType.ROBOT_2023C, "/media/sda1");
-
-    public static String getLogPath() {
-      return kLogFolders.get(getRobotType());
-    }
   }
 
   public static final class Drivetrain {

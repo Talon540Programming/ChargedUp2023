@@ -3,6 +3,9 @@ package frc.lib.logging;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.generated.BuildConstants;
 import frc.robot.constants.Constants;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.littletonrobotics.junction.Logger;
 
 /** Utilities used by the AdvantageKit Logger. */
@@ -28,6 +31,16 @@ public class LoggerUtil {
       case 0 -> logger.recordMetadata("GitDirty", "All changes committed");
       case 1 -> logger.recordMetadata("GitDirty", "Uncommitted changes");
       default -> logger.recordMetadata("GitDirty", "Unknown");
+    }
+  }
+
+  public static String getUSBPath() {
+    // Return the path of the USB drive it is plugged in, else, return null.
+    try {
+      Path drivePath = Paths.get("/u").toRealPath();
+      return drivePath.toString();
+    } catch (IOException e) {
+      return null;
     }
   }
 }
