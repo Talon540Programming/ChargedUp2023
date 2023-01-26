@@ -24,22 +24,12 @@ public class DriveIOFalcon implements DriveIO {
 
   /** Create the DriveIO. */
   public DriveIOFalcon(DriveIOFalconConfig driveConfig) {
-    m_leftLeader =
-            new WPI_TalonFX(
-                    driveConfig.leftLeader.id,
-                    driveConfig.leftFollower.controller);
+    m_leftLeader = new WPI_TalonFX(driveConfig.leftLeader.id, driveConfig.leftFollower.controller);
     m_leftFollower =
-            new WPI_TalonFX(
-                    driveConfig.leftFollower.id,
-                    driveConfig.leftFollower.controller);
-    m_rightLeader =
-            new WPI_TalonFX(
-                    driveConfig.rightLeader.id,
-                    driveConfig.rightLeader.controller);
+        new WPI_TalonFX(driveConfig.leftFollower.id, driveConfig.leftFollower.controller);
+    m_rightLeader = new WPI_TalonFX(driveConfig.rightLeader.id, driveConfig.rightLeader.controller);
     m_rightFollower =
-            new WPI_TalonFX(
-                    driveConfig.rightFollower.id,
-                    driveConfig.rightFollower.controller);
+        new WPI_TalonFX(driveConfig.rightFollower.id, driveConfig.rightFollower.controller);
 
     m_leftSensors =
         new TalonFXMechanism(
@@ -50,8 +40,8 @@ public class DriveIOFalcon implements DriveIO {
     m_rightSensors =
         new TalonFXMechanism(
             m_rightLeader.getSensorCollection(),
-                driveConfig.wheelRadiusMeters,
-                driveConfig.gearRatio);
+            driveConfig.wheelRadiusMeters,
+            driveConfig.gearRatio);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.voltageCompSaturation = 12.0;
@@ -113,11 +103,10 @@ public class DriveIOFalcon implements DriveIO {
   }
 
   public record DriveIOFalconConfig(
-          CANDeviceConfig leftLeader,
-          CANDeviceConfig leftFollower,
-          CANDeviceConfig rightLeader,
-          CANDeviceConfig rightFollower,
-          double gearRatio,
-          double wheelRadiusMeters
-  ) {}
+      CANDeviceConfig leftLeader,
+      CANDeviceConfig leftFollower,
+      CANDeviceConfig rightLeader,
+      CANDeviceConfig rightFollower,
+      double gearRatio,
+      double wheelRadiusMeters) {}
 }

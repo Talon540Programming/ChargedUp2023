@@ -26,7 +26,9 @@ public final class Constants {
 
   public static RobotMode getRobotMode() {
     return switch (getRobotType()) {
-      case ROBOT_2020, ROBOT_2023P, ROBOT_2023C -> RobotBase.isReal() ? RobotMode.REAL : RobotMode.REPLAY;
+      case ROBOT_2020, ROBOT_2023P, ROBOT_2023C -> RobotBase.isReal()
+          ? RobotMode.REAL
+          : RobotMode.REPLAY;
       default -> RobotMode.REAL;
     };
   }

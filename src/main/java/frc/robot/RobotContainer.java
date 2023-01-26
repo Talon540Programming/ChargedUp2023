@@ -32,38 +32,40 @@ public class RobotContainer {
 
     switch (Constants.getRobotMode()) {
       case REAL -> {
-        switch(Constants.getRobotType()) {
+        switch (Constants.getRobotType()) {
           case ROBOT_2023C -> {
             driveIO = new DriveIO() {};
             gyroIO = new GyroIO() {};
           }
           case ROBOT_2023P -> {
-            driveIO = new DriveIOFalcon(
+            driveIO =
+                new DriveIOFalcon(
                     new DriveIOFalcon.DriveIOFalconConfig(
-                    HardwareDevices.PROTO2023.Drivetrain.kLeftLeader,
-                    HardwareDevices.PROTO2023.Drivetrain.kLeftFollower,
-                    HardwareDevices.PROTO2023.Drivetrain.kRightLeader,
-                    HardwareDevices.PROTO2023.Drivetrain.kRightFollower,
-                            Constants.Drivetrain.kDrivetrainGearRatio,
-                            Constants.Drivetrain.kWheelRadiusMeters
-                    )
-            );
-            gyroIO = new GyroIOPigeon2(
-                    new GyroIOPigeon2.GyroIOPigeon2Config(HardwareDevices.PROTO2023.kRobotGyroConfig)
-            );
+                        HardwareDevices.PROTO2023.Drivetrain.kLeftLeader,
+                        HardwareDevices.PROTO2023.Drivetrain.kLeftFollower,
+                        HardwareDevices.PROTO2023.Drivetrain.kRightLeader,
+                        HardwareDevices.PROTO2023.Drivetrain.kRightFollower,
+                        Constants.Drivetrain.kDrivetrainGearRatio,
+                        Constants.Drivetrain.kWheelRadiusMeters));
+            gyroIO =
+                new GyroIOPigeon2(
+                    new GyroIOPigeon2.GyroIOPigeon2Config(
+                        HardwareDevices.PROTO2023.kRobotGyroConfig));
           }
           case ROBOT_2020 -> {
-            driveIO = new DriveIOFalcon(
+            driveIO =
+                new DriveIOFalcon(
                     new DriveIOFalcon.DriveIOFalconConfig(
-                            HardwareDevices.BOT2020.Drivetrain.kLeftLeader,
-                            HardwareDevices.BOT2020.Drivetrain.kLeftFollower,
-                            HardwareDevices.BOT2020.Drivetrain.kRightLeader,
-                            HardwareDevices.BOT2020.Drivetrain.kRightFollower,
-                            Constants.Drivetrain.kDrivetrainGearRatio,
-                            Constants.Drivetrain.kWheelRadiusMeters
-                    )
-            );
-            gyroIO = new GyroIOPigeon2(                    new GyroIOPigeon2.GyroIOPigeon2Config(HardwareDevices.BOT2020.kRobotGyroConfig));
+                        HardwareDevices.BOT2020.Drivetrain.kLeftLeader,
+                        HardwareDevices.BOT2020.Drivetrain.kLeftFollower,
+                        HardwareDevices.BOT2020.Drivetrain.kRightLeader,
+                        HardwareDevices.BOT2020.Drivetrain.kRightFollower,
+                        Constants.Drivetrain.kDrivetrainGearRatio,
+                        Constants.Drivetrain.kWheelRadiusMeters));
+            gyroIO =
+                new GyroIOPigeon2(
+                    new GyroIOPigeon2.GyroIOPigeon2Config(
+                        HardwareDevices.BOT2020.kRobotGyroConfig));
           }
           default -> {
             throw new RuntimeException("Unknown Robot Type");

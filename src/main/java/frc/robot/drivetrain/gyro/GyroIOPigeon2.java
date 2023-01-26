@@ -10,11 +10,7 @@ public class GyroIOPigeon2 implements GyroIO {
 
   /** Create a GyroIO using a {@link WPI_Pigeon2}. */
   public GyroIOPigeon2(GyroIOPigeon2Config config) {
-    m_gyro =
-            new WPI_Pigeon2(
-                    config.gyro.id,
-                    config.gyro.controller);
-
+    m_gyro = new WPI_Pigeon2(config.gyro.id, config.gyro.controller);
   }
 
   /**
