@@ -1,5 +1,6 @@
 package frc.robot.drivetrain.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.Constants.Drivetrain;
@@ -36,6 +37,8 @@ public class StabilizeRobot extends CommandBase {
     double measurement = Math.toDegrees(m_driveBase.m_gyro.getPitch());
     double outputPercent = -m_stabilizationController.calculate(measurement);
 
+    outputPercent = MathUtil.clamp(outputPercent, -0.5, 0.5);
+
     m_driveBase.tankDrivePercent(outputPercent, outputPercent);
   }
 
@@ -46,7 +49,7 @@ public class StabilizeRobot extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_driveBase.resetNeutralMode();
     m_driveBase.stop();
+    m_driveBase.resetNeutralMode();
   }
 }
