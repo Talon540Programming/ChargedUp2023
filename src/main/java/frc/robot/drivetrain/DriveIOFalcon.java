@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.Constants;
-import frc.robot.constants.HardwareDevices;
+import org.talon540.hardware.CANDeviceConfig;
 import org.talon540.sensors.TalonFXMechanism;
 
 /**
@@ -23,59 +23,35 @@ public class DriveIOFalcon implements DriveIO {
   private final TalonFXMechanism m_rightSensors;
 
   /** Create the DriveIO. */
-  public DriveIOFalcon() {
-    switch (Constants.getRobotType()) {
-      case ROBOT_2023P -> {
-        m_leftLeader =
+  public DriveIOFalcon(DriveIOFalconConfig driveConfig) {
+    m_leftLeader =
             new WPI_TalonFX(
-                HardwareDevices.PROTO.Drivetrain.kLeftLeader.id,
-                HardwareDevices.PROTO.Drivetrain.kLeftLeader.controller);
-        m_leftFollower =
+                    driveConfig.leftLeader.id,
+                    driveConfig.leftFollower.controller);
+    m_leftFollower =
             new WPI_TalonFX(
-                HardwareDevices.PROTO.Drivetrain.kLeftFollower.id,
-                HardwareDevices.PROTO.Drivetrain.kLeftFollower.controller);
-        m_rightLeader =
+                    driveConfig.leftFollower.id,
+                    driveConfig.leftFollower.controller);
+    m_rightLeader =
             new WPI_TalonFX(
-                HardwareDevices.PROTO.Drivetrain.kRightLeader.id,
-                HardwareDevices.PROTO.Drivetrain.kRightLeader.controller);
-        m_rightFollower =
+                    driveConfig.rightLeader.id,
+                    driveConfig.rightLeader.controller);
+    m_rightFollower =
             new WPI_TalonFX(
-                HardwareDevices.PROTO.Drivetrain.kRightFollower.id,
-                HardwareDevices.PROTO.Drivetrain.kRightFollower.controller);
-      }
-      case ROBOT_2023C -> {
-        m_leftLeader =
-            new WPI_TalonFX(
-                HardwareDevices.COMP.Drivetrain.kLeftLeader.id,
-                HardwareDevices.COMP.Drivetrain.kLeftLeader.controller);
-        m_leftFollower =
-            new WPI_TalonFX(
-                HardwareDevices.COMP.Drivetrain.kLeftFollower.id,
-                HardwareDevices.COMP.Drivetrain.kLeftFollower.controller);
-        m_rightLeader =
-            new WPI_TalonFX(
-                HardwareDevices.COMP.Drivetrain.kRightLeader.id,
-                HardwareDevices.COMP.Drivetrain.kRightLeader.controller);
-        m_rightFollower =
-            new WPI_TalonFX(
-                HardwareDevices.COMP.Drivetrain.kRightFollower.id,
-                HardwareDevices.COMP.Drivetrain.kRightFollower.controller);
-      }
-      default -> throw new RuntimeException(
-          "Shouldn't be using this IO system if running on a SIM robot");
-    }
+                    driveConfig.rightFollower.id,
+                    driveConfig.rightFollower.controller);
 
     m_leftSensors =
         new TalonFXMechanism(
             m_leftLeader.getSensorCollection(),
-            Constants.Drivetrain.kWheelRadiusMeters,
-            Constants.Drivetrain.kDrivetrainGearRatio);
+            driveConfig.wheelRadiusMeters,
+            driveConfig.gearRatio);
 
     m_rightSensors =
         new TalonFXMechanism(
             m_rightLeader.getSensorCollection(),
-            Constants.Drivetrain.kWheelRadiusMeters,
-            Constants.Drivetrain.kDrivetrainGearRatio);
+                driveConfig.wheelRadiusMeters,
+                driveConfig.gearRatio);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.voltageCompSaturation = 12.0;
@@ -135,4 +111,13 @@ public class DriveIOFalcon implements DriveIO {
       }
     }
   }
+
+  public record DriveIOFalconConfig(
+          CANDeviceConfig leftLeader,
+          CANDeviceConfig leftFollower,
+          CANDeviceConfig rightLeader,
+          CANDeviceConfig rightFollower,
+          double gearRatio,
+          double wheelRadiusMeters
+  ) {}
 }

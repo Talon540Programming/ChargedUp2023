@@ -2,31 +2,19 @@ package frc.robot.drivetrain.gyro;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.constants.Constants;
-import frc.robot.constants.HardwareDevices;
+import org.talon540.hardware.CANDeviceConfig;
 
 /** GyroIO using a {@link WPI_Pigeon2}. */
-public class GyroIOPigeon implements GyroIO {
+public class GyroIOPigeon2 implements GyroIO {
   private final WPI_Pigeon2 m_gyro;
 
   /** Create a GyroIO using a {@link WPI_Pigeon2}. */
-  public GyroIOPigeon() {
-    switch (Constants.getRobotType()) {
-      case ROBOT_2023P -> {
-        m_gyro =
+  public GyroIOPigeon2(GyroIOPigeon2Config config) {
+    m_gyro =
             new WPI_Pigeon2(
-                HardwareDevices.PROTO.kRobotGyroConfig.id,
-                HardwareDevices.PROTO.kRobotGyroConfig.controller);
-      }
-      case ROBOT_2023C -> {
-        m_gyro =
-            new WPI_Pigeon2(
-                HardwareDevices.COMP.kRobotGyroConfig.id,
-                HardwareDevices.COMP.kRobotGyroConfig.controller);
-      }
-      default -> throw new RuntimeException(
-          "Shouldn't be using this IO system if running on a SIM robot");
-    }
+                    config.gyro.id,
+                    config.gyro.controller);
+
   }
 
   /**
@@ -70,4 +58,6 @@ public class GyroIOPigeon implements GyroIO {
   public void resetHeading() {
     m_gyro.reset();
   }
+
+  public record GyroIOPigeon2Config(CANDeviceConfig gyro) {}
 }
