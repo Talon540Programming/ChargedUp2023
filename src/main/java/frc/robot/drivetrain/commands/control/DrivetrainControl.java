@@ -6,10 +6,21 @@ package frc.robot.drivetrain.commands.control;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drivetrain.DriveBase;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public abstract class DrivetrainControl extends CommandBase {
   protected double kLeftPercent, kRightPercent;
   private final DriveBase m_driveBase;
+
+  private static final LoggedDashboardChooser<Double> m_speedLimiter =
+      new LoggedDashboardChooser<>("Drive Speed Limit");
+
+  static {
+    m_speedLimiter.addDefaultOption("Default", 1.0);
+    m_speedLimiter.addOption("Fast (70%)", 0.7);
+    m_speedLimiter.addOption("Medium (39%)", 0.3);
+    m_speedLimiter.addOption("Slow (15%)", 0.15);
+  }
 
   protected DrivetrainControl(DriveBase driveBase) {
     this.m_driveBase = driveBase;
@@ -19,6 +30,9 @@ public abstract class DrivetrainControl extends CommandBase {
 
   @Override
   public void execute() {
+    kLeftPercent *= m_speedLimiter.get();
+    kRightPercent *= m_speedLimiter.get();
+
     this.m_driveBase.tankDrivePercent(kLeftPercent, kRightPercent);
   }
 }
