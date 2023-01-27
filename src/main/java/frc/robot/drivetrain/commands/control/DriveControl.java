@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drivetrain.DriveBase;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
-public abstract class DrivetrainControl extends CommandBase {
+public abstract class DriveControl extends CommandBase {
   protected double kLeftPercent, kRightPercent;
   private final DriveBase m_driveBase;
 
@@ -22,7 +22,7 @@ public abstract class DrivetrainControl extends CommandBase {
     m_speedLimiter.addOption("Slow (15%)", 0.15);
   }
 
-  protected DrivetrainControl(DriveBase driveBase) {
+  protected DriveControl(DriveBase driveBase) {
     this.m_driveBase = driveBase;
 
     addRequirements(driveBase);

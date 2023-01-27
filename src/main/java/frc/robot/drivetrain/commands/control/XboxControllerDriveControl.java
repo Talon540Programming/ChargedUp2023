@@ -8,7 +8,7 @@ import frc.robot.drivetrain.DriveBase;
 import org.talon540.control.XboxController.TalonXboxController;
 
 /** Command used to drive the drivetrain using an Xbox Controller. */
-public class XboxControllerDriveControl extends DrivetrainControl {
+public class XboxControllerDriveControl extends DriveControl {
   private final TalonXboxController controller;
 
   /**

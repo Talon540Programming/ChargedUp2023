@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.drivetrain.DriveBase;
 
 /** Command used to drive the drivetrain using a pair of AttackJoysticks. */
-public class AttackJoystickDriveControl extends DrivetrainControl {
+public class AttackJoystickDriveControl extends DriveControl {
   private final Joystick leftJoystick, rightJoystick;
 
   /**
