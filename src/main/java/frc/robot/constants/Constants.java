@@ -45,7 +45,7 @@ public final class Constants {
     public static final double kMaxDrivetrainRotationalAccelerationRadiansPerSecondSquared =
         0; // TODO
 
-    public static final double kDrivetrainGearRatio = (54.0/20.0) * (50.0/11.0);
+    public static final double kDrivetrainGearRatio = (54.0 / 20.0) * (50.0 / 11.0);
 
     public static final double kTrackWidthInches = 19.618320; // TODO test in SysID
     public static final double kTrackWidthMeters = Units.inchesToMeters(kTrackWidthInches);
@@ -58,7 +58,7 @@ public final class Constants {
 
     public static final DriveNeutralMode kDrivetrainDefaultNeutralMode = DriveNeutralMode.COAST;
 
-    public static final double kRobotStabilizationToleranceDegrees = 1;
+    public static final double kRobotStabilizationToleranceDegrees = 1; // TODO
 
     public static class ControlValues {
       public static class WheelSpeed {
