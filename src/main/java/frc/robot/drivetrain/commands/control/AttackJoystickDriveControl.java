@@ -1,24 +1,28 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.drivetrain.commands.control;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import frc.robot.drivetrain.DrivetrainBase;
+import frc.robot.drivetrain.DriveBase;
 
 /** Command used to drive the drivetrain using a pair of AttackJoysticks. */
-public class AttackJoystickDriveControl extends DrivetrainControl {
+public class AttackJoystickDriveControl extends DriveControl {
   private final Joystick leftJoystick, rightJoystick;
 
   /**
    * Construct a command that can be used to control the drivetrain using AttackJoysticks
    *
-   * @param drivetrainBase Drivetrain subsystem.
+   * @param driveBase Drivetrain subsystem.
    * @param leftJoystick left attack joystick.
    * @param rightJoystick right attack joystick.
    */
   public AttackJoystickDriveControl(
-      DrivetrainBase drivetrainBase, Joystick leftJoystick, Joystick rightJoystick) {
-    super(drivetrainBase);
+      DriveBase driveBase, Joystick leftJoystick, Joystick rightJoystick) {
+    super(driveBase);
     this.leftJoystick = leftJoystick;
     this.rightJoystick = rightJoystick;
   }
@@ -26,13 +30,13 @@ public class AttackJoystickDriveControl extends DrivetrainControl {
   /**
    * Construct a command that can be used to control the drivetrain using AttackJoysticks
    *
-   * @param drivetrainBase Drivetrain subsystem.
+   * @param driveBase Drivetrain subsystem.
    * @param leftJoystick left attack joystick.
    * @param rightJoystick right attack joystick.
    */
   public AttackJoystickDriveControl(
-      DrivetrainBase drivetrainBase, CommandJoystick leftJoystick, CommandJoystick rightJoystick) {
-    this(drivetrainBase, leftJoystick.getHID(), rightJoystick.getHID());
+      DriveBase driveBase, CommandJoystick leftJoystick, CommandJoystick rightJoystick) {
+    this(driveBase, leftJoystick.getHID(), rightJoystick.getHID());
   }
 
   @Override

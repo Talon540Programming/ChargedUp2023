@@ -6,24 +6,93 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
-import frc.robot.drivetrain.DrivetrainBase;
+import frc.robot.drivetrain.DriveBase;
+import frc.robot.drivetrain.DriveIO;
+import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.commands.control.XboxControllerDriveControl;
+import frc.robot.drivetrain.gyro.GyroIO;
+import frc.robot.drivetrain.gyro.GyroIOPigeon2;
 import org.talon540.control.XboxController.TalonXboxController;
 
 public class RobotContainer {
+  // Subsystems
+  private final DriveBase m_driveBase;
+
+  // Controllers
   private final TalonXboxController m_driverController =
       new TalonXboxController(HardwareDevices.kDriverXboxControllerPort);
-
-  private final DrivetrainBase m_drivetrainBase = new DrivetrainBase();
+  private final TalonXboxController m_depositionController =
+      new TalonXboxController(HardwareDevices.kDepositionXboxControllerPort);
 
   public RobotContainer() {
+    DriveIO driveIO;
+    GyroIO gyroIO;
+
+    if (Constants.getRobotMode() == Constants.RobotMode.REAL) {
+      switch (Constants.getRobotType()) {
+        case ROBOT_2023C -> {
+          driveIO = new DriveIO() {};
+          gyroIO = new GyroIO() {};
+        }
+        case ROBOT_2023P -> {
+          driveIO =
+              new DriveIOFalcon(
+                  new DriveIOFalcon.DriveIOFalconConfig(
+                      HardwareDevices.PROTO2023.Drivetrain.kLeftLeader,
+                      HardwareDevices.PROTO2023.Drivetrain.kLeftFollower,
+                      HardwareDevices.PROTO2023.Drivetrain.kRightLeader,
+                      HardwareDevices.PROTO2023.Drivetrain.kRightFollower,
+                      Constants.Drivetrain.kDrivetrainGearRatio,
+                      Constants.Drivetrain.kWheelRadiusMeters));
+          gyroIO =
+              new GyroIOPigeon2(
+                  new GyroIOPigeon2.GyroIOPigeon2Config(
+                      HardwareDevices.PROTO2023.kRobotGyroConfig));
+        }
+        case ROBOT_2020C -> {
+          driveIO =
+              new DriveIOFalcon(
+                  new DriveIOFalcon.DriveIOFalconConfig(
+                      HardwareDevices.COMP2020.Drivetrain.kLeftLeader,
+                      HardwareDevices.COMP2020.Drivetrain.kLeftFollower,
+                      HardwareDevices.COMP2020.Drivetrain.kRightLeader,
+                      HardwareDevices.COMP2020.Drivetrain.kRightFollower,
+                      Constants.Drivetrain.kDrivetrainGearRatio,
+                      Constants.Drivetrain.kWheelRadiusMeters));
+          gyroIO =
+              new GyroIOPigeon2(
+                  new GyroIOPigeon2.GyroIOPigeon2Config(HardwareDevices.COMP2020.kRobotGyroConfig));
+        }
+        case ROBOT_2022C -> {
+          driveIO =
+              new DriveIOFalcon(
+                  new DriveIOFalcon.DriveIOFalconConfig(
+                      HardwareDevices.COMP2022.Drivetrain.kLeftLeader,
+                      HardwareDevices.COMP2022.Drivetrain.kLeftFollower,
+                      HardwareDevices.COMP2022.Drivetrain.kRightLeader,
+                      HardwareDevices.COMP2022.Drivetrain.kRightFollower,
+                      Constants.Drivetrain.kDrivetrainGearRatio,
+                      Constants.Drivetrain.kWheelRadiusMeters));
+          gyroIO =
+              new GyroIOPigeon2(
+                  new GyroIOPigeon2.GyroIOPigeon2Config(HardwareDevices.COMP2022.kRobotGyroConfig));
+        }
+        default -> throw new RuntimeException("Unknown Robot Type");
+      }
+    } else {
+      driveIO = new DriveIO() {};
+      gyroIO = new GyroIO() {};
+    }
+
+    m_driveBase = new DriveBase(driveIO, gyroIO);
+
     configureBindings();
   }
 
   private void configureBindings() {
-    m_drivetrainBase.setDefaultCommand(
-        new XboxControllerDriveControl(m_drivetrainBase, m_driverController));
+    m_driveBase.setDefaultCommand(new XboxControllerDriveControl(m_driveBase, m_driverController));
   }
 
   public Command getAutonomousCommand() {
