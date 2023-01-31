@@ -29,9 +29,7 @@ public final class Constants {
   @SuppressWarnings("UnnecessaryDefault")
   public static RobotMode getRobotMode() {
     return switch (getRobotType()) {
-      case ROBOT_2023C, ROBOT_2023P -> RobotBase.isReal()
-          ? RobotMode.REAL
-          : RobotMode.REPLAY;
+      case ROBOT_2023C, ROBOT_2023P -> RobotBase.isReal() ? RobotMode.REAL : RobotMode.REPLAY;
       default -> RobotMode.REAL;
     };
   }
