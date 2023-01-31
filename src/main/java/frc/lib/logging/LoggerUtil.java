@@ -38,6 +38,12 @@ public class LoggerUtil {
     }
   }
 
+  /**
+   * Get the path of the USB drive if it is plugged into the roboRIO. If one isn't found, it will
+   * return null.
+   *
+   * @return path of the USB drive.
+   */
   public static String getUSBPath() {
     // Return the path of the USB drive it is plugged in, else, return null.
     try {
