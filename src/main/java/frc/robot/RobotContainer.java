@@ -12,8 +12,8 @@ import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.commands.control.XboxControllerDriveControl;
-import frc.robot.drivetrain.gyro.GyroIO;
-import frc.robot.drivetrain.gyro.GyroIOPigeon2;
+import frc.robot.sensors.gyro.GyroIO;
+import frc.robot.sensors.gyro.GyroIOPigeon2;
 import org.talon540.control.XboxController.TalonXboxController;
 
 public class RobotContainer {
@@ -50,34 +50,6 @@ public class RobotContainer {
               new GyroIOPigeon2(
                   new GyroIOPigeon2.GyroIOPigeon2Config(
                       HardwareDevices.PROTO2023.kRobotGyroConfig));
-        }
-        case ROBOT_2020C -> {
-          driveIO =
-              new DriveIOFalcon(
-                  new DriveIOFalcon.DriveIOFalconConfig(
-                      HardwareDevices.COMP2020.Drivetrain.kLeftLeader,
-                      HardwareDevices.COMP2020.Drivetrain.kLeftFollower,
-                      HardwareDevices.COMP2020.Drivetrain.kRightLeader,
-                      HardwareDevices.COMP2020.Drivetrain.kRightFollower,
-                      Constants.Drivetrain.kDrivetrainGearRatio,
-                      Constants.Drivetrain.kWheelRadiusMeters));
-          gyroIO =
-              new GyroIOPigeon2(
-                  new GyroIOPigeon2.GyroIOPigeon2Config(HardwareDevices.COMP2020.kRobotGyroConfig));
-        }
-        case ROBOT_2022C -> {
-          driveIO =
-              new DriveIOFalcon(
-                  new DriveIOFalcon.DriveIOFalconConfig(
-                      HardwareDevices.COMP2022.Drivetrain.kLeftLeader,
-                      HardwareDevices.COMP2022.Drivetrain.kLeftFollower,
-                      HardwareDevices.COMP2022.Drivetrain.kRightLeader,
-                      HardwareDevices.COMP2022.Drivetrain.kRightFollower,
-                      Constants.Drivetrain.kDrivetrainGearRatio,
-                      Constants.Drivetrain.kWheelRadiusMeters));
-          gyroIO =
-              new GyroIOPigeon2(
-                  new GyroIOPigeon2.GyroIOPigeon2Config(HardwareDevices.COMP2022.kRobotGyroConfig));
         }
         default -> throw new RuntimeException("Unknown Robot Type");
       }

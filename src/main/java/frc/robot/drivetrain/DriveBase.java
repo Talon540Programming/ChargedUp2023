@@ -14,15 +14,15 @@ import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants.Drivetrain;
 import frc.robot.drivetrain.DriveIO.DriveNeutralMode;
-import frc.robot.drivetrain.gyro.GyroIO;
-import frc.robot.drivetrain.gyro.GyroIOInputsAutoLogged;
+import frc.robot.sensors.gyro.GyroIO;
+import frc.robot.sensors.gyro.GyroIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class DriveBase extends SubsystemBase {
-  public final DriveIO m_io;
+  public final DriveIO m_driveIO;
   public final DriveIOInputsAutoLogged m_driveInputs = new DriveIOInputsAutoLogged();
 
-  public final GyroIO m_gyro;
+  public final GyroIO m_gyroIO;
   public final GyroIOInputsAutoLogged m_gyroInputs = new GyroIOInputsAutoLogged();
 
   private final DifferentialDrivePoseEstimator m_odometry;
@@ -34,20 +34,20 @@ public class DriveBase extends SubsystemBase {
    * @param gyroIO Gyro interface to use.
    */
   public DriveBase(DriveIO driveIO, GyroIO gyroIO) {
-    this.m_io = driveIO;
-    this.m_gyro = gyroIO;
+    this.m_driveIO = driveIO;
+    this.m_gyroIO = gyroIO;
 
-    m_io.resetEncoders();
-    m_gyro.resetHeading();
+    m_driveIO.resetEncoders();
+    m_gyroIO.resetHeading();
 
-    m_io.setNeutralMode(Drivetrain.kDrivetrainDefaultNeutralMode);
+    resetNeutralMode();
 
-    m_io.updateInputs(m_driveInputs);
+    m_driveIO.updateInputs(m_driveInputs);
 
     this.m_odometry =
         new DifferentialDrivePoseEstimator(
             Drivetrain.kDrivetrainKinematics,
-            m_gyro.getRotation2d(),
+            m_gyroIO.getRotation2d(),
             m_driveInputs.LeftPositionMeters,
             m_driveInputs.RightPositionMeters,
             new Pose2d());
@@ -55,18 +55,18 @@ public class DriveBase extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_gyro.updateInputs(m_gyroInputs);
+    m_gyroIO.updateInputs(m_gyroInputs);
     Logger.getInstance().processInputs("Drive/Gyro", m_gyroInputs);
 
-    m_io.updateInputs(m_driveInputs);
+    m_driveIO.updateInputs(m_driveInputs);
     Logger.getInstance().processInputs("Drive", m_driveInputs);
 
     // Data in DriveIO is automatically logged using AutoLog. Odometry is handled in subsystem.
     m_odometry.update(
-        m_gyro.getRotation2d(),
+        m_gyroIO.getRotation2d(),
         m_driveInputs.LeftVelocityMetersPerSecond,
         m_driveInputs.RightVelocityMetersPerSecond);
-    Logger.getInstance().recordOutput("Odometry", getPose());
+    Logger.getInstance().recordOutput("Drive/Odometry", getPose());
   }
 
   /**
@@ -83,7 +83,7 @@ public class DriveBase extends SubsystemBase {
     leftPercent = MathUtil.clamp(leftPercent, -1, 1);
     rightPercent = MathUtil.clamp(rightPercent, -1, 1);
 
-    m_io.setVoltage(leftPercent * 12.0, rightPercent * 12.0);
+    m_driveIO.setVoltage(leftPercent * 12.0, rightPercent * 12.0);
   }
 
   /**
@@ -98,7 +98,7 @@ public class DriveBase extends SubsystemBase {
     leftVoltage = MathUtil.clamp(leftVoltage, -12.0, 12.0);
     rightVoltage = MathUtil.clamp(rightVoltage, -12.0, 12.0);
 
-    m_io.setVoltage(leftVoltage, rightVoltage);
+    m_driveIO.setVoltage(leftVoltage, rightVoltage);
   }
 
   /**
@@ -122,7 +122,7 @@ public class DriveBase extends SubsystemBase {
 
   /** Stop the drivetrain from moving (sets speed to 0). */
   public void stop() {
-    m_io.setVoltage(0, 0);
+    m_driveIO.setVoltage(0, 0);
   }
 
   /**
@@ -142,16 +142,17 @@ public class DriveBase extends SubsystemBase {
    * @param position position to reset the robot to.
    */
   public void resetPosition(Pose2d position) {
-    m_io.resetEncoders();
     m_odometry.resetPosition(
-        m_gyro.getRotation2d(),
-        m_driveInputs.LeftVelocityMetersPerSecond,
-        m_driveInputs.RightVelocityMetersPerSecond,
+        m_gyroIO.getRotation2d(),
+        m_driveInputs.LeftPositionMeters,
+        m_driveInputs.RightPositionMeters,
         position);
   }
 
   /**
    * Add a Vision measurement to the Pose Estimator that can be used to account for system noise.
+   * Make sure this isn't a duplicate timestamp position or else the values of the filter will be
+   * clogged.
    *
    * @param estimatedPose the estimated position of the robot.
    * @param timestampSeconds the robot start time timestamp of the estimated position.
@@ -162,6 +163,8 @@ public class DriveBase extends SubsystemBase {
 
   /**
    * Add a Vision measurement to the Pose Estimator that can be used to account for system noise.
+   * Make sure this isn't a duplicate timestamp position or else the values of the filter will be
+   * clogged.
    *
    * @param estimatedPose the estimated position of the robot.
    * @param timestampSeconds the robot start time timestamp of the estimated position.
@@ -176,7 +179,7 @@ public class DriveBase extends SubsystemBase {
    * @param mode Neutral mode to set the drivetrain motors to.
    */
   public void setNeutralMode(DriveNeutralMode mode) {
-    m_io.setNeutralMode(mode);
+    m_driveIO.setNeutralMode(mode);
   }
 
   /** Reset the neutral mode of the drivetrain to the default mode. */

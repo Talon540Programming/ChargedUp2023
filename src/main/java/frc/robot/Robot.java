@@ -37,8 +37,9 @@ public class Robot extends LoggedRobot {
         if (path != null) {
           logger.addDataReceiver(new WPILOGWriter(path));
         } else {
-          DriverStation.reportError(
-              "No log path set for current robot. Data will NOT be logged.", false);
+          DriverStation.reportWarning(
+              "Unable to locate a USB drive plugged into the roboRIO. Hardware storage logging will be disabled.",
+              false);
         }
 
         logger.addDataReceiver(new NT4Publisher());
