@@ -87,6 +87,13 @@ public class DriveBase extends SubsystemBase {
     m_driveIO.setVoltage(leftPercent * 12.0, rightPercent * 12.0);
   }
 
+  /**
+   * Drive the robot using an Arcade style fashion. The forward percent refers to speed forward and backwards while
+   * the rotation percent causes the drivetrain to spin in a counterclockwise positive fashion.
+   *
+   * @param forwardPercent The robot's speed along the X axis [-1.0..1.0]. Forward is positive.
+   * @param rotationPercent The robot's rotation rate around the Z axis [-1.0..1.0]. Counterclockwise is positive.
+   */
   public void arcadeDrivePercent(double forwardPercent, double rotationPercent) {
     DifferentialDrive.WheelSpeeds speeds =
             DifferentialDrive.arcadeDriveIK(forwardPercent, rotationPercent, false);
