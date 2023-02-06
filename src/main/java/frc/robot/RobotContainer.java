@@ -87,7 +87,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    PathPlannerTrajectory m_trajectory = PathPlanner.loadPath(
+    PathPlannerTrajectory m_trajectory =
+        PathPlanner.loadPath(
             "TestPath",
             Constants.Drivetrain.kMaxDrivetrainVelocityMetersPerSecond,
             Constants.Drivetrain.kMaxDrivetrainAccelerationMetersPerSecondSquared);
@@ -97,15 +98,26 @@ public class RobotContainer {
     return new PPRamseteCommand(
             m_trajectory,
             m_driveBase::getPosition,
-            new RamseteController(Constants.Drivetrain.ControlValues.Trajectory.kRamseteB, Constants.Drivetrain.ControlValues.Trajectory.kRamseteZeta),
-            new SimpleMotorFeedforward(Constants.Drivetrain.ControlValues.WheelSpeed.kS, Constants.Drivetrain.ControlValues.WheelSpeed.kV, Constants.Drivetrain.ControlValues.WheelSpeed.kA),
+            new RamseteController(
+                Constants.Drivetrain.ControlValues.Trajectory.kRamseteB,
+                Constants.Drivetrain.ControlValues.Trajectory.kRamseteZeta),
+            new SimpleMotorFeedforward(
+                Constants.Drivetrain.ControlValues.WheelSpeed.kS,
+                Constants.Drivetrain.ControlValues.WheelSpeed.kV,
+                Constants.Drivetrain.ControlValues.WheelSpeed.kA),
             Constants.Drivetrain.kDrivetrainKinematics,
             m_driveBase::getWheelSpeeds,
-            new PIDController(Constants.Drivetrain.ControlValues.WheelSpeed.kP, Constants.Drivetrain.ControlValues.WheelSpeed.kI, Constants.Drivetrain.ControlValues.WheelSpeed.kD),
-            new PIDController(Constants.Drivetrain.ControlValues.WheelSpeed.kP, Constants.Drivetrain.ControlValues.WheelSpeed.kI, Constants.Drivetrain.ControlValues.WheelSpeed.kD),
+            new PIDController(
+                Constants.Drivetrain.ControlValues.WheelSpeed.kP,
+                Constants.Drivetrain.ControlValues.WheelSpeed.kI,
+                Constants.Drivetrain.ControlValues.WheelSpeed.kD),
+            new PIDController(
+                Constants.Drivetrain.ControlValues.WheelSpeed.kP,
+                Constants.Drivetrain.ControlValues.WheelSpeed.kI,
+                Constants.Drivetrain.ControlValues.WheelSpeed.kD),
             m_driveBase::tankDriveVoltage,
             true,
-            m_driveBase
-    ).andThen(m_driveBase::stop);
+            m_driveBase)
+        .andThen(m_driveBase::stop);
   }
 }
