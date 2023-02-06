@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants.Drivetrain;
@@ -84,6 +85,12 @@ public class DriveBase extends SubsystemBase {
     rightPercent = MathUtil.clamp(rightPercent, -1, 1);
 
     m_driveIO.setVoltage(leftPercent * 12.0, rightPercent * 12.0);
+  }
+
+  public void arcadeDrivePercent(double forwardPercent, double rotationPercent) {
+    DifferentialDrive.WheelSpeeds speeds =
+            DifferentialDrive.arcadeDriveIK(forwardPercent, rotationPercent, false);
+    m_driveIO.setVoltage(speeds.left * 12.0, speeds.right * 12.0);
   }
 
   /**
