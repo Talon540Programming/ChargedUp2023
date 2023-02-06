@@ -10,7 +10,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants.Drivetrain;
@@ -100,9 +99,22 @@ public class DriveBase extends SubsystemBase {
     forwardPercent = MathUtil.applyDeadband(forwardPercent, RobotDriveBase.kDefaultDeadband);
     rotationPercent = MathUtil.applyDeadband(rotationPercent, RobotDriveBase.kDefaultDeadband);
 
-    DifferentialDrive.WheelSpeeds speeds =
-        DifferentialDrive.arcadeDriveIK(forwardPercent, rotationPercent, false);
-    m_driveIO.setVoltage(speeds.left * 12.0, speeds.right * 12.0);
+    forwardPercent = MathUtil.clamp(forwardPercent, -1, 1);
+    rotationPercent = MathUtil.clamp(rotationPercent, -1, 1);
+
+    double leftSpeed = forwardPercent - rotationPercent;
+    double rightSpeed = forwardPercent + rotationPercent;
+
+    double greaterInput = Math.max(Math.abs(forwardPercent), Math.abs(rotationPercent));
+    double lesserInput = Math.min(Math.abs(forwardPercent), Math.abs(rotationPercent));
+
+    if (greaterInput == 0) m_driveIO.setVoltage(0, 0);
+
+    double saturatedInput = (greaterInput + lesserInput) / greaterInput;
+    leftSpeed /= saturatedInput;
+    rightSpeed /= saturatedInput;
+
+    m_driveIO.setVoltage(leftSpeed * 12.0, rightSpeed * 12.0);
   }
 
   /**
