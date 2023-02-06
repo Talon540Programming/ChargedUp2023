@@ -42,9 +42,6 @@ public final class Constants {
 
     public static final double kMaxDrivetrainVelocityMetersPerSecond = 4;
     public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5;
-    public static final double kMaxDrivetrainRotationalVelocityRadiansPerSecond = 0; // TODO
-    public static final double kMaxDrivetrainRotationalAccelerationRadiansPerSecondSquared =
-        0; // TODO
 
     public static final double kDrivetrainGearRatio = (54.0 / 20.0) * (50.0 / 11.0);
 
@@ -64,8 +61,8 @@ public final class Constants {
     public static class ControlValues {
       public static class WheelSpeed {
         public static final double kP = 0; // TODO
-        public static final double kI = 0; // TODO
-        public static final double kD = 0; // TODO
+        public static final double kI = 0;
+        public static final double kD = 0;
 
         public static final double kS = 0; // TODO
         public static final double kV = 0; // TODO
