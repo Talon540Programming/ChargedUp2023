@@ -4,8 +4,15 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPRamseteCommand;
+import com.pathplanner.lib.server.PathPlannerServer;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
 import frc.robot.drivetrain.DriveBase;
@@ -27,6 +34,10 @@ public class RobotContainer {
       new TalonXboxController(HardwareDevices.kDepositionXboxControllerPort);
 
   public RobotContainer() {
+    DriverStation.silenceJoystickConnectionWarning(true);
+
+    PathPlannerServer.startServer(5811);
+
     DriveIO driveIO;
     GyroIO gyroIO;
 
@@ -72,6 +83,25 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    PathPlannerTrajectory m_trajectory = PathPlanner.loadPath(
+            "TestPath",
+            Constants.Drivetrain.kMaxDrivetrainVelocityMetersPerSecond,
+            Constants.Drivetrain.kMaxDrivetrainAccelerationMetersPerSecondSquared);
+
+    m_driveBase.resetPosition(m_trajectory.getInitialPose());
+
+    return new PPRamseteCommand(
+            m_trajectory,
+            m_driveBase::getPose,
+            new RamseteController(Constants.Drivetrain.ControlValues.Trajectory.kRamseteB, Constants.Drivetrain.ControlValues.Trajectory.kRamseteZeta),
+            new SimpleMotorFeedforward(Constants.Drivetrain.ControlValues.WheelSpeed.kS, Constants.Drivetrain.ControlValues.WheelSpeed.kV, Constants.Drivetrain.ControlValues.WheelSpeed.kA),
+            Constants.Drivetrain.kDrivetrainKinematics,
+            m_driveBase::getWheelSpeeds,
+            new PIDController(Constants.Drivetrain.ControlValues.WheelSpeed.kP, Constants.Drivetrain.ControlValues.WheelSpeed.kI, Constants.Drivetrain.ControlValues.WheelSpeed.kD),
+            new PIDController(Constants.Drivetrain.ControlValues.WheelSpeed.kP, Constants.Drivetrain.ControlValues.WheelSpeed.kI, Constants.Drivetrain.ControlValues.WheelSpeed.kD),
+            m_driveBase::tankDriveVoltage,
+            true,
+            m_driveBase
+    );
   }
 }
