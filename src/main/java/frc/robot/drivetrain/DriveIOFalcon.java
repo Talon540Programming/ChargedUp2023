@@ -129,5 +129,5 @@ public class DriveIOFalcon implements DriveIO {
       boolean leftSideInverted,
       boolean leftSensorInverted,
       boolean rightSideInverted,
-      boolean rightSensorInverted){}
+      boolean rightSensorInverted) {}
 }

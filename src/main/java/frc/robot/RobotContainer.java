@@ -49,8 +49,7 @@ public class RobotContainer {
                       Constants.Drivetrain.kLeftSideInverted,
                       Constants.Drivetrain.kLeftSensorInverted,
                       Constants.Drivetrain.kRightSideInverted,
-                      Constants.Drivetrain.kRightSensorInverted
-                  ));
+                      Constants.Drivetrain.kRightSensorInverted));
           gyroIO =
               new GyroIOPigeon2(
                   new GyroIOPigeon2.GyroIOPigeon2Config(

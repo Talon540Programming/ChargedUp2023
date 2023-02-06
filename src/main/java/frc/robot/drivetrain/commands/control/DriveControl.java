@@ -21,7 +21,7 @@ public abstract class DriveControl extends CommandBase {
       new LoggedDashboardChooser<>("Drive Speed Limit");
 
   private static final LoggedDashboardChooser<DriveMode> m_driveMode =
-          new LoggedDashboardChooser<>("Drive Mode");
+      new LoggedDashboardChooser<>("Drive Mode");
 
   static {
     m_speedLimiter.addDefaultOption("Default (100%)", 1.0);
@@ -52,6 +52,5 @@ public abstract class DriveControl extends CommandBase {
         this.m_driveBase.arcadeDrivePercent(kLeftPercent, kRightPercent);
       }
     }
-
   }
 }
