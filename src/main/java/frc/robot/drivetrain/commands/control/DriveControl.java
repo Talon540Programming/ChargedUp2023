@@ -16,7 +16,7 @@ public abstract class DriveControl extends CommandBase {
       new LoggedDashboardChooser<>("Drive Speed Limit");
 
   static {
-    m_speedLimiter.addDefaultOption("Default", 1.0);
+    m_speedLimiter.addDefaultOption("Default (100%)", 1.0);
     m_speedLimiter.addOption("Fast (70%)", 0.7);
     m_speedLimiter.addOption("Medium (30%)", 0.3);
     m_speedLimiter.addOption("Slow (15%)", 0.15);
