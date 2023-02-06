@@ -18,6 +18,7 @@ import frc.robot.constants.HardwareDevices;
 import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
+import frc.robot.drivetrain.commands.StabilizeRobot;
 import frc.robot.drivetrain.commands.control.XboxControllerDriveControl;
 import frc.robot.sensors.gyro.GyroIO;
 import frc.robot.sensors.gyro.GyroIOPigeon2;
@@ -79,7 +80,10 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    // Configure Driver Controller
     m_driveBase.setDefaultCommand(new XboxControllerDriveControl(m_driveBase, m_driverController));
+
+    m_driverController.leftBumper().onTrue(new StabilizeRobot(m_driveBase));
   }
 
   public Command getAutonomousCommand() {
@@ -92,7 +96,7 @@ public class RobotContainer {
 
     return new PPRamseteCommand(
             m_trajectory,
-            m_driveBase::getPose,
+            m_driveBase::getPosition,
             new RamseteController(Constants.Drivetrain.ControlValues.Trajectory.kRamseteB, Constants.Drivetrain.ControlValues.Trajectory.kRamseteZeta),
             new SimpleMotorFeedforward(Constants.Drivetrain.ControlValues.WheelSpeed.kS, Constants.Drivetrain.ControlValues.WheelSpeed.kV, Constants.Drivetrain.ControlValues.WheelSpeed.kA),
             Constants.Drivetrain.kDrivetrainKinematics,
@@ -102,6 +106,6 @@ public class RobotContainer {
             m_driveBase::tankDriveVoltage,
             true,
             m_driveBase
-    );
+    ).andThen(m_driveBase::stop);
   }
 }

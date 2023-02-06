@@ -66,7 +66,7 @@ public class DriveBase extends SubsystemBase {
         m_gyroIO.getRotation2d(),
         m_driveInputs.LeftPositionMeters,
         m_driveInputs.RightPositionMeters);
-    Logger.getInstance().recordOutput("Drive/Odometry", getPose());
+    Logger.getInstance().recordOutput("Drive/Odometry", getPosition());
   }
 
   /**
@@ -163,7 +163,7 @@ public class DriveBase extends SubsystemBase {
    *
    * @return estimated position of the robot.
    */
-  public Pose2d getPose() {
+  public Pose2d getPosition() {
     return m_odometry.getEstimatedPosition();
   }
 
