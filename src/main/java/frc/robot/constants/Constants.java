@@ -35,6 +35,11 @@ public final class Constants {
   }
 
   public static final class Drivetrain {
+    public static final boolean kLeftSideInverted = true;
+    public static final boolean kLeftSensorInverted = false;
+    public static final boolean kRightSideInverted = false;
+    public static final boolean kRightSensorInverted = true;
+
     public static final double kMaxDrivetrainVelocityMetersPerSecond = 4;
     public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5;
     public static final double kMaxDrivetrainRotationalVelocityRadiansPerSecond = 0; // TODO

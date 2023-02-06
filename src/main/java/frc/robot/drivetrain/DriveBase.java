@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants.Drivetrain;
@@ -64,8 +65,8 @@ public class DriveBase extends SubsystemBase {
     // Data in DriveIO is automatically logged using AutoLog. Odometry is handled in subsystem.
     m_odometry.update(
         m_gyroIO.getRotation2d(),
-        m_driveInputs.LeftVelocityMetersPerSecond,
-        m_driveInputs.RightVelocityMetersPerSecond);
+        m_driveInputs.LeftPositionMeters,
+        m_driveInputs.RightPositionMeters);
     Logger.getInstance().recordOutput("Drive/Odometry", getPose());
   }
 
@@ -84,6 +85,24 @@ public class DriveBase extends SubsystemBase {
     rightPercent = MathUtil.clamp(rightPercent, -1, 1);
 
     m_driveIO.setVoltage(leftPercent * 12.0, rightPercent * 12.0);
+  }
+
+  /**
+   * Drive the robot using an Arcade style fashion. The forward percent refers to speed forward and
+   * backwards while the rotation percent causes the drivetrain to spin in a counterclockwise
+   * positive fashion.
+   *
+   * @param forwardPercent The robot's speed along the X axis [-1.0..1.0]. Forward is positive.
+   * @param rotationPercent The robot's rotation rate around the Z axis [-1.0..1.0].
+   *     Counterclockwise is positive.
+   */
+  public void arcadeDrivePercent(double forwardPercent, double rotationPercent) {
+    forwardPercent = MathUtil.applyDeadband(forwardPercent, RobotDriveBase.kDefaultDeadband);
+    rotationPercent = MathUtil.applyDeadband(rotationPercent, RobotDriveBase.kDefaultDeadband);
+
+    DifferentialDrive.WheelSpeeds speeds =
+        DifferentialDrive.arcadeDriveIK(forwardPercent, rotationPercent, false);
+    m_driveIO.setVoltage(speeds.left * 12.0, speeds.right * 12.0);
   }
 
   /**
