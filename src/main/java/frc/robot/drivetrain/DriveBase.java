@@ -64,8 +64,8 @@ public class DriveBase extends SubsystemBase {
     // Data in DriveIO is automatically logged using AutoLog. Odometry is handled in subsystem.
     m_odometry.update(
         m_gyroIO.getRotation2d(),
-        m_driveInputs.LeftVelocityMetersPerSecond,
-        m_driveInputs.RightVelocityMetersPerSecond);
+        m_driveInputs.LeftPositionMeters,
+        m_driveInputs.RightPositionMeters);
     Logger.getInstance().recordOutput("Drive/Odometry", getPose());
   }
 

@@ -26,8 +26,18 @@ public class DriveIOFalcon implements DriveIO {
   private final TalonFXMechanism m_leftSensors;
   private final TalonFXMechanism m_rightSensors;
 
+  private final boolean leftSideInverted;
+  private final boolean leftSensorInverted;
+  private final boolean rightSideInerted;
+  private final boolean rightSensorInverted;
+
   /** Create the DriveIO. */
   public DriveIOFalcon(DriveIOFalconConfig driveConfig) {
+    this.leftSideInverted = driveConfig.leftSideInverted;
+    this.leftSensorInverted = driveConfig.leftSensorInverted;
+    this.rightSideInerted = driveConfig.rightSideInverted;
+    this.rightSensorInverted = driveConfig.rightSensorInverted;
+
     m_leftLeader = new WPI_TalonFX(driveConfig.leftLeader.id, driveConfig.leftFollower.controller);
     m_leftFollower =
         new WPI_TalonFX(driveConfig.leftFollower.id, driveConfig.leftFollower.controller);
@@ -59,18 +69,21 @@ public class DriveIOFalcon implements DriveIO {
     m_leftFollower.follow(m_leftLeader);
     m_rightFollower.follow(m_rightLeader);
 
-    m_leftLeader.setInverted(true);
+    m_leftLeader.setInverted(driveConfig.leftSideInverted);
     m_leftFollower.setInverted(InvertType.FollowMaster);
-    m_rightLeader.setInverted(false);
+    m_rightLeader.setInverted(driveConfig.rightSideInverted);
     m_rightFollower.setInverted(InvertType.FollowMaster);
   }
 
   @Override
   public void updateInputs(DriveIOInputs inputs) {
-    inputs.LeftPositionMeters = m_leftSensors.getPosition();
-    inputs.LeftVelocityMetersPerSecond = m_leftSensors.getLinearVelocity();
-    inputs.RightPositionMeters = m_rightSensors.getPosition();
-    inputs.RightVelocityMetersPerSecond = m_rightSensors.getLinearVelocity();
+    double leftSignum = leftSensorInverted ? -1 : 1;
+    double rightSignum = rightSensorInverted ? -1 : 1;
+
+    inputs.LeftPositionMeters = leftSignum * m_leftSensors.getPosition();
+    inputs.LeftVelocityMetersPerSecond = leftSignum * m_leftSensors.getLinearVelocity();
+    inputs.RightPositionMeters = rightSignum * m_rightSensors.getPosition();
+    inputs.RightVelocityMetersPerSecond = rightSignum * m_rightSensors.getLinearVelocity();
   }
 
   @Override
@@ -112,5 +125,9 @@ public class DriveIOFalcon implements DriveIO {
       CANDeviceConfig rightLeader,
       CANDeviceConfig rightFollower,
       double gearRatio,
-      double wheelRadiusMeters) {}
+      double wheelRadiusMeters,
+      boolean leftSideInverted,
+      boolean leftSensorInverted,
+      boolean rightSideInverted,
+      boolean rightSensorInverted){}
 }

@@ -45,7 +45,12 @@ public class RobotContainer {
                       HardwareDevices.PROTO2023.Drivetrain.kRightLeader,
                       HardwareDevices.PROTO2023.Drivetrain.kRightFollower,
                       Constants.Drivetrain.kDrivetrainGearRatio,
-                      Constants.Drivetrain.kWheelRadiusMeters));
+                      Constants.Drivetrain.kWheelRadiusMeters,
+                      Constants.Drivetrain.kLeftSideInverted,
+                      Constants.Drivetrain.kLeftSensorInverted,
+                      Constants.Drivetrain.kRightSideInverted,
+                      Constants.Drivetrain.kRightSensorInverted
+                  ));
           gyroIO =
               new GyroIOPigeon2(
                   new GyroIOPigeon2.GyroIOPigeon2Config(
