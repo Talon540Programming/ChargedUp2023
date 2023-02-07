@@ -37,8 +37,6 @@ public class RobotContainer {
   public RobotContainer() {
     DriverStation.silenceJoystickConnectionWarning(true);
 
-    PathPlannerServer.startServer(5811);
-
     DriveIO driveIO;
     GyroIO gyroIO;
 
