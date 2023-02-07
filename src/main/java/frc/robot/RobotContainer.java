@@ -83,7 +83,7 @@ public class RobotContainer {
     // Configure Driver Controller
     m_driveBase.setDefaultCommand(new XboxControllerDriveControl(m_driveBase, m_driverController));
 
-    m_driverController.leftBumper().onTrue(new StabilizeRobot(m_driveBase));
+    m_driverController.leftBumper().whileTrue(new StabilizeRobot(m_driveBase));
   }
 
   public Command getAutonomousCommand() {
