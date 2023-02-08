@@ -45,12 +45,8 @@ public abstract class DriveControl extends CommandBase {
     kRightPercent *= m_speedLimiter.get();
 
     switch (m_driveMode.get()) {
-      case Differential -> {
-        this.m_driveBase.tankDrivePercent(kLeftPercent, kRightPercent);
-      }
-      case Arcade -> {
-        this.m_driveBase.arcadeDrivePercent(kLeftPercent, kRightPercent);
-      }
+      case Differential -> this.m_driveBase.tankDrivePercent(kLeftPercent, kRightPercent);
+      case Arcade -> this.m_driveBase.arcadeDrivePercent(kLeftPercent, kRightPercent);
     }
   }
 }
