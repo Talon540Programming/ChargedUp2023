@@ -11,10 +11,10 @@ import org.littletonrobotics.junction.AutoLog;
 public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
   @AutoLog
   class DriveIOInputs {
-    public double LeftPositionMeters = 0.0;
-    public double LeftVelocityMetersPerSecond = 0.0;
-    public double RightPositionMeters = 0.0;
-    public double RightVelocityMetersPerSecond = 0.0;
+    public double LeftPositionMeters;
+    public double LeftVelocityMetersPerSecond;
+    public double RightPositionMeters;
+    public double RightVelocityMetersPerSecond;
   }
 
   @Override

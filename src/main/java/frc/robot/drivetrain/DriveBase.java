@@ -19,7 +19,7 @@ import frc.robot.sensors.gyro.GyroIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class DriveBase extends SubsystemBase {
-  public final DriveIO m_driveIO;
+  private final DriveIO m_driveIO;
   public final DriveIOInputsAutoLogged m_driveInputs = new DriveIOInputsAutoLogged();
 
   public final GyroIO m_gyroIO;
@@ -55,11 +55,11 @@ public class DriveBase extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_gyroIO.updateInputs(m_gyroInputs);
-    Logger.getInstance().processInputs("Drive/Gyro", m_gyroInputs);
-
     m_driveIO.updateInputs(m_driveInputs);
     Logger.getInstance().processInputs("Drive", m_driveInputs);
+
+    m_gyroIO.updateInputs(m_gyroInputs);
+    Logger.getInstance().processInputs("Drive/Gyro", m_gyroInputs);
 
     // Data in DriveIO is automatically logged using AutoLog. Odometry is handled in subsystem.
     m_odometry.update(

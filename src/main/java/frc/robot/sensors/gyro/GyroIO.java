@@ -14,10 +14,10 @@ import org.littletonrobotics.junction.AutoLog;
 public interface GyroIO extends LoggedIO<GyroIO.GyroIOInputs> {
   @AutoLog
   class GyroIOInputs {
-    public double GyroYawRad = 0.0;
-    public double GyroPitchRad = 0.0;
-    public double GyroRollRad = 0.0;
-    public double GyroRateRadPerSecond = 0.0;
+    public double GyroYawRad;
+    public double GyroPitchRad;
+    public double GyroRollRad;
+    public double GyroRateRadPerSecond;
   }
 
   @Override
