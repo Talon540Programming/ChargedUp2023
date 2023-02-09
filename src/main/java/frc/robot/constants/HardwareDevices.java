@@ -19,6 +19,11 @@ public final class HardwareDevices {
       public static final CANDeviceConfig kRightLeader = new CANDeviceConfig(4);
       public static final CANDeviceConfig kRightFollower = new CANDeviceConfig(3);
     }
+
+    public static final CANDeviceConfig kArmRotationEncoder = new CANDeviceConfig(0); // TODO
+
+    public static final int kForwardBeamBreakReceiverPort = 0; // TODO
+    public static final int kRearBeamBreakReceiverPort = 0; // TODO
   }
 
   public static final class COMP2023 {

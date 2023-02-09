@@ -81,4 +81,15 @@ public final class Constants {
       }
     }
   }
+
+  public static final class Arm {
+    // First extrusion is from fulcrum, not end of extrusion
+    public static final double kFirstExtrusionLength = 0;
+    public static final double kSecondExtrusionLength = 0;
+    public static final double kThirdExtrusionLength = 0;
+  }
+
+  public static final class Grabber {
+    public static final double kLength = 0;
+  }
 }
