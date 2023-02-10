@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.sensors.color_sensor;
+package frc.robot.sensors.colorsensor;
 
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
@@ -12,13 +12,12 @@ import edu.wpi.first.wpilibj.util.Color;
 public class ColorSensorIOREV3 implements ColorSensorIO {
   private final ColorSensorV3 m_colorSensor;
 
-  /** ColorSensorIO using a {@link ColorSensorV3} */
   public ColorSensorIOREV3(I2C.Port kI2cPort) {
     m_colorSensor = new ColorSensorV3(kI2cPort);
   }
 
   /**
-   * Get the color sensor object used by the IO
+   * Get the color sensor object used by the IO.
    *
    * @return color sensor.
    */
@@ -28,17 +27,14 @@ public class ColorSensorIOREV3 implements ColorSensorIO {
 
   @Override
   public void updateInputs(ColorSensorIOInputs inputs) {
-    inputs.infrared = getInfrared();
-    inputs.redValue = getRed();
-    inputs.blueValue = getBlue();
-    inputs.greenValue = getGreen();
-    inputs.proximity = getProximity();
-    inputs.acceptableDistance = isAcceptableDistance();
-    inputs.gamePiece = getGamePiece();
+    inputs.InfraredValue = getInfrared();
+    inputs.RedValue = getRed();
+    inputs.BlueValue = getBlue();
+    inputs.GreenValue = getGreen();
+    inputs.ProximityValue = getProximity();
   }
 
-  @Override
-  public Color getNormalizedColor() {
+  public Color getColor() {
     return m_colorSensor.getColor();
   }
 
