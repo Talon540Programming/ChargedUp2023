@@ -4,11 +4,10 @@
 
 package frc.robot.sensors.color_sensor;
 
-import frc.lib.logging.LoggedIO;
-import org.littletonrobotics.junction.AutoLog;
-import frc.robot.constants.Constants;
-
 import edu.wpi.first.wpilibj.util.Color;
+import frc.lib.logging.LoggedIO;
+import frc.robot.constants.Constants;
+import org.littletonrobotics.junction.AutoLog;
 
 /** IO interfacing layer used to represent a gyroscope. */
 public interface ColorSensorIO extends LoggedIO<ColorSensorIO.ColorSensorIOInputs> {
@@ -28,7 +27,7 @@ public interface ColorSensorIO extends LoggedIO<ColorSensorIO.ColorSensorIOInput
   default void updateInputs(ColorSensorIOInputs inputs) {}
 
   /**
-   * Get the normalized color value (average of RGB) as a {@link Color} object. 
+   * Get the normalized color value (average of RGB) as a {@link Color} object.
    *
    * @return Normalized color value as {@link Color} object.
    */
@@ -45,7 +44,7 @@ public interface ColorSensorIO extends LoggedIO<ColorSensorIO.ColorSensorIOInput
     return 0;
   }
 
- /**
+  /**
    * Get the red light component of the color detected as an int.
    *
    * @return red light component
@@ -92,8 +91,12 @@ public interface ColorSensorIO extends LoggedIO<ColorSensorIO.ColorSensorIOInput
 
   default String getGamePiece() {
     if (isAcceptableDistance()) {
-      if (getNormalizedColor().equals(Color.kYellow)) return "Cone"; //TODO: Color needs tuning to make sure it's the right one. May not be standard
-      else if (getNormalizedColor().equals(Color.kMediumPurple)) return "Cube"; //TODO: Color needs tuning to make sure it's the right one. May not be standard
+      if (getNormalizedColor().equals(Color.kYellow))
+        return "Cone"; // TODO: Color needs tuning to make sure it's the right one. May not be
+      // standard
+      else if (getNormalizedColor().equals(Color.kMediumPurple))
+        return "Cube"; // TODO: Color needs tuning to make sure it's the right one. May not be
+      // standard
     }
     return "No Game Piece";
   }

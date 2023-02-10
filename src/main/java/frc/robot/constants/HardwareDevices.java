@@ -4,8 +4,8 @@
 
 package frc.robot.constants;
 
-import org.talon540.hardware.CANDeviceConfig;
 import edu.wpi.first.wpilibj.I2C;
+import org.talon540.hardware.CANDeviceConfig;
 
 public final class HardwareDevices {
   public static final int kDriverXboxControllerPort = 0;
