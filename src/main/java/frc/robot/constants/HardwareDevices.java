@@ -5,6 +5,7 @@
 package frc.robot.constants;
 
 import org.talon540.hardware.CANDeviceConfig;
+import edu.wpi.first.wpilibj.I2C;
 
 public final class HardwareDevices {
   public static final int kDriverXboxControllerPort = 0;
@@ -24,6 +25,8 @@ public final class HardwareDevices {
 
     public static final int kForwardBeamBreakReceiverPort = 0; // TODO
     public static final int kRearBeamBreakReceiverPort = 0; // TODO
+
+    public static final I2C.Port i2cPort = I2C.Port.kOnboard; // TODO
   }
 
   public static final class COMP2023 {
@@ -35,5 +38,12 @@ public final class HardwareDevices {
       public static final CANDeviceConfig kRightLeader = new CANDeviceConfig(0); // TODO
       public static final CANDeviceConfig kRightFollower = new CANDeviceConfig(0); // TODO
     }
+
+    public static final CANDeviceConfig kArmRotationEncoder = new CANDeviceConfig(0); // TODO
+
+    public static final int kForwardBeamBreakReceiverPort = 0; // TODO
+    public static final int kRearBeamBreakReceiverPort = 0; // TODO
+
+    public static final I2C.Port i2cPort = I2C.Port.kOnboard; // TODO
   }
 }

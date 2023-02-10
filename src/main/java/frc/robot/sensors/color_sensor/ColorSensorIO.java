@@ -5,7 +5,6 @@
 package frc.robot.sensors.color_sensor;
 
 import frc.lib.logging.LoggedIO;
-import frc.robot.constants.Constants;
 import org.littletonrobotics.junction.AutoLog;
 
 import edu.wpi.first.wpilibj.util.Color;

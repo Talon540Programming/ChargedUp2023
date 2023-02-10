@@ -63,7 +63,7 @@ public class DriveIOFalcon implements DriveIO {
 
     m_leftLeader.configAllSettings(config);
     m_rightLeader.configAllSettings(config);
-
+    
     setNeutralMode(Constants.Drivetrain.kDrivetrainDefaultNeutralMode);
 
     m_leftFollower.follow(m_leftLeader);
