@@ -8,63 +8,93 @@ import frc.lib.logging.LoggedIO;
 import frc.robot.constants.Constants;
 import org.littletonrobotics.junction.AutoLog;
 
+import edu.wpi.first.wpilibj.util.Color;
+
 /** IO interfacing layer used to represent a gyroscope. */
 public interface ColorSensorIO extends LoggedIO<ColorSensorIO.ColorSensorIOInputs> {
   @AutoLog
   class ColorSensorIOInputs {
-    public double GyroYawRad;
-    public double GyroPitchRad;
-    public double GyroRollRad;
-    public double GyroRateRadPerSecond;
+    public Color normalizedColor;
+    public double infrared;
+    public double redValue;
+    public double greenValue;
+    public double blueValue;
+    public int proximity;
+    public boolean acceptableDistance;
+    public String gamePiece;
   }
 
   @Override
   default void updateInputs(ColorSensorIOInputs inputs) {}
 
   /**
-   * Get the Yaw (rotation around the z-axis) of the gyro in radians.
+   * Get the normalized color value (average of RGB) as a {@link Color} object. 
    *
-   * @return gyro yaw.
+   * @return Normalized color value as {@link Color} object.
    */
-  default double getYaw() {
+  default Color getNormalizedColor() {
+    return new Color(0, 0, 0);
+  }
+
+  /**
+   * Get the infrared measurement of the color sensor as a double.
+   *
+   * @return infrared intensity/
+   */
+  default double getInfrared() {
+    return 0;
+  }
+
+ /**
+   * Get the red light component of the color detected as a double.
+   *
+   * @return red light component
+   */
+  default double getRed() {
     return 0;
   }
 
   /**
-   * Get the Pitch (rotation around the y-axis) of the gyro in radians.
+   * Get the green light component of the color detected as a double.
    *
-   * @return gyro pitch.
+   * @return green light component
    */
-  default double getPitch() {
+  default double getGreen() {
     return 0;
   }
 
   /**
-   * Get the Roll (rotation around the x-axis) of the gyro in radians.
+   * Get the blue light component of the color detected as a double.
    *
-   * @return gyro roll.
+   * @return blue light component
    */
-  default double getRoll() {
+  default double getBlue() {
     return 0;
   }
 
-  /** Reset the yaw of the gyro to 0. */
-  default void resetHeading() {}
-
   /**
-   * Check if the Gyroscope is at a level plane.
+   * Get the estimated proximity of the color detected as an integer value.
    *
-   * @return whether the gyroscope is level.
+   * @return relative proximity
    */
-  default boolean isLevel() {
-    return Math.abs(getPitch())
-        < Math.toRadians(Constants.Drivetrain.kRobotStabilizationToleranceDegrees);
+  default int getProximity() {
+    return 0;
   }
 
   /**
-   * Represent the position of the gyroscope as a {@link Rotation3d} object. Used to supplement the
-   * weak WPI interface.
+   * Check if the distance is close enough for an accurate color reading.
    *
-   * @return gyro data as a Rotation3d.
+   * @return if the distance is close enough for accurate reading.
    */
+  default boolean isAcceptableDistance() {
+    return false;
+  }
+
+  default String getGamePiece() {
+    if (isAcceptableDistance()) {
+      if (getNormalizedColor().equals(Color.kYellow)) return "Cone"; //TODO: Color needs tuning to make sure it's the right one. May not be standard
+      else if (getNormalizedColor().equals(Color.kMediumPurple)) return "Cube"; //TODO: Color needs tuning to make sure it's the right one. May not be standard
+    }
+    return "No Game Piece";
+  }
 }

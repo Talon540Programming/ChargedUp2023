@@ -7,6 +7,7 @@ package frc.robot.constants;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.drivetrain.DriveIO.DriveNeutralMode;
 
 public final class Constants {
@@ -91,5 +92,9 @@ public final class Constants {
 
   public static final class Grabber {
     public static final double kLength = 0;
+    public static final Color kMinimumConeColorValue = new Color(0, 0, 0);
+    public static final Color kMaximumConeColorValue = new Color(0, 0, 0);
+    public static final Color kMinimumCubeColorValue = new Color(0, 0, 0);
+    public static final Color kMaximumCubeColorValue = new Color(0, 0, 0);
   }
 }
