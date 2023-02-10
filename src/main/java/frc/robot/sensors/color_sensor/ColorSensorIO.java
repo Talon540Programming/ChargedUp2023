@@ -6,6 +6,7 @@ package frc.robot.sensors.color_sensor;
 
 import frc.lib.logging.LoggedIO;
 import org.littletonrobotics.junction.AutoLog;
+import frc.robot.constants.Constants;
 
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -14,10 +15,10 @@ public interface ColorSensorIO extends LoggedIO<ColorSensorIO.ColorSensorIOInput
   @AutoLog
   class ColorSensorIOInputs {
     public Color normalizedColor;
-    public double infrared;
-    public double redValue;
-    public double greenValue;
-    public double blueValue;
+    public int infrared;
+    public int redValue;
+    public int greenValue;
+    public int blueValue;
     public int proximity;
     public boolean acceptableDistance;
     public String gamePiece;
@@ -36,38 +37,38 @@ public interface ColorSensorIO extends LoggedIO<ColorSensorIO.ColorSensorIOInput
   }
 
   /**
-   * Get the infrared measurement of the color sensor as a double.
+   * Get the infrared measurement of the color sensor as an int.
    *
    * @return infrared intensity/
    */
-  default double getInfrared() {
+  default int getInfrared() {
     return 0;
   }
 
  /**
-   * Get the red light component of the color detected as a double.
+   * Get the red light component of the color detected as an int.
    *
    * @return red light component
    */
-  default double getRed() {
+  default int getRed() {
     return 0;
   }
 
   /**
-   * Get the green light component of the color detected as a double.
+   * Get the green light component of the color detected as an int.
    *
    * @return green light component
    */
-  default double getGreen() {
+  default int getGreen() {
     return 0;
   }
 
   /**
-   * Get the blue light component of the color detected as a double.
+   * Get the blue light component of the color detected as an int.
    *
    * @return blue light component
    */
-  default double getBlue() {
+  default int getBlue() {
     return 0;
   }
 
@@ -86,7 +87,7 @@ public interface ColorSensorIO extends LoggedIO<ColorSensorIO.ColorSensorIOInput
    * @return if the distance is close enough for accurate reading.
    */
   default boolean isAcceptableDistance() {
-    return false;
+    return (getProximity() > Constants.Grabber.kMinimumAcceptableProximity);
   }
 
   default String getGamePiece() {

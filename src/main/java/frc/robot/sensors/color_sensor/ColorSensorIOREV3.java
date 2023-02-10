@@ -5,8 +5,8 @@
 package frc.robot.sensors.color_sensor;
 
 import com.revrobotics.ColorSensorV3;
-import frc.robot.constants.HardwareDevices;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
 
 /** ColorSensorIO using a {@link ColorSensorV3} */
 public class ColorSensorIOREV3 implements ColorSensorIO {
@@ -37,5 +37,33 @@ public class ColorSensorIOREV3 implements ColorSensorIO {
         inputs.gamePiece = getGamePiece();
     }
 
-    
+    @Override
+    public Color getNormalizedColor() {
+        return m_colorSensor.getColor();
+    }
+
+    @Override
+    public int getInfrared() {
+        return m_colorSensor.getIR();
+    }
+
+    @Override
+    public int getRed() {
+        return m_colorSensor.getRed();
+    }
+
+    @Override
+    public int getGreen() {
+        return m_colorSensor.getBlue();
+    }
+
+    @Override
+    public int getBlue() {
+        return m_colorSensor.getBlue();
+    }
+
+    @Override
+    public int getProximity() {
+        return m_colorSensor.getProximity();
+    }
 }
