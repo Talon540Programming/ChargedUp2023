@@ -16,8 +16,10 @@ public class ColorSensorIOREV3 implements ColorSensorIO {
   public ColorSensorIOREV3(I2C.Port kI2cPort) {
     m_colorSensor = new ColorSensorV3(kI2cPort);
 
-    if(!m_colorSensor.isConnected()) {
-      DriverStation.reportError("Unable to Communicate with the Color Sensor, please make sure it is plugged into the correct I2C port and is powered.", false);
+    if (!m_colorSensor.isConnected()) {
+      DriverStation.reportError(
+          "Unable to Communicate with the Color Sensor, please make sure it is plugged into the correct I2C port and is powered.",
+          false);
     }
   }
 
