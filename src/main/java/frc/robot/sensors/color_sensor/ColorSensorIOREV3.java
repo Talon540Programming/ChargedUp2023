@@ -13,8 +13,8 @@ public class ColorSensorIOREV3 implements ColorSensorIO {
   private final ColorSensorV3 m_colorSensor;
 
   /** ColorSensorIO using a {@link ColorSensorV3} */
-  public ColorSensorIOREV3(I2C.Port i2cPort) {
-    m_colorSensor = new ColorSensorV3(i2cPort);
+  public ColorSensorIOREV3(I2C.Port kI2cPort) {
+    m_colorSensor = new ColorSensorV3(kI2cPort);
   }
 
   /**
@@ -28,7 +28,6 @@ public class ColorSensorIOREV3 implements ColorSensorIO {
 
   @Override
   public void updateInputs(ColorSensorIOInputs inputs) {
-    inputs.normalizedColor = getNormalizedColor();
     inputs.infrared = getInfrared();
     inputs.redValue = getRed();
     inputs.blueValue = getBlue();

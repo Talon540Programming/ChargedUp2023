@@ -26,7 +26,7 @@ public final class HardwareDevices {
     public static final int kForwardBeamBreakReceiverPort = 0; // TODO
     public static final int kRearBeamBreakReceiverPort = 0; // TODO
 
-    public static final I2C.Port i2cPort = I2C.Port.kOnboard; // TODO
+    public static final I2C.Port kI2cPort = I2C.Port.kOnboard; // TODO
   }
 
   public static final class COMP2023 {

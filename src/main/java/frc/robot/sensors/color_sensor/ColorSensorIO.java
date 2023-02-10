@@ -13,7 +13,6 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ColorSensorIO extends LoggedIO<ColorSensorIO.ColorSensorIOInputs> {
   @AutoLog
   class ColorSensorIOInputs {
-    public Color normalizedColor;
     public int infrared;
     public int redValue;
     public int greenValue;
