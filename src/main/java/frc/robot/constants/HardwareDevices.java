@@ -23,9 +23,6 @@ public final class HardwareDevices {
 
     public static final CANDeviceConfig kArmRotationEncoder = new CANDeviceConfig(0); // TODO
 
-    public static final int kForwardBeamBreakReceiverPort = 0; // TODO
-    public static final int kRearBeamBreakReceiverPort = 0; // TODO
-
     public static final I2C.Port kColorSensorPort = I2C.Port.kOnboard; // TODO
   }
 
@@ -40,10 +37,6 @@ public final class HardwareDevices {
     }
 
     public static final CANDeviceConfig kArmRotationEncoder = new CANDeviceConfig(0); // TODO
-
-    public static final int kForwardBeamBreakReceiverPort = 0; // TODO
-    public static final int kRearBeamBreakReceiverPort = 0; // TODO
-
     public static final I2C.Port kColorSensorPort = I2C.Port.kOnboard; // TODO
   }
 }

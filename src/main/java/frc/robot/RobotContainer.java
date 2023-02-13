@@ -83,7 +83,6 @@ public class RobotContainer {
     configureBindings();
 
     m_trajectoryChooser.addDefaultOption("None", "none");
-
     List<String> pathPlannerPaths = PathPlannerUtils.getPaths();
     if (pathPlannerPaths == null) {
       DriverStation.reportWarning("No Paths were found", false);
