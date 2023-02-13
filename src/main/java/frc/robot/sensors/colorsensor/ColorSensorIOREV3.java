@@ -8,6 +8,7 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 
 /** ColorSensorIO using a {@link ColorSensorV3} */
 public class ColorSensorIOREV3 implements ColorSensorIO {
@@ -34,11 +35,11 @@ public class ColorSensorIOREV3 implements ColorSensorIO {
 
   @Override
   public void updateInputs(ColorSensorIOInputs inputs) {
-    inputs.InfraredValue = getInfrared();
-    inputs.RedValue = getRed();
-    inputs.BlueValue = getBlue();
-    inputs.GreenValue = getGreen();
-    inputs.ProximityValue = getProximity();
+    inputs.InfraredValue = m_colorSensor.getIR();
+    inputs.RedValue = m_colorSensor.getRed();
+    inputs.BlueValue = m_colorSensor.getBlue();
+    inputs.GreenValue = m_colorSensor.getGreen();
+    inputs.ProximityValue = m_colorSensor.getProximity();
   }
 
   public Color getColor() {
@@ -46,27 +47,7 @@ public class ColorSensorIOREV3 implements ColorSensorIO {
   }
 
   @Override
-  public int getInfrared() {
-    return m_colorSensor.getIR();
-  }
-
-  @Override
-  public int getRed() {
-    return m_colorSensor.getRed();
-  }
-
-  @Override
-  public int getGreen() {
-    return m_colorSensor.getBlue();
-  }
-
-  @Override
-  public int getBlue() {
-    return m_colorSensor.getBlue();
-  }
-
-  @Override
-  public int getProximity() {
-    return m_colorSensor.getProximity();
+  public Color8Bit getColor8Bit() {
+    return new Color8Bit(getColor());
   }
 }

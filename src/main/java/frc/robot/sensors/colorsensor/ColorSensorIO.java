@@ -5,6 +5,7 @@
 package frc.robot.sensors.colorsensor;
 
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.lib.logging.LoggedIO;
 import frc.robot.constants.Constants;
 import org.littletonrobotics.junction.AutoLog;
@@ -24,30 +25,8 @@ public interface ColorSensorIO extends LoggedIO<ColorSensorIO.ColorSensorIOInput
   default void updateInputs(ColorSensorIOInputs inputs) {}
 
   default Color getColor() {
-    return new Color(0, 0, 0);
+    return null;
   }
 
-  default int getInfrared() {
-    return 0;
-  }
-
-  default int getRed() {
-    return 0;
-  }
-
-  default int getGreen() {
-    return 0;
-  }
-
-  default int getBlue() {
-    return 0;
-  }
-
-  default int getProximity() {
-    return 0;
-  }
-
-  default boolean isAcceptableDistance() {
-    return (getProximity() > Constants.Grabber.kMinimumAcceptableProximity);
-  }
+  default Color8Bit getColor8Bit() { return null; }
 }
