@@ -83,6 +83,8 @@ public final class Constants {
   }
 
   public static final class Arm {
+    public static final boolean kRotationInverted = false;
+
     // First extrusion is from fulcrum, not end of extrusion
     public static final double kFirstExtrusionLength = 0; // TODO
     public static final double kSecondExtrusionLength = 0; // TODO

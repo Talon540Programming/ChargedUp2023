@@ -6,8 +6,8 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ArmRotationIO extends LoggedIO<ArmRotationIO.ArmRotationIOInputs> {
   @AutoLog
   public class ArmRotationIOInputs {
-    public double DistanceTraveledMeters;
-    public double VelocityMetersPerSecond;
+    public double SupplyCurrentAmps;
+    public double StatorCurrentAmps;
   }
 
   @Override
