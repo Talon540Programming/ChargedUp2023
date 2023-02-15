@@ -28,12 +28,12 @@ public class DriveIOFalcon implements DriveIO {
 
   /** Create the DriveIO. */
   public DriveIOFalcon(
-      int leftLeader,
-      int leftFollower,
-      int rightLeader,
-      int rightFollower,
-      double gearRatio,
-      double wheelRadiusMeters,
+      int leftLeaderId,
+      int leftFollowerId,
+      int rightLeaderId,
+      int rightFollowerId,
+      double driveGearRatio,
+      double driveWheelRadiusMeters,
       boolean leftSideInverted,
       boolean leftSensorInverted,
       boolean rightSideInverted,
@@ -43,16 +43,16 @@ public class DriveIOFalcon implements DriveIO {
     this.rightSideInverted = rightSideInverted;
     this.rightSensorInverted = rightSensorInverted;
 
-    m_leftLeader = new WPI_TalonFX(leftLeader);
-    m_leftFollower = new WPI_TalonFX(leftFollower);
-    m_rightLeader = new WPI_TalonFX(rightLeader);
-    m_rightFollower = new WPI_TalonFX(rightFollower);
+    m_leftLeader = new WPI_TalonFX(leftLeaderId);
+    m_leftFollower = new WPI_TalonFX(leftFollowerId);
+    m_rightLeader = new WPI_TalonFX(rightLeaderId);
+    m_rightFollower = new WPI_TalonFX(rightFollowerId);
 
     m_leftSensors =
-        new TalonFXMechanism(m_leftLeader.getSensorCollection(), wheelRadiusMeters, gearRatio);
+        new TalonFXMechanism(m_leftLeader.getSensorCollection(), driveWheelRadiusMeters, driveGearRatio);
 
     m_rightSensors =
-        new TalonFXMechanism(m_rightLeader.getSensorCollection(), wheelRadiusMeters, gearRatio);
+        new TalonFXMechanism(m_rightLeader.getSensorCollection(), driveWheelRadiusMeters, driveGearRatio);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.voltageCompSaturation = 12.0;
