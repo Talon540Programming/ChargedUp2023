@@ -50,8 +50,9 @@ public class StabilizeRobot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_driveBase.stop();
-    if(interrupted) {
-      // If the balance command is canceled, we can assume we needed to get off and brake mode should be disabled.
+    if (interrupted) {
+      // If the balance command is canceled, we can assume we needed to get off and brake mode
+      // should be disabled.
       m_driveBase.resetNeutralMode();
     }
   }

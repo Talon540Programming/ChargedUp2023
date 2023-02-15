@@ -214,9 +214,7 @@ public class DriveBase extends SubsystemBase {
     setNeutralMode(Drivetrain.kDrivetrainDefaultNeutralMode);
   }
 
-  /**
-   * Brake the drivetrain motors then stop them, Useful to avoid a collision.
-   */
+  /** Brake the drivetrain motors then stop them, Useful to avoid a collision. */
   public void emergencyBrake() {
     setNeutralMode(DriveNeutralMode.BRAKE);
     stop();
