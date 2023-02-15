@@ -82,13 +82,21 @@ public final class Constants {
     public static final boolean kRotationInverted = false;
 
     // First extrusion is from fulcrum, not end of extrusion
-    public static final double kFirstExtrusionLength = 0; // TODO
-    public static final double kSecondExtrusionLength = 0; // TODO
-    public static final double kThirdExtrusionLength = 0; // TODO
+    public static final double kFirstExtrusionLengthInches = 17; // TODO
+    public static final double kFirstExtrusionLengthMeters = Units.inchesToMeters(kFirstExtrusionLengthInches);
+
+    // Second and Third extrusion lengths are without the end caps
+    // which are retained within their encapsulating extrusions.
+    public static final double kSecondExtrusionLengthInches = 25; // TODO
+    public static final double kSecondExtrusionLengthMeters = Units.inchesToMeters(kSecondExtrusionLengthInches);
+
+    public static final double kThirdExtrusionLengthInches = 18; // TODO
+    public static final double kThirdExtrusionLengthMeters = Units.inchesToMeters(kThirdExtrusionLengthInches);
   }
 
   public static final class Grabber {
-    public static final double kLength = 0; // TODO
-    public static final int kMinimumAcceptableProximity = 0; // TODO
+    // This includes the mounting hardware onto the third extrusion which is why it lacks it.
+    public static final double kLengthInches = 17; // TODO
+    public static final double kLengthMeters = Units.inchesToMeters(kLengthInches);
   }
 }
