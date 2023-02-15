@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.drivetrain.commands;
 
 import edu.wpi.first.math.MathUtil;
@@ -54,6 +50,10 @@ public class StabilizeRobot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_driveBase.stop();
-    m_driveBase.resetNeutralMode();
+    if (interrupted) {
+      // If the balance command is canceled, we can assume we needed to get off and brake mode
+      // should be disabled.
+      m_driveBase.resetNeutralMode();
+    }
   }
 }

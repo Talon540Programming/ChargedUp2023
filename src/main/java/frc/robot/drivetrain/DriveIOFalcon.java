@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -10,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.Constants;
-import org.talon540.hardware.CANDeviceConfig;
 import org.talon540.sensors.TalonFXMechanism;
 
 /**
@@ -32,30 +27,34 @@ public class DriveIOFalcon implements DriveIO {
   private final boolean rightSensorInverted;
 
   /** Create the DriveIO. */
-  public DriveIOFalcon(DriveIOFalconConfig driveConfig) {
-    this.leftSideInverted = driveConfig.leftSideInverted;
-    this.leftSensorInverted = driveConfig.leftSensorInverted;
-    this.rightSideInverted = driveConfig.rightSideInverted;
-    this.rightSensorInverted = driveConfig.rightSensorInverted;
+  public DriveIOFalcon(
+      int leftLeaderId,
+      int leftFollowerId,
+      int rightLeaderId,
+      int rightFollowerId,
+      double driveGearRatio,
+      double driveWheelRadiusMeters,
+      boolean leftSideInverted,
+      boolean leftSensorInverted,
+      boolean rightSideInverted,
+      boolean rightSensorInverted) {
+    this.leftSideInverted = leftSideInverted;
+    this.leftSensorInverted = leftSensorInverted;
+    this.rightSideInverted = rightSideInverted;
+    this.rightSensorInverted = rightSensorInverted;
 
-    m_leftLeader = new WPI_TalonFX(driveConfig.leftLeader.id, driveConfig.leftFollower.controller);
-    m_leftFollower =
-        new WPI_TalonFX(driveConfig.leftFollower.id, driveConfig.leftFollower.controller);
-    m_rightLeader = new WPI_TalonFX(driveConfig.rightLeader.id, driveConfig.rightLeader.controller);
-    m_rightFollower =
-        new WPI_TalonFX(driveConfig.rightFollower.id, driveConfig.rightFollower.controller);
+    m_leftLeader = new WPI_TalonFX(leftLeaderId);
+    m_leftFollower = new WPI_TalonFX(leftFollowerId);
+    m_rightLeader = new WPI_TalonFX(rightLeaderId);
+    m_rightFollower = new WPI_TalonFX(rightFollowerId);
 
     m_leftSensors =
         new TalonFXMechanism(
-            m_leftLeader.getSensorCollection(),
-            driveConfig.wheelRadiusMeters,
-            driveConfig.gearRatio);
+            m_leftLeader.getSensorCollection(), driveWheelRadiusMeters, driveGearRatio);
 
     m_rightSensors =
         new TalonFXMechanism(
-            m_rightLeader.getSensorCollection(),
-            driveConfig.wheelRadiusMeters,
-            driveConfig.gearRatio);
+            m_rightLeader.getSensorCollection(), driveWheelRadiusMeters, driveGearRatio);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.voltageCompSaturation = 12.0;
@@ -69,9 +68,9 @@ public class DriveIOFalcon implements DriveIO {
     m_leftFollower.follow(m_leftLeader);
     m_rightFollower.follow(m_rightLeader);
 
-    m_leftLeader.setInverted(driveConfig.leftSideInverted);
+    m_leftLeader.setInverted(leftSideInverted);
     m_leftFollower.setInverted(InvertType.FollowMaster);
-    m_rightLeader.setInverted(driveConfig.rightSideInverted);
+    m_rightLeader.setInverted(rightSideInverted);
     m_rightFollower.setInverted(InvertType.FollowMaster);
   }
 
@@ -118,16 +117,4 @@ public class DriveIOFalcon implements DriveIO {
       }
     }
   }
-
-  public record DriveIOFalconConfig(
-      CANDeviceConfig leftLeader,
-      CANDeviceConfig leftFollower,
-      CANDeviceConfig rightLeader,
-      CANDeviceConfig rightFollower,
-      double gearRatio,
-      double wheelRadiusMeters,
-      boolean leftSideInverted,
-      boolean leftSensorInverted,
-      boolean rightSideInverted,
-      boolean rightSensorInverted) {}
 }

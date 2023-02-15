@@ -1,20 +1,15 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.sensors.gyro;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
-import org.talon540.hardware.CANDeviceConfig;
 
 /** GyroIO using a {@link WPI_Pigeon2}. */
 public class GyroIOPigeon2 implements GyroIO {
   private final WPI_Pigeon2 m_gyro;
 
   /** Create a GyroIO using a {@link WPI_Pigeon2}. */
-  public GyroIOPigeon2(GyroIOPigeon2Config config) {
-    m_gyro = new WPI_Pigeon2(config.gyro.id, config.gyro.controller);
+  public GyroIOPigeon2(int id) {
+    m_gyro = new WPI_Pigeon2(id);
   }
 
   /**
@@ -58,6 +53,4 @@ public class GyroIOPigeon2 implements GyroIO {
   public void resetHeading() {
     m_gyro.reset();
   }
-
-  public record GyroIOPigeon2Config(CANDeviceConfig gyro) {}
 }
