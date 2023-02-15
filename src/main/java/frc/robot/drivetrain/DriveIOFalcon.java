@@ -49,10 +49,12 @@ public class DriveIOFalcon implements DriveIO {
     m_rightFollower = new WPI_TalonFX(rightFollowerId);
 
     m_leftSensors =
-        new TalonFXMechanism(m_leftLeader.getSensorCollection(), driveWheelRadiusMeters, driveGearRatio);
+        new TalonFXMechanism(
+            m_leftLeader.getSensorCollection(), driveWheelRadiusMeters, driveGearRatio);
 
     m_rightSensors =
-        new TalonFXMechanism(m_rightLeader.getSensorCollection(), driveWheelRadiusMeters, driveGearRatio);
+        new TalonFXMechanism(
+            m_rightLeader.getSensorCollection(), driveWheelRadiusMeters, driveGearRatio);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.voltageCompSaturation = 12.0;
