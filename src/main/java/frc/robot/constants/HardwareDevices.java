@@ -16,9 +16,13 @@ public final class HardwareDevices {
       public static final int kRightFollower = 3;
     }
 
-    public static final int kArmRotationEncoder = 0; // TODO
+    public static class Arm {
+      public static final int kRotationLeader = 0; // TODO
+      public static final int kRotationFollower = 0; // TODO
+      public static final int kExtension = 0; // TODO
 
-    public static final I2C.Port kColorSensorPort = I2C.Port.kOnboard; // TODO
+      public static final int kArmRotationEncoder = 0; // TODO
+    }
   }
 
   public static final class COMP2023 {
@@ -31,7 +35,12 @@ public final class HardwareDevices {
       public static final int kRightFollower = 0; // TODO
     }
 
-    public static final int kArmRotationEncoder = 0; // TODO
-    public static final I2C.Port kColorSensorPort = I2C.Port.kOnboard; // TODO
+    public static class Arm {
+      public static final int kRotationLeader = 0; // TODO
+      public static final int kRotationFollower = 0; // TODO
+      public static final int kExtension = 0; // TODO
+
+      public static final int kArmRotationEncoder = 0; // TODO
+    }
   }
 }
