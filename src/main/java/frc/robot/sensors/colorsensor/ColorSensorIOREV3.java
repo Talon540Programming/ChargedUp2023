@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 public class ColorSensorIOREV3 implements ColorSensorIO {
   private final ColorSensorV3 m_colorSensor;
 
-  public ColorSensorIOREV3(I2C.Port kI2cPort) {
-    m_colorSensor = new ColorSensorV3(kI2cPort);
+  public ColorSensorIOREV3(I2C.Port kPort) {
+    m_colorSensor = new ColorSensorV3(kPort);
 
     if (!m_colorSensor.isConnected()) {
       DriverStation.reportError(
