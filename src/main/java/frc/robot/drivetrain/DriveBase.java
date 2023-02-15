@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.drivetrain;
 
 import edu.wpi.first.math.MathUtil;
@@ -216,5 +212,11 @@ public class DriveBase extends SubsystemBase {
   /** Reset the neutral mode of the drivetrain to the default mode. */
   public void resetNeutralMode() {
     setNeutralMode(Drivetrain.kDrivetrainDefaultNeutralMode);
+  }
+
+  /** Brake the drivetrain motors then stop them, Useful to avoid a collision. */
+  public void emergencyBrake() {
+    setNeutralMode(DriveNeutralMode.BRAKE);
+    stop();
   }
 }

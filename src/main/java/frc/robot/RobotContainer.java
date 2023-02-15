@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import com.pathplanner.lib.PathPlanner;
@@ -55,21 +51,17 @@ public class RobotContainer {
         case ROBOT_2023P -> {
           driveIO =
               new DriveIOFalcon(
-                  new DriveIOFalcon.DriveIOFalconConfig(
-                      HardwareDevices.PROTO2023.Drivetrain.kLeftLeader,
-                      HardwareDevices.PROTO2023.Drivetrain.kLeftFollower,
-                      HardwareDevices.PROTO2023.Drivetrain.kRightLeader,
-                      HardwareDevices.PROTO2023.Drivetrain.kRightFollower,
-                      Constants.Drivetrain.kDrivetrainGearRatio,
-                      Constants.Drivetrain.kWheelRadiusMeters,
-                      Constants.Drivetrain.kLeftSideInverted,
-                      Constants.Drivetrain.kLeftSensorInverted,
-                      Constants.Drivetrain.kRightSideInverted,
-                      Constants.Drivetrain.kRightSensorInverted));
-          gyroIO =
-              new GyroIOPigeon2(
-                  new GyroIOPigeon2.GyroIOPigeon2Config(
-                      HardwareDevices.PROTO2023.kRobotGyroConfig));
+                  HardwareDevices.PROTO2023.Drivetrain.kLeftLeader,
+                  HardwareDevices.PROTO2023.Drivetrain.kLeftFollower,
+                  HardwareDevices.PROTO2023.Drivetrain.kRightLeader,
+                  HardwareDevices.PROTO2023.Drivetrain.kRightFollower,
+                  Constants.Drivetrain.kDrivetrainGearRatio,
+                  Constants.Drivetrain.kWheelRadiusMeters,
+                  Constants.Drivetrain.kLeftSideInverted,
+                  Constants.Drivetrain.kLeftSensorInverted,
+                  Constants.Drivetrain.kRightSideInverted,
+                  Constants.Drivetrain.kRightSensorInverted);
+          gyroIO = new GyroIOPigeon2(HardwareDevices.PROTO2023.kRobotGyroConfig);
         }
         default -> throw new RuntimeException("Unknown Robot Type");
       }
