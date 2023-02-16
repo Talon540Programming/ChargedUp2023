@@ -1,6 +1,7 @@
 package frc.robot.drivetrain;
 
 import frc.lib.logging.LoggedIO;
+import frc.robot.constants.Constants.NeutralMode;
 import org.littletonrobotics.junction.AutoLog;
 
 /** IO interfacing layer used to represent devices used in a Differential Drivetrain. */
@@ -30,13 +31,8 @@ public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
    *
    * @param mode Neutral mode to set the drivetrain motors to.
    */
-  default void setNeutralMode(DriveNeutralMode mode) {}
+  default void setNeutralMode(NeutralMode mode) {}
 
   /** Reset the values of the drivetrain encoders. */
   default void resetEncoders() {}
-
-  enum DriveNeutralMode {
-    BRAKE,
-    COAST
-  }
 }

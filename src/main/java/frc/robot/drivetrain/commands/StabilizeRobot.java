@@ -3,9 +3,9 @@ package frc.robot.drivetrain.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Drivetrain;
 import frc.robot.drivetrain.DriveBase;
-import frc.robot.drivetrain.DriveIO;
 
 public class StabilizeRobot extends CommandBase {
   private final DriveBase m_driveBase;
@@ -29,7 +29,7 @@ public class StabilizeRobot extends CommandBase {
   @Override
   public void initialize() {
     m_stabilizationController.reset();
-    m_driveBase.setNeutralMode(DriveIO.DriveNeutralMode.BRAKE);
+    m_driveBase.setNeutralMode(Constants.NeutralMode.BRAKE);
   }
 
   @Override

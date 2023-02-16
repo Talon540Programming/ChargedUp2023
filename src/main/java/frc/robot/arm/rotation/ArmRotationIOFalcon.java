@@ -22,8 +22,7 @@ public class ArmRotationIOFalcon implements ArmRotationIO {
     m_leader.configAllSettings(config);
     m_follower.configAllSettings(config);
 
-    m_leader.setNeutralMode(NeutralMode.Brake);
-    m_follower.setNeutralMode(NeutralMode.Brake);
+    setNeutralMode(Constants.NeutralMode.BRAKE);
 
     m_follower.follow(m_leader);
 
@@ -40,5 +39,19 @@ public class ArmRotationIOFalcon implements ArmRotationIO {
   @Override
   public void setVoltage(double voltage) {
     m_leader.setVoltage(voltage);
+  }
+
+  @Override
+  public void setNeutralMode(Constants.NeutralMode mode) {
+    switch (mode) {
+      case BRAKE -> {
+        m_leader.setNeutralMode(NeutralMode.Brake);
+        m_follower.setNeutralMode(NeutralMode.Brake);
+      }
+      case COAST -> {
+        m_leader.setNeutralMode(NeutralMode.Coast);
+        m_follower.setNeutralMode(NeutralMode.Coast);
+      }
+    }
   }
 }

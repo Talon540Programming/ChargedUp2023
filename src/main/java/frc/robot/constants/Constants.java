@@ -3,7 +3,6 @@ package frc.robot.constants;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.robot.drivetrain.DriveIO.DriveNeutralMode;
 
 public final class Constants {
   private static final RobotType kRobotType = RobotType.ROBOT_2023P;
@@ -50,7 +49,7 @@ public final class Constants {
     public static final DifferentialDriveKinematics kDrivetrainKinematics =
         new DifferentialDriveKinematics(kTrackWidthMeters);
 
-    public static final DriveNeutralMode kDrivetrainDefaultNeutralMode = DriveNeutralMode.COAST;
+    public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.COAST;
 
     public static final double kRobotStabilizationToleranceDegrees = 1; // TODO
 
@@ -80,5 +79,10 @@ public final class Constants {
 
   public static final class Arm {
     public static final boolean kRotationInverted = false;
+  }
+
+  public enum NeutralMode {
+    BRAKE,
+    COAST
   }
 }

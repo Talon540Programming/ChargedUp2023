@@ -11,8 +11,7 @@ public class ArmRotationIONeo implements ArmRotationIO {
     this.m_leader = new CANSparkMax(leader, CANSparkMaxLowLevel.MotorType.kBrushless);
     this.m_follower = new CANSparkMax(follower, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    m_leader.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    m_follower.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    setNeutralMode(Constants.NeutralMode.BRAKE);
 
     m_follower.follow(m_leader);
 
@@ -28,5 +27,19 @@ public class ArmRotationIONeo implements ArmRotationIO {
   @Override
   public void setVoltage(double voltage) {
     m_leader.setVoltage(voltage);
+  }
+
+  @Override
+  public void setNeutralMode(Constants.NeutralMode mode) {
+    switch (mode) {
+      case BRAKE -> {
+        m_leader.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        m_follower.setIdleMode(CANSparkMax.IdleMode.kBrake);
+      }
+      case COAST -> {
+        m_leader.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        m_follower.setIdleMode(CANSparkMax.IdleMode.kCoast);
+      }
+    }
   }
 }

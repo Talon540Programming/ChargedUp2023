@@ -8,8 +8,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Drivetrain;
-import frc.robot.drivetrain.DriveIO.DriveNeutralMode;
 import frc.robot.sensors.gyro.GyroIO;
 import frc.robot.sensors.gyro.GyroIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
@@ -205,18 +205,18 @@ public class DriveBase extends SubsystemBase {
    *
    * @param mode Neutral mode to set the drivetrain motors to.
    */
-  public void setNeutralMode(DriveNeutralMode mode) {
+  public void setNeutralMode(Constants.NeutralMode mode) {
     m_driveIO.setNeutralMode(mode);
   }
 
   /** Reset the neutral mode of the drivetrain to the default mode. */
   public void resetNeutralMode() {
-    setNeutralMode(Drivetrain.kDrivetrainDefaultNeutralMode);
+    setNeutralMode(Constants.Drivetrain.kDrivetrainDefaultNeutralMode);
   }
 
   /** Brake the drivetrain motors then stop them, Useful to avoid a collision. */
   public void emergencyBrake() {
-    setNeutralMode(DriveNeutralMode.BRAKE);
+    setNeutralMode(Constants.NeutralMode.BRAKE);
     stop();
   }
 
