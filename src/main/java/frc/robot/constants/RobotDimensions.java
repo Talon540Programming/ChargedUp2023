@@ -22,7 +22,11 @@ public class RobotDimensions {
         public static final double kDrivetrainLengthBumpersMeters = Units.inchesToMeters(kDrivetrainLengthBumpersInches);
 
     }
+
     public static final class Arm {
+        public static final double kFulcrumHeightInches = 17;
+        public static final double kFulcrumHeightMeters = Units.inchesToMeters(kFulcrumHeightInches);
+
         // First extrusion is from fulcrum, not end of extrusion
         public static final double kFirstExtrusionLengthInches = 17; // TODO
         public static final double kFirstExtrusionLengthMeters = Units.inchesToMeters(kFirstExtrusionLengthInches);
