@@ -12,20 +12,11 @@ public class GyroIOPigeon2 implements GyroIO {
     m_gyro = new WPI_Pigeon2(id);
   }
 
-  /**
-   * Get the Gyro object used by the IO.
-   *
-   * @return gyro.
-   */
-  public WPI_Pigeon2 getGyro() {
-    return m_gyro;
-  }
-
   @Override
   public void updateInputs(GyroIOInputs inputs) {
-    inputs.GyroYawRad = getYaw();
-    inputs.GyroPitchRad = getPitch();
-    inputs.GyroRollRad = getRoll();
+    inputs.GyroYawRad = Math.toRadians(m_gyro.getYaw());
+    inputs.GyroPitchRad = Math.toRadians(m_gyro.getPitch());
+    inputs.GyroRollRad = Math.toRadians(m_gyro.getRoll());
     inputs.GyroRateRadPerSecond = Math.toRadians(m_gyro.getRate());
   }
 
@@ -35,22 +26,16 @@ public class GyroIOPigeon2 implements GyroIO {
   }
 
   @Override
-  public double getYaw() {
-    return Math.toRadians(m_gyro.getYaw());
-  }
-
-  @Override
-  public double getPitch() {
-    return Math.toRadians(m_gyro.getPitch());
-  }
-
-  @Override
-  public double getRoll() {
-    return Math.toRadians(m_gyro.getRoll());
-  }
-
-  @Override
   public void resetHeading() {
     m_gyro.reset();
+  }
+
+  /**
+   * Get the Gyro object used by the IO.
+   *
+   * @return gyro.
+   */
+  public WPI_Pigeon2 getGyro() {
+    return m_gyro;
   }
 }

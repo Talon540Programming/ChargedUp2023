@@ -219,4 +219,14 @@ public class DriveBase extends SubsystemBase {
     setNeutralMode(DriveNeutralMode.BRAKE);
     stop();
   }
+
+  /**
+   * Check if the Gyroscope is at a level plane.
+   *
+   * @return whether the gyroscope is level.
+   */
+  public boolean isLevel() {
+    return Math.abs(m_gyroInputs.GyroPitchRad)
+        < Math.toRadians(Drivetrain.kRobotStabilizationToleranceDegrees);
+  }
 }
