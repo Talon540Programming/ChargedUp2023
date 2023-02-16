@@ -8,7 +8,7 @@ public interface ArmExtensionIO extends LoggedIO<ArmExtensionIO.ArmExtensionIOIn
   @AutoLog
   public class ArmExtensionIOInputs {
     public double DistanceTraveledMeters;
-    public double VelocityMetersPerSecond;
+    public double VelocityRadiansPerSecond;
   }
 
   @Override
