@@ -5,6 +5,7 @@ import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOInputsAutoLogged;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOInputsAutoLogged;
+import frc.robot.constants.RobotDimensions;
 import org.littletonrobotics.junction.Logger;
 
 public class ArmBase extends SubsystemBase {
@@ -28,5 +29,13 @@ public class ArmBase extends SubsystemBase {
 
     m_armRotationIO.updateInputs(m_armRotationInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
+  }
+
+  public void setRotationVoltage(double voltage) {
+    m_armRotationIO.setVoltage(voltage);
+  }
+
+  public void setExtensionVoltage(double voltage) {
+    m_armExtensionIO.setVoltage(voltage);
   }
 }
