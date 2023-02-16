@@ -6,53 +6,53 @@ import com.revrobotics.RelativeEncoder;
 import frc.robot.constants.Constants;
 
 public class ArmExtensionIONeo implements ArmExtensionIO {
-    private final CANSparkMax motor;
-    private final RelativeEncoder encoder;
+  private final CANSparkMax motor;
+  private final RelativeEncoder encoder;
 
-    public ArmExtensionIONeo(int id, boolean motorInverted, boolean encoderInverted) {
-        motor = new CANSparkMax(id, CANSparkMaxLowLevel.MotorType.kBrushless);
+  public ArmExtensionIONeo(int id, boolean motorInverted, boolean encoderInverted) {
+    motor = new CANSparkMax(id, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-        setNeutralMode(Constants.NeutralMode.BRAKE);
+    setNeutralMode(Constants.NeutralMode.BRAKE);
 
-        motor.setInverted(motorInverted);
+    motor.setInverted(motorInverted);
 
-        encoder = motor.getEncoder();
-        encoder.setInverted(encoderInverted);
+    encoder = motor.getEncoder();
+    encoder.setInverted(encoderInverted);
 
-        encoder.setPositionConversionFactor(Constants.Arm.kExtensionPositionConversionFactor);
-        encoder.setVelocityConversionFactor(Constants.Arm.kExtensionVelocityConversionFactor);
+    encoder.setPositionConversionFactor(Constants.Arm.kExtensionPositionConversionFactor);
+    encoder.setVelocityConversionFactor(Constants.Arm.kExtensionVelocityConversionFactor);
+  }
+
+  @Override
+  public void updateInputs(ArmExtensionIOInputs inputs) {
+    inputs.DistanceTraveledMeters = encoder.getPosition();
+    inputs.VelocityRadiansPerSecond = encoder.getVelocity();
+  }
+
+  @Override
+  public void setVoltage(double voltage) {
+    motor.setVoltage(voltage);
+  }
+
+  @Override
+  public void setDistance(double distance) {
+    encoder.setPosition(distance);
+  }
+
+  @Override
+  public void resetDistance() {
+    encoder.setPosition(0);
+  }
+
+  @Override
+  public void setNeutralMode(Constants.NeutralMode mode) {
+    switch (mode) {
+      case BRAKE -> {
+        motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+      }
+      case COAST -> {
+        motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+      }
     }
-
-    @Override
-    public void updateInputs(ArmExtensionIOInputs inputs) {
-        inputs.DistanceTraveledMeters = encoder.getPosition();
-        inputs.VelocityRadiansPerSecond = encoder.getVelocity();
-    }
-
-    @Override
-    public void setVoltage(double voltage) {
-        motor.setVoltage(voltage);
-    }
-
-    @Override
-    public void setDistance(double distance) {
-        encoder.setPosition(distance);
-    }
-
-    @Override
-    public void resetDistance() {
-        encoder.setPosition(0);
-    }
-
-    @Override
-    public void setNeutralMode(Constants.NeutralMode mode) {
-        switch (mode) {
-            case BRAKE -> {
-                motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-            }
-            case COAST -> {
-                motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
-            }
-        }
-    }
+  }
 }
