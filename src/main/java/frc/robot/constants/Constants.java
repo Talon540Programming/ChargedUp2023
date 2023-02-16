@@ -79,6 +79,8 @@ public final class Constants {
 
   public static final class Arm {
     public static final boolean kRotationInverted = false;
+    public static final boolean kExtensionInverted = false;
+    public static final boolean kExtensionEncoderInverted = false;
 
     public static final double kExtensionGearRatio = 4.0 / 1.0;
     public static final double kExtensionWinchRadiusInches = 0.4;
