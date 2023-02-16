@@ -13,7 +13,7 @@ public class ArmState {
    * @param angle Angle of the arm. This angle should be similar to the Unit circle where 0 means
    *     the arm is perpendicular to the robot's fulcrum and parallel to the floor, facing towards
    *     the front of the robot. The angle is CCW positive.
-   * @param extensionLengthMeters The length that the arm is at without the grabber or any other
+   * @param extensionLengthMeters The length that the arm is extended to beyond the fully retracted state at without the grabber or any other
    *     attachment at the end in meters.
    */
   public ArmState(Rotation2d angle, double extensionLengthMeters) {
@@ -27,8 +27,8 @@ public class ArmState {
    * @param angleRadians Angle of the Arm in radians. This angle should be similar to the Unit
    *     circle where 0 means the arm is perpendicular to the robot's fulcrum and parallel to the
    *     floor, facing towards the front of the robot. The angle is CCW positive.
-   * @param extensionLengthMeters The length that the arm is at without the grabber or any other
-   *     attachment at the end in meters.
+   * @param extensionLengthMeters The length that the arm is extended to beyond the fully retracted state at without the grabber or any other
+   *    *     attachment at the end in meters.
    */
   public ArmState(double angleRadians, double extensionLengthMeters) {
     this(Rotation2d.fromRadians(angleRadians), extensionLengthMeters);
