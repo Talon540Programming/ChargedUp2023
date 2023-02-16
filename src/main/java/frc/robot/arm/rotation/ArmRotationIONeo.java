@@ -7,15 +7,14 @@ import frc.robot.constants.Constants;
 public class ArmRotationIONeo implements ArmRotationIO {
   private final CANSparkMax m_leader, m_follower;
 
-  public ArmRotationIONeo(int leader, int follower) {
+  public ArmRotationIONeo(int leader, int follower, boolean inverted) {
     this.m_leader = new CANSparkMax(leader, CANSparkMaxLowLevel.MotorType.kBrushless);
     this.m_follower = new CANSparkMax(follower, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     setNeutralMode(Constants.NeutralMode.BRAKE);
 
     m_follower.follow(m_leader);
-
-    m_leader.setInverted(Constants.Arm.kRotationInverted);
+    m_leader.setInverted(inverted);
   }
 
   @Override
