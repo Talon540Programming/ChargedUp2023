@@ -38,4 +38,8 @@ public class ArmBase extends SubsystemBase {
   public void setExtensionVoltage(double voltage) {
     m_armExtensionIO.setVoltage(voltage);
   }
+
+  public double getArmLengthMeters() {
+    return ArmUtil.calculateArmLength(m_armExtensionInputs.DistanceTraveledMeters);
+  }
 }
