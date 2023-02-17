@@ -13,7 +13,7 @@ public class ArmStateManager {
     // Organize the state around the current robot state
     if (balanceModeEnabled) {
       state.ExtensionLengthMeters = 0;
-      state.AngleRadians = robotPitchRadians + (Math.PI / 2);
+      state.AngleRadians = (Math.PI / 2) - robotPitchRadians;
     } else {
       // Normalize the state
       state.AngleRadians %= Math.PI * 2.0;
