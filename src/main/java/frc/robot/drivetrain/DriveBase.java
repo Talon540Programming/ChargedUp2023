@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.arm.ArmStateManager;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Drivetrain;
 import frc.robot.sensors.gyro.GyroIO;
@@ -63,6 +64,8 @@ public class DriveBase extends SubsystemBase {
         m_driveInputs.LeftPositionMeters,
         m_driveInputs.RightPositionMeters);
     Logger.getInstance().recordOutput("Drive/Odometry", getPosition());
+
+    ArmStateManager.updateRobotPitch(m_gyroInputs.GyroPitchRad);
   }
 
   /**

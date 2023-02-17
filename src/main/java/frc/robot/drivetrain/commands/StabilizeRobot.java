@@ -3,6 +3,7 @@ package frc.robot.drivetrain.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.lib.arm.ArmStateManager;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Drivetrain;
 import frc.robot.drivetrain.DriveBase;
@@ -29,6 +30,7 @@ public class StabilizeRobot extends CommandBase {
   @Override
   public void initialize() {
     m_stabilizationController.reset();
+    ArmStateManager.enableBalanceMode(true);
     m_driveBase.setNeutralMode(Constants.NeutralMode.BRAKE);
   }
 
@@ -54,6 +56,7 @@ public class StabilizeRobot extends CommandBase {
       // If the balance command is canceled, we can assume we needed to get off and brake mode
       // should be disabled.
       m_driveBase.resetNeutralMode();
+      ArmStateManager.enableBalanceMode(false);
     }
   }
 }

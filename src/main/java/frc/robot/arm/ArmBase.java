@@ -1,11 +1,13 @@
 package frc.robot.arm;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.arm.ArmState;
+import frc.lib.arm.ArmStateManager;
+import frc.lib.arm.ArmUtil;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOInputsAutoLogged;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOInputsAutoLogged;
-import frc.robot.constants.RobotDimensions;
 import org.littletonrobotics.junction.Logger;
 
 public class ArmBase extends SubsystemBase {
@@ -29,6 +31,12 @@ public class ArmBase extends SubsystemBase {
 
     m_armRotationIO.updateInputs(m_armRotationInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
+
+    // Get the target Arm State
+    ArmState targetState = ArmStateManager.getArmState();
+
+    // Log the target state
+    Logger.getInstance().processInputs("Arm/TargetState", targetState);
   }
 
   public void setRotationVoltage(double voltage) {
