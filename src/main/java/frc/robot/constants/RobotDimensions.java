@@ -44,6 +44,10 @@ public class RobotDimensions {
     public static final double kThirdExtrusionLengthInches = 18; // TODO
     public static final double kThirdExtrusionLengthMeters =
         Units.inchesToMeters(kThirdExtrusionLengthInches);
+
+    public static final double kFullyRetractedLengthInches = 20.253; // TODO
+    public static final double kFullyRetractedLengthMeters =
+        Units.inchesToMeters(kFullyRetractedLengthInches); // TODO
   }
 
   public static final class Grabber {
