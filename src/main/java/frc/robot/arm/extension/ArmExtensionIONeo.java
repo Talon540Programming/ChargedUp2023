@@ -47,12 +47,8 @@ public class ArmExtensionIONeo implements ArmExtensionIO {
   @Override
   public void setNeutralMode(Constants.NeutralMode mode) {
     switch (mode) {
-      case BRAKE -> {
-        motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-      }
-      case COAST -> {
-        motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
-      }
+      case BRAKE -> motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+      case COAST -> motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
     }
   }
 }

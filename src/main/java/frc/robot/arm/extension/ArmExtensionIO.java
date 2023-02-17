@@ -6,7 +6,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 public interface ArmExtensionIO extends LoggedIO<ArmExtensionIO.ArmExtensionIOInputs> {
   @AutoLog
-  public class ArmExtensionIOInputs {
+  class ArmExtensionIOInputs {
     public double DistanceTraveledMeters;
     public double VelocityRadiansPerSecond;
   }

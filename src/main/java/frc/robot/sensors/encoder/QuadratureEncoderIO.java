@@ -4,7 +4,7 @@ import frc.lib.logging.LoggedIO;
 
 public interface QuadratureEncoderIO
     extends LoggedIO<QuadratureEncoderIO.QuadratureEncoderIOInputs> {
-  public class QuadratureEncoderIOInputs {
+  class QuadratureEncoderIOInputs {
     public double AbsolutePositionRad;
     public double PositionRad;
     public double VelocityRadPerSecond;
@@ -13,7 +13,7 @@ public interface QuadratureEncoderIO
   @Override
   default void updateInputs(QuadratureEncoderIOInputs inputs) {}
 
-  public default void setPosition(double position) {}
+  default void setPosition(double position) {}
 
-  public default void resetToAbsolute() {}
+  default void resetToAbsolute() {}
 }
