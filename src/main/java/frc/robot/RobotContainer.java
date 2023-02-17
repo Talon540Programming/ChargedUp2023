@@ -73,12 +73,13 @@ public class RobotContainer {
                   Constants.Drivetrain.kRightSideInverted,
                   Constants.Drivetrain.kRightSensorInverted);
           gyroIO = new GyroIOPigeon2(HardwareDevices.PROTO2023.kRobotGyroConfig);
-          extensionIO = new ArmExtensionIONeo(
+          extensionIO =
+              new ArmExtensionIONeo(
                   HardwareDevices.PROTO2023.Arm.kExtension,
                   Constants.Arm.kExtensionInverted,
-                  Constants.Arm.kExtensionEncoderInverted
-          );
-          rotationIO = new ArmRotationIONeo(
+                  Constants.Arm.kExtensionEncoderInverted);
+          rotationIO =
+              new ArmRotationIONeo(
                   HardwareDevices.PROTO2023.Arm.kRotationLeader,
                   HardwareDevices.PROTO2023.Arm.kRotationFollower,
                   Constants.Arm.kRotationInverted);

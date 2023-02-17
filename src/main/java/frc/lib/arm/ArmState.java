@@ -36,9 +36,9 @@ public class ArmState implements LoggableInputs {
 
   @Override
   public boolean equals(Object obj) {
-    if(obj instanceof ArmState other) {
+    if (obj instanceof ArmState other) {
       return Math.abs(AngleRadians - other.AngleRadians) < Math.toRadians(0.25)
-              && Math.abs(ExtensionLengthMeters - other.ExtensionLengthMeters) < 5e-3;
+          && Math.abs(ExtensionLengthMeters - other.ExtensionLengthMeters) < 5e-3;
     }
     return false;
   }
