@@ -4,7 +4,7 @@ import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 /** An object that can be used to track or represent the state of, or desired state of the arm. */
-public class ArmState implements LoggableInputs {
+public class ArmState implements LoggableInputs, Cloneable {
   public double AngleRadians;
   public double ExtensionLengthMeters;
 
@@ -41,5 +41,10 @@ public class ArmState implements LoggableInputs {
           && Math.abs(ExtensionLengthMeters - other.ExtensionLengthMeters) < 5e-3;
     }
     return false;
+  }
+
+  @Override
+  public ArmState clone() {
+    return new ArmState(AngleRadians, ExtensionLengthMeters);
   }
 }
