@@ -20,8 +20,8 @@ public class ArmStateManager {
       state.ExtensionLengthMeters = Math.max(state.ExtensionLengthMeters, 0);
 
       // Make sure the arm won't phase through the floor or drivetrain?
-      if (RobotLimits.kRearLimit <= state.AngleRadians
-          && state.AngleRadians <= RobotLimits.kForwardLimitRadians) {
+      if (RobotLimits.kRearLimit < state.AngleRadians
+          && state.AngleRadians < RobotLimits.kForwardLimitRadians) {
         // The new target position is considered "incorrect" so we reject it, don't change the
         // current arm state.
         // TODO, do we want to reject the state, or try and fix it?
