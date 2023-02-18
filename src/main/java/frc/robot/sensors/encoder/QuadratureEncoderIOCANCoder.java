@@ -2,13 +2,12 @@ package frc.robot.sensors.encoder;
 
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
-import org.talon540.hardware.CANDeviceConfig;
 
 public class QuadratureEncoderIOCANCoder implements QuadratureEncoderIO {
   private final WPI_CANCoder m_encoder;
 
-  public QuadratureEncoderIOCANCoder(CANDeviceConfig deviceConfig) {
-    m_encoder = new WPI_CANCoder(deviceConfig.id, deviceConfig.controller);
+  public QuadratureEncoderIOCANCoder(int id) {
+    m_encoder = new WPI_CANCoder(id);
 
     CANCoderConfiguration config = new CANCoderConfiguration();
     config.sensorCoefficient = 2 * Math.PI / 4096.0;
