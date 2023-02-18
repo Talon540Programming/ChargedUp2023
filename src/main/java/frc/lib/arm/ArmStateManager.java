@@ -4,7 +4,8 @@ import frc.robot.constants.RobotDimensions;
 import frc.robot.constants.RobotLimits;
 
 public class ArmStateManager {
-  private static ArmState armState = new ArmState(Math.PI / 2.0, 0);
+  public static final ArmState kDefaultState = new ArmState(Math.PI / 2.0, 0);
+  private static ArmState armState = kDefaultState;
 
   private static double robotPitchRadians = 0;
   private static boolean balanceModeEnabled = false;
