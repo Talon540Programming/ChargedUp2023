@@ -22,6 +22,8 @@ import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.commands.StabilizeRobot;
 import frc.robot.drivetrain.commands.control.XboxControllerDriveControl;
+import frc.robot.sensors.encoder.QuadratureEncoderIO;
+import frc.robot.sensors.encoder.QuadratureEncoderIOCANCoder;
 import frc.robot.sensors.gyro.GyroIO;
 import frc.robot.sensors.gyro.GyroIOPigeon2;
 import java.util.List;
@@ -50,6 +52,7 @@ public class RobotContainer {
     GyroIO gyroIO;
     ArmExtensionIO extensionIO;
     ArmRotationIO rotationIO;
+    QuadratureEncoderIO armRotationEncoderIO;
 
     if (Constants.getRobotMode() == Constants.RobotMode.REAL) {
       switch (Constants.getRobotType()) {
@@ -58,6 +61,7 @@ public class RobotContainer {
           gyroIO = new GyroIO() {};
           extensionIO = new ArmExtensionIO() {};
           rotationIO = new ArmRotationIO() {};
+          armRotationEncoderIO = new QuadratureEncoderIO() {};
         }
         case ROBOT_2023P -> {
           driveIO =
@@ -83,6 +87,9 @@ public class RobotContainer {
                   HardwareDevices.PROTO2023.Arm.kRotationLeader,
                   HardwareDevices.PROTO2023.Arm.kRotationFollower,
                   Constants.Arm.kRotationInverted);
+
+          armRotationEncoderIO =
+              new QuadratureEncoderIOCANCoder(HardwareDevices.PROTO2023.Arm.kArmRotationEncoder);
         }
         default -> throw new RuntimeException("Unknown Robot Type");
       }
@@ -91,10 +98,11 @@ public class RobotContainer {
       gyroIO = new GyroIO() {};
       extensionIO = new ArmExtensionIO() {};
       rotationIO = new ArmRotationIO() {};
+      armRotationEncoderIO = new QuadratureEncoderIO() {};
     }
 
     m_driveBase = new DriveBase(driveIO, gyroIO);
-    m_armBase = new ArmBase(extensionIO, rotationIO);
+    m_armBase = new ArmBase(extensionIO, rotationIO, armRotationEncoderIO);
 
     configureBindings();
 
