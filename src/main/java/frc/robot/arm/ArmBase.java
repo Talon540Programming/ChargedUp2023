@@ -20,44 +20,47 @@ import org.littletonrobotics.junction.Logger;
 
 public class ArmBase extends SubsystemBase {
   private final ArmExtensionIO m_armExtensionIO;
-  public final ArmExtensionIOInputsAutoLogged m_armExtensionInputs = new ArmExtensionIOInputsAutoLogged();
+  public final ArmExtensionIOInputsAutoLogged m_armExtensionInputs =
+      new ArmExtensionIOInputsAutoLogged();
 
   private final ArmRotationIO m_armRotationIO;
-  public final ArmRotationIOInputsAutoLogged m_armRotationInputs = new ArmRotationIOInputsAutoLogged();
+  public final ArmRotationIOInputsAutoLogged m_armRotationInputs =
+      new ArmRotationIOInputsAutoLogged();
 
   private final QuadratureEncoderIO m_rotationEncoderIO;
-  public final QuadratureEncoderIOInputsAutoLogged m_rotationEncoderInputs = new QuadratureEncoderIOInputsAutoLogged();
+  public final QuadratureEncoderIOInputsAutoLogged m_rotationEncoderInputs =
+      new QuadratureEncoderIOInputsAutoLogged();
 
   private final ProfiledPIDController m_rotationController;
   private final ArmFeedforward m_rotationFeedforward;
 
   private final PIDController m_extensionController;
 
-  public ArmBase(ArmExtensionIO extensionIO, ArmRotationIO rotationIO, QuadratureEncoderIO rotationEncoderIO) {
+  public ArmBase(
+      ArmExtensionIO extensionIO, ArmRotationIO rotationIO, QuadratureEncoderIO rotationEncoderIO) {
     this.m_armExtensionIO = extensionIO;
     this.m_armRotationIO = rotationIO;
     this.m_rotationEncoderIO = rotationEncoderIO;
 
-    this.m_rotationController = new ProfiledPIDController(
+    this.m_rotationController =
+        new ProfiledPIDController(
             Constants.Arm.ControlValues.RotationValues.kP,
             Constants.Arm.ControlValues.RotationValues.kI,
             Constants.Arm.ControlValues.RotationValues.kD,
             new TrapezoidProfile.Constraints(
-                    RobotLimits.kMaxArmVelocityRadPerSecond,
-                    RobotLimits.kMaxArmAccelerationRadPerSecondSquared
-            )
-    );
-    this.m_rotationFeedforward = new ArmFeedforward(
+                RobotLimits.kMaxArmVelocityRadPerSecond,
+                RobotLimits.kMaxArmAccelerationRadPerSecondSquared));
+    this.m_rotationFeedforward =
+        new ArmFeedforward(
             Constants.Arm.ControlValues.RotationValues.kS,
             Constants.Arm.ControlValues.RotationValues.kG,
-            Constants.Arm.ControlValues.RotationValues.kV
-    );
+            Constants.Arm.ControlValues.RotationValues.kV);
 
-    this.m_extensionController = new PIDController(
+    this.m_extensionController =
+        new PIDController(
             Constants.Arm.ControlValues.ExtensionValues.kP,
             Constants.Arm.ControlValues.ExtensionValues.kI,
-            Constants.Arm.ControlValues.ExtensionValues.kD
-    );
+            Constants.Arm.ControlValues.ExtensionValues.kD);
   }
 
   @Override
@@ -78,8 +81,12 @@ public class ArmBase extends SubsystemBase {
     Logger.getInstance().processInputs("Arm/TargetState", targetState);
 
     TrapezoidProfile.State rotationGoal = targetState.getRotationState();
-    setExtensionOutput(m_extensionController.calculate(m_armExtensionInputs.DistanceTraveledMeters, targetState.ExtensionLengthMeters));
-    setRotationOutput(m_rotationController.calculate(m_rotationEncoderInputs.AbsolutePositionRad, rotationGoal), rotationGoal);
+    setExtensionOutput(
+        m_extensionController.calculate(
+            m_armExtensionInputs.DistanceTraveledMeters, targetState.ExtensionLengthMeters));
+    setRotationOutput(
+        m_rotationController.calculate(m_rotationEncoderInputs.AbsolutePositionRad, rotationGoal),
+        rotationGoal);
   }
 
   private void setRotationOutput(double output, TrapezoidProfile.State setpoint) {

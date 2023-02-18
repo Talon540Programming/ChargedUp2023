@@ -24,7 +24,8 @@ public class ArmState implements LoggableInputs, Cloneable {
   }
 
   /**
-   * Convert the ArmState to a Trapezoidal Motion Profile Position State as a {@link TrapezoidProfile.State}.
+   * Convert the ArmState to a Trapezoidal Motion Profile Position State as a {@link
+   * TrapezoidProfile.State}.
    *
    * @return ArmState as a position state.
    */
