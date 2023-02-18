@@ -1,5 +1,6 @@
 package frc.lib.arm;
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
@@ -20,6 +21,15 @@ public class ArmState implements LoggableInputs, Cloneable {
   public ArmState(double angleRadians, double extensionLengthMeters) {
     this.AngleRadians = angleRadians;
     this.ExtensionLengthMeters = extensionLengthMeters;
+  }
+
+  /**
+   * Convert the ArmState to a Trapezoidal Motion Profile Position State as a {@link TrapezoidProfile.State}.
+   *
+   * @return ArmState as a position state.
+   */
+  public TrapezoidProfile.State getRotationState() {
+    return new TrapezoidProfile.State(AngleRadians, 0);
   }
 
   @Override
