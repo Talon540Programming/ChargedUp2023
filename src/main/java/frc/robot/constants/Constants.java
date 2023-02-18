@@ -101,6 +101,7 @@ public final class Constants {
         public static final double kS = 0; // TODO
         public static final double kG = 0; // TODO
         public static final double kV = 0; // TODO
+        public static final double kA = 0; // TODO
       }
 
       public static class ExtensionValues {
