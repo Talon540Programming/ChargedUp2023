@@ -26,7 +26,6 @@ import frc.robot.sensors.encoder.QuadratureEncoderIO;
 import frc.robot.sensors.encoder.QuadratureEncoderIOCANCoder;
 import frc.robot.sensors.gyro.GyroIO;
 import frc.robot.sensors.gyro.GyroIOPigeon2;
-import java.util.List;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.talon540.control.XboxController.TalonXboxController;
 
@@ -106,15 +105,7 @@ public class RobotContainer {
 
     configureBindings();
 
-    m_trajectoryChooser.addDefaultOption("None", "none");
-    List<String> pathPlannerPaths = PathPlannerUtils.getPaths();
-    if (pathPlannerPaths == null) {
-      DriverStation.reportWarning("No Paths were found", false);
-    } else {
-      for (String path : PathPlannerUtils.getPaths()) {
-        m_trajectoryChooser.addOption(path, path);
-      }
-    }
+    PathPlannerUtils.configureTrajectoryChooser(m_trajectoryChooser);
   }
 
   private void configureBindings() {
