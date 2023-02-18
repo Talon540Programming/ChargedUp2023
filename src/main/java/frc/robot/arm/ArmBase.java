@@ -55,8 +55,7 @@ public class ArmBase extends SubsystemBase {
             Constants.Arm.ControlValues.RotationValues.kS,
             Constants.Arm.ControlValues.RotationValues.kG,
             Constants.Arm.ControlValues.RotationValues.kV,
-            Constants.Arm.ControlValues.RotationValues.kA
-        );
+            Constants.Arm.ControlValues.RotationValues.kA);
 
     this.m_extensionController =
         new PIDController(
