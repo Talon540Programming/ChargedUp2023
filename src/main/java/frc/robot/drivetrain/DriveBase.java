@@ -65,7 +65,7 @@ public class DriveBase extends SubsystemBase {
         m_driveInputs.RightPositionMeters);
     Logger.getInstance().recordOutput("Drive/Odometry", getPosition());
 
-    ArmStateManager.updateRobotPitch(m_gyroInputs.GyroPitchRad);
+    ArmStateManager.getInstance().updateRobotPitch(m_gyroInputs.GyroPitchRad);
   }
 
   /**

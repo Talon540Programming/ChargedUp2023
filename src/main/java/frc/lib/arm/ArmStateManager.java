@@ -4,13 +4,23 @@ import frc.robot.constants.RobotDimensions;
 import frc.robot.constants.RobotLimits;
 
 public class ArmStateManager {
+  private static ArmStateManager instance;
+
+  public static synchronized ArmStateManager getInstance() {
+    if (instance == null) {
+      instance = new ArmStateManager();
+    }
+    return instance;
+  }
+
   public static final ArmState kDefaultState = new ArmState(Math.PI / 2.0, 0);
-  private static ArmState armState = kDefaultState;
 
-  private static double robotPitchRadians = 0;
-  private static boolean balanceModeEnabled = false;
+  private ArmState armState = kDefaultState;
 
-  public static void updateArmState(ArmState state) {
+  private double robotPitchRadians = 0;
+  private boolean balanceModeEnabled = false;
+
+  public void updateArmState(ArmState state) {
     // Organize the state around the current robot state
     if (balanceModeEnabled) {
       state.ExtensionLengthMeters = 0;
@@ -28,8 +38,6 @@ public class ArmStateManager {
         // TODO, do we want to reject the state, or try and fix it?
         return;
       }
-
-      // TODO, should we change the angle for the extension, or the extension for the angle?
 
       double cosTheta = Math.cos(state.AngleRadians);
       double sinTheta = Math.sin(state.AngleRadians);
@@ -67,21 +75,21 @@ public class ArmStateManager {
     armState = state.clone();
   }
 
-  public static ArmState getArmState() {
+  public ArmState getArmState() {
     return armState;
   }
 
-  public static void updateRobotPitch(double angleRadians) {
+  public void updateRobotPitch(double angleRadians) {
     robotPitchRadians = angleRadians;
     updateArmState(armState);
   }
 
-  public static void enableBalanceMode(boolean enable) {
+  public void enableBalanceMode(boolean enable) {
     balanceModeEnabled = enable;
     updateArmState(armState);
   }
 
-  public static void resetToHome() {
+  public void resetToHome() {
     armState = new ArmState(Math.PI / 2.0, 0);
   }
 }

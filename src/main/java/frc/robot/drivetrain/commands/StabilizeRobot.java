@@ -30,7 +30,7 @@ public class StabilizeRobot extends CommandBase {
   @Override
   public void initialize() {
     m_stabilizationController.reset();
-    ArmStateManager.enableBalanceMode(true);
+    ArmStateManager.getInstance().enableBalanceMode(true);
     m_driveBase.setNeutralMode(Constants.NeutralMode.BRAKE);
   }
 
@@ -56,7 +56,7 @@ public class StabilizeRobot extends CommandBase {
       // If the balance command is canceled, we can assume we needed to get off and brake mode
       // should be disabled.
       m_driveBase.resetNeutralMode();
-      ArmStateManager.enableBalanceMode(false);
+      ArmStateManager.getInstance().enableBalanceMode(false);
     }
   }
 }

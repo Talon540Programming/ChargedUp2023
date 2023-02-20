@@ -76,7 +76,7 @@ public class ArmBase extends SubsystemBase {
     Logger.getInstance().processInputs("Arm/Rotation/Encoder", m_rotationEncoderInputs);
 
     // Get the target Arm State
-    ArmState targetState = ArmStateManager.getArmState();
+    ArmState targetState = ArmStateManager.getInstance().getArmState();
 
     // Log the target state
     Logger.getInstance().processInputs("Arm/TargetState", targetState);
