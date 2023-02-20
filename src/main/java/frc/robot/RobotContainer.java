@@ -109,7 +109,6 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // Configure Driver Controller
     m_driveBase.setDefaultCommand(new XboxControllerDriveControl(m_driveBase, m_driverController));
     m_armBase.setDefaultCommand(new XboxControllerArmControl(m_armBase, m_depositionController));
 
