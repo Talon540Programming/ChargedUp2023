@@ -1,6 +1,8 @@
 package frc.lib.vision;
 
 import edu.wpi.first.math.geometry.Transform3d;
+
+import java.util.Objects;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
@@ -13,7 +15,7 @@ public class PhotonCamera extends org.photonvision.PhotonCamera implements Logga
 
   public PhotonCamera(String subtableName, Supplier<Transform3d> robotToCameraSupplier) {
     super(subtableName);
-    kRobotToCamera = robotToCameraSupplier;
+    kRobotToCamera = Objects.requireNonNull(robotToCameraSupplier);
   }
 
   public PhotonCamera(String subtableName, Transform3d robotToCamera) {
