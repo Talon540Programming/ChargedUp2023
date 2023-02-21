@@ -90,6 +90,6 @@ public class ArmStateManager {
   }
 
   public void resetToHome() {
-    armState = new ArmState(Math.PI / 2.0, 0);
+    armState = kDefaultState;
   }
 }
