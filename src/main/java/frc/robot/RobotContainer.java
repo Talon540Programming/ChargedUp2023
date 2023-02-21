@@ -9,6 +9,9 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.pathplanner.PathPlannerUtils;
+import frc.lib.vision.EstimatedRobotPose;
+import frc.lib.vision.PhotonCamera;
+import frc.lib.vision.VisionPoseEstimator;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
 import frc.robot.drivetrain.DriveBase;
@@ -18,7 +21,13 @@ import frc.robot.drivetrain.commands.StabilizeRobot;
 import frc.robot.drivetrain.commands.control.XboxControllerDriveControl;
 import frc.robot.sensors.gyro.GyroIO;
 import frc.robot.sensors.gyro.GyroIOPigeon2;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.talon540.control.XboxController.TalonXboxController;
 
@@ -32,9 +41,18 @@ public class RobotContainer {
   private final TalonXboxController m_depositionController =
       new TalonXboxController(HardwareDevices.kDepositionXboxControllerPort);
 
+  // PhotonCameras
+  private final PhotonCamera m_forwardCamera = new PhotonCamera(
+          HardwareDevices.kForwardCameraName, Constants.Vision.kForwardCameraTransform3d);
+  private final PhotonCamera m_rearCamera = new PhotonCamera(
+          HardwareDevices.kRearCameraName, Constants.Vision.kRearCameraTransform3d);
+
   // Trajectory Chooser
   private final LoggedDashboardChooser<String> m_trajectoryChooser =
       new LoggedDashboardChooser<>("Trajectory Chooser");
+
+  // VisionPoseEstimator
+  private final VisionPoseEstimator m_visionEstimator = new VisionPoseEstimator(Constants.Vision.kFieldLayout, m_forwardCamera, m_rearCamera);
 
   public RobotContainer() {
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -90,6 +108,22 @@ public class RobotContainer {
     m_driveBase.setDefaultCommand(new XboxControllerDriveControl(m_driveBase, m_driverController));
 
     m_driverController.leftBumper().whileTrue(new StabilizeRobot(m_driveBase));
+  }
+
+  public void pollVisionData() {
+    Logger.getInstance().processInputs(m_forwardCamera.getName(), m_forwardCamera);
+    Logger.getInstance().processInputs(m_rearCamera.getName(), m_rearCamera);
+
+    HashMap<String, Optional<EstimatedRobotPose>> data = m_visionEstimator.getRobotPose();
+
+    for(Map.Entry<String, Optional<EstimatedRobotPose>> entry : data.entrySet()) {
+      Optional<EstimatedRobotPose> value = entry.getValue();
+      if(value.isPresent()) {
+        EstimatedRobotPose pose = value.get();
+        m_driveBase.addEstimatedPose(pose.robotPose(),
+                pose.timestampSeconds());
+      }
+    }
   }
 
   public Command getAutonomousCommand() {

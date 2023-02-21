@@ -4,6 +4,9 @@ public final class HardwareDevices {
   public static final int kDriverXboxControllerPort = 0;
   public static final int kDepositionXboxControllerPort = 1;
 
+  public static final String kForwardCameraName = "ForwardCamera"; // TODO
+  public static final String kRearCameraName = "RearCamera"; // TODO
+
   public static final class PROTO2023 {
     public static final int kRobotGyroConfig = 13; // TODO ReID gyro
 

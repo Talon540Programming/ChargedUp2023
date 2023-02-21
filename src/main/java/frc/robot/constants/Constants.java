@@ -1,9 +1,14 @@
 package frc.robot.constants;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.drivetrain.DriveIO.DriveNeutralMode;
+
+import java.io.IOException;
 
 public final class Constants {
   private static final RobotType kRobotType = RobotType.ROBOT_2023P;
@@ -76,5 +81,20 @@ public final class Constants {
         public static final double kD = 0; // TODO
       }
     }
+  }
+
+  public static final class Vision {
+    public static final AprilTagFieldLayout kFieldLayout;
+
+    static {
+      try {
+        kFieldLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
+      } catch (IOException e) {
+        throw new RuntimeException("Unable to Load the AprilTagFieldLayout of the field");
+      }
+    }
+
+    public static final Transform3d kForwardCameraTransform3d = null; // TODO
+    public static final Transform3d kRearCameraTransform3d = null; // TODO
   }
 }
