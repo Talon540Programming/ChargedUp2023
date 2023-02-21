@@ -1,11 +1,18 @@
 package frc.lib.vision;
 
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.numbers.N5;
 import edu.wpi.first.wpilibj.DriverStation;
+import org.photonvision.estimation.PNPResults;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
-
+import org.photonvision.targeting.TargetCorner;
+import org.photonvision.estimation.VisionEstimation;
 import java.util.*;
 
 /**
@@ -58,7 +65,7 @@ public class VisionPoseEstimator {
 
         HashMap<String, Optional<EstimatedRobotPose>> results = new HashMap<>();
 
-        for(int i = 0; i < m_cameras.size(); i++) { // TODO, is this n - 1 or just n, I don't remember
+        for(int i = 0; i < m_cameras.size(); i++) {
             PhotonCamera camera = m_cameras.get(i);
             PhotonPipelineResult pipelineResult = camera.getLatestResult();
             double pipelineTimestamp = pipelineResult.getTimestampSeconds();
@@ -81,14 +88,12 @@ public class VisionPoseEstimator {
             m_timestamps.set(i, pipelineTimestamp);
 
             /* ======================== */
-            if(pipelineResult.targets.size() < 2) {
+            if(pipelineResult.getTargets().size() < 2) {
                 // There are only 2 targets, use the target with the lowest ambiguity
-
-
                 PhotonTrackedTarget lowestAmbiguityTarget = null;
                 double lowestAmbiguityScore = 10;
 
-                for (PhotonTrackedTarget target : pipelineResult.targets) {
+                for (PhotonTrackedTarget target : pipelineResult.getTargets()) {
                     double targetPoseAmbiguity = target.getPoseAmbiguity();
                     // Make sure the target is a Fiducial target.
                     if (targetPoseAmbiguity != -1 && targetPoseAmbiguity < lowestAmbiguityScore) {
@@ -121,7 +126,42 @@ public class VisionPoseEstimator {
                                 pipelineTimestamp
                 )));
             } else {
+                ArrayList<TargetCorner> visCorners = new ArrayList<>();
+                ArrayList<AprilTag> knownVisTags = new ArrayList<>();
 
+                for (PhotonTrackedTarget target : pipelineResult.getTargets()) {
+                    visCorners.addAll(target.getDetectedCorners());
+
+                    Optional<Pose3d> tagPoseOpt = fieldLayout.getTagPose(target.getFiducialId());
+                    if (tagPoseOpt.isEmpty()) {
+                        DriverStation.reportWarning("[VisionPoseEstimator] The found tag was not within the FieldLayout.", false);
+                        continue;
+                    }
+
+                    Pose3d tagPose = tagPoseOpt.get();
+
+                    // actual layout poses of visible tags -- not exposed, so have to recreate
+                    knownVisTags.add(new AprilTag(target.getFiducialId(), tagPose));
+                }
+
+                Optional<Matrix<N3, N3>> cameraMatrixOpt = camera.getCameraMatrix();
+                Optional<Matrix<N5, N1>> distCoeffsOpt = camera.getDistCoeffs();
+                boolean hasCalibData = cameraMatrixOpt.isPresent() && distCoeffsOpt.isPresent();
+
+                // multi-target solvePNP
+                if (hasCalibData) {
+                    Matrix<N3, N3> cameraMatrix = cameraMatrixOpt.get();
+                    Matrix<N5, N1> distCoeffs = distCoeffsOpt.get();
+                    PNPResults pnpResults = VisionEstimation.estimateCamPosePNP(cameraMatrix, distCoeffs, visCorners, knownVisTags);
+                    Pose3d best =
+                            new Pose3d()
+                                    .plus(pnpResults.best) // field-to-camera
+                                    .plus(camera.getRobotToCamera().inverse()); // field-to-robot
+
+                    results.put(camera.getName(), Optional.of(new EstimatedRobotPose(best, pipelineTimestamp)));
+                } else {
+                    results.put(camera.getName(), Optional.empty());
+                }
             }
         }
 
