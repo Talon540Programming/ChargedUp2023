@@ -1,7 +1,6 @@
 package frc.lib.vision;
 
 import edu.wpi.first.math.geometry.Transform3d;
-
 import java.util.Objects;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.LogTable;
