@@ -11,13 +11,16 @@ import org.littletonrobotics.junction.Logger;
 
 public class ArmBase extends SubsystemBase {
   private final ArmExtensionIO m_armExtensionIO;
-  public final ArmExtensionIOInputsAutoLogged m_armExtensionInputs = new ArmExtensionIOInputsAutoLogged();
+  public final ArmExtensionIOInputsAutoLogged m_armExtensionInputs =
+      new ArmExtensionIOInputsAutoLogged();
 
   private final ArmRotationIO m_armRotationIO;
-  public final ArmRotationIOInputsAutoLogged m_armRotationInputs = new ArmRotationIOInputsAutoLogged();
+  public final ArmRotationIOInputsAutoLogged m_armRotationInputs =
+      new ArmRotationIOInputsAutoLogged();
 
   private final QuadratureEncoderIO m_rotationEncoderIO;
-  public final QuadratureEncoderIOInputsAutoLogged m_rotationEncoderInputs = new QuadratureEncoderIOInputsAutoLogged();
+  public final QuadratureEncoderIOInputsAutoLogged m_rotationEncoderInputs =
+      new QuadratureEncoderIOInputsAutoLogged();
 
   public ArmBase(
       ArmExtensionIO extensionIO, ArmRotationIO rotationIO, QuadratureEncoderIO rotationEncoderIO) {
@@ -38,7 +41,8 @@ public class ArmBase extends SubsystemBase {
     Logger.getInstance().processInputs("Arm/Rotation/Encoder", m_rotationEncoderInputs);
 
     // Log the target state
-    Logger.getInstance().processInputs("Arm/TargetState", ArmStateManager.getInstance().getArmState());
+    Logger.getInstance()
+        .processInputs("Arm/TargetState", ArmStateManager.getInstance().getArmState());
   }
 
   /**

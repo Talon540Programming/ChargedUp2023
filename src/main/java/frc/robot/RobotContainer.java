@@ -7,7 +7,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -38,11 +37,14 @@ public class RobotContainer {
   private final ArmBase m_armBase;
 
   // Controllers
-  private final TalonXboxController m_driverController = new TalonXboxController(HardwareDevices.kDriverXboxControllerPort);
-  private final TalonXboxController m_depositionController = new TalonXboxController(HardwareDevices.kDepositionXboxControllerPort);
+  private final TalonXboxController m_driverController =
+      new TalonXboxController(HardwareDevices.kDriverXboxControllerPort);
+  private final TalonXboxController m_depositionController =
+      new TalonXboxController(HardwareDevices.kDepositionXboxControllerPort);
 
   // Trajectory Chooser
-  private final LoggedDashboardChooser<String> m_trajectoryChooser = new LoggedDashboardChooser<>("Trajectory Chooser");
+  private final LoggedDashboardChooser<String> m_trajectoryChooser =
+      new LoggedDashboardChooser<>("Trajectory Chooser");
 
   public RobotContainer() {
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -114,11 +116,19 @@ public class RobotContainer {
 
     m_driverController.leftBumper().whileTrue(new StabilizeRobot(m_driveBase));
 
-    // By controlling manually with commands, the StateController is de-scheduled which will bypass control to the controller (manual).
+    // By controlling manually with commands, the StateController is de-scheduled which will bypass
+    // control to the controller (manual).
     new Trigger(() -> Math.abs(m_depositionController.getLeftY()) < 0.05)
-            .whileTrue(new RunCommand(() -> m_armBase.setRotationVoltage(m_depositionController.getLeftDeadbandY()* 12), m_armBase));
+        .whileTrue(
+            new RunCommand(
+                () -> m_armBase.setRotationVoltage(m_depositionController.getLeftDeadbandY() * 12),
+                m_armBase));
     new Trigger(() -> Math.abs(m_depositionController.getRightY()) < 0.05)
-            .whileTrue(new RunCommand(() -> m_armBase.setExtensionVoltage(m_depositionController.getRightDeadbandY()* 12), m_armBase));
+        .whileTrue(
+            new RunCommand(
+                () ->
+                    m_armBase.setExtensionVoltage(m_depositionController.getRightDeadbandY() * 12),
+                m_armBase));
   }
 
   public Command getAutonomousCommand() {
