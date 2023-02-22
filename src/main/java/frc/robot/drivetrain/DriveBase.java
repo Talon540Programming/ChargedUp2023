@@ -8,14 +8,15 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.arm.ArmStateManager;
+import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Drivetrain;
-import frc.robot.drivetrain.DriveIO.DriveNeutralMode;
 import frc.robot.sensors.gyro.GyroIO;
 import frc.robot.sensors.gyro.GyroIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class DriveBase extends SubsystemBase {
-  public final DriveIO m_driveIO;
+  private final DriveIO m_driveIO;
   public final DriveIOInputsAutoLogged m_driveInputs = new DriveIOInputsAutoLogged();
 
   public final GyroIO m_gyroIO;
@@ -51,11 +52,11 @@ public class DriveBase extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_gyroIO.updateInputs(m_gyroInputs);
-    Logger.getInstance().processInputs("Drive/Gyro", m_gyroInputs);
-
     m_driveIO.updateInputs(m_driveInputs);
     Logger.getInstance().processInputs("Drive", m_driveInputs);
+
+    m_gyroIO.updateInputs(m_gyroInputs);
+    Logger.getInstance().processInputs("Drive/Gyro", m_gyroInputs);
 
     // Data in DriveIO is automatically logged using AutoLog. Odometry is handled in subsystem.
     m_odometry.update(
@@ -63,6 +64,8 @@ public class DriveBase extends SubsystemBase {
         m_driveInputs.LeftPositionMeters,
         m_driveInputs.RightPositionMeters);
     Logger.getInstance().recordOutput("Drive/Odometry", getPosition());
+
+    ArmStateManager.getInstance().updateRobotPitch(m_gyroInputs.GyroPitchRad);
   }
 
   /**
@@ -205,18 +208,18 @@ public class DriveBase extends SubsystemBase {
    *
    * @param mode Neutral mode to set the drivetrain motors to.
    */
-  public void setNeutralMode(DriveNeutralMode mode) {
+  public void setNeutralMode(Constants.NeutralMode mode) {
     m_driveIO.setNeutralMode(mode);
   }
 
   /** Reset the neutral mode of the drivetrain to the default mode. */
   public void resetNeutralMode() {
-    setNeutralMode(Drivetrain.kDrivetrainDefaultNeutralMode);
+    setNeutralMode(Constants.Drivetrain.kDrivetrainDefaultNeutralMode);
   }
 
   /** Brake the drivetrain motors then stop them, Useful to avoid a collision. */
   public void emergencyBrake() {
-    setNeutralMode(DriveNeutralMode.BRAKE);
+    setNeutralMode(Constants.NeutralMode.BRAKE);
     stop();
   }
 
