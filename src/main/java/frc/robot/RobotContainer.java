@@ -32,7 +32,6 @@ import frc.robot.sensors.encoder.QuadratureEncoderIOCANCoder;
 import frc.robot.sensors.gyro.GyroIO;
 import frc.robot.sensors.gyro.GyroIOPigeon2;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.littletonrobotics.junction.Logger;
