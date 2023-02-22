@@ -16,6 +16,14 @@ public final class HardwareDevices {
       public static final int kRightLeader = 4;
       public static final int kRightFollower = 3;
     }
+
+    public static class Arm {
+      public static final int kRotationLeader = 0; // TODO
+      public static final int kRotationFollower = 0; // TODO
+      public static final int kExtension = 0; // TODO
+
+      public static final int kArmRotationEncoder = 0; // TODO
+    }
   }
 
   public static final class COMP2023 {
@@ -26,6 +34,14 @@ public final class HardwareDevices {
       public static final int kLeftFollower = 6;
       public static final int kRightLeader = 4;
       public static final int kRightFollower = 3;
+    }
+
+    public static class Arm {
+      public static final int kRotationLeader = 0; // TODO
+      public static final int kRotationFollower = 0; // TODO
+      public static final int kExtension = 0; // TODO
+
+      public static final int kArmRotationEncoder = 0; // TODO
     }
   }
 }

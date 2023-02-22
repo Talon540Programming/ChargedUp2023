@@ -1,5 +1,6 @@
 package frc.lib.pathplanner;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,6 +8,7 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class PathPlannerUtils {
   /**
@@ -28,6 +30,25 @@ public class PathPlannerUtils {
           .toList();
     } catch (IOException e) {
       return Collections.emptyList();
+    }
+  }
+
+  /**
+   * Configure a DashboardChooser to have options for all the found paths in the deployed directory.
+   * Default option is "none".
+   *
+   * @param trajectoryChooser DashboardChooser to modify.
+   */
+  public static void configureTrajectoryChooser(LoggedDashboardChooser<String> trajectoryChooser) {
+    trajectoryChooser.addDefaultOption("None", "none");
+    List<String> pathPlannerPaths = getPaths();
+
+    if (pathPlannerPaths == null) {
+      DriverStation.reportWarning("No Paths were found", false);
+    } else {
+      for (String path : pathPlannerPaths) {
+        trajectoryChooser.addOption(path, path);
+      }
     }
   }
 }

@@ -6,7 +6,6 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.robot.drivetrain.DriveIO.DriveNeutralMode;
 import java.io.IOException;
 
 public final class Constants {
@@ -54,7 +53,7 @@ public final class Constants {
     public static final DifferentialDriveKinematics kDrivetrainKinematics =
         new DifferentialDriveKinematics(kTrackWidthMeters);
 
-    public static final DriveNeutralMode kDrivetrainDefaultNeutralMode = DriveNeutralMode.COAST;
+    public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.COAST;
 
     public static final double kRobotStabilizationToleranceDegrees = 1; // TODO
 
@@ -95,5 +94,45 @@ public final class Constants {
 
     public static final Transform3d kForwardCameraTransform3d = null; // TODO
     public static final Transform3d kRearCameraTransform3d = null; // TODO
+  }
+
+  public static final class Arm {
+    public static final boolean kRotationInverted = false;
+    public static final boolean kExtensionInverted = false;
+    public static final boolean kExtensionEncoderInverted = false;
+
+    public static final double kExtensionGearRatio = 4.0 / 1.0;
+    public static final double kExtensionWinchRadiusInches = 0.4;
+    public static final double kExtensionWinchRadiusMeters =
+        Units.inchesToMeters(kExtensionWinchRadiusInches);
+
+    public static final double kExtensionPositionConversionFactor =
+        Math.PI * (kExtensionWinchRadiusMeters / kExtensionGearRatio); // TODO
+    public static final double kExtensionVelocityConversionFactor =
+        Math.PI / (30.0 * kExtensionGearRatio); // TODO
+
+    public static class ControlValues {
+      public static class RotationValues {
+        public static final double kP = 0; // TODO
+        public static final double kI = 0; // TODO
+        public static final double kD = 0; // TODO
+
+        public static final double kS = 0; // TODO
+        public static final double kG = 0; // TODO
+        public static final double kV = 0; // TODO
+        public static final double kA = 0; // TODO
+      }
+
+      public static class ExtensionValues {
+        public static final double kP = 0; // TODO
+        public static final double kI = 0; // TODO
+        public static final double kD = 0; // TODO
+      }
+    }
+  }
+
+  public enum NeutralMode {
+    BRAKE,
+    COAST
   }
 }

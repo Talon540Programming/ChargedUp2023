@@ -101,7 +101,7 @@ public class DriveIOFalcon implements DriveIO {
   }
 
   @Override
-  public void setNeutralMode(DriveNeutralMode mode) {
+  public void setNeutralMode(Constants.NeutralMode mode) {
     switch (mode) {
       case COAST -> {
         m_leftLeader.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
