@@ -159,7 +159,7 @@ public class RobotContainer {
       Optional<EstimatedRobotPose> value = entry.getValue();
       if (value.isPresent()) {
         EstimatedRobotPose pose = value.get();
-        m_driveBase.addEstimatedPose(pose.robotPose(), pose.timestampSeconds());
+        m_driveBase.addEstimatedPose(pose.robotPose, pose.timestampSeconds);
       }
     }
   }
