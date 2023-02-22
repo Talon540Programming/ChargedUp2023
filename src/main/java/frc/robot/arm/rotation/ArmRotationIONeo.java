@@ -19,6 +19,9 @@ public class ArmRotationIONeo implements ArmRotationIO {
     this.m_leader = new CANSparkMax(leader, CANSparkMaxLowLevel.MotorType.kBrushless);
     this.m_follower = new CANSparkMax(follower, CANSparkMaxLowLevel.MotorType.kBrushless);
 
+    this.m_leader.setSmartCurrentLimit(50);
+    this.m_follower.setSmartCurrentLimit(50);
+
     setNeutralMode(Constants.NeutralMode.BRAKE);
 
     m_follower.follow(m_leader);

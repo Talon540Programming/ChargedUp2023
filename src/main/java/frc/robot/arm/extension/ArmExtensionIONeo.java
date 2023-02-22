@@ -15,6 +15,8 @@ public class ArmExtensionIONeo implements ArmExtensionIO {
 
     setNeutralMode(Constants.NeutralMode.BRAKE);
 
+    motor.setSmartCurrentLimit(50);
+
     motor.setInverted(motorInverted);
 
     encoder = motor.getEncoder();
