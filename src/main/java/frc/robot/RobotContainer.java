@@ -7,9 +7,12 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.lib.pathplanner.PathPlannerUtils;
 import frc.robot.arm.ArmBase;
+import frc.robot.arm.commands.StateController;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIONeo;
 import frc.robot.arm.rotation.ArmRotationIO;
@@ -34,14 +37,11 @@ public class RobotContainer {
   private final ArmBase m_armBase;
 
   // Controllers
-  private final TalonXboxController m_driverController =
-      new TalonXboxController(HardwareDevices.kDriverXboxControllerPort);
-  private final TalonXboxController m_depositionController =
-      new TalonXboxController(HardwareDevices.kDepositionXboxControllerPort);
+  private final TalonXboxController m_driverController = new TalonXboxController(HardwareDevices.kDriverXboxControllerPort);
+  private final TalonXboxController m_depositionController = new TalonXboxController(HardwareDevices.kDepositionXboxControllerPort);
 
   // Trajectory Chooser
-  private final LoggedDashboardChooser<String> m_trajectoryChooser =
-      new LoggedDashboardChooser<>("Trajectory Chooser");
+  private final LoggedDashboardChooser<String> m_trajectoryChooser = new LoggedDashboardChooser<>("Trajectory Chooser");
 
   public RobotContainer() {
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -109,7 +109,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     m_driveBase.setDefaultCommand(new XboxControllerDriveControl(m_driveBase, m_driverController));
-    // m_armBase.setDefaultCommand(new XboxControllerArmControl(m_armBase, m_depositionController));
+    m_armBase.setDefaultCommand(new StateController(m_armBase));
 
     m_driverController.leftBumper().whileTrue(new StabilizeRobot(m_driveBase));
   }
