@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.pathplanner.PathPlannerUtils;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.commands.StateController;
@@ -112,6 +113,12 @@ public class RobotContainer {
     m_armBase.setDefaultCommand(new StateController(m_armBase));
 
     m_driverController.leftBumper().whileTrue(new StabilizeRobot(m_driveBase));
+
+    // By controlling manually with commands, the StateController is de-scheduled which will bypass control to the controller (manual).
+    new Trigger(() -> Math.abs(m_depositionController.getLeftY()) < 0.05)
+            .whileTrue(new RunCommand(() -> m_armBase.setRotationVoltage(m_depositionController.getLeftDeadbandY()* 12), m_armBase));
+    new Trigger(() -> Math.abs(m_depositionController.getRightY()) < 0.05)
+            .whileTrue(new RunCommand(() -> m_armBase.setExtensionVoltage(m_depositionController.getRightDeadbandY()* 12), m_armBase));
   }
 
   public Command getAutonomousCommand() {
