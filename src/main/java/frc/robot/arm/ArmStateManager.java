@@ -1,5 +1,6 @@
-package frc.lib.arm;
+package frc.robot.arm;
 
+import frc.lib.arm.ArmUtil;
 import frc.robot.constants.RobotDimensions;
 import frc.robot.constants.RobotLimits;
 

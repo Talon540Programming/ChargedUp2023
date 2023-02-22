@@ -1,4 +1,4 @@
-package frc.lib.arm;
+package frc.robot.arm;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import org.littletonrobotics.junction.LogTable;

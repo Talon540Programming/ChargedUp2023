@@ -3,7 +3,7 @@ package frc.robot.drivetrain.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.lib.arm.ArmStateManager;
+import frc.robot.arm.ArmStateManager;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Drivetrain;
 import frc.robot.drivetrain.DriveBase;
