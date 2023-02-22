@@ -5,9 +5,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import frc.robot.constants.Constants;
 
-/**
- * ArmExtensionIO using 1 SparkMax motor controller.
- */
+/** ArmExtensionIO using 1 SparkMax motor controller. */
 public class ArmExtensionIONeo implements ArmExtensionIO {
   private final CANSparkMax motor;
   private final RelativeEncoder encoder;

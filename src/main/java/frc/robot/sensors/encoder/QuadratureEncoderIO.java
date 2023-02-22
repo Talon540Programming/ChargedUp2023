@@ -3,9 +3,7 @@ package frc.robot.sensors.encoder;
 import frc.lib.logging.LoggedIO;
 import org.littletonrobotics.junction.AutoLog;
 
-/**
- * IO abstraction for interfacing with a Quadrature encoder.
- */
+/** IO abstraction for interfacing with a Quadrature encoder. */
 public interface QuadratureEncoderIO
     extends LoggedIO<QuadratureEncoderIO.QuadratureEncoderIOInputs> {
   @AutoLog
@@ -25,8 +23,6 @@ public interface QuadratureEncoderIO
    */
   default void setPosition(double position) {}
 
-  /**
-   * Reset the position of the encoder to the absolute position.
-   */
+  /** Reset the position of the encoder to the absolute position. */
   default void resetToAbsolute() {}
 }

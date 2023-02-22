@@ -4,9 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import frc.robot.constants.Constants;
 
-/**
- * ArmRotationIO using 2 SparkMax motor controllers.
- */
+/** ArmRotationIO using 2 SparkMax motor controllers. */
 public class ArmRotationIONeo implements ArmRotationIO {
   private final CANSparkMax m_leader, m_follower;
 

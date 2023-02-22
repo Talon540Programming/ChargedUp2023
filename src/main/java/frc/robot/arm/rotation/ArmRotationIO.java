@@ -4,9 +4,7 @@ import frc.lib.logging.LoggedIO;
 import frc.robot.constants.Constants;
 import org.littletonrobotics.junction.AutoLog;
 
-/**
- * IO abstraction used to control an orm rotation mechanism.
- */
+/** IO abstraction used to control an orm rotation mechanism. */
 public interface ArmRotationIO extends LoggedIO<ArmRotationIO.ArmRotationIOInputs> {
   @AutoLog
   class ArmRotationIOInputs {

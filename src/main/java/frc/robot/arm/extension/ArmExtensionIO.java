@@ -4,9 +4,7 @@ import frc.lib.logging.LoggedIO;
 import frc.robot.constants.Constants;
 import org.littletonrobotics.junction.AutoLog;
 
-/**
- * IO abstraction used to control the extension of a telescoping arm.
- */
+/** IO abstraction used to control the extension of a telescoping arm. */
 public interface ArmExtensionIO extends LoggedIO<ArmExtensionIO.ArmExtensionIOInputs> {
   @AutoLog
   class ArmExtensionIOInputs {
@@ -31,9 +29,7 @@ public interface ArmExtensionIO extends LoggedIO<ArmExtensionIO.ArmExtensionIOIn
    */
   default void setDistance(double distanceMeters) {}
 
-  /**
-   * Reset the distance traveled by the winch to zero.
-   */
+  /** Reset the distance traveled by the winch to zero. */
   default void resetDistance() {}
 
   /**

@@ -1,11 +1,10 @@
 package frc.lib.arm;
 
-/**
- * Utility class used to calculate values for the Arm.
- */
+/** Utility class used to calculate values for the Arm. */
 public class ArmUtil {
   /**
-   * Calculate the total length of the Arm in meters based on how far the winch is extended in meters.
+   * Calculate the total length of the Arm in meters based on how far the winch is extended in
+   * meters.
    *
    * @param lengthExtendedMeters how far the winch is extended in meters.
    * @return estimated total length of the arm in meters.
@@ -25,7 +24,8 @@ public class ArmUtil {
   }
 
   /**
-   * Calculate the delta distance of the center of mass of the arm and the fulcrum based on the total length of the arm.
+   * Calculate the delta distance of the center of mass of the arm and the fulcrum based on the
+   * total length of the arm.
    *
    * @param armLength total length of the arm in meters.
    * @return estimated delta distance of the center of mass.

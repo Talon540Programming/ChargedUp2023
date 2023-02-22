@@ -5,7 +5,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.arm.ArmUtil;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOInputsAutoLogged;
 import frc.robot.arm.rotation.ArmRotationIO;
@@ -98,8 +97,9 @@ public class ArmBase extends SubsystemBase {
   }
 
   /**
-   * Set arm rotation voltage based on the output of a PID controller and a setpoint in the form of a {@link TrapezoidProfile.State}.
-   * Calculates feedforward values and sets the output of the motors.
+   * Set arm rotation voltage based on the output of a PID controller and a setpoint in the form of
+   * a {@link TrapezoidProfile.State}. Calculates feedforward values and sets the output of the
+   * motors.
    *
    * @param output PID based output in volts.
    * @param setpoint setpoint of the arm's position. Used for FeedForward calculations.

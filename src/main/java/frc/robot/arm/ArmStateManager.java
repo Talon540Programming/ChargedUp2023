@@ -29,8 +29,10 @@ public class ArmStateManager {
   private boolean balanceModeEnabled = false;
 
   /**
-   * Update the ArmState of the state manager. This method will check if the state is breaking extension rules or would cause the robot to tip. If it is unable to fix a State, it will not change the current state.
-   * If balance mode is enabled, it will use the arm as a counterweight in-order to help balance the robot.
+   * Update the ArmState of the state manager. This method will check if the state is breaking
+   * extension rules or would cause the robot to tip. If it is unable to fix a State, it will not
+   * change the current state. If balance mode is enabled, it will use the arm as a counterweight
+   * in-order to help balance the robot.
    *
    * @param state State to set.
    */
@@ -118,9 +120,7 @@ public class ArmStateManager {
     updateArmState(armState);
   }
 
-  /**
-   * Reset the ArmState to the Neutral State of the arm {@link ArmStateManager#kDefaultState}.
-   */
+  /** Reset the ArmState to the Neutral State of the arm {@link ArmStateManager#kDefaultState}. */
   public void resetNeutralState() {
     armState = kDefaultState;
   }
