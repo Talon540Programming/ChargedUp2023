@@ -5,6 +5,9 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import frc.robot.constants.Constants;
 
+/**
+ * ArmExtensionIO using 1 SparkMax motor controller.
+ */
 public class ArmExtensionIONeo implements ArmExtensionIO {
   private final CANSparkMax motor;
   private final RelativeEncoder encoder;
@@ -35,8 +38,8 @@ public class ArmExtensionIONeo implements ArmExtensionIO {
   }
 
   @Override
-  public void setDistance(double distance) {
-    encoder.setPosition(distance);
+  public void setDistance(double distanceMeters) {
+    encoder.setPosition(distanceMeters);
   }
 
   @Override

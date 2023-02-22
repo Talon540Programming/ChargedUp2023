@@ -5,8 +5,14 @@ import frc.robot.constants.RobotDimensions;
 import frc.robot.constants.RobotLimits;
 
 public class ArmStateManager {
+  /** Singleton instance of the ArmStateManager. */
   private static ArmStateManager instance;
 
+  /**
+   * Get the instance of the ArmStateManager Singleton.
+   *
+   * @return instance of ArmStateManager.
+   */
   public static synchronized ArmStateManager getInstance() {
     if (instance == null) {
       instance = new ArmStateManager();
@@ -14,6 +20,7 @@ public class ArmStateManager {
     return instance;
   }
 
+  /** The default (neutral) mode for the arm. */
   public static final ArmState kDefaultState = new ArmState(Math.PI / 2.0, 0);
 
   private ArmState armState = kDefaultState;
@@ -21,6 +28,12 @@ public class ArmStateManager {
   private double robotPitchRadians = 0;
   private boolean balanceModeEnabled = false;
 
+  /**
+   * Update the ArmState of the state manager. This method will check if the state is breaking extension rules or would cause the robot to tip. If it is unable to fix a State, it will not change the current state.
+   * If balance mode is enabled, it will use the arm as a counterweight in-order to help balance the robot.
+   *
+   * @param state State to set.
+   */
   public void updateArmState(ArmState state) {
     // Organize the state around the current robot state
     if (balanceModeEnabled) {
@@ -76,21 +89,39 @@ public class ArmStateManager {
     armState = state.clone();
   }
 
+  /**
+   * Get the target state of the Arm.
+   *
+   * @return target state.
+   */
   public ArmState getArmState() {
     return armState;
   }
 
+  /**
+   * Set the pitch of the robot in radians.
+   *
+   * @param angleRadians pitch of the robot in radians.
+   */
   public void updateRobotPitch(double angleRadians) {
     robotPitchRadians = angleRadians;
     updateArmState(armState);
   }
 
+  /**
+   * Set if the StateManager should update the position of arm in order to help balance the robot.
+   *
+   * @param enable Whether to enable balance mode.
+   */
   public void enableBalanceMode(boolean enable) {
     balanceModeEnabled = enable;
     updateArmState(armState);
   }
 
-  public void resetToHome() {
+  /**
+   * Reset the ArmState to the Neutral State of the arm {@link ArmStateManager#kDefaultState}.
+   */
+  public void resetNeutralState() {
     armState = kDefaultState;
   }
 }

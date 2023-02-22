@@ -42,6 +42,7 @@ public class ColorSensorIOREV3 implements ColorSensorIO {
     inputs.ProximityValue = m_colorSensor.getProximity();
   }
 
+  @Override
   public Color getColor() {
     return m_colorSensor.getColor();
   }

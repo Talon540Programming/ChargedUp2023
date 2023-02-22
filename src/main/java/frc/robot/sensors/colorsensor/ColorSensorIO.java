@@ -23,10 +23,20 @@ public interface ColorSensorIO extends LoggedIO<ColorSensorIO.ColorSensorIOInput
   @Override
   default void updateInputs(ColorSensorIOInputs inputs) {}
 
+  /**
+   * Get the current Color being seen by the Color sensor as a {@link Color} object.
+   *
+   * @return current color.
+   */
   default Color getColor() {
     return null;
   }
 
+  /**
+   * Get the current Color being seen by the Color sensor as a {@link Color8Bit} object.
+   *
+   * @return current color.
+   */
   default Color8Bit getColor8Bit() {
     return null;
   }

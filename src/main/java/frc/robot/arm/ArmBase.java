@@ -88,24 +88,42 @@ public class ArmBase extends SubsystemBase {
         rotationGoal);
   }
 
-  private void setRotationOutput(double output, TrapezoidProfile.State setpoint) {
-    double feedForwardValue = m_rotationFeedforward.calculate(setpoint.position, setpoint.velocity);
-    m_armRotationIO.setVoltage(feedForwardValue + output);
-  }
-
+  /**
+   * Set the voltage output of the rotation motors.
+   *
+   * @param voltage voltage to set.
+   */
   public void setRotationVoltage(double voltage) {
     m_armRotationIO.setVoltage(voltage);
   }
 
-  private void setExtensionOutput(double output) {
-    m_armExtensionIO.setVoltage(output);
+  /**
+   * Set arm rotation voltage based on the output of a PID controller and a setpoint in the form of a {@link TrapezoidProfile.State}.
+   * Calculates feedforward values and sets the output of the motors.
+   *
+   * @param output PID based output in volts.
+   * @param setpoint setpoint of the arm's position. Used for FeedForward calculations.
+   */
+  private void setRotationOutput(double output, TrapezoidProfile.State setpoint) {
+    double feedForwardValue = m_rotationFeedforward.calculate(setpoint.position, setpoint.velocity);
+    setRotationVoltage(feedForwardValue + output);
   }
 
+  /**
+   * Set the voltage output of the extension motors.
+   *
+   * @param voltage voltage to set.
+   */
   public void setExtensionVoltage(double voltage) {
     m_armExtensionIO.setVoltage(voltage);
   }
 
-  public double getArmLengthMeters() {
-    return ArmUtil.calculateArmLength(m_armExtensionInputs.DistanceTraveledMeters);
+  /**
+   * Set arm rotation voltage based on the output of a PID controller.
+   *
+   * @param output PID based output in volts.
+   */
+  private void setExtensionOutput(double output) {
+    setExtensionVoltage(output);
   }
 }
