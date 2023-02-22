@@ -110,7 +110,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     m_driveBase.setDefaultCommand(new XboxControllerDriveControl(m_driveBase, m_driverController));
-    m_armBase.setDefaultCommand(new XboxControllerArmControl(m_armBase, m_depositionController));
+    // m_armBase.setDefaultCommand(new XboxControllerArmControl(m_armBase, m_depositionController));
 
     m_driverController.leftBumper().whileTrue(new StabilizeRobot(m_driveBase));
   }
