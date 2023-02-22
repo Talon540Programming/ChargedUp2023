@@ -1,4 +1,4 @@
-package frc.robot.arm.command.control;
+package frc.robot.arm.commands.control;
 
 import frc.robot.arm.ArmBase;
 import org.talon540.control.XboxController.TalonXboxController;
