@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.pathplanner.PathPlannerUtils;
 import frc.robot.arm.ArmBase;
-import frc.robot.arm.commands.control.XboxControllerArmControl;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIONeo;
 import frc.robot.arm.rotation.ArmRotationIO;
