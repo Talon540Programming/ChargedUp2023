@@ -150,8 +150,8 @@ public class RobotContainer {
   }
 
   public void pollVisionData() {
-    Logger.getInstance().processInputs(m_forwardCamera.getName(), m_forwardCamera);
-    Logger.getInstance().processInputs(m_rearCamera.getName(), m_rearCamera);
+    m_forwardCamera.logData();
+    m_rearCamera.logData();
 
     HashMap<String, Optional<EstimatedRobotPose>> data = m_visionEstimator.getRobotPose();
 

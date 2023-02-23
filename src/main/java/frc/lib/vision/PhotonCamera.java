@@ -1,17 +1,21 @@
 package frc.lib.vision;
 
 import edu.wpi.first.math.geometry.Transform3d;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
-import org.littletonrobotics.junction.LogTable;
-import org.littletonrobotics.junction.inputs.LoggableInputs;
+
+import org.littletonrobotics.junction.Logger;
 import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import org.photonvision.targeting.TargetCorner;
 
-public class PhotonCamera extends org.photonvision.PhotonCamera implements LoggableInputs {
+public class PhotonCamera extends org.photonvision.PhotonCamera {
   private final Supplier<Transform3d> kRobotToCamera;
-
+  // Set default tracking mode to AprilTag
   public PhotonCamera(String subtableName, Supplier<Transform3d> robotToCameraSupplier) {
     super(subtableName);
     kRobotToCamera = Objects.requireNonNull(robotToCameraSupplier);
@@ -37,43 +41,56 @@ public class PhotonCamera extends org.photonvision.PhotonCamera implements Logga
     this.setLED(VisionLEDMode.kBlink);
   }
 
-  public TrackingMode getTrackingMode() {
+  public TargetMode getTrackingMode() {
     final int pipelineIndex = getPipelineIndex();
-    for (TrackingMode val : TrackingMode.values()) {
+    for (TargetMode val : TargetMode.values()) {
       if (val.pipeline == pipelineIndex) return val;
     }
 
-    return TrackingMode.kUnknown;
+    return TargetMode.kUnknown;
   }
 
-  public void setTrackingMode(TrackingMode mode) {
+  public void setTrackingMode(TargetMode mode) {
+    if(mode == TargetMode.kUnknown) {
+      return;
+    }
+
     setPipelineIndex(mode.pipeline);
-  }
 
-  @Override
-  public void toLog(LogTable table) {
-    PhotonPipelineResult result = getLatestResult();
-
-    table.put("Timestamp", result.getTimestampSeconds());
-    table.put("Latency", result.getLatencyMillis());
-    table.put("HasTargets", result.hasTargets());
-
-    for (int i = 0; i < result.targets.size() - 1; i++) {
-      PhotonTrackedTarget target = result.targets.get(i);
-      table.put("Targets/" + i + "/Yaw", target.getYaw());
-      table.put("Targets/" + i + "/Pitch", target.getPitch());
-      table.put("Targets/" + i + "/Area", target.getArea());
-      table.put("Targets/" + i + "/Skew", target.getSkew());
-      table.put("Targets/" + i + "/FiducialId", target.getFiducialId());
-      table.put("Targets/" + i + "/BestCameraToTarget", target.getBestCameraToTarget().toString());
-      table.put(
-          "Targets/" + i + "/AltCameraToTarget", target.getAlternateCameraToTarget().toString());
-      table.put("Targets/" + i + "/PoseAmbiguity", target.getPoseAmbiguity());
+    // Only enable LEDs if the tracking mode is Reflective
+    if(mode == TargetMode.kReflective) {
+      enableLEDs();
+    } else {
+      disableLEDs();
     }
   }
 
-  @Override
-  public void fromLog(LogTable table) {
-    // TODO, populate data from AdvantageKit
+  public void logData() {
+    String cameraLogPath = "Vision/Cameras/"+getName();
+    Logger instance = Logger.getInstance();
+
+    PhotonPipelineResult result = getLatestResult();
+
+    instance.recordOutput(cameraLogPath+"/TargetMode", getTrackingMode().toString());
+    instance.recordOutput(cameraLogPath+"/IsDriverMode", getDriverMode());
+    instance.recordOutput(cameraLogPath+"/LED_MODE", getLEDMode().toString());
+
+    instance.recordOutput(cameraLogPath+"/CaptureTimestamp", result.getTimestampSeconds());
+    instance.recordOutput(cameraLogPath+"/Latency", result.getLatencyMillis());
+    instance.recordOutput(cameraLogPath+"/HasTargets", result.hasTargets());
+
+    // Log the corners of targets for visualization
+    List<Double> cornerXList = new ArrayList<>();
+    List<Double> cornerYList = new ArrayList<>();
+
+    for (PhotonTrackedTarget target : result.getTargets()) {
+      for (TargetCorner corner : target.getDetectedCorners()) {
+        cornerXList.add(corner.x);
+        cornerYList.add(corner.y);
+      }
+    }
+
+    instance.recordOutput(cameraLogPath+"/CornerX", cornerXList.stream().mapToDouble(Double::doubleValue).toArray());
+    instance.recordOutput(cameraLogPath+"/CornerY",cornerYList.stream().mapToDouble(Double::doubleValue).toArray());
   }
 }
