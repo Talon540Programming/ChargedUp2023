@@ -1,4 +1,4 @@
-package frc.lib.vision;
+package frc.lib.vision.position;
 
 import edu.wpi.first.math.geometry.Pose3d;
 
