@@ -19,13 +19,18 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
     this.m_leader = new CANSparkMax(leader, CANSparkMaxLowLevel.MotorType.kBrushless);
     this.m_follower = new CANSparkMax(follower, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    this.m_leader.setSmartCurrentLimit(50);
-    this.m_follower.setSmartCurrentLimit(50);
-
-    setNeutralMode(Constants.NeutralMode.BRAKE);
-
     m_follower.follow(m_leader);
     m_leader.setInverted(inverted);
+
+    m_leader.setSmartCurrentLimit(40);
+    m_follower.setSmartCurrentLimit(40);
+
+    m_leader.enableVoltageCompensation(12.0);
+
+    m_leader.setCANTimeout(0);
+    m_follower.setCANTimeout(0);
+
+    setNeutralMode(Constants.NeutralMode.BRAKE);
   }
 
   @Override
