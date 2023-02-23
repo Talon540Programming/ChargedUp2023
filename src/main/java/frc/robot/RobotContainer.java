@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.pathplanner.PathPlannerUtils;
-import frc.lib.vision.position.EstimatedRobotPose;
 import frc.lib.vision.PhotonCamera;
+import frc.lib.vision.position.EstimatedRobotPose;
 import frc.lib.vision.position.VisionPoseEstimator;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.commands.StateController;
@@ -157,11 +157,19 @@ public class RobotContainer {
     HashMap<String, Optional<EstimatedRobotPose>> data = m_visionEstimator.getRobotPose();
 
     for (Map.Entry<String, Optional<EstimatedRobotPose>> entry : data.entrySet()) {
-      entry.getValue().ifPresent(pose -> {
-        Logger.getInstance().recordOutput("Vision/EstimatedPosition/"+entry.getKey()+"/Pose", pose.robotPose);
-        Logger.getInstance().recordOutput("Vision/EstimatedPosition/"+entry.getKey()+"/Timestamp", pose.timestampSeconds);
-        m_driveBase.addEstimatedPose(pose.robotPose, pose.timestampSeconds);
-      });
+      entry
+          .getValue()
+          .ifPresent(
+              pose -> {
+                Logger.getInstance()
+                    .recordOutput(
+                        "Vision/EstimatedPosition/" + entry.getKey() + "/Pose", pose.robotPose);
+                Logger.getInstance()
+                    .recordOutput(
+                        "Vision/EstimatedPosition/" + entry.getKey() + "/Timestamp",
+                        pose.timestampSeconds);
+                m_driveBase.addEstimatedPose(pose.robotPose, pose.timestampSeconds);
+              });
     }
   }
 

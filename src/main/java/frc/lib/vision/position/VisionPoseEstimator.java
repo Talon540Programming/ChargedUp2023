@@ -8,10 +8,8 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.numbers.N5;
 import edu.wpi.first.wpilibj.DriverStation;
-import java.util.*;
-
 import frc.lib.vision.PhotonCamera;
-import frc.lib.vision.position.EstimatedRobotPose;
+import java.util.*;
 import org.photonvision.estimation.PNPResults;
 import org.photonvision.estimation.VisionEstimation;
 import org.photonvision.targeting.PhotonPipelineResult;

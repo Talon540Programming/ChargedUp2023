@@ -1,12 +1,10 @@
 package frc.lib.vision;
 
 import edu.wpi.first.math.geometry.Transform3d;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
-
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -51,14 +49,14 @@ public class PhotonCamera extends org.photonvision.PhotonCamera {
   }
 
   public void setTrackingMode(TargetMode mode) {
-    if(mode == TargetMode.kUnknown) {
+    if (mode == TargetMode.kUnknown) {
       return;
     }
 
     setPipelineIndex(mode.pipeline);
 
     // Only enable LEDs if the tracking mode is Reflective
-    if(mode == TargetMode.kReflective) {
+    if (mode == TargetMode.kReflective) {
       enableLEDs();
     } else {
       disableLEDs();
@@ -66,18 +64,18 @@ public class PhotonCamera extends org.photonvision.PhotonCamera {
   }
 
   public void logData() {
-    String cameraLogPath = "Vision/Cameras/"+getName();
+    String cameraLogPath = "Vision/Cameras/" + getName();
     Logger instance = Logger.getInstance();
 
     PhotonPipelineResult result = getLatestResult();
 
-    instance.recordOutput(cameraLogPath+"/TargetMode", getTrackingMode().toString());
-    instance.recordOutput(cameraLogPath+"/IsDriverMode", getDriverMode());
-    instance.recordOutput(cameraLogPath+"/LED_MODE", getLEDMode().toString());
+    instance.recordOutput(cameraLogPath + "/TargetMode", getTrackingMode().toString());
+    instance.recordOutput(cameraLogPath + "/IsDriverMode", getDriverMode());
+    instance.recordOutput(cameraLogPath + "/LED_MODE", getLEDMode().toString());
 
-    instance.recordOutput(cameraLogPath+"/CaptureTimestamp", result.getTimestampSeconds());
-    instance.recordOutput(cameraLogPath+"/Latency", result.getLatencyMillis());
-    instance.recordOutput(cameraLogPath+"/HasTargets", result.hasTargets());
+    instance.recordOutput(cameraLogPath + "/CaptureTimestamp", result.getTimestampSeconds());
+    instance.recordOutput(cameraLogPath + "/Latency", result.getLatencyMillis());
+    instance.recordOutput(cameraLogPath + "/HasTargets", result.hasTargets());
 
     // Log the corners of targets for visualization
     List<Double> cornerXList = new ArrayList<>();
@@ -90,7 +88,11 @@ public class PhotonCamera extends org.photonvision.PhotonCamera {
       }
     }
 
-    instance.recordOutput(cameraLogPath+"/CornerX", cornerXList.stream().mapToDouble(Double::doubleValue).toArray());
-    instance.recordOutput(cameraLogPath+"/CornerY",cornerYList.stream().mapToDouble(Double::doubleValue).toArray());
+    instance.recordOutput(
+        cameraLogPath + "/CornerX",
+        cornerXList.stream().mapToDouble(Double::doubleValue).toArray());
+    instance.recordOutput(
+        cameraLogPath + "/CornerY",
+        cornerYList.stream().mapToDouble(Double::doubleValue).toArray());
   }
 }
