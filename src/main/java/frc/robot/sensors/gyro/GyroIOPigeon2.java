@@ -20,7 +20,7 @@ public class GyroIOPigeon2 implements GyroIO {
     inputs.GyroPitchRad = Math.toRadians(m_gyro.getPitch());
     inputs.GyroRollRad = Math.toRadians(m_gyro.getRoll());
     inputs.GyroRateRadPerSecond = Math.toRadians(m_gyro.getRate());
-    
+
     inputs.AccelX = m_accelerometer.getX();
     inputs.AccelY = m_accelerometer.getY();
     inputs.AccelZ = m_accelerometer.getZ();
