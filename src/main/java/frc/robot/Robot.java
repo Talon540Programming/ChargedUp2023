@@ -40,9 +40,12 @@ public class Robot extends LoggedRobot {
 
         logger.addDataReceiver(new NT4Publisher());
 
-        LoggedDriverStation.getInstance();
-        LoggedSystemStats.getInstance();
         LoggedPowerDistribution.getInstance();
+
+        if (Constants.kAdvancedLoggingEnabled) {
+          LoggedDriverStation.getInstance();
+          LoggedSystemStats.getInstance();
+        }
       }
       case REPLAY -> {
         setUseTiming(false);
@@ -61,7 +64,9 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    LoggerUtil.logNTClients();
+    if(Constants.kAdvancedLoggingEnabled) {
+      LoggerUtil.logNTClients();
+    }
   }
 
   @Override
