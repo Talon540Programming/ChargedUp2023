@@ -35,8 +35,8 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
 
   @Override
   public void updateInputs(ArmRotationIOInputs inputs) {
-    inputs.SupplyCurrentAmps = (m_leader.getAppliedOutput() + m_follower.getAppliedOutput()) / 2;
-    inputs.StatorCurrentAmps = (m_leader.getOutputCurrent() + m_follower.getOutputCurrent()) / 2;
+    inputs.CurrentAmps = new double[] { m_leader.getOutputCurrent(), m_follower.getOutputCurrent() };
+    inputs.TemperatureCelsius = new double[] { m_leader.getMotorTemperature(), m_follower.getMotorTemperature() };
   }
 
   @Override
