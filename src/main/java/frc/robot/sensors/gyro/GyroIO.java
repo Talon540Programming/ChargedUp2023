@@ -12,6 +12,9 @@ public interface GyroIO extends LoggedIO<GyroIO.GyroIOInputs> {
     public double GyroPitchRad;
     public double GyroRollRad;
     public double GyroRateRadPerSecond;
+    public double AccelX;
+    public double AccelY;
+    public double AccelZ;
   }
 
   @Override

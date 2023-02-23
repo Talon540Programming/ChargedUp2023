@@ -5,6 +5,11 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 
 public final class Constants {
+  /**
+   * Whether advanced logging should be enabled. This can be disabled if there is too much going on.
+   */
+  public static final boolean kAdvancedLoggingEnabled = true;
+
   private static final RobotType kRobotType = RobotType.ROBOT_2023P;
 
   public enum RobotMode {

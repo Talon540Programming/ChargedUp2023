@@ -12,6 +12,8 @@ public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
     public double LeftVelocityMetersPerSecond;
     public double RightPositionMeters;
     public double RightVelocityMetersPerSecond;
+    public double[] TemperatureCelsius;
+    public double[] CurrentAmps;
   }
 
   @Override

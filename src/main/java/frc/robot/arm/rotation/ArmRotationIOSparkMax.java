@@ -5,7 +5,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import frc.robot.constants.Constants;
 
 /** ArmRotationIO using 2 SparkMax motor controllers. */
-public class ArmRotationIONeo implements ArmRotationIO {
+public class ArmRotationIOSparkMax implements ArmRotationIO {
   private final CANSparkMax m_leader, m_follower;
 
   /**
@@ -15,23 +15,29 @@ public class ArmRotationIONeo implements ArmRotationIO {
    * @param follower id of the follower SparkMax
    * @param inverted whether the direction of the motors should be inverted.
    */
-  public ArmRotationIONeo(int leader, int follower, boolean inverted) {
+  public ArmRotationIOSparkMax(int leader, int follower, boolean inverted) {
     this.m_leader = new CANSparkMax(leader, CANSparkMaxLowLevel.MotorType.kBrushless);
     this.m_follower = new CANSparkMax(follower, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    this.m_leader.setSmartCurrentLimit(50);
-    this.m_follower.setSmartCurrentLimit(50);
-
-    setNeutralMode(Constants.NeutralMode.BRAKE);
-
     m_follower.follow(m_leader);
     m_leader.setInverted(inverted);
+
+    m_leader.setSmartCurrentLimit(40);
+    m_follower.setSmartCurrentLimit(40);
+
+    m_leader.enableVoltageCompensation(12.0);
+
+    m_leader.setCANTimeout(0);
+    m_follower.setCANTimeout(0);
+
+    setNeutralMode(Constants.NeutralMode.BRAKE);
   }
 
   @Override
   public void updateInputs(ArmRotationIOInputs inputs) {
-    inputs.SupplyCurrentAmps = (m_leader.getAppliedOutput() + m_follower.getAppliedOutput()) / 2;
-    inputs.StatorCurrentAmps = (m_leader.getOutputCurrent() + m_follower.getOutputCurrent()) / 2;
+    inputs.CurrentAmps = new double[] {m_leader.getOutputCurrent(), m_follower.getOutputCurrent()};
+    inputs.TemperatureCelsius =
+        new double[] {m_leader.getMotorTemperature(), m_follower.getMotorTemperature()};
   }
 
   @Override

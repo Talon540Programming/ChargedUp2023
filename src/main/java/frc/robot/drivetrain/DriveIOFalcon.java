@@ -83,6 +83,18 @@ public class DriveIOFalcon implements DriveIO {
     inputs.LeftVelocityMetersPerSecond = leftSignum * m_leftSensors.getLinearVelocity();
     inputs.RightPositionMeters = rightSignum * m_rightSensors.getPosition();
     inputs.RightVelocityMetersPerSecond = rightSignum * m_rightSensors.getLinearVelocity();
+
+    inputs.TemperatureCelsius =
+        new double[] {
+          m_leftLeader.getTemperature(), m_leftFollower.getTemperature(),
+          m_rightLeader.getTemperature(), m_rightFollower.getTemperature()
+        };
+
+    inputs.CurrentAmps =
+        new double[] {
+          m_leftLeader.getSupplyCurrent(), m_leftFollower.getSupplyCurrent(),
+          m_rightLeader.getSupplyCurrent(), m_rightFollower.getSupplyCurrent()
+        };
   }
 
   @Override

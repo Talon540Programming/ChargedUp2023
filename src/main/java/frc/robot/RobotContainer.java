@@ -14,9 +14,9 @@ import frc.lib.pathplanner.PathPlannerUtils;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.commands.StateController;
 import frc.robot.arm.extension.ArmExtensionIO;
-import frc.robot.arm.extension.ArmExtensionIONeo;
+import frc.robot.arm.extension.ArmExtensionIOSparkMax;
 import frc.robot.arm.rotation.ArmRotationIO;
-import frc.robot.arm.rotation.ArmRotationIONeo;
+import frc.robot.arm.rotation.ArmRotationIOSparkMax;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
 import frc.robot.drivetrain.DriveBase;
@@ -79,12 +79,12 @@ public class RobotContainer {
                   Constants.Drivetrain.kRightSensorInverted);
           gyroIO = new GyroIOPigeon2(HardwareDevices.PROTO2023.kRobotGyroConfig);
           extensionIO =
-              new ArmExtensionIONeo(
+              new ArmExtensionIOSparkMax(
                   HardwareDevices.PROTO2023.Arm.kExtension,
                   Constants.Arm.kExtensionInverted,
                   Constants.Arm.kExtensionEncoderInverted);
           rotationIO =
-              new ArmRotationIONeo(
+              new ArmRotationIOSparkMax(
                   HardwareDevices.PROTO2023.Arm.kRotationLeader,
                   HardwareDevices.PROTO2023.Arm.kRotationFollower,
                   Constants.Arm.kRotationInverted);
