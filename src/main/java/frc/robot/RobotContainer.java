@@ -153,12 +153,15 @@ public class RobotContainer {
     m_forwardCamera.logData();
     m_rearCamera.logData();
 
+    // Log VisionPoseEstimator data
     HashMap<String, Optional<EstimatedRobotPose>> data = m_visionEstimator.getRobotPose();
 
     for (Map.Entry<String, Optional<EstimatedRobotPose>> entry : data.entrySet()) {
       Optional<EstimatedRobotPose> value = entry.getValue();
       if (value.isPresent()) {
         EstimatedRobotPose pose = value.get();
+        Logger.getInstance().recordOutput("Vision/EstimatedPosition/"+entry.getKey()+"/Pose", pose.robotPose);
+        Logger.getInstance().recordOutput("Vision/EstimatedPosition/"+entry.getKey()+"/Timestamp", pose.timestampSeconds);
         m_driveBase.addEstimatedPose(pose.robotPose, pose.timestampSeconds);
       }
     }
