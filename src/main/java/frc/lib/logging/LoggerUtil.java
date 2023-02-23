@@ -1,10 +1,14 @@
 package frc.lib.logging;
 
+import edu.wpi.first.networktables.ConnectionInfo;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.generated.BuildConstants;
 import frc.robot.constants.Constants;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import org.littletonrobotics.junction.Logger;
 
 /** Utilities used by the AdvantageKit Logger. */
@@ -47,5 +51,23 @@ public class LoggerUtil {
     } catch (IOException e) {
       return null;
     }
+  }
+
+  /**
+   * Log all the currently connected NetworkTables clients. This method should be called
+   * periodically.
+   */
+  public static void logNTClients() {
+    List<String> clientNames = new ArrayList<>();
+    List<String> clientAddresses = new ArrayList<>();
+
+    for (ConnectionInfo client : NetworkTableInstance.getDefault().getConnections()) {
+      clientNames.add(client.remote_id);
+      clientAddresses.add(client.remote_ip);
+    }
+
+    Logger.getInstance().recordOutput("NTClients/Names", clientNames.toArray(new String[0]));
+    Logger.getInstance()
+        .recordOutput("NTClients/Addresses", clientAddresses.toArray(new String[0]));
   }
 }
