@@ -5,7 +5,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import frc.robot.constants.Constants;
 
 /** ArmRotationIO using 2 SparkMax motor controllers. */
-public class ArmRotationIONeo implements ArmRotationIO {
+public class ArmRotationIOSparkMax implements ArmRotationIO {
   private final CANSparkMax m_leader, m_follower;
 
   /**
@@ -15,7 +15,7 @@ public class ArmRotationIONeo implements ArmRotationIO {
    * @param follower id of the follower SparkMax
    * @param inverted whether the direction of the motors should be inverted.
    */
-  public ArmRotationIONeo(int leader, int follower, boolean inverted) {
+  public ArmRotationIOSparkMax(int leader, int follower, boolean inverted) {
     this.m_leader = new CANSparkMax(leader, CANSparkMaxLowLevel.MotorType.kBrushless);
     this.m_follower = new CANSparkMax(follower, CANSparkMaxLowLevel.MotorType.kBrushless);
 

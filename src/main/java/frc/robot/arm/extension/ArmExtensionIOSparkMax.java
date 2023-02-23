@@ -6,11 +6,11 @@ import com.revrobotics.RelativeEncoder;
 import frc.robot.constants.Constants;
 
 /** ArmExtensionIO using 1 SparkMax motor controller. */
-public class ArmExtensionIONeo implements ArmExtensionIO {
+public class ArmExtensionIOSparkMax implements ArmExtensionIO {
   private final CANSparkMax motor;
   private final RelativeEncoder encoder;
 
-  public ArmExtensionIONeo(int id, boolean motorInverted, boolean encoderInverted) {
+  public ArmExtensionIOSparkMax(int id, boolean motorInverted, boolean encoderInverted) {
     motor = new CANSparkMax(id, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     setNeutralMode(Constants.NeutralMode.BRAKE);
