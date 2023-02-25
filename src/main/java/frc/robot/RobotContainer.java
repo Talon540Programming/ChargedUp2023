@@ -103,23 +103,9 @@ public class RobotContainer {
                   Constants.Drivetrain.kRightSideInverted,
                   Constants.Drivetrain.kRightSensorInverted);
           gyroIO = new GyroIOPigeon2(HardwareDevices.PROTO2023.kRobotGyroId);
-          extensionIO =
-              new ArmExtensionIOSparkMax(
-                  HardwareDevices.PROTO2023.Arm.kExtensionId,
-                  Constants.Arm.kExtensionInverted,
-                  Constants.Arm.kExtensionEncoderInverted,
-                      Constants.Arm.kExtensionPositionConversionFactor,
-                      Constants.Arm.kExtensionVelocityConversionFactor);
-          rotationIO =
-              new ArmRotationIOSparkMax(
-                  HardwareDevices.PROTO2023.Arm.kRotationLeaderId,
-                  HardwareDevices.PROTO2023.Arm.kRotationFollowerId,
-                  Constants.Arm.kRotationInverted);
-
-          armRotationEncoderIO =
-              new QuadratureEncoderIOCANCoder(
-                      HardwareDevices.PROTO2023.Arm.kArmRotationEncoderId,
-                      Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees);
+          extensionIO = new ArmExtensionIO() {};
+          rotationIO = new ArmRotationIO() {};
+          armRotationEncoderIO = new QuadratureEncoderIO() {};
         }
         default -> throw new RuntimeException("Unknown Robot Type");
       }
