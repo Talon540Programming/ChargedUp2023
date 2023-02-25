@@ -58,11 +58,36 @@ public class RobotContainer {
     if (Constants.getRobotMode() == Constants.RobotMode.REAL) {
       switch (Constants.getRobotType()) {
         case ROBOT_2023C -> {
-          driveIO = new DriveIO() {};
-          gyroIO = new GyroIO() {};
-          extensionIO = new ArmExtensionIO() {};
-          rotationIO = new ArmRotationIO() {};
-          armRotationEncoderIO = new QuadratureEncoderIO() {};
+          driveIO =
+                  new DriveIOFalcon(
+                          HardwareDevices.COMP2023.Drivetrain.kLeftLeaderId,
+                          HardwareDevices.COMP2023.Drivetrain.kLeftFollowerId,
+                          HardwareDevices.COMP2023.Drivetrain.kRightLeaderId,
+                          HardwareDevices.COMP2023.Drivetrain.kRightFollowerId,
+                          Constants.Drivetrain.kDrivetrainGearRatio,
+                          Constants.Drivetrain.kWheelRadiusMeters,
+                          Constants.Drivetrain.kLeftSideInverted,
+                          Constants.Drivetrain.kLeftSensorInverted,
+                          Constants.Drivetrain.kRightSideInverted,
+                          Constants.Drivetrain.kRightSensorInverted);
+          gyroIO = new GyroIOPigeon2(HardwareDevices.COMP2023.kRobotGyroId);
+          extensionIO =
+                  new ArmExtensionIOSparkMax(
+                          HardwareDevices.COMP2023.Arm.kExtensionId,
+                          Constants.Arm.kExtensionInverted,
+                          Constants.Arm.kExtensionEncoderInverted,
+                          Constants.Arm.kExtensionPositionConversionFactor,
+                          Constants.Arm.kExtensionVelocityConversionFactor);
+          rotationIO =
+                  new ArmRotationIOSparkMax(
+                          HardwareDevices.COMP2023.Arm.kRotationLeaderId,
+                          HardwareDevices.COMP2023.Arm.kRotationFollowerId,
+                          Constants.Arm.kRotationInverted);
+
+          armRotationEncoderIO =
+                  new QuadratureEncoderIOCANCoder(
+                          HardwareDevices.COMP2023.Arm.kArmRotationEncoderId,
+                          Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees);
         }
         case ROBOT_2023P -> {
           driveIO =
