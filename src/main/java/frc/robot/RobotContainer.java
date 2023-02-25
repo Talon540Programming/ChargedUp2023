@@ -92,7 +92,9 @@ public class RobotContainer {
                   Constants.Arm.kRotationInverted);
 
           armRotationEncoderIO =
-              new QuadratureEncoderIOCANCoder(HardwareDevices.PROTO2023.Arm.kArmRotationEncoderId);
+              new QuadratureEncoderIOCANCoder(
+                      HardwareDevices.PROTO2023.Arm.kArmRotationEncoderId,
+                      Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees);
         }
         default -> throw new RuntimeException("Unknown Robot Type");
       }

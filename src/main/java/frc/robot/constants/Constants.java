@@ -97,6 +97,8 @@ public final class Constants {
     public static final double kExtensionVelocityConversionFactor =
         Math.PI / (30.0 * kExtensionGearRatio); // TODO
 
+    public static final double kRotationAbsoluteEncoderOffsetDegrees = 0; // TODO
+
     public static class ControlValues {
       public static class RotationValues {
         public static final double kP = 0; // TODO
