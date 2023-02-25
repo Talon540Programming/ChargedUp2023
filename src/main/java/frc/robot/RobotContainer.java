@@ -82,7 +82,9 @@ public class RobotContainer {
               new ArmExtensionIOSparkMax(
                   HardwareDevices.PROTO2023.Arm.kExtensionId,
                   Constants.Arm.kExtensionInverted,
-                  Constants.Arm.kExtensionEncoderInverted);
+                  Constants.Arm.kExtensionEncoderInverted,
+                      Constants.Arm.kExtensionPositionConversionFactor,
+                      Constants.Arm.kExtensionVelocityConversionFactor);
           rotationIO =
               new ArmRotationIOSparkMax(
                   HardwareDevices.PROTO2023.Arm.kRotationLeaderId,

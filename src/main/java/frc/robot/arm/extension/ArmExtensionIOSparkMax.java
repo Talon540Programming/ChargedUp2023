@@ -10,7 +10,13 @@ public class ArmExtensionIOSparkMax implements ArmExtensionIO {
   private final CANSparkMax m_winchMotor;
   private final RelativeEncoder m_winchEncoder;
 
-  public ArmExtensionIOSparkMax(int id, boolean motorInverted, boolean encoderInverted) {
+  public ArmExtensionIOSparkMax(
+          int id,
+          boolean motorInverted,
+          boolean encoderInverted,
+          double positionConversionFactor,
+          double velocityConversionFactor
+  ) {
     m_winchMotor = new CANSparkMax(id, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     m_winchMotor.setInverted(motorInverted);
@@ -25,8 +31,8 @@ public class ArmExtensionIOSparkMax implements ArmExtensionIO {
     m_winchEncoder.setAverageDepth(2);
     resetDistance();
 
-    m_winchEncoder.setPositionConversionFactor(Constants.Arm.kExtensionPositionConversionFactor);
-    m_winchEncoder.setVelocityConversionFactor(Constants.Arm.kExtensionVelocityConversionFactor);
+    m_winchEncoder.setPositionConversionFactor(positionConversionFactor);
+    m_winchEncoder.setVelocityConversionFactor(velocityConversionFactor);
 
     m_winchMotor.setCANTimeout(0);
 
