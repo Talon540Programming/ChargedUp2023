@@ -67,30 +67,30 @@ public class RobotContainer {
         case ROBOT_2023P -> {
           driveIO =
               new DriveIOFalcon(
-                  HardwareDevices.PROTO2023.Drivetrain.kLeftLeader,
-                  HardwareDevices.PROTO2023.Drivetrain.kLeftFollower,
-                  HardwareDevices.PROTO2023.Drivetrain.kRightLeader,
-                  HardwareDevices.PROTO2023.Drivetrain.kRightFollower,
+                  HardwareDevices.PROTO2023.Drivetrain.kLeftLeaderId,
+                  HardwareDevices.PROTO2023.Drivetrain.kLeftFollowerId,
+                  HardwareDevices.PROTO2023.Drivetrain.kRightLeaderId,
+                  HardwareDevices.PROTO2023.Drivetrain.kRightFollowerId,
                   Constants.Drivetrain.kDrivetrainGearRatio,
                   Constants.Drivetrain.kWheelRadiusMeters,
                   Constants.Drivetrain.kLeftSideInverted,
                   Constants.Drivetrain.kLeftSensorInverted,
                   Constants.Drivetrain.kRightSideInverted,
                   Constants.Drivetrain.kRightSensorInverted);
-          gyroIO = new GyroIOPigeon2(HardwareDevices.PROTO2023.kRobotGyroConfig);
+          gyroIO = new GyroIOPigeon2(HardwareDevices.PROTO2023.kRobotGyroId);
           extensionIO =
               new ArmExtensionIOSparkMax(
-                  HardwareDevices.PROTO2023.Arm.kExtension,
+                  HardwareDevices.PROTO2023.Arm.kExtensionId,
                   Constants.Arm.kExtensionInverted,
                   Constants.Arm.kExtensionEncoderInverted);
           rotationIO =
               new ArmRotationIOSparkMax(
-                  HardwareDevices.PROTO2023.Arm.kRotationLeader,
-                  HardwareDevices.PROTO2023.Arm.kRotationFollower,
+                  HardwareDevices.PROTO2023.Arm.kRotationLeaderId,
+                  HardwareDevices.PROTO2023.Arm.kRotationFollowerId,
                   Constants.Arm.kRotationInverted);
 
           armRotationEncoderIO =
-              new QuadratureEncoderIOCANCoder(HardwareDevices.PROTO2023.Arm.kArmRotationEncoder);
+              new QuadratureEncoderIOCANCoder(HardwareDevices.PROTO2023.Arm.kArmRotationEncoderId);
         }
         default -> throw new RuntimeException("Unknown Robot Type");
       }
