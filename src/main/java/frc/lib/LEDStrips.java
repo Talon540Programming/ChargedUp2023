@@ -17,15 +17,15 @@ public class LEDStrips {
     }
 
     public void setRedValue(int value) {
-        redChannel.setRaw(value);
+        redChannel.setRaw(MathUtil.clamp(value, 0, 255));
     }
 
     public void setGreenValue(int value) {
-        greenChannel.setRaw(value);
+        greenChannel.setRaw(MathUtil.clamp(value, 0, 255));
     }
 
     public void setBlueValue(int value) {
-        blueChannel.setRaw(value);
+        blueChannel.setRaw(MathUtil.clamp(value, 0, 255));
     }
 
     public void setColor(Color8Bit color) {
