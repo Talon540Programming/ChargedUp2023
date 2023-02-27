@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
  * Class used to represent analog LED Strips plugged into 3 PWM ports representing the three color
  * lanes. Each channel should have an N-Channel MOSFET wired to the gate pin.
  */
-public class LEDStrips {
+public class AnalogLEDStrip {
   private final PWM redChannel;
   private final PWM greenChannel;
   private final PWM blueChannel;
@@ -21,7 +21,7 @@ public class LEDStrips {
    * @param greenPin the PWM pin the Green Channel is plugged into.
    * @param bluePin the PWM pin the Blue Channel is plugged into.
    */
-  public LEDStrips(int redPin, int greenPin, int bluePin) {
+  public AnalogLEDStrip(int redPin, int greenPin, int bluePin) {
     this.redChannel = new PWM(redPin);
     this.greenChannel = new PWM(greenPin);
     this.blueChannel = new PWM(bluePin);
