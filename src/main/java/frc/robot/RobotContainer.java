@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.pathplanner.PathPlannerUtils;
@@ -17,6 +18,8 @@ import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOSparkMax;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOSparkMax;
+import frc.robot.autos.StabilizeOnlyAuto;
+import frc.robot.autos.TaxiOnlyAuto;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
 import frc.robot.constants.RobotLimits;
@@ -38,14 +41,11 @@ public class RobotContainer {
   private final ArmBase m_armBase;
 
   // Controllers
-  private final TalonXboxController m_driverController =
-      new TalonXboxController(HardwareDevices.kDriverXboxControllerPort);
-  private final TalonXboxController m_depositionController =
-      new TalonXboxController(HardwareDevices.kDepositionXboxControllerPort);
+  private final TalonXboxController m_driverController = new TalonXboxController(HardwareDevices.kDriverXboxControllerPort);
+  private final TalonXboxController m_depositionController = new TalonXboxController(HardwareDevices.kDepositionXboxControllerPort);
 
   // Trajectory Chooser
-  private final LoggedDashboardChooser<String> m_trajectoryChooser =
-      new LoggedDashboardChooser<>("Trajectory Chooser");
+  private final LoggedDashboardChooser<Command> m_autoChooser = new LoggedDashboardChooser<>("Autonomous Mode Chooser");
 
   public RobotContainer() {
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -122,7 +122,9 @@ public class RobotContainer {
 
     configureBindings();
 
-    PathPlannerUtils.configureTrajectoryChooser(m_trajectoryChooser);
+    m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
+    m_autoChooser.addOption("Taxi Only", new TaxiOnlyAuto(5, 0.2, m_driveBase));
+    m_autoChooser.addOption("Stabilize Only", new StabilizeOnlyAuto(m_driveBase, 0.1));
   }
 
   private void configureBindings() {
@@ -147,44 +149,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    String path = m_trajectoryChooser.get();
-
-    if (!path.equals("none")) {
-      PathPlannerTrajectory m_trajectory =
-          PathPlanner.loadPath(
-              path,
-              RobotLimits.kMaxDrivetrainVelocityMetersPerSecond,
-              RobotLimits.kMaxDrivetrainAccelerationMetersPerSecondSquared);
-
-      m_driveBase.resetPosition(m_trajectory.getInitialPose());
-
-      return new PPRamseteCommand(
-              m_trajectory,
-              m_driveBase::getPosition,
-              new RamseteController(
-                  Constants.Drivetrain.ControlValues.Trajectory.kRamseteB,
-                  Constants.Drivetrain.ControlValues.Trajectory.kRamseteZeta),
-              new SimpleMotorFeedforward(
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kS,
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kV,
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kA),
-              Constants.Drivetrain.kDrivetrainKinematics,
-              m_driveBase::getWheelSpeeds,
-              new PIDController(
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kP,
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kI,
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kD),
-              new PIDController(
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kP,
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kI,
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kD),
-              m_driveBase::tankDriveVoltage,
-              true,
-              m_driveBase)
-          .andThen(m_driveBase::stop);
-    } else {
-      DriverStation.reportError("You tried to run Auto, but no path was selected.", false);
-      return null;
-    }
+    return m_autoChooser.get();
   }
 }
