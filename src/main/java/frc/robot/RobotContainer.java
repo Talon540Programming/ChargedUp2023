@@ -1,17 +1,10 @@
 package frc.robot;
 
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.PPRamseteCommand;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.lib.pathplanner.PathPlannerUtils;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.commands.StateController;
 import frc.robot.arm.extension.ArmExtensionIO;
@@ -22,7 +15,6 @@ import frc.robot.autos.StabilizeOnlyAuto;
 import frc.robot.autos.TaxiOnlyAuto;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
-import frc.robot.constants.RobotLimits;
 import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
@@ -41,11 +33,14 @@ public class RobotContainer {
   private final ArmBase m_armBase;
 
   // Controllers
-  private final TalonXboxController m_driverController = new TalonXboxController(HardwareDevices.kDriverXboxControllerPort);
-  private final TalonXboxController m_depositionController = new TalonXboxController(HardwareDevices.kDepositionXboxControllerPort);
+  private final TalonXboxController m_driverController =
+      new TalonXboxController(HardwareDevices.kDriverXboxControllerPort);
+  private final TalonXboxController m_depositionController =
+      new TalonXboxController(HardwareDevices.kDepositionXboxControllerPort);
 
   // Trajectory Chooser
-  private final LoggedDashboardChooser<Command> m_autoChooser = new LoggedDashboardChooser<>("Autonomous Mode Chooser");
+  private final LoggedDashboardChooser<Command> m_autoChooser =
+      new LoggedDashboardChooser<>("Autonomous Mode Chooser");
 
   public RobotContainer() {
     DriverStation.silenceJoystickConnectionWarning(true);
