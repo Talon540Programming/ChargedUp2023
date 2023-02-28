@@ -80,7 +80,7 @@ public class IntakeBase extends SubsystemBase {
       double deltaBlue = Math.abs(currentColor.blue - piece.colorValue.blue);
 
       if (deltaRed < 25 && deltaGreen < 25 && deltaBlue < 25) // TODO tune delta acceptance values
-        return CurrentSeenTarget.fromGamePiece(piece);
+      return CurrentSeenTarget.fromGamePiece(piece);
     }
 
     return CurrentSeenTarget.Unknown;
