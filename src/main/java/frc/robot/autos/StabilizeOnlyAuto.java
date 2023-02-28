@@ -14,10 +14,10 @@ public class StabilizeOnlyAuto extends SequentialCommandGroup {
   /**
    * Create a StabilizeOnlyAuto Auto.
    *
-   * @param drivebase drivetrain subsystem.
    * @param speed the speed to drive at while seeking.
+   * @param drivebase drivetrain subsystem.
    */
-  public StabilizeOnlyAuto(DriveBase drivebase, double speed) {
+  public StabilizeOnlyAuto(double speed, DriveBase drivebase) {
     super(
         Commands.deadline(
             Commands.waitUntil(() -> !drivebase.isLevel()),
