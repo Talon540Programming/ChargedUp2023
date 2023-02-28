@@ -17,7 +17,7 @@ public interface ColorSensorIO extends LoggedIO<ColorSensorIO.ColorSensorIOInput
     public long RedValue;
     public long GreenValue;
     public long BlueValue;
-    public long ProximityValue;
+    public double ProximityValue;
   }
 
   @Override
