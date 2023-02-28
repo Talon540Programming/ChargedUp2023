@@ -119,7 +119,7 @@ public class RobotContainer {
 
     m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
     m_autoChooser.addOption("Taxi Only", new TaxiOnlyAuto(5, 0.2, m_driveBase));
-    m_autoChooser.addOption("Stabilize Only", new StabilizeOnlyAuto(m_driveBase, 0.1));
+    m_autoChooser.addOption("Stabilize Only", new StabilizeOnlyAuto(0.1, m_driveBase));
   }
 
   private void configureBindings() {
