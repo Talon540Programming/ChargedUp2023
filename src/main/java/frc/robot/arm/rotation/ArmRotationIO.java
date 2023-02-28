@@ -12,6 +12,9 @@ public interface ArmRotationIO extends LoggedIO<ArmRotationIO.ArmRotationIOInput
     public double[] TemperatureCelsius;
   }
 
+  @Override
+  default void updateInputs(ArmRotationIOInputs inputs) {}
+
   /**
    * Set the output voltage of the rotation motor.
    *

@@ -10,5 +10,8 @@ public interface IntakeClawIO extends LoggedIO<IntakeClawIO.IntakeClawInputs> {
     public double TemperatureCelsius;
   }
 
+  @Override
+  default void updateInputs(IntakeClawInputs inputs) {}
+
   default void setVoltage(double voltage) {}
 }

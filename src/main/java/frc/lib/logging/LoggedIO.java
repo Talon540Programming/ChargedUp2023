@@ -13,5 +13,5 @@ public interface LoggedIO<T> {
    *
    * @param inputs inputs to update.
    */
-  default void updateInputs(T inputs) {}
+  void updateInputs(T inputs);
 }

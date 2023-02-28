@@ -11,5 +11,8 @@ public interface IntakeWristIO extends LoggedIO<IntakeWristIO.IntakeWristInputs>
     public double TemperatureCelsius;
   }
 
+  @Override
+  default void updateInputs(IntakeWristInputs inputs) {}
+
   default void setVoltage(double voltage) {}
 }
