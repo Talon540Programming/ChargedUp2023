@@ -3,6 +3,7 @@ package frc.robot.constants;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 
 public final class Constants {
   /**
@@ -116,8 +117,33 @@ public final class Constants {
     }
   }
 
+  public static final class Intake {
+    public static final double kIntakeClawMinimumAngleRad = 0; // TODO
+    public static final double kIntakeClawMaximumAngleRad = 0; // TODO
+
+    public static final double kConeIntakeAngle = 0; // TODO
+    public static final double kCubeIntakeAngle = 0; // TODO
+
+    public static class ControlValues {
+      public static final double kP = 0; // TODO
+      public static final double kI = 0; // TODO
+      public static final double kD = 0; // TODO
+    }
+  }
+
   public enum NeutralMode {
     BRAKE,
     COAST
+  }
+
+  public enum GamePiece {
+    Cone(new Color8Bit(0, 0, 0)), // TODO
+    Cube(new Color8Bit(0, 0, 0)); // TODO
+
+    public final Color8Bit colorValue;
+
+    private GamePiece(Color8Bit color) {
+      this.colorValue = color;
+    }
   }
 }
