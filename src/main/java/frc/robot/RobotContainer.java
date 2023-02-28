@@ -185,6 +185,12 @@ public class RobotContainer {
                 () ->
                     m_armBase.setExtensionVoltage(m_depositionController.getRightDeadbandY() * 12),
                 m_armBase));
+
+    m_depositionController.leftBumper().whileTrue(new RunCommand(() -> m_intakeBase.setWristVoltage(-Constants.Intake.kWristChangePercent * 12.0), m_intakeBase));
+    m_depositionController.rightBumper().whileTrue(new RunCommand(() -> m_intakeBase.setWristVoltage(Constants.Intake.kWristChangePercent * 12.0), m_intakeBase));
+
+    m_depositionController.leftTrigger().whileTrue(new RunCommand(() -> m_intakeBase.setClawVoltage(-Constants.Intake.kClawChangePercent * 12.0), m_intakeBase));
+    m_depositionController.rightTrigger().whileTrue(new RunCommand(() -> m_intakeBase.setClawVoltage(Constants.Intake.kClawChangePercent * 12.0), m_intakeBase));
   }
 
   public Command getAutonomousCommand() {
