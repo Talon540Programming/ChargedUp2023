@@ -40,9 +40,6 @@ public final class Constants {
     public static final boolean kRightSideInverted = false;
     public static final boolean kRightSensorInverted = true;
 
-    public static final double kMaxDrivetrainVelocityMetersPerSecond = 4; // TODO, determine the best value
-    public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5; // TODO, determine the best value
-
     public static final double kDrivetrainGearRatio = (54.0 / 20.0) * (50.0 / 11.0);
 
     public static final double kTrackWidthInches = 19.618320; // TODO test in SysID

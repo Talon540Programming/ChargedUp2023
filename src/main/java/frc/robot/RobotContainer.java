@@ -19,6 +19,7 @@ import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOSparkMax;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
+import frc.robot.constants.RobotLimits;
 import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
@@ -152,8 +153,8 @@ public class RobotContainer {
       PathPlannerTrajectory m_trajectory =
           PathPlanner.loadPath(
               path,
-              Constants.Drivetrain.kMaxDrivetrainVelocityMetersPerSecond,
-              Constants.Drivetrain.kMaxDrivetrainAccelerationMetersPerSecondSquared);
+              RobotLimits.kMaxDrivetrainVelocityMetersPerSecond,
+              RobotLimits.kMaxDrivetrainAccelerationMetersPerSecondSquared);
 
       m_driveBase.resetPosition(m_trajectory.getInitialPose());
 
