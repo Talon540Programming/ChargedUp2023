@@ -16,11 +16,11 @@ public final class HardwareDevices {
 
     public static class Arm {
       // Proto doesn't have an Arm
-      public static final int kRotationLeaderId = 0; // TODO
-      public static final int kRotationFollowerId = 0; // TODO
-      public static final int kExtensionId = 0; // TODO
+      public static final int kRotationLeaderId = -1;
+      public static final int kRotationFollowerId = -1;
+      public static final int kExtensionId = -1;
 
-      public static final int kArmRotationEncoderId = 0; // TODO
+      public static final int kArmRotationEncoderId = -1;
     }
   }
 

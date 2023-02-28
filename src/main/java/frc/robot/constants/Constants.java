@@ -40,8 +40,8 @@ public final class Constants {
     public static final boolean kRightSideInverted = false;
     public static final boolean kRightSensorInverted = true;
 
-    public static final double kMaxDrivetrainVelocityMetersPerSecond = 4;
-    public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5;
+    public static final double kMaxDrivetrainVelocityMetersPerSecond = 4; // TODO, determine the best value
+    public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5; // TODO, determine the best value
 
     public static final double kDrivetrainGearRatio = (54.0 / 20.0) * (50.0 / 11.0);
 
@@ -75,7 +75,7 @@ public final class Constants {
       }
 
       public static class Stabilization {
-        public static final double kP = 1.0 / 30.0; // TODO
+        public static final double kP = 0; // TODO
         public static final double kI = 0; // TODO
         public static final double kD = 0; // TODO
       }
@@ -83,12 +83,12 @@ public final class Constants {
   }
 
   public static final class Arm {
-    public static final boolean kRotationInverted = false;
-    public static final boolean kExtensionInverted = false;
-    public static final boolean kExtensionEncoderInverted = false;
+    public static final boolean kRotationInverted = false; // TODO
+    public static final boolean kExtensionInverted = false; // TODO
+    public static final boolean kExtensionEncoderInverted = false; // TODO
 
-    public static final double kExtensionGearRatio = 4.0 / 1.0;
-    public static final double kExtensionWinchRadiusInches = 0.4;
+    public static final double kExtensionGearRatio = 4.0 / 1.0; // TODO
+    public static final double kExtensionWinchRadiusInches = 0.4; // TODO
     public static final double kExtensionWinchRadiusMeters =
         Units.inchesToMeters(kExtensionWinchRadiusInches);
 
