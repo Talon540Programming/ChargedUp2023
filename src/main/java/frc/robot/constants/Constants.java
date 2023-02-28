@@ -118,11 +118,20 @@ public final class Constants {
   }
 
   public static final class Intake {
+    public static final double kWristChangePercent = 0.2; // TODO
+    public static final double kClawChangePercent = 0.2; // TODO
+
     public static final double kIntakeClawMinimumAngleRad = 0; // TODO
     public static final double kIntakeClawMaximumAngleRad = 0; // TODO
 
     public static final double kConeIntakeAngle = 0; // TODO
     public static final double kCubeIntakeAngle = 0; // TODO
+
+    public static final double kWristPositionConversionFactor = 0; // TODO
+    public static final double kWristVelocityConversionFactor = 0; // TODO
+
+    public static final double kWristEncoderOffsetDegrees = 0; // TODO
+    public static final double kClawEncoderOffsetDegrees = 0; // TODO
 
     public static class ControlValues {
       public static final double kP = 0; // TODO
