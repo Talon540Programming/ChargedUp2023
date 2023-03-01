@@ -87,9 +87,7 @@ public class IntakeBase extends SubsystemBase {
   }
 
   public boolean isHoldingCone() {
-    CurrentSeenTarget target = getCurrentSeenTarget();
-
-    if (target != CurrentSeenTarget.Cone) return false;
+    if (getCurrentSeenTarget() != CurrentSeenTarget.Cone) return false;
 
     return m_colorSensorInputs.ProximityValue < 0.6
         && m_clawEncoderInputs.AbsolutePositionRad + Math.toRadians(0.05)
@@ -97,9 +95,7 @@ public class IntakeBase extends SubsystemBase {
   }
 
   public boolean isHoldingCube() {
-    CurrentSeenTarget target = getCurrentSeenTarget();
-
-    if (target != CurrentSeenTarget.Cube) return false;
+    if (getCurrentSeenTarget() != CurrentSeenTarget.Cube) return false;
 
     return m_colorSensorInputs.ProximityValue < 0.6
         && m_clawEncoderInputs.AbsolutePositionRad + Math.toRadians(0.05)
@@ -116,15 +112,10 @@ public class IntakeBase extends SubsystemBase {
     Unknown;
 
     public static CurrentSeenTarget fromGamePiece(Constants.GamePiece piece) {
-      switch (piece) {
-        case Cone -> {
-          return Cone;
-        }
-        case Cube -> {
-          return Cube;
-        }
-      }
-      return Unknown;
+      return switch (piece) {
+        case Cone -> Cone;
+        case Cube -> Cube;
+      };
     }
   }
 }
