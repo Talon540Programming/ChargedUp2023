@@ -179,8 +179,19 @@ public final class Constants {
 
     public final Color8Bit colorValue;
 
-    private GamePiece(Color8Bit color) {
+    GamePiece(Color8Bit color) {
       this.colorValue = color;
     }
+
+    public boolean matches(Color8Bit otherColor) {
+      double deltaRed = Math.abs(otherColor.red - this.colorValue.red);
+      double deltaGreen = Math.abs(otherColor.green - this.colorValue.green);
+      double deltaBlue = Math.abs(otherColor.blue - this.colorValue.blue);
+
+      return deltaRed < Constants.Intake.kGamepeiceColorTolerance
+              && deltaGreen < Constants.Intake.kGamepeiceColorTolerance
+              && deltaBlue < Constants.Intake.kGamepeiceColorTolerance;
+    }
+
   }
 }

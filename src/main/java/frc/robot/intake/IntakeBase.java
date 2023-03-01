@@ -75,13 +75,7 @@ public class IntakeBase extends SubsystemBase {
     Color8Bit currentColor = m_colorSensorIO.getColor8Bit();
 
     for (Constants.GamePiece piece : Constants.GamePiece.values()) {
-      double deltaRed = Math.abs(currentColor.red - piece.colorValue.red);
-      double deltaGreen = Math.abs(currentColor.green - piece.colorValue.green);
-      double deltaBlue = Math.abs(currentColor.blue - piece.colorValue.blue);
-
-      if (deltaRed < Constants.Intake.kGamepeiceColorTolerance
-          && deltaGreen < Constants.Intake.kGamepeiceColorTolerance
-          && deltaBlue < Constants.Intake.kGamepeiceColorTolerance)
+      if (piece.matches(currentColor))
         return CurrentSeenTarget.fromGamePiece(piece);
     }
 
