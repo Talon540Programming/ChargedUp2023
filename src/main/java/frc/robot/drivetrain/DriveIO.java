@@ -18,7 +18,6 @@ public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
 
   @Override
   default void updateInputs(DriveIOInputs inputs) {}
-  ;
 
   /**
    * Drive the robot based on output voltage to set to each side of the drivetrain. This is useful

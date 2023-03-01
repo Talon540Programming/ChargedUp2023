@@ -159,7 +159,8 @@ public class RobotContainer {
 
     m_driverController.leftBumper().whileTrue(new StabilizeRobot(m_driveBase));
 
-    // By controlling manually with commands, the ArmStateController is de-scheduled which will bypass
+    // By controlling manually with commands, the ArmStateController is de-scheduled which will
+    // bypass
     // control to the controller (manual).
     new Trigger(() -> Math.abs(m_depositionController.getLeftY()) < 0.05)
         .whileTrue(

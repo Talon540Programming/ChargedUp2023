@@ -154,7 +154,7 @@ public final class Constants {
      * @return Phoenix Neutral mode
      */
     public com.ctre.phoenix.motorcontrol.NeutralMode toPhoenixMode() {
-      return switch(this) {
+      return switch (this) {
         case BRAKE -> com.ctre.phoenix.motorcontrol.NeutralMode.Brake;
         case COAST -> com.ctre.phoenix.motorcontrol.NeutralMode.Coast;
       };
@@ -166,7 +166,7 @@ public final class Constants {
      * @return SparkMax Idle Mode.
      */
     public CANSparkMax.IdleMode toIdleMode() {
-      return switch(this) {
+      return switch (this) {
         case BRAKE -> CANSparkMax.IdleMode.kBrake;
         case COAST -> CANSparkMax.IdleMode.kCoast;
       };

@@ -79,7 +79,9 @@ public class IntakeBase extends SubsystemBase {
       double deltaGreen = Math.abs(currentColor.green - piece.colorValue.green);
       double deltaBlue = Math.abs(currentColor.blue - piece.colorValue.blue);
 
-      if (deltaRed < Constants.Intake.kGamepeiceColorTolerance && deltaGreen < Constants.Intake.kGamepeiceColorTolerance && deltaBlue < Constants.Intake.kGamepeiceColorTolerance)
+      if (deltaRed < Constants.Intake.kGamepeiceColorTolerance
+          && deltaGreen < Constants.Intake.kGamepeiceColorTolerance
+          && deltaBlue < Constants.Intake.kGamepeiceColorTolerance)
         return CurrentSeenTarget.fromGamePiece(piece);
     }
 
