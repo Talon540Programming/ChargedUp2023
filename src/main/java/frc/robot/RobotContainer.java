@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.arm.ArmBase;
-import frc.robot.arm.commands.StateController;
+import frc.robot.arm.commands.ArmStateController;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOSparkMax;
 import frc.robot.arm.rotation.ArmRotationIO;
@@ -155,11 +155,11 @@ public class RobotContainer {
 
   private void configureBindings() {
     m_driveBase.setDefaultCommand(new XboxControllerDriveControl(m_driveBase, m_driverController));
-    m_armBase.setDefaultCommand(new StateController(m_armBase));
+    m_armBase.setDefaultCommand(new ArmStateController(m_armBase));
 
     m_driverController.leftBumper().whileTrue(new StabilizeRobot(m_driveBase));
 
-    // By controlling manually with commands, the StateController is de-scheduled which will bypass
+    // By controlling manually with commands, the ArmStateController is de-scheduled which will bypass
     // control to the controller (manual).
     new Trigger(() -> Math.abs(m_depositionController.getLeftY()) < 0.05)
         .whileTrue(
