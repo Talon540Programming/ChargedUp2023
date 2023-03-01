@@ -106,6 +106,14 @@ public class IntakeBase extends SubsystemBase {
     return isHoldingCube() || isHoldingCone();
   }
 
+  public void stopClaw() {
+    m_clawIO.setVoltage(0);
+  }
+
+  public void stopWrist() {
+    m_wristIO.setVoltage(0);
+  }
+
   public enum CurrentSeenTarget {
     Cone,
     Cube,
