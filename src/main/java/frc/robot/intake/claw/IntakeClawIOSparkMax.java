@@ -2,6 +2,7 @@ package frc.robot.intake.claw;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import frc.robot.constants.Constants;
 
 public class IntakeClawIOSparkMax implements IntakeClawIO {
   private final CANSparkMax m_clawMotor;
@@ -26,5 +27,10 @@ public class IntakeClawIOSparkMax implements IntakeClawIO {
   @Override
   public void setVoltage(double voltage) {
     m_clawMotor.setVoltage(voltage);
+  }
+
+  @Override
+  public void setNeutralMode(Constants.NeutralMode mode) {
+    m_clawMotor.setIdleMode(mode.toIdleMode());
   }
 }

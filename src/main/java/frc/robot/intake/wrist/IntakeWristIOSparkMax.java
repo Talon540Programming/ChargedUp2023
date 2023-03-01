@@ -38,4 +38,9 @@ public class IntakeWristIOSparkMax implements IntakeWristIO {
   public void setVoltage(double voltage) {
     m_wristMotor.setVoltage(voltage);
   }
+
+  @Override
+  public void setNeutralMode(Constants.NeutralMode mode) {
+    m_wristMotor.setIdleMode(mode.toIdleMode());
+  }
 }

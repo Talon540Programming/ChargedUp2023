@@ -1,6 +1,7 @@
 package frc.robot.intake.claw;
 
 import frc.lib.logging.LoggedIO;
+import frc.robot.constants.Constants;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface IntakeClawIO extends LoggedIO<IntakeClawIO.IntakeClawInputs> {
@@ -14,4 +15,6 @@ public interface IntakeClawIO extends LoggedIO<IntakeClawIO.IntakeClawInputs> {
   default void updateInputs(IntakeClawInputs inputs) {}
 
   default void setVoltage(double voltage) {}
+
+  default void setNeutralMode(Constants.NeutralMode mode) {}
 }
