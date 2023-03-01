@@ -15,6 +15,8 @@ public class IntakeWristIOSparkMax implements IntakeWristIO {
     m_wristMotor.enableVoltageCompensation(12);
     m_wristMotor.setSmartCurrentLimit(20);
 
+    setNeutralMode(Constants.NeutralMode.BRAKE);
+
     m_wristEncoder = m_wristMotor.getEncoder();
     m_wristEncoder.setMeasurementPeriod(10);
     m_wristEncoder.setAverageDepth(2);

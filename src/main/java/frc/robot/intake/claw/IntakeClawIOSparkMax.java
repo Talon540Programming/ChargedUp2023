@@ -13,6 +13,8 @@ public class IntakeClawIOSparkMax implements IntakeClawIO {
     m_clawMotor.enableVoltageCompensation(12);
     m_clawMotor.setSmartCurrentLimit(20);
 
+    setNeutralMode(Constants.NeutralMode.BRAKE);
+
     // TODO, configure Status Frame
 
     m_clawMotor.setCANTimeout(0);
