@@ -86,8 +86,8 @@ public class IntakeBase extends SubsystemBase {
     if (getCurrentSeenTarget() != CurrentSeenTarget.Cone) return false;
 
     return m_colorSensorInputs.ProximityValue < 0.6
-        && m_clawEncoderInputs.AbsolutePositionRad + Math.toRadians(0.05)
-            > Constants.Intake.kConeIntakeAngle;
+        && m_clawEncoderInputs.AbsolutePositionRad + Math.toRadians(0.05) > Constants.Intake.kConeIntakeAngle
+            && Constants.GamePiece.Cone.matches(m_colorSensorIO.getColor8Bit());
   }
 
   public boolean isHoldingCube() {
@@ -95,7 +95,8 @@ public class IntakeBase extends SubsystemBase {
 
     return m_colorSensorInputs.ProximityValue < 0.6
         && m_clawEncoderInputs.AbsolutePositionRad + Math.toRadians(0.05)
-            > Constants.Intake.kCubeIntakeAngle;
+            > Constants.Intake.kCubeIntakeAngle
+            && Constants.GamePiece.Cube.matches(m_colorSensorIO.getColor8Bit());
   }
 
   public boolean isHoldingSomething() {
