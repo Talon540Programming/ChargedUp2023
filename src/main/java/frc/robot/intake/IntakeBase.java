@@ -71,15 +71,12 @@ public class IntakeBase extends SubsystemBase {
     m_wristIO.setVoltage(voltage);
   }
 
-  public CurrentSeenTarget getCurrentSeenTarget() {
-    Color8Bit currentColor = m_colorSensorIO.getColor8Bit();
+  public void stopClaw() {
+    m_clawIO.setVoltage(0);
+  }
 
-    for (Constants.GamePiece piece : Constants.GamePiece.values()) {
-      if (piece.matches(currentColor))
-        return CurrentSeenTarget.fromGamePiece(piece);
-    }
-
-    return CurrentSeenTarget.Unknown;
+  public void stopWrist() {
+    m_wristIO.setVoltage(0);
   }
 
   public boolean isHoldingCone() {
@@ -103,12 +100,15 @@ public class IntakeBase extends SubsystemBase {
     return isHoldingCube() || isHoldingCone();
   }
 
-  public void stopClaw() {
-    m_clawIO.setVoltage(0);
-  }
+  public CurrentSeenTarget getCurrentSeenTarget() {
+    Color8Bit currentColor = m_colorSensorIO.getColor8Bit();
 
-  public void stopWrist() {
-    m_wristIO.setVoltage(0);
+    for (Constants.GamePiece piece : Constants.GamePiece.values()) {
+      if (piece.matches(currentColor))
+        return CurrentSeenTarget.fromGamePiece(piece);
+    }
+
+    return CurrentSeenTarget.Unknown;
   }
 
   public enum CurrentSeenTarget {
