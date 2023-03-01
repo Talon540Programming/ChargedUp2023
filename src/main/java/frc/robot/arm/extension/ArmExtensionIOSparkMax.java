@@ -63,9 +63,6 @@ public class ArmExtensionIOSparkMax implements ArmExtensionIO {
 
   @Override
   public void setNeutralMode(Constants.NeutralMode mode) {
-    switch (mode) {
-      case BRAKE -> m_winchMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-      case COAST -> m_winchMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
-    }
+    m_winchMotor.setIdleMode(mode.toIdleMode());
   }
 }

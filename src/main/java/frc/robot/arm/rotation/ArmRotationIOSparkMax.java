@@ -47,15 +47,7 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
 
   @Override
   public void setNeutralMode(Constants.NeutralMode mode) {
-    switch (mode) {
-      case BRAKE -> {
-        m_leader.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        m_follower.setIdleMode(CANSparkMax.IdleMode.kBrake);
-      }
-      case COAST -> {
-        m_leader.setIdleMode(CANSparkMax.IdleMode.kCoast);
-        m_follower.setIdleMode(CANSparkMax.IdleMode.kCoast);
-      }
-    }
+    m_leader.setIdleMode(mode.toIdleMode());
+    m_follower.setIdleMode(mode.toIdleMode());
   }
 }

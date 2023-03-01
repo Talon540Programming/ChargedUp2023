@@ -1,6 +1,7 @@
 package frc.robot.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -114,19 +115,9 @@ public class DriveIOFalcon implements DriveIO {
 
   @Override
   public void setNeutralMode(Constants.NeutralMode mode) {
-    switch (mode) {
-      case COAST -> {
-        m_leftLeader.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
-        m_rightLeader.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
-        m_leftFollower.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
-        m_rightFollower.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
-      }
-      case BRAKE -> {
-        m_leftLeader.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
-        m_rightLeader.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
-        m_leftFollower.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
-        m_rightFollower.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
-      }
-    }
+    m_leftLeader.setNeutralMode(mode.toPhoenixMode());
+    m_rightLeader.setNeutralMode(mode.toPhoenixMode());
+    m_leftFollower.setNeutralMode(mode.toPhoenixMode());
+    m_rightFollower.setNeutralMode(mode.toPhoenixMode());
   }
 }

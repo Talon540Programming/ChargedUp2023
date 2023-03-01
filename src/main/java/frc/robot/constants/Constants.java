@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -142,7 +144,31 @@ public final class Constants {
 
   public enum NeutralMode {
     BRAKE,
-    COAST
+    COAST;
+
+    /**
+     * Convert the Neutral mode to one used by the Phoenix APIs.
+     *
+     * @return Phoenix Neutral mode
+     */
+    public com.ctre.phoenix.motorcontrol.NeutralMode toPhoenixMode() {
+      return switch(this) {
+        case BRAKE -> com.ctre.phoenix.motorcontrol.NeutralMode.Brake;
+        case COAST -> com.ctre.phoenix.motorcontrol.NeutralMode.Coast;
+      };
+    }
+
+    /**
+     * Convert the Neutral mode to one used by the SparkMax API.
+     *
+     * @return SparkMax Idle Mode.
+     */
+    public CANSparkMax.IdleMode toIdleMode() {
+      return switch(this) {
+        case BRAKE -> CANSparkMax.IdleMode.kBrake;
+        case COAST -> CANSparkMax.IdleMode.kCoast;
+      };
+    }
   }
 
   public enum GamePiece {
