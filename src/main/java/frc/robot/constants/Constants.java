@@ -135,6 +135,8 @@ public final class Constants {
     public static final double kWristEncoderOffsetDegrees = 0; // TODO
     public static final double kClawEncoderOffsetDegrees = 0; // TODO
 
+    public static final double kGamepeiceColorTolerance = 25; // TODO
+
     public static class ControlValues {
       public static final double kP = 0; // TODO
       public static final double kI = 0; // TODO
