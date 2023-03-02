@@ -55,7 +55,7 @@ public class ArmStateController extends CommandBase {
   @Override
   public void execute() {
     // Get the target Arm State
-    ArmState targetState = ArmStateManager.getInstance().getArmState();
+    ArmState targetState = ArmStateManager.getInstance().getTargetState();
 
     setExtensionOutput(
         m_extensionController.calculate(

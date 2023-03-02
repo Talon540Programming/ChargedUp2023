@@ -96,7 +96,7 @@ public class ArmStateManager {
    *
    * @return target state.
    */
-  public ArmState getArmState() {
+  public ArmState getTargetState() {
     return armState;
   }
 
