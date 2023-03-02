@@ -12,7 +12,7 @@ public class Pigeon2Accelerometer implements Accelerometer {
 
     public final int axis;
 
-    private Axis(int axis) {
+    Axis(int axis) {
       this.axis = axis;
     }
   }

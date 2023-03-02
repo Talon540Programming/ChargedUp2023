@@ -1,6 +1,5 @@
 package frc.robot.constants;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -87,7 +86,9 @@ public final class Constants {
     public static final boolean kExtensionInverted = false; // TODO
     public static final boolean kExtensionEncoderInverted = false; // TODO
 
+    @SuppressWarnings("PointlessArithmeticExpression")
     public static final double kExtensionGearRatio = 4.0 / 1.0; // TODO
+
     public static final double kExtensionWinchRadiusInches = 0.4; // TODO
     public static final double kExtensionWinchRadiusMeters =
         Units.inchesToMeters(kExtensionWinchRadiusInches);
