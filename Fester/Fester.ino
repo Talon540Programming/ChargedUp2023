@@ -19,9 +19,13 @@ const char *messages[] =
   "AGENCY",
   "BOT IN THREE WEEKS",
   "THE CLIMBERZ ARE NOT CLIMBING",
-  "I WOULD LIKE TO INVITE YOU TO WORK",
+  "I WOULD LIKE TO INVITE YOU TO USE YOUR AGENCY",
   "IT'S JUST PROTO",
-  "kPhysicsActive = false;"
+  "kPhysicsActive = false;",
+  "The Grabber will be done in 15 minutes, +/- 20 minutes, Trust",
+  "Lets try to give Programming the bot by the end of the meeting",
+  "12 volts to data is fine right?",
+  "Guys! We are in the 11th hour. We must stay focused."
 };
 const char* sep = "   ";
 
