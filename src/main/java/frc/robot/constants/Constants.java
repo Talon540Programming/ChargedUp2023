@@ -199,9 +199,9 @@ public final class Constants {
       double deltaGreen = Math.abs(otherColor.green - this.colorValue.green);
       double deltaBlue = Math.abs(otherColor.blue - this.colorValue.blue);
 
-      return deltaRed < Constants.Intake.kGamepeiceColorTolerance
-          && deltaGreen < Constants.Intake.kGamepeiceColorTolerance
-          && deltaBlue < Constants.Intake.kGamepeiceColorTolerance;
+      return deltaRed < Intake.kGamepeiceColorTolerance
+          && deltaGreen < Intake.kGamepeiceColorTolerance
+          && deltaBlue < Intake.kGamepeiceColorTolerance;
     }
   }
 }
