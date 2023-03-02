@@ -49,7 +49,7 @@ public class IntakeBase extends SubsystemBase {
   public void periodic() {
     Logger.getInstance()
             .processInputs("Intake/TargetState", IntakeStateManager.getInstance().getTargetState());
-    
+
     m_clawIO.updateInputs(m_clawInputs);
     Logger.getInstance().processInputs("Intake/Claw", m_clawInputs);
 

@@ -99,7 +99,7 @@ public class RobotContainer {
                   new QuadratureEncoderIOCANCoder(
                       HardwareDevices.COMP2023.Intake.kIntakeClawEncoderID,
                       Constants.Intake.kClawEncoderOffsetDegrees),
-                  new ColorSensorIOREV3(I2C.Port.kOnboard));
+                  new ColorSensorIOREV3(HardwareDevices.COMP2023.Intake.kColorSensorPort));
         }
         case ROBOT_2023P -> {
           m_driveBase =
