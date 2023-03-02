@@ -1,8 +1,11 @@
 package frc.robot.constants;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 
 public final class Constants {
   /**
@@ -116,8 +119,89 @@ public final class Constants {
     }
   }
 
+  public static final class Intake {
+    public static final double kWristChangePercent = 0.2; // TODO
+    public static final double kClawChangePercent = 0.2; // TODO
+
+    public static final double kIntakeClawMinimumAngleRad = 0; // TODO
+    public static final double kIntakeClawMaximumAngleRad = 0; // TODO
+
+    public static final double kConeIntakeAngle = 0; // TODO
+    public static final double kCubeIntakeAngle = 0; // TODO
+
+    public static final double kWristPositionConversionFactor = 0; // TODO
+    public static final double kWristVelocityConversionFactor = 0; // TODO
+
+    public static final double kWristEncoderOffsetDegrees = 0; // TODO
+    public static final double kClawEncoderOffsetDegrees = 0; // TODO
+
+    public static final double kGamepeiceColorTolerance = 25; // TODO
+
+    public static final double kWristIdleAngleRad = 0; // TODO
+    public static final double kWristFlippedAngleRad = Math.PI; // TODO
+
+    public static class ControlValues {
+      public static class ClawPosition {
+        public static final double kP = 0; // TODO
+        public static final double kI = 0; // TODO
+        public static final double kD = 0; // TODO
+      }
+
+      public static class WristPosition {
+        public static final double kP = 0; // TODO
+        public static final double kI = 0; // TODO
+        public static final double kD = 0; // TODO
+      }
+    }
+  }
+
   public enum NeutralMode {
     BRAKE,
-    COAST
+    COAST;
+
+    /**
+     * Convert the Neutral mode to one used by the Phoenix APIs.
+     *
+     * @return Phoenix Neutral mode
+     */
+    public com.ctre.phoenix.motorcontrol.NeutralMode toPhoenixMode() {
+      return switch (this) {
+        case BRAKE -> com.ctre.phoenix.motorcontrol.NeutralMode.Brake;
+        case COAST -> com.ctre.phoenix.motorcontrol.NeutralMode.Coast;
+      };
+    }
+
+    /**
+     * Convert the Neutral mode to one used by the SparkMax API.
+     *
+     * @return SparkMax Idle Mode.
+     */
+    public CANSparkMax.IdleMode toIdleMode() {
+      return switch (this) {
+        case BRAKE -> CANSparkMax.IdleMode.kBrake;
+        case COAST -> CANSparkMax.IdleMode.kCoast;
+      };
+    }
+  }
+
+  public enum GamePiece {
+    Cone(new Color8Bit(0, 0, 0)), // TODO
+    Cube(new Color8Bit(0, 0, 0)); // TODO
+
+    public final Color8Bit colorValue;
+
+    GamePiece(Color8Bit color) {
+      this.colorValue = color;
+    }
+
+    public boolean matches(Color8Bit otherColor) {
+      double deltaRed = Math.abs(otherColor.red - this.colorValue.red);
+      double deltaGreen = Math.abs(otherColor.green - this.colorValue.green);
+      double deltaBlue = Math.abs(otherColor.blue - this.colorValue.blue);
+
+      return deltaRed < Intake.kGamepeiceColorTolerance
+          && deltaGreen < Intake.kGamepeiceColorTolerance
+          && deltaBlue < Intake.kGamepeiceColorTolerance;
+    }
   }
 }

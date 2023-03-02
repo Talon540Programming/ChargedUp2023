@@ -42,7 +42,7 @@ public class ArmBase extends SubsystemBase {
 
     // Log the target state
     Logger.getInstance()
-        .processInputs("Arm/TargetState", ArmStateManager.getInstance().getArmState());
+        .processInputs("Arm/TargetState", ArmStateManager.getInstance().getTargetState());
   }
 
   /**
