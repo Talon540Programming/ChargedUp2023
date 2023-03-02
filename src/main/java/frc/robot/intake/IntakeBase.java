@@ -47,23 +47,23 @@ public class IntakeBase extends SubsystemBase {
 
   @Override
   public void periodic() {
+    Logger.getInstance()
+            .processInputs("Intake/TargetState", IntakeStateManager.getInstance().getTargetState());
+    
     m_clawIO.updateInputs(m_clawInputs);
     Logger.getInstance().processInputs("Intake/Claw", m_clawInputs);
 
     m_clawEncoderIO.updateInputs(m_clawEncoderInputs);
     Logger.getInstance().processInputs("Intake/Claw/AbsoluteEncoder", m_clawEncoderInputs);
 
+    m_colorSensorIO.updateInputs(m_colorSensorInputs);
+    Logger.getInstance().processInputs("Intake/Claw/ColorSensor", m_colorSensorInputs);
+
     m_wristIO.updateInputs(m_wristInputs);
     Logger.getInstance().processInputs("Intake/Wrist", m_wristInputs);
 
     m_wristEncoderIO.updateInputs(m_wristEncoderInputs);
     Logger.getInstance().processInputs("Intake/Wrist/AbsoluteEncoder", m_wristEncoderInputs);
-
-    m_colorSensorIO.updateInputs(m_colorSensorInputs);
-    Logger.getInstance().processInputs("Intake", m_colorSensorInputs);
-
-    Logger.getInstance()
-        .processInputs("Intake/TargetState", IntakeStateManager.getInstance().getTargetState());
   }
 
   public void setClawVoltage(double voltage) {
