@@ -25,7 +25,9 @@ const char *messages[] =
   "The Grabber will be done in 15 minutes, +/- 20 minutes, Trust",
   "Lets try to give Programming the bot by the end of the meeting",
   "12 volts to data is fine right?",
-  "Guys! We are in the 11th hour. We must stay focused."
+  "Guys! We are in the 11th hour. We must stay focused.",
+  "THE INCENTIVE: RICHMOND RACEWAY TICKETS",
+  "We need some Nuts, some Bolts, and some Metal. Oh, dont forget Wheels"
 };
 const char* sep = "   ";
 
