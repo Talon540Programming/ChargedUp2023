@@ -62,7 +62,8 @@ public class IntakeBase extends SubsystemBase {
     m_colorSensorIO.updateInputs(m_colorSensorInputs);
     Logger.getInstance().processInputs("Intake", m_colorSensorInputs);
 
-    Logger.getInstance().processInputs("Intake/TargetState", IntakeStateManager.getInstance().getTargetState());
+    Logger.getInstance()
+        .processInputs("Intake/TargetState", IntakeStateManager.getInstance().getTargetState());
   }
 
   public void setClawVoltage(double voltage) {
@@ -85,8 +86,9 @@ public class IntakeBase extends SubsystemBase {
     if (getCurrentSeenTarget() != CurrentSeenTarget.Cone) return false;
 
     return m_colorSensorInputs.ProximityValue < 0.6
-        && m_clawEncoderInputs.AbsolutePositionRad + Math.toRadians(0.05) > Constants.Intake.kConeIntakeAngle
-            && Constants.GamePiece.Cone.matches(m_colorSensorIO.getColor8Bit());
+        && m_clawEncoderInputs.AbsolutePositionRad + Math.toRadians(0.05)
+            > Constants.Intake.kConeIntakeAngle
+        && Constants.GamePiece.Cone.matches(m_colorSensorIO.getColor8Bit());
   }
 
   public boolean isHoldingCube() {
@@ -95,7 +97,7 @@ public class IntakeBase extends SubsystemBase {
     return m_colorSensorInputs.ProximityValue < 0.6
         && m_clawEncoderInputs.AbsolutePositionRad + Math.toRadians(0.05)
             > Constants.Intake.kCubeIntakeAngle
-            && Constants.GamePiece.Cube.matches(m_colorSensorIO.getColor8Bit());
+        && Constants.GamePiece.Cube.matches(m_colorSensorIO.getColor8Bit());
   }
 
   public boolean isHoldingSomething() {
@@ -106,8 +108,7 @@ public class IntakeBase extends SubsystemBase {
     Color8Bit currentColor = m_colorSensorIO.getColor8Bit();
 
     for (Constants.GamePiece piece : Constants.GamePiece.values()) {
-      if (piece.matches(currentColor))
-        return CurrentSeenTarget.fromGamePiece(piece);
+      if (piece.matches(currentColor)) return CurrentSeenTarget.fromGamePiece(piece);
     }
 
     return CurrentSeenTarget.Unknown;
