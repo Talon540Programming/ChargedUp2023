@@ -61,6 +61,8 @@ public class IntakeBase extends SubsystemBase {
 
     m_colorSensorIO.updateInputs(m_colorSensorInputs);
     Logger.getInstance().processInputs("Intake", m_colorSensorInputs);
+
+    Logger.getInstance().processInputs("Intake/TargetState", IntakeStateManager.getInstance().getTargetState());
   }
 
   public void setClawVoltage(double voltage) {
