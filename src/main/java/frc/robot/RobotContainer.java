@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.commands.ArmStateController;
@@ -22,8 +21,10 @@ import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.commands.StabilizeRobot;
 import frc.robot.drivetrain.commands.control.XboxControllerDriveControl;
 import frc.robot.intake.IntakeBase;
+import frc.robot.intake.IntakeStateManager;
 import frc.robot.intake.claw.IntakeClawIO;
 import frc.robot.intake.claw.IntakeClawIOSparkMax;
+import frc.robot.intake.commands.IntakeStateController;
 import frc.robot.intake.wrist.IntakeWristIO;
 import frc.robot.intake.wrist.IntakeWristIOSparkMax;
 import frc.robot.sensors.colorsensor.ColorSensorIO;
@@ -147,29 +148,26 @@ public class RobotContainer {
     }
 
     configureBindings();
-
-    m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
-    m_autoChooser.addOption("Taxi Only", new TaxiOnlyAuto(5, 0.2, m_driveBase));
-    m_autoChooser.addOption("Stabilize Only", new StabilizeOnlyAuto(0.1, m_driveBase));
+    configureAuto();
   }
 
   private void configureBindings() {
     m_driveBase.setDefaultCommand(new XboxControllerDriveControl(m_driveBase, m_driverController));
     m_armBase.setDefaultCommand(new ArmStateController(m_armBase));
+    m_intakeBase.setDefaultCommand(new IntakeStateController(m_intakeBase));
 
     m_driverController.leftBumper().whileTrue(new StabilizeRobot(m_driveBase));
 
     // By controlling manually with commands, the ArmStateController is de-scheduled which will
-    // bypass
-    // control to the controller (manual).
+    // bypass control to the controller (manual).
     new Trigger(() -> Math.abs(m_depositionController.getLeftY()) < 0.05)
         .whileTrue(
-            new RunCommand(
+            Commands.run(
                 () -> m_armBase.setRotationVoltage(m_depositionController.getLeftDeadbandY() * 12),
                 m_armBase));
     new Trigger(() -> Math.abs(m_depositionController.getRightY()) < 0.05)
         .whileTrue(
-            new RunCommand(
+            Commands.run(
                 () ->
                     m_armBase.setExtensionVoltage(m_depositionController.getRightDeadbandY() * 12),
                 m_armBase));
@@ -177,28 +175,40 @@ public class RobotContainer {
     m_depositionController
         .leftBumper()
         .whileTrue(
-            new RunCommand(
+            Commands.run(
                 () -> m_intakeBase.setWristVoltage(-Constants.Intake.kWristChangePercent * 12.0),
                 m_intakeBase));
     m_depositionController
         .rightBumper()
         .whileTrue(
-            new RunCommand(
+            Commands.run(
                 () -> m_intakeBase.setWristVoltage(Constants.Intake.kWristChangePercent * 12.0),
                 m_intakeBase));
 
     m_depositionController
         .leftTrigger()
         .whileTrue(
-            new RunCommand(
+            Commands.run(
                 () -> m_intakeBase.setClawVoltage(-Constants.Intake.kClawChangePercent * 12.0),
                 m_intakeBase));
     m_depositionController
         .rightTrigger()
         .whileTrue(
-            new RunCommand(
+            Commands.run(
                 () -> m_intakeBase.setClawVoltage(Constants.Intake.kClawChangePercent * 12.0),
                 m_intakeBase));
+
+    // m_depositionController.x().onTrue(Commands.run())
+    m_depositionController
+        .x()
+        .debounce(0.1)
+        .onTrue(Commands.runOnce(IntakeStateManager.getInstance()::flipWrist));
+  }
+
+  private void configureAuto() {
+    m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
+    m_autoChooser.addOption("Taxi Only", new TaxiOnlyAuto(5, 0.2, m_driveBase));
+    m_autoChooser.addOption("Stabilize Only", new StabilizeOnlyAuto(0.1, m_driveBase));
   }
 
   public Command getAutonomousCommand() {
