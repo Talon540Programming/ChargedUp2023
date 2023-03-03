@@ -1,6 +1,5 @@
 package frc.robot.arm;
 
-import frc.lib.arm.ArmUtil;
 import frc.robot.constants.RobotDimensions;
 import frc.robot.constants.RobotLimits;
 
@@ -51,7 +50,6 @@ public class ArmStateManager {
           && state.AngleRadians <= RobotLimits.kForwardLimitRadians) {
         // The new target position is considered "incorrect" so we reject it, don't change the
         // current arm state.
-        // TODO, do we want to reject the state, or try and fix it?
         return;
       }
 
@@ -60,30 +58,24 @@ public class ArmStateManager {
 
       // Check the horizontal extension
       double horizontalDelta =
-          cosTheta
-              * (ArmUtil.calculateArmLength(state.ExtensionLengthMeters)
-                  + RobotDimensions.Grabber.kLengthMeters);
+          cosTheta * state.ExtensionLengthMeters + RobotDimensions.Grabber.kLengthMeters;
       double horizontalDistanceFromFrame =
           RobotDimensions.Drivetrain.kDrivetrainLengthMeters / 2
               - horizontalDelta; // Divide by 2 because the fulcrum is in the center of the robot.
 
       if (horizontalDistanceFromFrame > RobotLimits.kMaxExtensionHorizontalMeters) {
         state.ExtensionLengthMeters =
-            ArmUtil.calculateExtensionLength(
-                (RobotLimits.kMaxExtensionHorizontalMeters / cosTheta)
-                    - RobotDimensions.Grabber.kLengthMeters);
+            (RobotLimits.kMaxExtensionHorizontalMeters / cosTheta)
+                - RobotDimensions.Grabber.kLengthMeters;
       }
 
       double verticalDelta =
-          sinTheta
-              * (ArmUtil.calculateArmLength(state.ExtensionLengthMeters)
-                  + RobotDimensions.Grabber.kLengthMeters);
+          sinTheta * ((state.ExtensionLengthMeters) + RobotDimensions.Grabber.kLengthMeters);
 
       if (verticalDelta > RobotLimits.kMaxExtensionVerticalMeters) {
         state.ExtensionLengthMeters =
-            ArmUtil.calculateExtensionLength(
-                (RobotLimits.kMaxExtensionVerticalMeters / sinTheta)
-                    - RobotDimensions.Grabber.kLengthMeters);
+            (RobotLimits.kMaxExtensionVerticalMeters / sinTheta)
+                - RobotDimensions.Grabber.kLengthMeters;
       }
     }
 

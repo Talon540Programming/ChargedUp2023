@@ -32,13 +32,13 @@ public class ArmBase extends SubsystemBase {
     this.m_armRotationIO = rotationIO;
     this.m_rotationEncoderIO = rotationEncoderIO;
 
-    this.m_extensionWinch = new Winch(
+    this.m_extensionWinch =
+        new Winch(
             Constants.Arm.kExtensionWinchRadiusMeters,
             Constants.Arm.kExtensionCableLengthMeters,
             Constants.Arm.kExtensionCableDiameterMeters,
             Constants.Arm.kNumberOfWrapsPerRadiusIncrease,
-            Constants.Arm.kInitialWrapsAtBoot
-    );
+            Constants.Arm.kInitialWrapsAtBoot);
   }
 
   @Override
@@ -46,7 +46,8 @@ public class ArmBase extends SubsystemBase {
     m_armExtensionIO.updateInputs(m_armExtensionInputs);
     Logger.getInstance().processInputs("Arm/Extension", m_armExtensionInputs);
 
-    Logger.getInstance().recordOutput("Arm/Extension/Winch/Distance", getExtensionDistanceTraveled());
+    Logger.getInstance()
+        .recordOutput("Arm/Extension/Winch/Distance", getExtensionDistanceTraveled());
 
     m_armRotationIO.updateInputs(m_armRotationInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
