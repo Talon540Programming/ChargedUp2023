@@ -18,7 +18,7 @@ const char *messages[] =
   "GAP BOT",
   "AGENCY",
   "BOT IN THREE WEEKS",
-  "THE CLIMBERZ ARE NOT CLIMBING",
+  "THE CLIMBERZ",
   "I WOULD LIKE TO INVITE YOU TO USE YOUR AGENCY",
   "IT'S JUST PROTO",
   "kPhysicsActive = false;",
@@ -27,7 +27,8 @@ const char *messages[] =
   "12 volts to data is fine right?",
   "Guys! We are in the 11th hour. We must stay focused.",
   "THE INCENTIVE: RICHMOND RACEWAY TICKETS",
-  "We need some Nuts, some Bolts, and some Metal. Oh, dont forget Wheels"
+  "We need some Nuts, some Bolts, and some Metal. Oh, don't forget Wheels",
+  "YEVEROSITY IS A REAL WORD",
 };
 const char* sep = "   ";
 
@@ -56,7 +57,7 @@ void setup() {
 
   // Setup the LED Display
   m_display.begin();
-  m_display.displayScroll(message, PA_CENTER, PA_SCROLL_LEFT, 50);
+  m_display.displayScroll(message, PA_CENTER, PA_SCROLL_LEFT, 40);
 }
 
 void loop() {
