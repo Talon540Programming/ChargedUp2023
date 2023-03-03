@@ -90,13 +90,19 @@ public final class Constants {
     public static final double kExtensionGearRatio = 4.0 / 1.0; // TODO
 
     public static final double kExtensionWinchRadiusInches = 0.4; // TODO
-    public static final double kExtensionWinchRadiusMeters =
-        Units.inchesToMeters(kExtensionWinchRadiusInches);
+    public static final double kExtensionWinchRadiusMeters = Units.inchesToMeters(kExtensionWinchRadiusInches);
 
-    public static final double kExtensionPositionConversionFactor =
-        Math.PI * (kExtensionWinchRadiusMeters / kExtensionGearRatio); // TODO
-    public static final double kExtensionVelocityConversionFactor =
-        Math.PI / (30.0 * kExtensionGearRatio); // TODO
+    public static final double kExtensionCableLengthInches = 0; // TODO;
+    public static final double kExtensionCableLengthMeters = Units.inchesToMeters(kExtensionCableLengthInches);
+
+    public static final double kExtensionCableDiameterInches = 0; // TODO
+    public static final double kExtensionCableDiameterMeters = Units.inchesToMeters(kExtensionCableDiameterInches);
+
+    public static final int kNumberOfWrapsPerRadiusIncrease = 0; // TODO
+    public static final double kInitialWrapsAtBoot = 0; // TODO
+
+    public static final double kExtensionPositionConversionFactor = (1 / kExtensionGearRatio);
+    public static final double kExtensionVelocityConversionFactor = Math.PI / (30.0 * kExtensionGearRatio); // TODO
 
     public static final double kRotationAbsoluteEncoderOffsetDegrees = 0; // TODO
 
