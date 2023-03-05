@@ -94,7 +94,6 @@ public final class Constants {
                 new Rotation3d()));
     public static final boolean kRotationInverted = false; // TODO
     public static final boolean kExtensionInverted = false; // TODO
-    public static final boolean kExtensionEncoderInverted = false; // TODO
 
     @SuppressWarnings("PointlessArithmeticExpression")
     public static final double kExtensionGearRatio = 4.0 / 1.0; // TODO
