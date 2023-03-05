@@ -77,7 +77,6 @@ public class RobotContainer {
                   new ArmExtensionIOSparkMax(
                       HardwareDevices.COMP2023.Arm.kExtensionId,
                       Constants.Arm.kExtensionInverted,
-                      Constants.Arm.kExtensionEncoderInverted,
                       Constants.Arm.kExtensionPositionConversionFactor,
                       Constants.Arm.kExtensionVelocityConversionFactor),
                   new ArmRotationIOSparkMax(

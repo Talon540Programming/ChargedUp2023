@@ -1,11 +1,13 @@
 package frc.robot.constants;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import frc.robot.arm.ArmKinematics;
 
 public final class Constants {
   /**
@@ -83,17 +85,35 @@ public final class Constants {
   }
 
   public static final class Arm {
+    public static final ArmKinematics kArmKinematics =
+        new ArmKinematics(
+            new Pose3d(
+                0,
+                0,
+                Units.inchesToMeters(RobotDimensions.Arm.kFulcrumHeightInches),
+                new Rotation3d()));
     public static final boolean kRotationInverted = false; // TODO
     public static final boolean kExtensionInverted = false; // TODO
-    public static final boolean kExtensionEncoderInverted = false; // TODO
 
+    @SuppressWarnings("PointlessArithmeticExpression")
     public static final double kExtensionGearRatio = 4.0 / 1.0; // TODO
+
     public static final double kExtensionWinchRadiusInches = 0.4; // TODO
     public static final double kExtensionWinchRadiusMeters =
         Units.inchesToMeters(kExtensionWinchRadiusInches);
 
-    public static final double kExtensionPositionConversionFactor =
-        Math.PI * (kExtensionWinchRadiusMeters / kExtensionGearRatio); // TODO
+    public static final double kExtensionCableLengthInches = 0; // TODO;
+    public static final double kExtensionCableLengthMeters =
+        Units.inchesToMeters(kExtensionCableLengthInches);
+
+    public static final double kExtensionCableDiameterInches = 0; // TODO
+    public static final double kExtensionCableDiameterMeters =
+        Units.inchesToMeters(kExtensionCableDiameterInches);
+
+    public static final int kNumberOfWrapsPerRadiusIncrease = 0; // TODO
+    public static final double kInitialWrapsAtBoot = 0; // TODO
+
+    public static final double kExtensionPositionConversionFactor = (1 / kExtensionGearRatio);
     public static final double kExtensionVelocityConversionFactor =
         Math.PI / (30.0 * kExtensionGearRatio); // TODO
 

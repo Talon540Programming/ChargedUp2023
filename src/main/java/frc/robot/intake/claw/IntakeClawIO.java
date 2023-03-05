@@ -6,7 +6,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 public interface IntakeClawIO extends LoggedIO<IntakeClawIO.IntakeClawInputs> {
   @AutoLog
-  public class IntakeClawInputs {
+  class IntakeClawInputs {
     public double CurrentAmps;
     public double TemperatureCelsius;
   }
