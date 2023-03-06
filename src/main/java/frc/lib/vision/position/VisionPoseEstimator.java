@@ -96,7 +96,8 @@ public class VisionPoseEstimator {
       /* ======================== */
       if (pipelineResult.getTargets().size() < 2) {
         // There are only 2 targets, use the target with the lowest ambiguity
-        PhotonTrackedTarget lowestAmbiguityTarget = getLowestAmbiguityTargetFromPipeline(pipelineResult);
+        PhotonTrackedTarget lowestAmbiguityTarget =
+            getLowestAmbiguityTargetFromPipeline(pipelineResult);
 
         // Although there are confirmed to be targets, none of them may be fiducial
         // targets.
@@ -110,7 +111,8 @@ public class VisionPoseEstimator {
 
         if (targetPosition.isEmpty()) {
           DriverStation.reportWarning(
-              "[VisionPoseEstimator] The found tag with the lowest ambiguity was not within the FieldLayout.", false);
+              "[VisionPoseEstimator] The found tag with the lowest ambiguity was not within the FieldLayout.",
+              false);
           results.put(camera.getName(), Optional.empty());
           continue;
         }
@@ -130,7 +132,7 @@ public class VisionPoseEstimator {
 
         boolean hasCalibData = cameraMatrixOpt.isPresent() && distCoeffsOpt.isPresent();
 
-        if(!hasCalibData) {
+        if (!hasCalibData) {
           results.put(camera.getName(), Optional.empty());
           break;
         }
@@ -155,13 +157,12 @@ public class VisionPoseEstimator {
           knownVisTags.add(new AprilTag(target.getFiducialId(), tagPose));
         }
 
-      // multi-target solvePNP
+        // multi-target solvePNP
         Matrix<N3, N3> cameraMatrix = cameraMatrixOpt.get();
         Matrix<N5, N1> distCoeffs = distCoeffsOpt.get();
 
         PNPResults pnpResults =
-            VisionEstimation.estimateCamPosePNP(
-                cameraMatrix, distCoeffs, visCorners, knownVisTags);
+            VisionEstimation.estimateCamPosePNP(cameraMatrix, distCoeffs, visCorners, knownVisTags);
         Pose3d bestResult =
             new Pose3d()
                 .plus(pnpResults.best) // field-to-camera
@@ -181,7 +182,8 @@ public class VisionPoseEstimator {
    * @param pipelineResult pipeline results to use for targets.
    * @return target from the pipeline with the lowest ambiguity.
    */
-  public PhotonTrackedTarget getLowestAmbiguityTargetFromPipeline(PhotonPipelineResult pipelineResult) {
+  public PhotonTrackedTarget getLowestAmbiguityTargetFromPipeline(
+      PhotonPipelineResult pipelineResult) {
     // There are only 2 targets, use the target with the lowest ambiguity
     PhotonTrackedTarget lowestAmbiguityTarget = null;
     double lowestAmbiguityScore = 10;

@@ -2,9 +2,7 @@ package frc.lib.vision.position;
 
 import edu.wpi.first.math.geometry.Pose3d;
 
-/**
- * Represents the estimated position of the robot at a given time.
- */
+/** Represents the estimated position of the robot at a given time. */
 public class EstimatedRobotPose {
   public Pose3d robotPose;
   public double timestampSeconds;

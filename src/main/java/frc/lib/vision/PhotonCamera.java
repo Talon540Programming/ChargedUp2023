@@ -44,23 +44,17 @@ public class PhotonCamera extends org.photonvision.PhotonCamera {
     return kRobotToCamera.get();
   }
 
-  /**
-   * Enable the LEDs of the camera.
-   */
+  /** Enable the LEDs of the camera. */
   public void enableLEDs() {
     this.setLED(VisionLEDMode.kOn);
   }
 
-  /**
-   * Disable the LEDs of the camera.
-   */
+  /** Disable the LEDs of the camera. */
   public void disableLEDs() {
     this.setLED(VisionLEDMode.kOff);
   }
 
-  /**
-   * Blink the LEDs of the camera.
-   */
+  /** Blink the LEDs of the camera. */
   public void blinkLEDs() {
     this.setLED(VisionLEDMode.kBlink);
   }
@@ -100,8 +94,8 @@ public class PhotonCamera extends org.photonvision.PhotonCamera {
   }
 
   /**
-   * Log the current state of the camera with the logger.
-   * This method should be called periodically in order to correctly log all data.
+   * Log the current state of the camera with the logger. This method should be called periodically
+   * in order to correctly log all data.
    */
   public void logData() {
     String cameraLogPath = "Vision/Cameras/" + getName();
