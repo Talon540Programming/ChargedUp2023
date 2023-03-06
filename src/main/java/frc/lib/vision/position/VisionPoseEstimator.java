@@ -125,6 +125,16 @@ public class VisionPoseEstimator {
                         .transformBy(camera.getRobotToCamera().inverse()),
                     pipelineTimestamp)));
       } else {
+        Optional<Matrix<N3, N3>> cameraMatrixOpt = camera.getCameraMatrix();
+        Optional<Matrix<N5, N1>> distCoeffsOpt = camera.getDistCoeffs();
+
+        boolean hasCalibData = cameraMatrixOpt.isPresent() && distCoeffsOpt.isPresent();
+
+        if(!hasCalibData) {
+          results.put(camera.getName(), Optional.empty());
+          break;
+        }
+
         ArrayList<TargetCorner> visCorners = new ArrayList<>();
         ArrayList<AprilTag> knownVisTags = new ArrayList<>();
 
@@ -145,31 +155,20 @@ public class VisionPoseEstimator {
           knownVisTags.add(new AprilTag(target.getFiducialId(), tagPose));
         }
 
-        Optional<Matrix<N3, N3>> cameraMatrixOpt = camera.getCameraMatrix();
-        Optional<Matrix<N5, N1>> distCoeffsOpt = camera.getDistCoeffs();
+      // multi-target solvePNP
+        Matrix<N3, N3> cameraMatrix = cameraMatrixOpt.get();
+        Matrix<N5, N1> distCoeffs = distCoeffsOpt.get();
 
-        boolean hasCalibData = cameraMatrixOpt.isPresent() && distCoeffsOpt.isPresent();
+        PNPResults pnpResults =
+            VisionEstimation.estimateCamPosePNP(
+                cameraMatrix, distCoeffs, visCorners, knownVisTags);
+        Pose3d bestResult =
+            new Pose3d()
+                .plus(pnpResults.best) // field-to-camera
+                .plus(camera.getRobotToCamera().inverse()); // field-to-robot
 
-        // multi-target solvePNP
-        if (hasCalibData) {
-          Matrix<N3, N3> cameraMatrix = cameraMatrixOpt.get();
-          Matrix<N5, N1> distCoeffs = distCoeffsOpt.get();
-
-          PNPResults pnpResults =
-              VisionEstimation.estimateCamPosePNP(
-                  cameraMatrix, distCoeffs, visCorners, knownVisTags);
-          Pose3d bestResult =
-              new Pose3d()
-                  .plus(pnpResults.best) // field-to-camera
-                  .plus(camera.getRobotToCamera().inverse()); // field-to-robot
-
-          results.put(
-              camera.getName(), Optional.of(new EstimatedRobotPose(bestResult, pipelineTimestamp)));
-        } else {
-          DriverStation.reportWarning(
-                  "[VisionPoseEstimator] The camera is not calibrated, unable to perform SolvePNP.", false);
-          results.put(camera.getName(), Optional.empty());
-        }
+        results.put(
+            camera.getName(), Optional.of(new EstimatedRobotPose(bestResult, pipelineTimestamp)));
       }
     }
 
