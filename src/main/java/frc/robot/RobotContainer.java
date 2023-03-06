@@ -150,6 +150,7 @@ public class RobotContainer {
   }
 
   public void pollVisionData() {
+    // Log Data from the Cameras to AKit
     m_forwardCamera.logData();
     m_rearCamera.logData();
 
@@ -161,13 +162,17 @@ public class RobotContainer {
           .getValue()
           .ifPresent(
               pose -> {
+                String cameraName = entry.getKey();
+
                 Logger.getInstance()
                     .recordOutput(
-                        "Vision/EstimatedPosition/" + entry.getKey() + "/Pose", pose.robotPose);
+                        "Vision/EstimatedPosition/" + cameraName + "/Pose", pose.robotPose);
+
                 Logger.getInstance()
                     .recordOutput(
-                        "Vision/EstimatedPosition/" + entry.getKey() + "/Timestamp",
+                        "Vision/EstimatedPosition/" + cameraName + "/Timestamp",
                         pose.timestampSeconds);
+
                 m_driveBase.addEstimatedPose(pose.robotPose, pose.timestampSeconds);
               });
     }
