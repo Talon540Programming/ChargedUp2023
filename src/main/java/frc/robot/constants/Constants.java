@@ -15,7 +15,7 @@ public final class Constants {
    */
   public static final boolean kAdvancedLoggingEnabled = true;
 
-  private static final RobotType kRobotType = RobotType.ROBOT_2023P;
+  private static final RobotType kRobotType = RobotType.ROBOT_2023C;
 
   public enum RobotMode {
     REAL,
