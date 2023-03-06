@@ -23,10 +23,10 @@ import org.photonvision.targeting.TargetCorner;
  */
 public class VisionPoseEstimator {
   private final AprilTagFieldLayout fieldLayout;
-  private List<PhotonCamera> m_cameras = new ArrayList<>();
+  private final List<PhotonCamera> m_cameras = new ArrayList<>();
   // Create a cache of timestamps from previous data. It is important not to clog the Kalman Filter
-  // with duplicate data as it will screw up the values.
-  private List<Double> m_timestamps = new ArrayList<>();
+  // with duplicate data as it will screw up the values due to agency.
+  private final List<Double> m_timestamps = new ArrayList<>();
 
   /**
    * Create the Pose Estimator from the field layout to use and a list of PhotonCameras
