@@ -83,6 +83,18 @@ public class DriveIOFalcon implements DriveIO {
     inputs.LeftVelocityMetersPerSecond = leftSignum * m_leftSensors.getLinearVelocity();
     inputs.RightPositionMeters = rightSignum * m_rightSensors.getPosition();
     inputs.RightVelocityMetersPerSecond = rightSignum * m_rightSensors.getLinearVelocity();
+
+    inputs.TemperatureCelsius =
+        new double[] {
+          m_leftLeader.getTemperature(), m_leftFollower.getTemperature(),
+          m_rightLeader.getTemperature(), m_rightFollower.getTemperature()
+        };
+
+    inputs.CurrentAmps =
+        new double[] {
+          m_leftLeader.getSupplyCurrent(), m_leftFollower.getSupplyCurrent(),
+          m_rightLeader.getSupplyCurrent(), m_rightFollower.getSupplyCurrent()
+        };
   }
 
   @Override
@@ -102,19 +114,9 @@ public class DriveIOFalcon implements DriveIO {
 
   @Override
   public void setNeutralMode(Constants.NeutralMode mode) {
-    switch (mode) {
-      case COAST -> {
-        m_leftLeader.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
-        m_rightLeader.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
-        m_leftFollower.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
-        m_rightFollower.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
-      }
-      case BRAKE -> {
-        m_leftLeader.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
-        m_rightLeader.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
-        m_leftFollower.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
-        m_rightFollower.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Brake);
-      }
-    }
+    m_leftLeader.setNeutralMode(mode.toPhoenixMode());
+    m_rightLeader.setNeutralMode(mode.toPhoenixMode());
+    m_leftFollower.setNeutralMode(mode.toPhoenixMode());
+    m_rightFollower.setNeutralMode(mode.toPhoenixMode());
   }
 }

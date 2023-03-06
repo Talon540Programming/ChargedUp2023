@@ -14,7 +14,7 @@ public abstract class DriveControl extends CommandBase {
   private final DriveBase m_driveBase;
 
   private static final LoggedDashboardChooser<Double> m_speedLimiter =
-      new LoggedDashboardChooser<>("Drive Speed Limit");
+      new LoggedDashboardChooser<>("Drive Speed Limiter");
 
   private static final LoggedDashboardChooser<DriveMode> m_driveMode =
       new LoggedDashboardChooser<>("Drive Mode");

@@ -1,25 +1,20 @@
 package frc.robot;
 
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.PPRamseteCommand;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.lib.pathplanner.PathPlannerUtils;
 import frc.lib.vision.PhotonCamera;
 import frc.lib.vision.position.EstimatedRobotPose;
 import frc.lib.vision.position.VisionPoseEstimator;
 import frc.robot.arm.ArmBase;
-import frc.robot.arm.commands.StateController;
+import frc.robot.arm.commands.ArmStateController;
 import frc.robot.arm.extension.ArmExtensionIO;
-import frc.robot.arm.extension.ArmExtensionIONeo;
+import frc.robot.arm.extension.ArmExtensionIOSparkMax;
 import frc.robot.arm.rotation.ArmRotationIO;
-import frc.robot.arm.rotation.ArmRotationIONeo;
+import frc.robot.arm.rotation.ArmRotationIOSparkMax;
+import frc.robot.autos.DriveDistance;
+import frc.robot.autos.DriveTime;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
 import frc.robot.drivetrain.DriveBase;
@@ -27,6 +22,15 @@ import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.commands.StabilizeRobot;
 import frc.robot.drivetrain.commands.control.XboxControllerDriveControl;
+import frc.robot.intake.IntakeBase;
+import frc.robot.intake.IntakeStateManager;
+import frc.robot.intake.claw.IntakeClawIO;
+import frc.robot.intake.claw.IntakeClawIOSparkMax;
+import frc.robot.intake.commands.IntakeStateController;
+import frc.robot.intake.wrist.IntakeWristIO;
+import frc.robot.intake.wrist.IntakeWristIOSparkMax;
+import frc.robot.sensors.colorsensor.ColorSensorIO;
+import frc.robot.sensors.colorsensor.ColorSensorIOREV3;
 import frc.robot.sensors.encoder.QuadratureEncoderIO;
 import frc.robot.sensors.encoder.QuadratureEncoderIOCANCoder;
 import frc.robot.sensors.gyro.GyroIO;
@@ -42,6 +46,7 @@ public class RobotContainer {
   // Subsystems
   private final DriveBase m_driveBase;
   private final ArmBase m_armBase;
+  private final IntakeBase m_intakeBase;
 
   // Controllers
   private final TalonXboxController m_driverController =
@@ -57,8 +62,8 @@ public class RobotContainer {
       new PhotonCamera(HardwareDevices.kRearCameraName, Constants.Vision.kRearCameraTransform3d);
 
   // Trajectory Chooser
-  private final LoggedDashboardChooser<String> m_trajectoryChooser =
-      new LoggedDashboardChooser<>("Trajectory Chooser");
+  private final LoggedDashboardChooser<Command> m_autoChooser =
+      new LoggedDashboardChooser<>("Autonomous Mode Chooser");
 
   // VisionPoseEstimator
   private final VisionPoseEstimator m_visionEstimator =
@@ -67,86 +72,165 @@ public class RobotContainer {
   public RobotContainer() {
     DriverStation.silenceJoystickConnectionWarning(true);
 
-    DriveIO driveIO;
-    GyroIO gyroIO;
-    ArmExtensionIO extensionIO;
-    ArmRotationIO rotationIO;
-    QuadratureEncoderIO armRotationEncoderIO;
-
     if (Constants.getRobotMode() == Constants.RobotMode.REAL) {
-      switch (Constants.getRobotType()) {
+      Constants.RobotType robotType = Constants.getRobotType();
+      System.out.println("Robot Mode: " + robotType);
+
+      switch (robotType) {
         case ROBOT_2023C -> {
-          driveIO = new DriveIO() {};
-          gyroIO = new GyroIO() {};
-          extensionIO = new ArmExtensionIO() {};
-          rotationIO = new ArmRotationIO() {};
-          armRotationEncoderIO = new QuadratureEncoderIO() {};
+          m_driveBase =
+              new DriveBase(
+                  new DriveIOFalcon(
+                      HardwareDevices.COMP2023.Drivetrain.kLeftLeaderId,
+                      HardwareDevices.COMP2023.Drivetrain.kLeftFollowerId,
+                      HardwareDevices.COMP2023.Drivetrain.kRightLeaderId,
+                      HardwareDevices.COMP2023.Drivetrain.kRightFollowerId,
+                      Constants.Drivetrain.kDrivetrainGearRatio,
+                      Constants.Drivetrain.kWheelRadiusMeters,
+                      Constants.Drivetrain.kLeftSideInverted,
+                      Constants.Drivetrain.kLeftSensorInverted,
+                      Constants.Drivetrain.kRightSideInverted,
+                      Constants.Drivetrain.kRightSensorInverted),
+                  new GyroIOPigeon2(HardwareDevices.COMP2023.kRobotGyroId));
+
+          m_armBase =
+              new ArmBase(
+                  new ArmExtensionIOSparkMax(
+                      HardwareDevices.COMP2023.Arm.kExtensionId,
+                      Constants.Arm.kExtensionInverted,
+                      Constants.Arm.kExtensionPositionConversionFactor,
+                      Constants.Arm.kExtensionVelocityConversionFactor),
+                  new ArmRotationIOSparkMax(
+                      HardwareDevices.COMP2023.Arm.kRotationLeaderId,
+                      HardwareDevices.COMP2023.Arm.kRotationFollowerId,
+                      Constants.Arm.kRotationInverted),
+                  new QuadratureEncoderIOCANCoder(
+                      HardwareDevices.COMP2023.Arm.kArmRotationEncoderId,
+                      Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees));
+
+          m_intakeBase =
+              new IntakeBase(
+                  new IntakeClawIOSparkMax(HardwareDevices.COMP2023.Intake.kIntakeClawId),
+                  new IntakeWristIOSparkMax(HardwareDevices.COMP2023.Intake.kIntakeWristId),
+                  new QuadratureEncoderIOCANCoder(
+                      HardwareDevices.COMP2023.Intake.kIntakeWristEncoderId,
+                      Constants.Intake.kWristEncoderOffsetDegrees),
+                  new QuadratureEncoderIOCANCoder(
+                      HardwareDevices.COMP2023.Intake.kIntakeClawEncoderID,
+                      Constants.Intake.kClawEncoderOffsetDegrees),
+                  new ColorSensorIOREV3(HardwareDevices.COMP2023.Intake.kColorSensorPort));
         }
         case ROBOT_2023P -> {
-          driveIO =
-              new DriveIOFalcon(
-                  HardwareDevices.PROTO2023.Drivetrain.kLeftLeader,
-                  HardwareDevices.PROTO2023.Drivetrain.kLeftFollower,
-                  HardwareDevices.PROTO2023.Drivetrain.kRightLeader,
-                  HardwareDevices.PROTO2023.Drivetrain.kRightFollower,
-                  Constants.Drivetrain.kDrivetrainGearRatio,
-                  Constants.Drivetrain.kWheelRadiusMeters,
-                  Constants.Drivetrain.kLeftSideInverted,
-                  Constants.Drivetrain.kLeftSensorInverted,
-                  Constants.Drivetrain.kRightSideInverted,
-                  Constants.Drivetrain.kRightSensorInverted);
-          gyroIO = new GyroIOPigeon2(HardwareDevices.PROTO2023.kRobotGyroConfig);
-          extensionIO =
-              new ArmExtensionIONeo(
-                  HardwareDevices.PROTO2023.Arm.kExtension,
-                  Constants.Arm.kExtensionInverted,
-                  Constants.Arm.kExtensionEncoderInverted);
-          rotationIO =
-              new ArmRotationIONeo(
-                  HardwareDevices.PROTO2023.Arm.kRotationLeader,
-                  HardwareDevices.PROTO2023.Arm.kRotationFollower,
-                  Constants.Arm.kRotationInverted);
+          m_driveBase =
+              new DriveBase(
+                  new DriveIOFalcon(
+                      HardwareDevices.PROTO2023.Drivetrain.kLeftLeaderId,
+                      HardwareDevices.PROTO2023.Drivetrain.kLeftFollowerId,
+                      HardwareDevices.PROTO2023.Drivetrain.kRightLeaderId,
+                      HardwareDevices.PROTO2023.Drivetrain.kRightFollowerId,
+                      Constants.Drivetrain.kDrivetrainGearRatio,
+                      Constants.Drivetrain.kWheelRadiusMeters,
+                      Constants.Drivetrain.kLeftSideInverted,
+                      Constants.Drivetrain.kLeftSensorInverted,
+                      Constants.Drivetrain.kRightSideInverted,
+                      Constants.Drivetrain.kRightSensorInverted),
+                  new GyroIOPigeon2(HardwareDevices.PROTO2023.kRobotGyroId));
 
-          armRotationEncoderIO =
-              new QuadratureEncoderIOCANCoder(HardwareDevices.PROTO2023.Arm.kArmRotationEncoder);
+          m_armBase =
+              new ArmBase(
+                  new ArmExtensionIO() {}, new ArmRotationIO() {}, new QuadratureEncoderIO() {});
+
+          m_intakeBase =
+              new IntakeBase(
+                  new IntakeClawIO() {},
+                  new IntakeWristIO() {},
+                  new QuadratureEncoderIO() {},
+                  new QuadratureEncoderIO() {},
+                  new ColorSensorIO() {});
         }
         default -> throw new RuntimeException("Unknown Robot Type");
       }
     } else {
-      driveIO = new DriveIO() {};
-      gyroIO = new GyroIO() {};
-      extensionIO = new ArmExtensionIO() {};
-      rotationIO = new ArmRotationIO() {};
-      armRotationEncoderIO = new QuadratureEncoderIO() {};
+      m_driveBase = new DriveBase(new DriveIO() {}, new GyroIO() {});
+
+      m_armBase =
+          new ArmBase(
+              new ArmExtensionIO() {}, new ArmRotationIO() {}, new QuadratureEncoderIO() {});
+
+      m_intakeBase =
+          new IntakeBase(
+              new IntakeClawIO() {},
+              new IntakeWristIO() {},
+              new QuadratureEncoderIO() {},
+              new QuadratureEncoderIO() {},
+              new ColorSensorIO() {});
     }
 
-    m_driveBase = new DriveBase(driveIO, gyroIO);
-    m_armBase = new ArmBase(extensionIO, rotationIO, armRotationEncoderIO);
-
     configureBindings();
-
-    PathPlannerUtils.configureTrajectoryChooser(m_trajectoryChooser);
+    configureAuto();
   }
 
   private void configureBindings() {
     m_driveBase.setDefaultCommand(new XboxControllerDriveControl(m_driveBase, m_driverController));
-    m_armBase.setDefaultCommand(new StateController(m_armBase));
+    m_armBase.setDefaultCommand(new ArmStateController(m_armBase));
+    m_intakeBase.setDefaultCommand(new IntakeStateController(m_intakeBase));
 
     m_driverController.leftBumper().whileTrue(new StabilizeRobot(m_driveBase));
 
-    // By controlling manually with commands, the StateController is de-scheduled which will bypass
-    // control to the controller (manual).
+    // By controlling manually with commands, the ArmStateController is de-scheduled which will
+    // bypass control to the controller (manual).
     new Trigger(() -> Math.abs(m_depositionController.getLeftY()) < 0.05)
         .whileTrue(
-            new RunCommand(
+            Commands.run(
                 () -> m_armBase.setRotationVoltage(m_depositionController.getLeftDeadbandY() * 12),
                 m_armBase));
     new Trigger(() -> Math.abs(m_depositionController.getRightY()) < 0.05)
         .whileTrue(
-            new RunCommand(
+            Commands.run(
                 () ->
                     m_armBase.setExtensionVoltage(m_depositionController.getRightDeadbandY() * 12),
                 m_armBase));
+
+    m_depositionController
+        .leftBumper()
+        .whileTrue(
+            Commands.run(
+                () -> m_intakeBase.setWristVoltage(-Constants.Intake.kWristChangePercent * 12.0),
+                m_intakeBase));
+    m_depositionController
+        .rightBumper()
+        .whileTrue(
+            Commands.run(
+                () -> m_intakeBase.setWristVoltage(Constants.Intake.kWristChangePercent * 12.0),
+                m_intakeBase));
+
+    m_depositionController
+        .leftTrigger()
+        .whileTrue(
+            Commands.run(
+                () -> m_intakeBase.setClawVoltage(-Constants.Intake.kClawChangePercent * 12.0),
+                m_intakeBase));
+    m_depositionController
+        .rightTrigger()
+        .whileTrue(
+            Commands.run(
+                () -> m_intakeBase.setClawVoltage(Constants.Intake.kClawChangePercent * 12.0),
+                m_intakeBase));
+
+    m_depositionController
+        .x()
+        .debounce(0.1)
+        .onTrue(Commands.runOnce(IntakeStateManager.getInstance()::flipWrist));
+  }
+
+  private void configureAuto() {
+    m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
+    m_autoChooser.addOption("Drive For 5 Seconds", new DriveTime(5, 0.25, m_driveBase));
+    m_autoChooser.addOption("Drive For 5 Seconds (inverse)", new DriveTime(5, -0.25, m_driveBase));
+
+    m_autoChooser.addOption("Drive for 2 meters", new DriveDistance(2, m_driveBase));
+
+    m_autoChooser.addOption("Stabilize Only", new StabilizeRobot(m_driveBase));
   }
 
   public void pollVisionData() {
@@ -179,44 +263,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    String path = m_trajectoryChooser.get();
-
-    if (!path.equals("none")) {
-      PathPlannerTrajectory m_trajectory =
-          PathPlanner.loadPath(
-              path,
-              Constants.Drivetrain.kMaxDrivetrainVelocityMetersPerSecond,
-              Constants.Drivetrain.kMaxDrivetrainAccelerationMetersPerSecondSquared);
-
-      m_driveBase.resetPosition(m_trajectory.getInitialPose());
-
-      return new PPRamseteCommand(
-              m_trajectory,
-              m_driveBase::getPosition,
-              new RamseteController(
-                  Constants.Drivetrain.ControlValues.Trajectory.kRamseteB,
-                  Constants.Drivetrain.ControlValues.Trajectory.kRamseteZeta),
-              new SimpleMotorFeedforward(
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kS,
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kV,
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kA),
-              Constants.Drivetrain.kDrivetrainKinematics,
-              m_driveBase::getWheelSpeeds,
-              new PIDController(
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kP,
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kI,
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kD),
-              new PIDController(
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kP,
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kI,
-                  Constants.Drivetrain.ControlValues.WheelSpeed.kD),
-              m_driveBase::tankDriveVoltage,
-              true,
-              m_driveBase)
-          .andThen(m_driveBase::stop);
-    } else {
-      DriverStation.reportError("You tried to run Auto, but no path was selected.", false);
-      return null;
-    }
+    return m_autoChooser.get();
   }
 }

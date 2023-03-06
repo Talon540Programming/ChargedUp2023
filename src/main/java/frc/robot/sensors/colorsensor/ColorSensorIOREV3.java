@@ -39,7 +39,7 @@ public class ColorSensorIOREV3 implements ColorSensorIO {
     inputs.RedValue = m_colorSensor.getRed();
     inputs.BlueValue = m_colorSensor.getBlue();
     inputs.GreenValue = m_colorSensor.getGreen();
-    inputs.ProximityValue = m_colorSensor.getProximity();
+    inputs.ProximityValue = m_colorSensor.getProximity() / 2047.0;
   }
 
   @Override

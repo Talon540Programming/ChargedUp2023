@@ -6,7 +6,7 @@ import edu.wpi.first.math.util.Units;
 // we use imperial units which is why we must convert it.
 public class RobotDimensions {
   public static final class Drivetrain {
-    public static final double kBumperWidthInches = 3;
+    public static final double kBumperWidthInches = 3.5;
     public static final double kBumperWidthMeters = Units.inchesToMeters(kBumperWidthInches);
 
     public static final double kDrivetrainWidthInches = 24;

@@ -11,7 +11,7 @@ import frc.robot.arm.ArmStateManager;
 import frc.robot.constants.Constants;
 import frc.robot.constants.RobotLimits;
 
-public class StateController extends CommandBase {
+public class ArmStateController extends CommandBase {
   private final ArmBase m_armBase;
 
   private final ProfiledPIDController m_rotationController;
@@ -19,7 +19,7 @@ public class StateController extends CommandBase {
 
   private final PIDController m_extensionController;
 
-  public StateController(ArmBase armBase) {
+  public ArmStateController(ArmBase armBase) {
     this.m_armBase = armBase;
 
     this.m_rotationController =
@@ -55,7 +55,7 @@ public class StateController extends CommandBase {
   @Override
   public void execute() {
     // Get the target Arm State
-    ArmState targetState = ArmStateManager.getInstance().getArmState();
+    ArmState targetState = ArmStateManager.getInstance().getTargetState();
 
     setExtensionOutput(
         m_extensionController.calculate(

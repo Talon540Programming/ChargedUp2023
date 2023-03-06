@@ -10,6 +10,8 @@ public interface ArmExtensionIO extends LoggedIO<ArmExtensionIO.ArmExtensionIOIn
   class ArmExtensionIOInputs {
     public double DistanceTraveledMeters;
     public double VelocityRadiansPerSecond;
+    public double TemperatureCelsius;
+    public double CurrentAmps;
   }
 
   @Override
