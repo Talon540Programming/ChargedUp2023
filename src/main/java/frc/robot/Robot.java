@@ -65,7 +65,7 @@ public class Robot extends LoggedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     m_robotContainer.pollVisionData();
-    
+
     if (Constants.kAdvancedLoggingEnabled) {
       LoggerUtil.logNTClients();
     }

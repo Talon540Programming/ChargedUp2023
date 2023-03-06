@@ -1,20 +1,17 @@
 package frc.robot.constants;
 
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.RobotBase;
-import java.io.IOException;
-import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.arm.ArmKinematics;
+import java.io.IOException;
 
 public final class Constants {
   /**
@@ -160,7 +157,7 @@ public final class Constants {
     public static final Transform3d kForwardCameraTransform3d = null; // TODO
     public static final Transform3d kRearCameraTransform3d = null; // TODO
   }
-  
+
   public static final class Intake {
     public static final double kWristChangePercent = 0.2; // TODO
     public static final double kClawChangePercent = 0.2; // TODO
