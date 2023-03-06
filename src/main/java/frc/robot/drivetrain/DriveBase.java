@@ -69,6 +69,15 @@ public class DriveBase extends SubsystemBase {
   }
 
   /**
+   * Get the average distance traveled by the left and right sides of the drivetrain.
+   *
+   * @return distance traveled.
+   */
+  public double getLinearDistanceTraveled() {
+    return (m_driveInputs.LeftPositionMeters + m_driveInputs.RightPositionMeters) / 2.0;
+  }
+
+  /**
    * Drive the robot using standard tank drive from left and right percent. The {@link
    * RobotDriveBase#kDefaultDeadband} deadband value is used. <b>Input values are not squared</b>
    *

@@ -9,7 +9,7 @@ import frc.robot.drivetrain.DriveBase;
  * Represents an Auto Routine used to drive the drivetrain at a given percent for a given duration.
  * This can be used as a failsafe auto to just get the points for taxiing.
  */
-public class TaxiOnlyAuto extends CommandBase {
+public class DriveTime extends CommandBase {
   private final double kDuration;
   private final double kSpeed;
 
@@ -17,13 +17,13 @@ public class TaxiOnlyAuto extends CommandBase {
   private final Timer m_timer = new Timer();
 
   /**
-   * Create a TaxiOnlyAuto Auto.
+   * Create a DriveTime Auto.
    *
    * @param duration how long to drive in seconds.
    * @param speed speed to drive at [-1.0, 1.0].
    * @param driveBase drivetrain subsystem.
    */
-  public TaxiOnlyAuto(double duration, double speed, DriveBase driveBase) {
+  public DriveTime(double duration, double speed, DriveBase driveBase) {
     kDuration = Math.max(0, duration);
     kSpeed = MathUtil.clamp(speed, -1, 1);
     m_driveBase = driveBase;
