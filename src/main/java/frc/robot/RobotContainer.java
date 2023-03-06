@@ -10,7 +10,7 @@ import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOSparkMax;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOSparkMax;
-import frc.robot.autos.StabilizeOnlyAuto;
+import frc.robot.autos.StabilizeOnly;
 import frc.robot.autos.TaxiOnlyAuto;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
@@ -55,7 +55,10 @@ public class RobotContainer {
     DriverStation.silenceJoystickConnectionWarning(true);
 
     if (Constants.getRobotMode() == Constants.RobotMode.REAL) {
-      switch (Constants.getRobotType()) {
+      Constants.RobotType robotType = Constants.getRobotType();
+      System.out.println("Robot Mode: " + robotType);
+
+      switch (robotType) {
         case ROBOT_2023C -> {
           m_driveBase =
               new DriveBase(
@@ -205,7 +208,7 @@ public class RobotContainer {
   private void configureAuto() {
     m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
     m_autoChooser.addOption("Taxi Only", new TaxiOnlyAuto(5, 0.2, m_driveBase));
-    m_autoChooser.addOption("Stabilize Only", new StabilizeOnlyAuto(0.1, m_driveBase));
+    m_autoChooser.addOption("Stabilize Only", new StabilizeOnly(0.1, m_driveBase));
   }
 
   public Command getAutonomousCommand() {
