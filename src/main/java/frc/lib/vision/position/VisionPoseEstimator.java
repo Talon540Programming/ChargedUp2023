@@ -96,17 +96,7 @@ public class VisionPoseEstimator {
       /* ======================== */
       if (pipelineResult.getTargets().size() < 2) {
         // There are only 2 targets, use the target with the lowest ambiguity
-        PhotonTrackedTarget lowestAmbiguityTarget = null;
-        double lowestAmbiguityScore = 10;
-
-        for (PhotonTrackedTarget target : pipelineResult.getTargets()) {
-          double targetPoseAmbiguity = target.getPoseAmbiguity();
-          // Make sure the target is a Fiducial target.
-          if (targetPoseAmbiguity != -1 && targetPoseAmbiguity < lowestAmbiguityScore) {
-            lowestAmbiguityScore = targetPoseAmbiguity;
-            lowestAmbiguityTarget = target;
-          }
-        }
+        PhotonTrackedTarget lowestAmbiguityTarget = getLowestAmbiguityTargetFromPipeline(pipelineResult);
 
         // Although there are confirmed to be targets, none of them may be fiducial
         // targets.
@@ -120,7 +110,7 @@ public class VisionPoseEstimator {
 
         if (targetPosition.isEmpty()) {
           DriverStation.reportWarning(
-              "[VisionPoseEstimator] The found tag was not within the FieldLayout.", false);
+              "[VisionPoseEstimator] The found tag with the lowest ambiguity was not within the FieldLayout.", false);
           results.put(camera.getName(), Optional.empty());
           continue;
         }
@@ -142,6 +132,7 @@ public class VisionPoseEstimator {
           visCorners.addAll(target.getDetectedCorners());
 
           Optional<Pose3d> tagPoseOpt = fieldLayout.getTagPose(target.getFiducialId());
+
           if (tagPoseOpt.isEmpty()) {
             DriverStation.reportWarning(
                 "[VisionPoseEstimator] The found tag was not within the FieldLayout.", false);
@@ -156,28 +147,55 @@ public class VisionPoseEstimator {
 
         Optional<Matrix<N3, N3>> cameraMatrixOpt = camera.getCameraMatrix();
         Optional<Matrix<N5, N1>> distCoeffsOpt = camera.getDistCoeffs();
+
         boolean hasCalibData = cameraMatrixOpt.isPresent() && distCoeffsOpt.isPresent();
 
         // multi-target solvePNP
         if (hasCalibData) {
           Matrix<N3, N3> cameraMatrix = cameraMatrixOpt.get();
           Matrix<N5, N1> distCoeffs = distCoeffsOpt.get();
+
           PNPResults pnpResults =
               VisionEstimation.estimateCamPosePNP(
                   cameraMatrix, distCoeffs, visCorners, knownVisTags);
-          Pose3d best =
+          Pose3d bestResult =
               new Pose3d()
                   .plus(pnpResults.best) // field-to-camera
                   .plus(camera.getRobotToCamera().inverse()); // field-to-robot
 
           results.put(
-              camera.getName(), Optional.of(new EstimatedRobotPose(best, pipelineTimestamp)));
+              camera.getName(), Optional.of(new EstimatedRobotPose(bestResult, pipelineTimestamp)));
         } else {
+          DriverStation.reportWarning(
+                  "[VisionPoseEstimator] The camera is not calibrated, unable to perform SolvePNP.", false);
           results.put(camera.getName(), Optional.empty());
         }
       }
     }
 
     return results;
+  }
+
+  /**
+   * Get the target with the lowest ambiguity score from a pipeline of results.
+   *
+   * @param pipelineResult pipeline results to use for targets.
+   * @return target from the pipeline with the lowest ambiguity.
+   */
+  public PhotonTrackedTarget getLowestAmbiguityTargetFromPipeline(PhotonPipelineResult pipelineResult) {
+    // There are only 2 targets, use the target with the lowest ambiguity
+    PhotonTrackedTarget lowestAmbiguityTarget = null;
+    double lowestAmbiguityScore = 10;
+
+    for (PhotonTrackedTarget target : pipelineResult.getTargets()) {
+      double targetPoseAmbiguity = target.getPoseAmbiguity();
+      // Make sure the target is a Fiducial target.
+      if (targetPoseAmbiguity != -1 && targetPoseAmbiguity < lowestAmbiguityScore) {
+        lowestAmbiguityScore = targetPoseAmbiguity;
+        lowestAmbiguityTarget = target;
+      }
+    }
+
+    return lowestAmbiguityTarget;
   }
 }
