@@ -10,8 +10,8 @@ import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOSparkMax;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOSparkMax;
-import frc.robot.autos.StabilizeOnly;
-import frc.robot.autos.TaxiOnlyAuto;
+import frc.robot.autos.DriveDistance;
+import frc.robot.autos.DriveTime;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
 import frc.robot.drivetrain.DriveBase;
@@ -207,8 +207,12 @@ public class RobotContainer {
 
   private void configureAuto() {
     m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
-    m_autoChooser.addOption("Taxi Only", new TaxiOnlyAuto(5, 0.2, m_driveBase));
-    m_autoChooser.addOption("Stabilize Only", new StabilizeOnly(0.1, m_driveBase));
+    m_autoChooser.addOption("Drive For 5 Seconds", new DriveTime(5, 0.25, m_driveBase));
+    m_autoChooser.addOption("Drive For 5 Seconds (inverse)", new DriveTime(5, -0.25, m_driveBase));
+
+    m_autoChooser.addOption("Drive for 2 meters", new DriveDistance(2, m_driveBase));
+
+    m_autoChooser.addOption("Stabilize Only", new StabilizeRobot(m_driveBase));
   }
 
   public Command getAutonomousCommand() {
