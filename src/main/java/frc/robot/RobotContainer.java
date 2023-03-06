@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -264,5 +265,13 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return m_autoChooser.get();
+  }
+
+  public static void configureFieldOrigin() {
+    Constants.Vision.kFieldLayout.setOrigin(
+            DriverStation.getAlliance() == DriverStation.Alliance.Blue
+                    ? AprilTagFieldLayout.OriginPosition.kBlueAllianceWallRightSide
+                    : AprilTagFieldLayout.OriginPosition.kRedAllianceWallRightSide
+    );
   }
 }
