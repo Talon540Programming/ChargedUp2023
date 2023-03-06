@@ -143,21 +143,6 @@ public final class Constants {
     }
   }
 
-  public static final class Vision {
-    public static final AprilTagFieldLayout kFieldLayout;
-
-    static {
-      try {
-        kFieldLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
-      } catch (IOException e) {
-        throw new RuntimeException("Unable to Load the AprilTagFieldLayout of the field");
-      }
-    }
-
-    public static final Transform3d kForwardCameraTransform3d = null; // TODO
-    public static final Transform3d kRearCameraTransform3d = null; // TODO
-  }
-
   public static final class Intake {
     public static final double kWristChangePercent = 0.2; // TODO
     public static final double kClawChangePercent = 0.2; // TODO
@@ -192,6 +177,21 @@ public final class Constants {
         public static final double kD = 0; // TODO
       }
     }
+  }
+
+  public static final class Vision {
+    public static final AprilTagFieldLayout kFieldLayout;
+
+    static {
+      try {
+        kFieldLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
+      } catch (IOException e) {
+        throw new RuntimeException("Unable to Load the AprilTagFieldLayout of the field");
+      }
+    }
+
+    public static final Transform3d kForwardCameraTransform3d = null; // TODO
+    public static final Transform3d kRearCameraTransform3d = null; // TODO
   }
 
   public enum NeutralMode {
