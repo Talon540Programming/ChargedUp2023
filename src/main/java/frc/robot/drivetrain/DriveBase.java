@@ -68,7 +68,6 @@ public class DriveBase extends SubsystemBase {
     ArmStateManager.getInstance().updateRobotPitch(m_gyroInputs.GyroPitchRad);
   }
 
-
   /**
    * Get the average distance traveled by the left and right sides of the drivetrain.
    *
