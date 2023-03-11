@@ -56,7 +56,7 @@ public class RobotContainer {
 
     if (Constants.getRobotMode() == Constants.RobotMode.REAL) {
       Constants.RobotType robotType = Constants.getRobotType();
-      System.out.println("Robot Mode: " + robotType);
+      System.out.println("Robot Type: " + robotType);
 
       switch (robotType) {
         case ROBOT_2023C -> {
