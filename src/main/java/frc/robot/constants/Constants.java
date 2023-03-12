@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.arm.ArmKinematics;
@@ -15,27 +16,43 @@ public final class Constants {
    */
   public static final boolean kAdvancedLoggingEnabled = true;
 
-  private static final RobotType kRobotType = RobotType.ROBOT_2023C;
+  private static RobotType kRobotType = RobotType.ROBOT_2023C;
+  public static final double loopPeriodSecs = 0.02;
 
   public enum RobotMode {
     REAL,
-    REPLAY
+    REPLAY,
+    SIM
   }
 
   public enum RobotType {
     ROBOT_2023C,
-    ROBOT_2023P
+    ROBOT_2023P,
+    ROBOT_SIMBOT
   }
 
   public static RobotType getRobotType() {
+
+    if (RobotBase.isReal() && kRobotType == RobotType.ROBOT_SIMBOT) {
+      DriverStation.reportError(
+          "Robot is set to SIM but it isn't a SIM, setting it to Competition Robot as redundancy.",
+          false);
+      kRobotType = RobotType.ROBOT_2023C;
+    }
+
+    if (RobotBase.isSimulation() && kRobotType != RobotType.ROBOT_SIMBOT) {
+      DriverStation.reportError(
+          "Robot is set to REAL but it is a SIM, setting it to SIMBOT as redundancy.", false);
+      kRobotType = RobotType.ROBOT_SIMBOT;
+    }
+
     return kRobotType;
   }
 
-  @SuppressWarnings("UnnecessaryDefault")
   public static RobotMode getRobotMode() {
     return switch (getRobotType()) {
       case ROBOT_2023C, ROBOT_2023P -> RobotBase.isReal() ? RobotMode.REAL : RobotMode.REPLAY;
-      default -> RobotMode.REAL;
+      case ROBOT_SIMBOT -> RobotMode.SIM;
     };
   }
 
