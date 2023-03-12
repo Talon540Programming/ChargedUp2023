@@ -11,16 +11,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.ArmStateManager;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Drivetrain;
-import frc.robot.sensors.gyro.GyroIO;
-import frc.robot.sensors.gyro.GyroIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class DriveBase extends SubsystemBase {
   private final DriveIO m_driveIO;
   public final DriveIOInputsAutoLogged m_driveInputs = new DriveIOInputsAutoLogged();
-
-  public final GyroIO m_gyroIO;
-  public final GyroIOInputsAutoLogged m_gyroInputs = new GyroIOInputsAutoLogged();
 
   private final DifferentialDrivePoseEstimator m_odometry;
 
@@ -28,14 +23,12 @@ public class DriveBase extends SubsystemBase {
    * Create the drivetrain subsystem.
    *
    * @param driveIO Drive interface to use.
-   * @param gyroIO Gyro interface to use.
    */
-  public DriveBase(DriveIO driveIO, GyroIO gyroIO) {
+  public DriveBase(DriveIO driveIO) {
     this.m_driveIO = driveIO;
-    this.m_gyroIO = gyroIO;
 
     m_driveIO.resetEncoders();
-    m_gyroIO.resetHeading();
+    m_driveIO.resetHeading();
 
     resetNeutralMode();
 
@@ -44,7 +37,7 @@ public class DriveBase extends SubsystemBase {
     this.m_odometry =
         new DifferentialDrivePoseEstimator(
             Drivetrain.kDrivetrainKinematics,
-            m_gyroIO.getRotation2d(),
+            m_driveIO.getHeading(),
             m_driveInputs.LeftPositionMeters,
             m_driveInputs.RightPositionMeters,
             new Pose2d());
@@ -55,17 +48,14 @@ public class DriveBase extends SubsystemBase {
     m_driveIO.updateInputs(m_driveInputs);
     Logger.getInstance().processInputs("Drive", m_driveInputs);
 
-    m_gyroIO.updateInputs(m_gyroInputs);
-    Logger.getInstance().processInputs("Drive/Gyro", m_gyroInputs);
-
     // Data in DriveIO is automatically logged using AutoLog. Odometry is handled in subsystem.
     m_odometry.update(
-        m_gyroIO.getRotation2d(),
+        m_driveIO.getHeading(),
         m_driveInputs.LeftPositionMeters,
         m_driveInputs.RightPositionMeters);
     Logger.getInstance().recordOutput("Drive/Odometry", getPosition());
 
-    ArmStateManager.getInstance().updateRobotPitch(m_gyroInputs.GyroPitchRad);
+    ArmStateManager.getInstance().updateRobotPitch(m_driveInputs.GyroPitchRad);
   }
 
   /**

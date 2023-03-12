@@ -4,7 +4,10 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import frc.lib.Pigeon2Accelerometer;
 import frc.robot.constants.Constants;
 import org.talon540.sensors.TalonFXMechanism;
 
@@ -17,6 +20,9 @@ public class DriveIOFalcon implements DriveIO {
   private final WPI_TalonFX m_rightLeader;
   private final WPI_TalonFX m_leftFollower;
   private final WPI_TalonFX m_rightFollower;
+
+  private final WPI_Pigeon2 m_gyro;
+  private final Pigeon2Accelerometer m_accelerometer;
 
   private final TalonFXMechanism m_leftSensors;
   private final TalonFXMechanism m_rightSensors;
@@ -32,6 +38,7 @@ public class DriveIOFalcon implements DriveIO {
       int leftFollowerId,
       int rightLeaderId,
       int rightFollowerId,
+      int gyroId,
       double driveGearRatio,
       double driveWheelRadiusMeters,
       boolean leftSideInverted,
@@ -72,6 +79,9 @@ public class DriveIOFalcon implements DriveIO {
     m_leftFollower.setInverted(InvertType.FollowMaster);
     m_rightLeader.setInverted(rightSideInverted);
     m_rightFollower.setInverted(InvertType.FollowMaster);
+
+    m_gyro = new WPI_Pigeon2(gyroId);
+    m_accelerometer = new Pigeon2Accelerometer(m_gyro);
   }
 
   @Override
@@ -95,6 +105,16 @@ public class DriveIOFalcon implements DriveIO {
           m_leftLeader.getSupplyCurrent(), m_leftFollower.getSupplyCurrent(),
           m_rightLeader.getSupplyCurrent(), m_rightFollower.getSupplyCurrent()
         };
+
+    // Handle Gyro Inputs
+    inputs.GyroYawRad = Math.toRadians(m_gyro.getYaw());
+    inputs.GyroPitchRad = Math.toRadians(m_gyro.getPitch());
+    inputs.GyroRollRad = Math.toRadians(m_gyro.getRoll());
+    inputs.GyroRateRadPerSecond = Math.toRadians(m_gyro.getRate());
+
+    inputs.AccelX = m_accelerometer.getX();
+    inputs.AccelY = m_accelerometer.getY();
+    inputs.AccelZ = m_accelerometer.getZ();
   }
 
   @Override
@@ -118,5 +138,15 @@ public class DriveIOFalcon implements DriveIO {
     m_rightLeader.setNeutralMode(mode.toPhoenixMode());
     m_leftFollower.setNeutralMode(mode.toPhoenixMode());
     m_rightFollower.setNeutralMode(mode.toPhoenixMode());
+  }
+
+  @Override
+  public void resetHeading() {
+    m_gyro.reset();
+  }
+
+  @Override
+  public Rotation2d getHeading() {
+    return m_gyro.getRotation2d();
   }
 }

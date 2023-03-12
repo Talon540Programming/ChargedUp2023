@@ -1,4 +1,4 @@
-package frc.robot.sensors.gyro;
+package frc.lib;
 
 import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;

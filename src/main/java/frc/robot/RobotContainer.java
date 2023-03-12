@@ -30,8 +30,6 @@ import frc.robot.sensors.colorsensor.ColorSensorIO;
 import frc.robot.sensors.colorsensor.ColorSensorIOREV3;
 import frc.robot.sensors.encoder.QuadratureEncoderIO;
 import frc.robot.sensors.encoder.QuadratureEncoderIOCANCoder;
-import frc.robot.sensors.gyro.GyroIO;
-import frc.robot.sensors.gyro.GyroIOPigeon2;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.talon540.control.XboxController.TalonXboxController;
 
@@ -67,13 +65,13 @@ public class RobotContainer {
                       HardwareDevices.COMP2023.Drivetrain.kLeftFollowerId,
                       HardwareDevices.COMP2023.Drivetrain.kRightLeaderId,
                       HardwareDevices.COMP2023.Drivetrain.kRightFollowerId,
+                      HardwareDevices.COMP2023.kRobotGyroId,
                       Constants.Drivetrain.kDrivetrainGearRatio,
                       Constants.Drivetrain.kWheelRadiusMeters,
                       Constants.Drivetrain.kLeftSideInverted,
                       Constants.Drivetrain.kLeftSensorInverted,
                       Constants.Drivetrain.kRightSideInverted,
-                      Constants.Drivetrain.kRightSensorInverted),
-                  new GyroIOPigeon2(HardwareDevices.COMP2023.kRobotGyroId));
+                      Constants.Drivetrain.kRightSensorInverted));
 
           m_armBase =
               new ArmBase(
@@ -110,13 +108,13 @@ public class RobotContainer {
                       HardwareDevices.PROTO2023.Drivetrain.kLeftFollowerId,
                       HardwareDevices.PROTO2023.Drivetrain.kRightLeaderId,
                       HardwareDevices.PROTO2023.Drivetrain.kRightFollowerId,
+                      HardwareDevices.PROTO2023.kRobotGyroId,
                       Constants.Drivetrain.kDrivetrainGearRatio,
                       Constants.Drivetrain.kWheelRadiusMeters,
                       Constants.Drivetrain.kLeftSideInverted,
                       Constants.Drivetrain.kLeftSensorInverted,
                       Constants.Drivetrain.kRightSideInverted,
-                      Constants.Drivetrain.kRightSensorInverted),
-                  new GyroIOPigeon2(HardwareDevices.PROTO2023.kRobotGyroId));
+                      Constants.Drivetrain.kRightSensorInverted));
 
           m_armBase =
               new ArmBase(
@@ -133,7 +131,7 @@ public class RobotContainer {
         default -> throw new RuntimeException("Unknown Robot Type");
       }
     } else {
-      m_driveBase = new DriveBase(new DriveIO() {}, new GyroIO() {});
+      m_driveBase = new DriveBase(new DriveIO() {});
 
       m_armBase =
           new ArmBase(
