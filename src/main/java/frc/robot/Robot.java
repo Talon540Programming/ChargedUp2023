@@ -64,10 +64,9 @@ public class Robot extends LoggedRobot {
     // Start AdvantageKit logger
     logger.start();
 
-    if(Constants.kAdvancedLoggingEnabled)
-      LoggerUtil.initCommandLogging();
+    if (Constants.kAdvancedLoggingEnabled) LoggerUtil.initCommandLogging();
 
-    if(Constants.getRobotMode() == Constants.RobotMode.SIM)
+    if (Constants.getRobotMode() == Constants.RobotMode.SIM)
       DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
 
     m_robotContainer = new RobotContainer();

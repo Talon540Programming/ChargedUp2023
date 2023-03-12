@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
-
 import org.littletonrobotics.junction.Logger;
 
 /** Utilities used by the AdvantageKit Logger. */
@@ -77,36 +76,34 @@ public class LoggerUtil {
         .recordOutput("NTClients/Addresses", clientAddresses.toArray(new String[0]));
   }
 
-  /**
-   * Log Commands scheduled by the CommandScheduler to telemetry automatically.
-   */
+  /** Log Commands scheduled by the CommandScheduler to telemetry automatically. */
   public static void initCommandLogging() {
     // Log active commands
     Map<String, Integer> commandCounts = new HashMap<>();
     BiConsumer<Command, Boolean> logCommandFunction =
-            (Command command, Boolean active) -> {
-              String name = command.getName();
-              int count = commandCounts.getOrDefault(name, 0) + (active ? 1 : -1);
-              commandCounts.put(name, count);
-              Logger.getInstance()
-                      .recordOutput(
-                              "CommandsUnique/" + name + "_" + Integer.toHexString(command.hashCode()), active);
-              Logger.getInstance().recordOutput("CommandsAll/" + name, count > 0);
-            };
+        (Command command, Boolean active) -> {
+          String name = command.getName();
+          int count = commandCounts.getOrDefault(name, 0) + (active ? 1 : -1);
+          commandCounts.put(name, count);
+          Logger.getInstance()
+              .recordOutput(
+                  "CommandsUnique/" + name + "_" + Integer.toHexString(command.hashCode()), active);
+          Logger.getInstance().recordOutput("CommandsAll/" + name, count > 0);
+        };
     CommandScheduler.getInstance()
-            .onCommandInitialize(
-                    (Command command) -> {
-                      logCommandFunction.accept(command, true);
-                    });
+        .onCommandInitialize(
+            (Command command) -> {
+              logCommandFunction.accept(command, true);
+            });
     CommandScheduler.getInstance()
-            .onCommandFinish(
-                    (Command command) -> {
-                      logCommandFunction.accept(command, false);
-                    });
+        .onCommandFinish(
+            (Command command) -> {
+              logCommandFunction.accept(command, false);
+            });
     CommandScheduler.getInstance()
-            .onCommandInterrupt(
-                    (Command command) -> {
-                      logCommandFunction.accept(command, false);
-                    });
+        .onCommandInterrupt(
+            (Command command) -> {
+              logCommandFunction.accept(command, false);
+            });
   }
 }

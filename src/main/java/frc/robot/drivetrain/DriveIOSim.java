@@ -9,49 +9,53 @@ import frc.robot.constants.Constants;
 import frc.robot.constants.RobotDimensions;
 
 public class DriveIOSim implements DriveIO {
-    private final DifferentialDrivetrainSim m_driveSim;
+  private final DifferentialDrivetrainSim m_driveSim;
 
-    public DriveIOSim() {
-        double batteryMOI = Units.lbsToKilograms(12.5) * Math.pow(Units.inchesToMeters(5), 2);
-        double gearboxMOI = (1219.9 / 1000) * Math.pow(RobotDimensions.Drivetrain.kDrivetrainLengthMeters / 2.0, 2);
+  public DriveIOSim() {
+    double batteryMOI = Units.lbsToKilograms(12.5) * Math.pow(Units.inchesToMeters(5), 2);
+    double gearboxMOI =
+        (1219.9 / 1000) * Math.pow(RobotDimensions.Drivetrain.kDrivetrainLengthMeters / 2.0, 2);
 
-        m_driveSim = new DifferentialDrivetrainSim(
-                DCMotor.getFalcon500(2),
-                Constants.Drivetrain.kDrivetrainGearRatio,
-                batteryMOI + gearboxMOI,
-                RobotDimensions.kRobotMassKilos,
-                Constants.Drivetrain.kWheelRadiusMeters,
-                Constants.Drivetrain.kTrackWidthMeters,
-                null
-        );
-    }
+    m_driveSim =
+        new DifferentialDrivetrainSim(
+            DCMotor.getFalcon500(2),
+            Constants.Drivetrain.kDrivetrainGearRatio,
+            batteryMOI + gearboxMOI,
+            RobotDimensions.kRobotMassKilos,
+            Constants.Drivetrain.kWheelRadiusMeters,
+            Constants.Drivetrain.kTrackWidthMeters,
+            null);
+  }
 
-    @Override
-    public void updateInputs(DriveIOInputs inputs) {
-        m_driveSim.update(Constants.loopPeriodSecs);
+  @Override
+  public void updateInputs(DriveIOInputs inputs) {
+    m_driveSim.update(Constants.loopPeriodSecs);
 
-        inputs.LeftPositionMeters = m_driveSim.getLeftPositionMeters() / Constants.Drivetrain.kWheelRadiusMeters;
-        inputs.LeftVelocityMetersPerSecond = m_driveSim.getLeftVelocityMetersPerSecond() / Constants.Drivetrain.kWheelRadiusMeters;
-        inputs.RightPositionMeters = m_driveSim.getRightPositionMeters() / Constants.Drivetrain.kWheelRadiusMeters;
-        inputs.RightVelocityMetersPerSecond = m_driveSim.getRightVelocityMetersPerSecond() / Constants.Drivetrain.kWheelRadiusMeters;
+    inputs.LeftPositionMeters =
+        m_driveSim.getLeftPositionMeters() / Constants.Drivetrain.kWheelRadiusMeters;
+    inputs.LeftVelocityMetersPerSecond =
+        m_driveSim.getLeftVelocityMetersPerSecond() / Constants.Drivetrain.kWheelRadiusMeters;
+    inputs.RightPositionMeters =
+        m_driveSim.getRightPositionMeters() / Constants.Drivetrain.kWheelRadiusMeters;
+    inputs.RightVelocityMetersPerSecond =
+        m_driveSim.getRightVelocityMetersPerSecond() / Constants.Drivetrain.kWheelRadiusMeters;
 
-        inputs.CurrentAmps = new double[] {
-                m_driveSim.getLeftCurrentDrawAmps(), m_driveSim.getRightCurrentDrawAmps()
-        };
+    inputs.CurrentAmps =
+        new double[] {m_driveSim.getLeftCurrentDrawAmps(), m_driveSim.getRightCurrentDrawAmps()};
 
-        inputs.GyroYawRad = m_driveSim.getHeading().getRadians() * -1;
-    }
+    inputs.GyroYawRad = m_driveSim.getHeading().getRadians() * -1;
+  }
 
-    @Override
-    public void setVoltage(double leftVolts, double rightVolts) {
-        leftVolts = MathUtil.clamp(leftVolts, -12.0, 12.0);
-        rightVolts = MathUtil.clamp(rightVolts, -12.0, 12.0);
+  @Override
+  public void setVoltage(double leftVolts, double rightVolts) {
+    leftVolts = MathUtil.clamp(leftVolts, -12.0, 12.0);
+    rightVolts = MathUtil.clamp(rightVolts, -12.0, 12.0);
 
-        m_driveSim.setInputs(leftVolts, rightVolts);
-    }
+    m_driveSim.setInputs(leftVolts, rightVolts);
+  }
 
-    @Override
-    public Rotation2d getHeading() {
-        return m_driveSim.getHeading();
-    }
+  @Override
+  public Rotation2d getHeading() {
+    return m_driveSim.getHeading();
+  }
 }
