@@ -1,6 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.logging.LoggerUtil;
@@ -47,6 +49,10 @@ public class Robot extends LoggedRobot {
           LoggedSystemStats.getInstance();
         }
       }
+      case SIM -> {
+        logger.addDataReceiver(new NT4Publisher());
+      }
+
       case REPLAY -> {
         setUseTiming(false);
         String path = LogFileUtil.findReplayLog();
@@ -57,6 +63,12 @@ public class Robot extends LoggedRobot {
 
     // Start AdvantageKit logger
     logger.start();
+
+    if(Constants.kAdvancedLoggingEnabled)
+      LoggerUtil.initCommandLogging();
+
+    if(Constants.getRobotMode() == Constants.RobotMode.SIM)
+      DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
 
     m_robotContainer = new RobotContainer();
   }

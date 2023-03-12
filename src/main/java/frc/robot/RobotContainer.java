@@ -17,6 +17,7 @@ import frc.robot.constants.HardwareDevices;
 import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
+import frc.robot.drivetrain.DriveIOSim;
 import frc.robot.drivetrain.commands.StabilizeRobot;
 import frc.robot.drivetrain.commands.control.XboxControllerDriveControl;
 import frc.robot.intake.IntakeBase;
@@ -35,9 +36,9 @@ import org.talon540.control.XboxController.TalonXboxController;
 
 public class RobotContainer {
   // Subsystems
-  private final DriveBase m_driveBase;
-  private final ArmBase m_armBase;
-  private final IntakeBase m_intakeBase;
+  private DriveBase m_driveBase;
+  private ArmBase m_armBase;
+  private IntakeBase m_intakeBase;
 
   // Controllers
   private final TalonXboxController m_driverController =
@@ -52,99 +53,78 @@ public class RobotContainer {
   public RobotContainer() {
     DriverStation.silenceJoystickConnectionWarning(true);
 
-    if (Constants.getRobotMode() == Constants.RobotMode.REAL) {
-      Constants.RobotType robotType = Constants.getRobotType();
-      System.out.println("Robot Type: " + robotType);
-
-      switch (robotType) {
+    if(Constants.getRobotMode() != Constants.RobotMode.REPLAY) {
+      switch (Constants.getRobotType()) {
         case ROBOT_2023C -> {
           m_driveBase =
-              new DriveBase(
-                  new DriveIOFalcon(
-                      HardwareDevices.COMP2023.Drivetrain.kLeftLeaderId,
-                      HardwareDevices.COMP2023.Drivetrain.kLeftFollowerId,
-                      HardwareDevices.COMP2023.Drivetrain.kRightLeaderId,
-                      HardwareDevices.COMP2023.Drivetrain.kRightFollowerId,
-                      HardwareDevices.COMP2023.kRobotGyroId,
-                      Constants.Drivetrain.kDrivetrainGearRatio,
-                      Constants.Drivetrain.kWheelRadiusMeters,
-                      Constants.Drivetrain.kLeftSideInverted,
-                      Constants.Drivetrain.kLeftSensorInverted,
-                      Constants.Drivetrain.kRightSideInverted,
-                      Constants.Drivetrain.kRightSensorInverted));
+                  new DriveBase(
+                          new DriveIOFalcon(
+                                  HardwareDevices.COMP2023.Drivetrain.kLeftLeaderId,
+                                  HardwareDevices.COMP2023.Drivetrain.kLeftFollowerId,
+                                  HardwareDevices.COMP2023.Drivetrain.kRightLeaderId,
+                                  HardwareDevices.COMP2023.Drivetrain.kRightFollowerId,
+                                  HardwareDevices.COMP2023.kRobotGyroId,
+                                  Constants.Drivetrain.kDrivetrainGearRatio,
+                                  Constants.Drivetrain.kWheelRadiusMeters,
+                                  Constants.Drivetrain.kLeftSideInverted,
+                                  Constants.Drivetrain.kLeftSensorInverted,
+                                  Constants.Drivetrain.kRightSideInverted,
+                                  Constants.Drivetrain.kRightSensorInverted));
 
           m_armBase =
-              new ArmBase(
-                  new ArmExtensionIOSparkMax(
-                      HardwareDevices.COMP2023.Arm.kExtensionId,
-                      Constants.Arm.kExtensionInverted,
-                      Constants.Arm.kExtensionPositionConversionFactor,
-                      Constants.Arm.kExtensionVelocityConversionFactor),
-                  new ArmRotationIOSparkMax(
-                      HardwareDevices.COMP2023.Arm.kRotationLeaderId,
-                      HardwareDevices.COMP2023.Arm.kRotationFollowerId,
-                      Constants.Arm.kRotationInverted),
-                  new QuadratureEncoderIOCANCoder(
-                      HardwareDevices.COMP2023.Arm.kArmRotationEncoderId,
-                      Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees));
+                  new ArmBase(
+                          new ArmExtensionIOSparkMax(
+                                  HardwareDevices.COMP2023.Arm.kExtensionId,
+                                  Constants.Arm.kExtensionInverted,
+                                  Constants.Arm.kExtensionPositionConversionFactor,
+                                  Constants.Arm.kExtensionVelocityConversionFactor),
+                          new ArmRotationIOSparkMax(
+                                  HardwareDevices.COMP2023.Arm.kRotationLeaderId,
+                                  HardwareDevices.COMP2023.Arm.kRotationFollowerId,
+                                  Constants.Arm.kRotationInverted),
+                          new QuadratureEncoderIOCANCoder(
+                                  HardwareDevices.COMP2023.Arm.kArmRotationEncoderId,
+                                  Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees));
 
           m_intakeBase =
-              new IntakeBase(
-                  new IntakeClawIOSparkMax(HardwareDevices.COMP2023.Intake.kIntakeClawId),
-                  new IntakeWristIOSparkMax(HardwareDevices.COMP2023.Intake.kIntakeWristId),
-                  new QuadratureEncoderIOCANCoder(
-                      HardwareDevices.COMP2023.Intake.kIntakeWristEncoderId,
-                      Constants.Intake.kWristEncoderOffsetDegrees),
-                  new QuadratureEncoderIOCANCoder(
-                      HardwareDevices.COMP2023.Intake.kIntakeClawEncoderID,
-                      Constants.Intake.kClawEncoderOffsetDegrees),
-                  new ColorSensorIOREV3(HardwareDevices.COMP2023.Intake.kColorSensorPort));
+                  new IntakeBase(
+                          new IntakeClawIOSparkMax(HardwareDevices.COMP2023.Intake.kIntakeClawId),
+                          new IntakeWristIOSparkMax(HardwareDevices.COMP2023.Intake.kIntakeWristId),
+                          new QuadratureEncoderIOCANCoder(
+                                  HardwareDevices.COMP2023.Intake.kIntakeWristEncoderId,
+                                  Constants.Intake.kWristEncoderOffsetDegrees),
+                          new QuadratureEncoderIOCANCoder(
+                                  HardwareDevices.COMP2023.Intake.kIntakeClawEncoderID,
+                                  Constants.Intake.kClawEncoderOffsetDegrees),
+                          new ColorSensorIOREV3(HardwareDevices.COMP2023.Intake.kColorSensorPort));
         }
         case ROBOT_2023P -> {
-          m_driveBase =
-              new DriveBase(
-                  new DriveIOFalcon(
-                      HardwareDevices.PROTO2023.Drivetrain.kLeftLeaderId,
-                      HardwareDevices.PROTO2023.Drivetrain.kLeftFollowerId,
-                      HardwareDevices.PROTO2023.Drivetrain.kRightLeaderId,
-                      HardwareDevices.PROTO2023.Drivetrain.kRightFollowerId,
-                      HardwareDevices.PROTO2023.kRobotGyroId,
-                      Constants.Drivetrain.kDrivetrainGearRatio,
-                      Constants.Drivetrain.kWheelRadiusMeters,
-                      Constants.Drivetrain.kLeftSideInverted,
-                      Constants.Drivetrain.kLeftSensorInverted,
-                      Constants.Drivetrain.kRightSideInverted,
-                      Constants.Drivetrain.kRightSensorInverted));
-
-          m_armBase =
-              new ArmBase(
-                  new ArmExtensionIO() {}, new ArmRotationIO() {}, new QuadratureEncoderIO() {});
-
-          m_intakeBase =
-              new IntakeBase(
-                  new IntakeClawIO() {},
-                  new IntakeWristIO() {},
-                  new QuadratureEncoderIO() {},
-                  new QuadratureEncoderIO() {},
-                  new ColorSensorIO() {});
+          m_driveBase = new DriveBase(new DriveIOFalcon(
+                  HardwareDevices.PROTO2023.Drivetrain.kLeftLeaderId,
+                  HardwareDevices.PROTO2023.Drivetrain.kLeftFollowerId,
+                  HardwareDevices.PROTO2023.Drivetrain.kRightLeaderId,
+                  HardwareDevices.PROTO2023.Drivetrain.kRightFollowerId,
+                  HardwareDevices.PROTO2023.kRobotGyroId,
+                  Constants.Drivetrain.kDrivetrainGearRatio,
+                  Constants.Drivetrain.kWheelRadiusMeters,
+                  Constants.Drivetrain.kLeftSideInverted,
+                  Constants.Drivetrain.kLeftSensorInverted,
+                  Constants.Drivetrain.kRightSideInverted,
+                  Constants.Drivetrain.kRightSensorInverted
+          ));
         }
-        default -> throw new RuntimeException("Unknown Robot Type");
+        case ROBOT_SIMBOT -> {
+          m_driveBase = new DriveBase(new DriveIOSim());
+        }
       }
-    } else {
-      m_driveBase = new DriveBase(new DriveIO() {});
-
-      m_armBase =
-          new ArmBase(
-              new ArmExtensionIO() {}, new ArmRotationIO() {}, new QuadratureEncoderIO() {});
-
-      m_intakeBase =
-          new IntakeBase(
-              new IntakeClawIO() {},
-              new IntakeWristIO() {},
-              new QuadratureEncoderIO() {},
-              new QuadratureEncoderIO() {},
-              new ColorSensorIO() {});
     }
+
+    // Create missing subsystems
+
+    m_driveBase = m_driveBase != null ? m_driveBase : new DriveBase(new DriveIO() {});
+    m_armBase = m_armBase != null ? m_armBase : new ArmBase(new ArmExtensionIO() {}, new ArmRotationIO() {}, new QuadratureEncoderIO() {});
+    m_intakeBase = m_intakeBase != null ? m_intakeBase : new IntakeBase(new IntakeClawIO() {}, new IntakeWristIO() {}, new QuadratureEncoderIO() {}, new QuadratureEncoderIO() {}, new ColorSensorIO() {});
+
 
     configureBindings();
     configureAuto();
