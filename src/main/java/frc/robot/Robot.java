@@ -52,7 +52,6 @@ public class Robot extends LoggedRobot {
       case SIM -> {
         logger.addDataReceiver(new NT4Publisher());
       }
-
       case REPLAY -> {
         setUseTiming(false);
         String path = LogFileUtil.findReplayLog();
