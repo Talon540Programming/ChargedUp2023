@@ -172,7 +172,7 @@ public class DriveBase extends SubsystemBase {
    */
   public void resetPosition(Pose2d position) {
     m_odometry.resetPosition(
-        m_gyroIO.getRotation2d(),
+        m_driveIO.getHeading(),
         m_driveInputs.LeftPositionMeters,
         m_driveInputs.RightPositionMeters,
         position);
@@ -228,7 +228,7 @@ public class DriveBase extends SubsystemBase {
    * @return whether the gyroscope is level.
    */
   public boolean isLevel() {
-    return Math.abs(m_gyroInputs.GyroPitchRad)
+    return Math.abs(m_driveInputs.GyroPitchRad)
         < Math.toRadians(Drivetrain.kRobotStabilizationToleranceDegrees);
   }
 }
