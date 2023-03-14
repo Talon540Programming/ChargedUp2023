@@ -20,15 +20,6 @@ import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.DriveIOSim;
 import frc.robot.drivetrain.commands.StabilizeRobot;
 import frc.robot.drivetrain.commands.control.XboxControllerDriveControl;
-import frc.robot.intake.IntakeBase;
-import frc.robot.intake.IntakeStateManager;
-import frc.robot.intake.claw.IntakeClawIO;
-import frc.robot.intake.claw.IntakeClawIOSparkMax;
-import frc.robot.intake.commands.IntakeStateController;
-import frc.robot.intake.wrist.IntakeWristIO;
-import frc.robot.intake.wrist.IntakeWristIOSparkMax;
-import frc.robot.sensors.colorsensor.ColorSensorIO;
-import frc.robot.sensors.colorsensor.ColorSensorIOREV3;
 import frc.robot.sensors.encoder.QuadratureEncoderIO;
 import frc.robot.sensors.encoder.QuadratureEncoderIOCANCoder;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -38,7 +29,6 @@ public class RobotContainer {
   // Subsystems
   private DriveBase m_driveBase;
   private ArmBase m_armBase;
-  private IntakeBase m_intakeBase;
 
   // Controllers
   private final TalonXboxController m_driverController =
@@ -85,18 +75,6 @@ public class RobotContainer {
                   new QuadratureEncoderIOCANCoder(
                       HardwareDevices.COMP2023.Arm.kArmRotationEncoderId,
                       Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees));
-
-          m_intakeBase =
-              new IntakeBase(
-                  new IntakeClawIOSparkMax(HardwareDevices.COMP2023.Intake.kIntakeClawId),
-                  new IntakeWristIOSparkMax(HardwareDevices.COMP2023.Intake.kIntakeWristId),
-                  new QuadratureEncoderIOCANCoder(
-                      HardwareDevices.COMP2023.Intake.kIntakeWristEncoderId,
-                      Constants.Intake.kWristEncoderOffsetDegrees),
-                  new QuadratureEncoderIOCANCoder(
-                      HardwareDevices.COMP2023.Intake.kIntakeClawEncoderID,
-                      Constants.Intake.kClawEncoderOffsetDegrees),
-                  new ColorSensorIOREV3(HardwareDevices.COMP2023.Intake.kColorSensorPort));
         }
         case ROBOT_2023P -> {
           m_driveBase =
@@ -128,15 +106,6 @@ public class RobotContainer {
             ? m_armBase
             : new ArmBase(
                 new ArmExtensionIO() {}, new ArmRotationIO() {}, new QuadratureEncoderIO() {});
-    m_intakeBase =
-        m_intakeBase != null
-            ? m_intakeBase
-            : new IntakeBase(
-                new IntakeClawIO() {},
-                new IntakeWristIO() {},
-                new QuadratureEncoderIO() {},
-                new QuadratureEncoderIO() {},
-                new ColorSensorIO() {});
 
     configureBindings();
     configureAuto();
@@ -145,7 +114,6 @@ public class RobotContainer {
   private void configureBindings() {
     m_driveBase.setDefaultCommand(new XboxControllerDriveControl(m_driveBase, m_driverController));
     m_armBase.setDefaultCommand(new ArmStateController(m_armBase));
-    m_intakeBase.setDefaultCommand(new IntakeStateController(m_intakeBase));
 
     m_driverController.leftBumper().whileTrue(new StabilizeRobot(m_driveBase));
 
@@ -162,37 +130,6 @@ public class RobotContainer {
                 () ->
                     m_armBase.setExtensionVoltage(m_depositionController.getRightDeadbandY() * 12),
                 m_armBase));
-
-    m_depositionController
-        .leftBumper()
-        .whileTrue(
-            Commands.run(
-                () -> m_intakeBase.setWristVoltage(-Constants.Intake.kWristChangePercent * 12.0),
-                m_intakeBase));
-    m_depositionController
-        .rightBumper()
-        .whileTrue(
-            Commands.run(
-                () -> m_intakeBase.setWristVoltage(Constants.Intake.kWristChangePercent * 12.0),
-                m_intakeBase));
-
-    m_depositionController
-        .leftTrigger()
-        .whileTrue(
-            Commands.run(
-                () -> m_intakeBase.setClawVoltage(-Constants.Intake.kClawChangePercent * 12.0),
-                m_intakeBase));
-    m_depositionController
-        .rightTrigger()
-        .whileTrue(
-            Commands.run(
-                () -> m_intakeBase.setClawVoltage(Constants.Intake.kClawChangePercent * 12.0),
-                m_intakeBase));
-
-    m_depositionController
-        .x()
-        .debounce(0.1)
-        .onTrue(Commands.runOnce(IntakeStateManager.getInstance()::flipWrist));
   }
 
   private void configureAuto() {

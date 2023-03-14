@@ -16,7 +16,7 @@ public final class Constants {
    */
   public static final boolean kAdvancedLoggingEnabled = true;
 
-  private static RobotType kRobotType = RobotType.ROBOT_2023C;
+  private static RobotType kRobotType = RobotType.ROBOT_SIMBOT;
   public static final double loopPeriodSecs = 0.02;
 
   public enum RobotMode {
@@ -157,39 +157,7 @@ public final class Constants {
   }
 
   public static final class Intake {
-    public static final double kWristChangePercent = 0.2; // TODO
-    public static final double kClawChangePercent = 0.2; // TODO
-
-    public static final double kIntakeClawMinimumAngleRad = 0; // TODO
-    public static final double kIntakeClawMaximumAngleRad = 0; // TODO
-
-    public static final double kConeIntakeAngle = 0; // TODO
-    public static final double kCubeIntakeAngle = 0; // TODO
-
-    public static final double kWristPositionConversionFactor = 0; // TODO
-    public static final double kWristVelocityConversionFactor = 0; // TODO
-
-    public static final double kWristEncoderOffsetDegrees = 0; // TODO
-    public static final double kClawEncoderOffsetDegrees = 0; // TODO
-
     public static final double kGamepeiceColorTolerance = 25; // TODO
-
-    public static final double kWristIdleAngleRad = 0; // TODO
-    public static final double kWristFlippedAngleRad = Math.PI; // TODO
-
-    public static class ControlValues {
-      public static class ClawPosition {
-        public static final double kP = 0; // TODO
-        public static final double kI = 0; // TODO
-        public static final double kD = 0; // TODO
-      }
-
-      public static class WristPosition {
-        public static final double kP = 0; // TODO
-        public static final double kI = 0; // TODO
-        public static final double kD = 0; // TODO
-      }
-    }
   }
 
   public enum NeutralMode {
