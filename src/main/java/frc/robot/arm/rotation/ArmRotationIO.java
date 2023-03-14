@@ -10,6 +10,8 @@ public interface ArmRotationIO extends LoggedIO<ArmRotationIO.ArmRotationIOInput
   class ArmRotationIOInputs {
     public double[] CurrentAmps;
     public double[] TemperatureCelsius;
+    public double ArmVelocityRadPerSecond;
+    public double AbsoluteArmPositionRad;
   }
 
   @Override

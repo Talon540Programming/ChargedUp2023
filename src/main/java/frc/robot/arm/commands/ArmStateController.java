@@ -48,7 +48,7 @@ public class ArmStateController extends CommandBase {
 
   @Override
   public void initialize() {
-    m_rotationController.reset(m_armBase.m_rotationEncoderInputs.AbsolutePositionRad);
+    m_rotationController.reset(m_armBase.m_armRotationInputs.AbsolutePositionRad);
     m_extensionController.reset();
   }
 
@@ -65,7 +65,7 @@ public class ArmStateController extends CommandBase {
     TrapezoidProfile.State rotationGoal = targetState.getRotationState();
     setRotationOutput(
         m_rotationController.calculate(
-            m_armBase.m_rotationEncoderInputs.AbsolutePositionRad, rotationGoal),
+            m_armBase.m_armRotationInputs.AbsolutePositionRad, rotationGoal),
         m_rotationController.getSetpoint());
   }
 
