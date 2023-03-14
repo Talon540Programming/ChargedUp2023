@@ -1,5 +1,6 @@
 package frc.robot.drivetrain.commands.control;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drivetrain.DriveBase;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;

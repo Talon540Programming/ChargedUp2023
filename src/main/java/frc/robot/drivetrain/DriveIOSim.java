@@ -5,6 +5,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotGearing;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotMotor;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotWheelSize;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants;
 import frc.robot.constants.RobotDimensions;
 
@@ -16,15 +20,22 @@ public class DriveIOSim implements DriveIO {
     double gearboxMOI =
         (1219.9 / 1000) * Math.pow(RobotDimensions.Drivetrain.kDrivetrainLengthMeters / 2.0, 2);
 
-    m_driveSim =
-        new DifferentialDrivetrainSim(
-            DCMotor.getFalcon500(2),
-            Constants.Drivetrain.kDrivetrainGearRatio,
-            batteryMOI + gearboxMOI,
-            RobotDimensions.kRobotMassKilos,
-            Constants.Drivetrain.kWheelRadiusMeters,
-            Constants.Drivetrain.kTrackWidthMeters,
-            null);
+    // m_driveSim =
+    //     new DifferentialDrivetrainSim(
+    //         DCMotor.getFalcon500(2),
+    //         Constants.Drivetrain.kDrivetrainGearRatio,
+    //         batteryMOI + gearboxMOI,
+    //         RobotDimensions.kRobotMassKilos,
+    //         Constants.Drivetrain.kWheelRadiusMeters,
+    //         Constants.Drivetrain.kTrackWidthMeters,
+    //         null);
+
+    m_driveSim = DifferentialDrivetrainSim.createKitbotSim(
+      KitbotMotor.kDoubleFalcon500PerSide, 
+      KitbotGearing.k12p75, 
+      KitbotWheelSize.kSixInch, 
+      null
+      );
   }
 
   @Override
@@ -32,13 +43,13 @@ public class DriveIOSim implements DriveIO {
     m_driveSim.update(Constants.loopPeriodSecs);
 
     inputs.LeftPositionMeters =
-        m_driveSim.getLeftPositionMeters() / Constants.Drivetrain.kWheelRadiusMeters;
+        m_driveSim.getLeftPositionMeters();
     inputs.LeftVelocityMetersPerSecond =
-        m_driveSim.getLeftVelocityMetersPerSecond() / Constants.Drivetrain.kWheelRadiusMeters;
+        m_driveSim.getLeftVelocityMetersPerSecond() ;
     inputs.RightPositionMeters =
-        m_driveSim.getRightPositionMeters() / Constants.Drivetrain.kWheelRadiusMeters;
+        m_driveSim.getRightPositionMeters() ;
     inputs.RightVelocityMetersPerSecond =
-        m_driveSim.getRightVelocityMetersPerSecond() / Constants.Drivetrain.kWheelRadiusMeters;
+        m_driveSim.getRightVelocityMetersPerSecond() ;
 
     inputs.CurrentAmps =
         new double[] {m_driveSim.getLeftCurrentDrawAmps(), m_driveSim.getRightCurrentDrawAmps()};
@@ -50,6 +61,10 @@ public class DriveIOSim implements DriveIO {
   public void setVoltage(double leftVolts, double rightVolts) {
     leftVolts = MathUtil.clamp(leftVolts, -12.0, 12.0);
     rightVolts = MathUtil.clamp(rightVolts, -12.0, 12.0);
+
+    SmartDashboard.putNumber("left percent", leftVolts);
+    SmartDashboard.putNumber("right percent", rightVolts);
+
 
     m_driveSim.setInputs(leftVolts, rightVolts);
   }

@@ -4,9 +4,11 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.ArmStateManager;
 import frc.robot.constants.Constants;
@@ -48,9 +50,11 @@ public class DriveBase extends SubsystemBase {
     m_driveIO.updateInputs(m_driveInputs);
     Logger.getInstance().processInputs("Drive", m_driveInputs);
 
+    Logger.getInstance().recordOutput("heading", m_driveIO.getHeading().toString());
+
     // Data in DriveIO is automatically logged using AutoLog. Odometry is handled in subsystem.
     m_odometry.update(
-        m_driveIO.getHeading(),
+        Rotation2d.fromRadians(m_driveInputs.GyroPitchRad),
         m_driveInputs.LeftPositionMeters,
         m_driveInputs.RightPositionMeters);
     Logger.getInstance().recordOutput("Drive/Odometry", getPosition());
