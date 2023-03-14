@@ -8,8 +8,10 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ArmRotationIO extends LoggedIO<ArmRotationIO.ArmRotationIOInputs> {
   @AutoLog
   class ArmRotationIOInputs {
-    public double[] CurrentAmps = new double[] {};
-    public double[] TemperatureCelsius = new double[] {};
+    public double[] CurrentAmps;
+    public double[] TemperatureCelsius;
+    public double ArmVelocityRadPerSecond;
+    public double AbsoluteArmPositionRad;
   }
 
   @Override

@@ -2,7 +2,6 @@ package frc.robot.drivetrain;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotGearing;
@@ -30,26 +29,22 @@ public class DriveIOSim implements DriveIO {
     //         Constants.Drivetrain.kTrackWidthMeters,
     //         null);
 
-    m_driveSim = DifferentialDrivetrainSim.createKitbotSim(
-      KitbotMotor.kDoubleFalcon500PerSide, 
-      KitbotGearing.k12p75, 
-      KitbotWheelSize.kSixInch, 
-      null
-      );
+    m_driveSim =
+        DifferentialDrivetrainSim.createKitbotSim(
+            KitbotMotor.kDoubleFalcon500PerSide,
+            KitbotGearing.k12p75,
+            KitbotWheelSize.kSixInch,
+            null);
   }
 
   @Override
   public void updateInputs(DriveIOInputs inputs) {
     m_driveSim.update(Constants.loopPeriodSecs);
 
-    inputs.LeftPositionMeters =
-        m_driveSim.getLeftPositionMeters();
-    inputs.LeftVelocityMetersPerSecond =
-        m_driveSim.getLeftVelocityMetersPerSecond() ;
-    inputs.RightPositionMeters =
-        m_driveSim.getRightPositionMeters() ;
-    inputs.RightVelocityMetersPerSecond =
-        m_driveSim.getRightVelocityMetersPerSecond() ;
+    inputs.LeftPositionMeters = m_driveSim.getLeftPositionMeters();
+    inputs.LeftVelocityMetersPerSecond = m_driveSim.getLeftVelocityMetersPerSecond();
+    inputs.RightPositionMeters = m_driveSim.getRightPositionMeters();
+    inputs.RightVelocityMetersPerSecond = m_driveSim.getRightVelocityMetersPerSecond();
 
     inputs.CurrentAmps =
         new double[] {m_driveSim.getLeftCurrentDrawAmps(), m_driveSim.getRightCurrentDrawAmps()};
@@ -64,7 +59,6 @@ public class DriveIOSim implements DriveIO {
 
     SmartDashboard.putNumber("left percent", leftVolts);
     SmartDashboard.putNumber("right percent", rightVolts);
-
 
     m_driveSim.setInputs(leftVolts, rightVolts);
   }

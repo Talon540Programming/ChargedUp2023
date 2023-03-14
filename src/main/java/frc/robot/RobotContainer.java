@@ -71,7 +71,9 @@ public class RobotContainer {
                   new ArmRotationIOSparkMax(
                       HardwareDevices.COMP2023.Arm.kRotationLeaderId,
                       HardwareDevices.COMP2023.Arm.kRotationFollowerId,
-                      Constants.Arm.kRotationInverted),
+                      Constants.Arm.kRotationInverted,
+                      HardwareDevices.COMP2023.Arm.kArmRotationEncoderId,
+                      Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees),
                   new QuadratureEncoderIOCANCoder(
                       HardwareDevices.COMP2023.Arm.kArmRotationEncoderId,
                       Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees));
