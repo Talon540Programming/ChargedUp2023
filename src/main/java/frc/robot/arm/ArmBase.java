@@ -20,12 +20,17 @@ public class ArmBase extends SubsystemBase {
   public final ArmRotationIOInputsAutoLogged m_armRotationInputs =
       new ArmRotationIOInputsAutoLogged();
 
+  private final QuadratureEncoderIO m_rotationEncoderIO;
+  public final QuadratureEncoderIOInputsAutoLogged m_rotationEncoderInputs =
+      new QuadratureEncoderIOInputsAutoLogged();
+
   private final Winch m_extensionWinch;
 
   public ArmBase(
       ArmExtensionIO extensionIO, ArmRotationIO rotationIO, QuadratureEncoderIO rotationEncoderIO) {
     this.m_armExtensionIO = extensionIO;
     this.m_armRotationIO = rotationIO;
+    this.m_rotationEncoderIO = rotationEncoderIO;
 
     this.m_extensionWinch =
         new Winch(
@@ -46,6 +51,9 @@ public class ArmBase extends SubsystemBase {
 
     m_armRotationIO.updateInputs(m_armRotationInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
+
+    m_rotationEncoderIO.updateInputs(m_rotationEncoderInputs);
+    Logger.getInstance().processInputs("Arm/Rotation/Encoder", m_rotationEncoderInputs);
 
     // Log the target state
     Logger.getInstance()
