@@ -5,8 +5,11 @@ import edu.wpi.first.math.util.Units;
 // In general, we use metric units within the robot code. When importing from code,
 // we use imperial units which is why we must convert it.
 public class RobotDimensions {
-  public static final double kRobotMassPounds = 80;
+  public static final double kRobotMassPounds = 80; // TODO
   public static final double kRobotMassKilos = Units.lbsToKilograms(kRobotMassPounds);
+
+  public static final double kArmAndEffectorWeightLbs = 12.7025946; // TODO
+  public static final double kArmAndEffectorWeightKg = Units.lbsToKilograms(kArmAndEffectorWeightLbs);
 
   public static final class Drivetrain {
     public static final double kBumperWidthInches = 3.5;
@@ -48,14 +51,14 @@ public class RobotDimensions {
     public static final double kThirdExtrusionLengthMeters =
         Units.inchesToMeters(kThirdExtrusionLengthInches);
 
-    public static final double kFullyRetractedLengthInches = 20.253; // TODO
+    public static final double kFullyRetractedLengthInches = 27.836956; // TODO
     public static final double kFullyRetractedLengthMeters =
         Units.inchesToMeters(kFullyRetractedLengthInches); // TODO
   }
 
-  public static final class Grabber {
+  public static final class Effector {
     // This includes the mounting hardware onto the third extrusion which is why it lacks it.
-    public static final double kLengthInches = 17; // TODO
+    public static final double kLengthInches = 14.366; // TODO
     public static final double kLengthMeters = Units.inchesToMeters(kLengthInches);
   }
 }

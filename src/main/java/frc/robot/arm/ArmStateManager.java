@@ -58,7 +58,7 @@ public class ArmStateManager {
 
       // Check the horizontal extension
       double horizontalDelta =
-          cosTheta * state.ExtensionLengthMeters + RobotDimensions.Grabber.kLengthMeters;
+          cosTheta * state.ExtensionLengthMeters + RobotDimensions.Effector.kLengthMeters;
       double horizontalDistanceFromFrame =
           RobotDimensions.Drivetrain.kDrivetrainLengthMeters / 2
               - horizontalDelta; // Divide by 2 because the fulcrum is in the center of the robot.
@@ -66,16 +66,16 @@ public class ArmStateManager {
       if (horizontalDistanceFromFrame > RobotLimits.kMaxExtensionHorizontalMeters) {
         state.ExtensionLengthMeters =
             (RobotLimits.kMaxExtensionHorizontalMeters / cosTheta)
-                - RobotDimensions.Grabber.kLengthMeters;
+                - RobotDimensions.Effector.kLengthMeters;
       }
 
       double verticalDelta =
-          sinTheta * ((state.ExtensionLengthMeters) + RobotDimensions.Grabber.kLengthMeters);
+          sinTheta * ((state.ExtensionLengthMeters) + RobotDimensions.Effector.kLengthMeters);
 
       if (verticalDelta > RobotLimits.kMaxExtensionVerticalMeters) {
         state.ExtensionLengthMeters =
             (RobotLimits.kMaxExtensionVerticalMeters / sinTheta)
-                - RobotDimensions.Grabber.kLengthMeters;
+                - RobotDimensions.Effector.kLengthMeters;
       }
     }
 
