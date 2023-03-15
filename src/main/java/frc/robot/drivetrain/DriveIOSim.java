@@ -14,20 +14,16 @@ public class DriveIOSim implements DriveIO {
   public DriveIOSim(boolean simulateSystemNoise) {
     m_driveSim =
         new DifferentialDrivetrainSim(
-          LinearSystemId.identifyDrivetrainSystem(
-            Constants.Drivetrain.ControlValues.Characterization.kVLinear,
-            Constants.Drivetrain.ControlValues.Characterization.kALinear,
-            Constants.Drivetrain.ControlValues.Characterization.kVAngular,
-            Constants.Drivetrain.ControlValues.Characterization.kAAngular),
-          DCMotor.getFalcon500(2),
-          Constants.Drivetrain.kDrivetrainGearRatio,
-          Constants.Drivetrain.kTrackWidthMeters,
-          Constants.Drivetrain.kWheelRadiusMeters,
-          simulateSystemNoise 
-          ? VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005) 
-          : null 
-    );
-
+            LinearSystemId.identifyDrivetrainSystem(
+                Constants.Drivetrain.ControlValues.Characterization.kVLinear,
+                Constants.Drivetrain.ControlValues.Characterization.kALinear,
+                Constants.Drivetrain.ControlValues.Characterization.kVAngular,
+                Constants.Drivetrain.ControlValues.Characterization.kAAngular),
+            DCMotor.getFalcon500(2),
+            Constants.Drivetrain.kDrivetrainGearRatio,
+            Constants.Drivetrain.kTrackWidthMeters,
+            Constants.Drivetrain.kWheelRadiusMeters,
+            simulateSystemNoise ? VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005) : null);
   }
 
   @Override

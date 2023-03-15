@@ -35,11 +35,7 @@ public class DriveBase extends SubsystemBase {
 
     this.m_odometry =
         new DifferentialDrivePoseEstimator(
-            Drivetrain.kDrivetrainKinematics,
-            new Rotation2d(),
-            0.0,
-            0.0,
-            new Pose2d());
+            Drivetrain.kDrivetrainKinematics, new Rotation2d(), 0.0, 0.0, new Pose2d());
   }
 
   @Override

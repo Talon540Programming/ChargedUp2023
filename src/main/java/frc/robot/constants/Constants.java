@@ -84,11 +84,15 @@ public final class Constants {
         public static final double kD = 0;
 
         public static final double kSLinear = 0; // TODO
-        public static final double kVLinear = 1.98; // TODO this is a sim value, real value must be found in sysid
-        public static final double kALinear = 0.2; // TODO this is a sim value, real value must be found in sysid
+        public static final double kVLinear =
+            1.98; // TODO this is a sim value, real value must be found in sysid
+        public static final double kALinear =
+            0.2; // TODO this is a sim value, real value must be found in sysid
 
-        public static final double kVAngular = 1.5; // TODO this is a sim value, real value must be found in sysid
-        public static final double kAAngular = 0.3; // TODO this is a sim value, real value must be found in sysid
+        public static final double kVAngular =
+            1.5; // TODO this is a sim value, real value must be found in sysid
+        public static final double kAAngular =
+            0.3; // TODO this is a sim value, real value must be found in sysid
       }
 
       public static class Trajectory {

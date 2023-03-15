@@ -20,8 +20,6 @@ import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.DriveIOSim;
 import frc.robot.drivetrain.commands.StabilizeRobot;
 import frc.robot.drivetrain.commands.control.XboxControllerDriveControl;
-import frc.robot.sensors.encoder.QuadratureEncoderIO;
-import frc.robot.sensors.encoder.QuadratureEncoderIOCANCoder;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.talon540.control.XboxController.TalonXboxController;
 
@@ -103,8 +101,7 @@ public class RobotContainer {
     m_armBase =
         m_armBase != null
             ? m_armBase
-            : new ArmBase(
-                new ArmExtensionIO() {}, new ArmRotationIO() {});
+            : new ArmBase(new ArmExtensionIO() {}, new ArmRotationIO() {});
 
     configureBindings();
     configureAuto();

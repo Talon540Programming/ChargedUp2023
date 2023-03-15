@@ -41,7 +41,7 @@ public abstract class DriveControl extends CommandBase {
     kLeftPercent *= m_speedLimiter.get();
     kRightPercent *= m_speedLimiter.get();
 
-    if(RobotBase.isSimulation()) {
+    if (RobotBase.isSimulation()) {
       kLeftPercent *= -1;
       kRightPercent *= -1;
     }

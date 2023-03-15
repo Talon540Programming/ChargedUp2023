@@ -20,8 +20,7 @@ public class ArmBase extends SubsystemBase {
 
   private final Winch m_extensionWinch;
 
-  public ArmBase(
-      ArmExtensionIO extensionIO, ArmRotationIO rotationIO) {
+  public ArmBase(ArmExtensionIO extensionIO, ArmRotationIO rotationIO) {
     this.m_armExtensionIO = extensionIO;
     this.m_armRotationIO = rotationIO;
 
