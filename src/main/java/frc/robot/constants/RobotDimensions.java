@@ -8,8 +8,9 @@ public class RobotDimensions {
   public static final double kRobotMassPounds = 80; // TODO
   public static final double kRobotMassKilos = Units.lbsToKilograms(kRobotMassPounds);
 
-  public static final double kArmAndEffectorWeightLbs = 12.7025946; // TODO
-  public static final double kArmAndEffectorWeightKg = Units.lbsToKilograms(kArmAndEffectorWeightLbs);
+  public static final double kArmAndEffectorWeightLbs = Arm.kArmMassLbs + Effector.kEffectorMassLbs;
+  public static final double kArmAndEffectorWeightKg =
+      Units.lbsToKilograms(kArmAndEffectorWeightLbs);
 
   public static final class Drivetrain {
     public static final double kBumperWidthInches = 3.5;
@@ -54,11 +55,17 @@ public class RobotDimensions {
     public static final double kFullyRetractedLengthInches = 27.836956; // TODO
     public static final double kFullyRetractedLengthMeters =
         Units.inchesToMeters(kFullyRetractedLengthInches); // TODO
+
+    public static final double kArmMassLbs = 6.097394715877;
+    public static final double kArmMassKg = Units.lbsToKilograms(kArmMassLbs);
   }
 
   public static final class Effector {
     // This includes the mounting hardware onto the third extrusion which is why it lacks it.
     public static final double kLengthInches = 14.366; // TODO
     public static final double kLengthMeters = Units.inchesToMeters(kLengthInches);
+
+    public static final double kEffectorMassLbs = 6.605233946065;
+    public static final double kEffectorMassKg = Units.lbsToKilograms(kEffectorMassLbs);
   }
 }

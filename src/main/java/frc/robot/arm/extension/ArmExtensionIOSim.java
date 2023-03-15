@@ -1,28 +1,47 @@
 package frc.robot.arm.extension;
 
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+import frc.robot.constants.Constants;
+import frc.robot.constants.RobotDimensions;
+import frc.robot.constants.RobotLimits;
 
 public class ArmExtensionIOSim implements ArmExtensionIO {
-    public ArmExtensionIOSim() {
-        
-    }
+  private final ElevatorSim m_armSim;
 
-    @Override
-    public void updateInputs(ArmExtensionIOInputs inputs) {
-        
-    }
+  public ArmExtensionIOSim() {
+    m_armSim =
+        new ElevatorSim(
+            DCMotor.getNEO(1),
+            Constants.Arm.kExtensionGearRatio,
+            RobotDimensions.Effector.kEffectorMassKg,
+            Constants.Arm.kExtensionWinchRadiusMeters,
+            RobotLimits.kMinArmLengthMeters,
+            RobotLimits.kMaxArmLengthMeters,
+            false);
+  }
 
-    @Override
-    public void setVoltage(double voltage) {
-        
-    }
+  @Override
+  public void updateInputs(ArmExtensionIOInputs inputs) {
+    m_armSim.update(Constants.loopPeriodSecs);
 
-    @Override
-    public void setDistance(double distanceMeters) {
-        
-    }
+    inputs.CurrentAmps = m_armSim.getCurrentDrawAmps();
+    inputs.DistanceTraveledMeters = m_armSim.getPositionMeters();
+    inputs.VelocityMetersPerSecond = m_armSim.getVelocityMetersPerSecond();
+  }
 
-    @Override
-    public void resetDistance() {
-        
-    }
+  @Override
+  public void setVoltage(double voltage) {
+    m_armSim.setInput(voltage);
+  }
+
+  @Override
+  public void setDistance(double distanceMeters) {
+    // m_armSim.setState();
+  }
+
+  @Override
+  public void resetDistance() {
+    // m_armSim.setState();
+  }
 }

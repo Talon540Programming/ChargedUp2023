@@ -21,4 +21,10 @@ public class RobotLimits {
 
   public static final double kMaxArmVelocityRadPerSecond = 0; // TODO
   public static final double kMaxArmAccelerationRadPerSecondSquared = 0; // TODO
+
+  public static final double kMaxArmLengthInches = 76.875;
+  public static final double kMaxArmLengthMeters = Units.inchesToMeters(kMaxArmLengthInches);
+
+  public static final double kMinArmLengthInches = 41.795;
+  public static final double kMinArmLengthMeters = Units.inchesToMeters(kMinArmLengthInches);
 }

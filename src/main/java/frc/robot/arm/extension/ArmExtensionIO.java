@@ -9,7 +9,7 @@ public interface ArmExtensionIO extends LoggedIO<ArmExtensionIO.ArmExtensionIOIn
   @AutoLog
   class ArmExtensionIOInputs {
     public double DistanceTraveledMeters;
-    public double VelocityRadiansPerSecond;
+    public double VelocityMetersPerSecond;
     public double TemperatureCelsius;
     public double CurrentAmps;
   }
