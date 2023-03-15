@@ -110,12 +110,8 @@ public final class Constants {
 
   public static final class Arm {
     public static final ArmKinematics kArmKinematics =
-        new ArmKinematics(
-            new Pose3d(
-                0,
-                0,
-                Units.inchesToMeters(RobotDimensions.Arm.kFulcrumHeightInches),
-                new Rotation3d()));
+        new ArmKinematics(RobotDimensions.Arm.kFulcrumPose);
+
     public static final boolean kRotationInverted = false; // TODO
     public static final boolean kExtensionInverted = false; // TODO
 
