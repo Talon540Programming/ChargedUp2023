@@ -120,7 +120,7 @@ public final class Constants {
     public static final boolean kExtensionInverted = false; // TODO
 
     @SuppressWarnings("PointlessArithmeticExpression")
-    public static final double kRotationGearRatio = (4.0 / 1.0) * (10.0 /1.0) * (66.0 / 18.0);
+    public static final double kRotationGearRatio = (4.0 / 1.0) * (10.0 / 1.0) * (66.0 / 18.0);
 
     @SuppressWarnings("PointlessArithmeticExpression")
     public static final double kExtensionGearRatio = (4.0 / 1.0); // TODO
