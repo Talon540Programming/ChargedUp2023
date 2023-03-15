@@ -7,8 +7,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.commands.ArmStateController;
 import frc.robot.arm.extension.ArmExtensionIO;
+import frc.robot.arm.extension.ArmExtensionIOSim;
 import frc.robot.arm.extension.ArmExtensionIOSparkMax;
 import frc.robot.arm.rotation.ArmRotationIO;
+import frc.robot.arm.rotation.ArmRotationIOSim;
 import frc.robot.arm.rotation.ArmRotationIOSparkMax;
 import frc.robot.autos.DriveDistance;
 import frc.robot.autos.DriveTime;
@@ -91,6 +93,8 @@ public class RobotContainer {
         }
         case ROBOT_SIMBOT -> {
           m_driveBase = new DriveBase(new DriveIOSim(false));
+          m_armBase = new ArmBase(
+            new ArmExtensionIOSim(), new ArmRotationIOSim(true));
         }
       }
     }
