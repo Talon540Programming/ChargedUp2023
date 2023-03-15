@@ -29,7 +29,7 @@ public class ArmBase extends SubsystemBase {
 
   MechanismRoot2d m_mechFulcrum =
       m_mech.getRoot(
-          "ArmFulcrum", Units.inchesToMeters(48), RobotDimensions.Arm.kFulcrumHeightMeters);
+          "ArmFulcrum", Units.inchesToMeters(100), RobotDimensions.Arm.kFulcrumHeightMeters);
 
   MechanismLigament2d m_mechUpright =
       m_mechFulcrum.append(
