@@ -73,9 +73,6 @@ public class RobotContainer {
                       HardwareDevices.COMP2023.Arm.kRotationFollowerId,
                       Constants.Arm.kRotationInverted,
                       HardwareDevices.COMP2023.Arm.kArmRotationEncoderId,
-                      Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees),
-                  new QuadratureEncoderIOCANCoder(
-                      HardwareDevices.COMP2023.Arm.kArmRotationEncoderId,
                       Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees));
         }
         case ROBOT_2023P -> {
@@ -107,7 +104,7 @@ public class RobotContainer {
         m_armBase != null
             ? m_armBase
             : new ArmBase(
-                new ArmExtensionIO() {}, new ArmRotationIO() {}, new QuadratureEncoderIO() {});
+                new ArmExtensionIO() {}, new ArmRotationIO() {});
 
     configureBindings();
     configureAuto();

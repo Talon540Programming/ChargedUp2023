@@ -7,7 +7,6 @@ import frc.robot.arm.extension.Winch;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOInputsAutoLogged;
 import frc.robot.constants.Constants;
-import frc.robot.sensors.encoder.QuadratureEncoderIO;
 import org.littletonrobotics.junction.Logger;
 
 public class ArmBase extends SubsystemBase {
@@ -22,7 +21,7 @@ public class ArmBase extends SubsystemBase {
   private final Winch m_extensionWinch;
 
   public ArmBase(
-      ArmExtensionIO extensionIO, ArmRotationIO rotationIO, QuadratureEncoderIO rotationEncoderIO) {
+      ArmExtensionIO extensionIO, ArmRotationIO rotationIO) {
     this.m_armExtensionIO = extensionIO;
     this.m_armRotationIO = rotationIO;
 
