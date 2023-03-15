@@ -109,7 +109,10 @@ public class DriveBase extends SubsystemBase {
     double greaterInput = Math.max(Math.abs(forwardPercent), Math.abs(rotationPercent));
     double lesserInput = Math.min(Math.abs(forwardPercent), Math.abs(rotationPercent));
 
-    if (greaterInput == 0) m_driveIO.setVoltage(0, 0);
+    if (greaterInput == 0) {
+      m_driveIO.setVoltage(0, 0);
+      return;
+    }
 
     double saturatedInput = (greaterInput + lesserInput) / greaterInput;
     leftSpeed /= saturatedInput;
