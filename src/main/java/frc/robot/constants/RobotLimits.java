@@ -11,8 +11,8 @@ public class RobotLimits {
   public static final double kMaxExtensionVerticalMeters =
       Units.inchesToMeters(kMaxExtensionVerticalInches);
 
-  public static final double kForwardLimitRadians = Math.PI; // TODO
-  public static final double kRearLimit = 0; // TODO
+  public static final double kMaxArmAngleRadians = Math.PI; // TODO
+  public static final double kMinArmAngleRadians = 0; // TODO
 
   public static final double kMaxDrivetrainVelocityMetersPerSecond =
       4; // TODO, determine the best value
