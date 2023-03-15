@@ -1,40 +1,33 @@
 package frc.robot.drivetrain;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
-import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotGearing;
-import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotMotor;
-import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotWheelSize;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.Constants;
-import frc.robot.constants.RobotDimensions;
 
 public class DriveIOSim implements DriveIO {
   private final DifferentialDrivetrainSim m_driveSim;
 
-  public DriveIOSim() {
-    double batteryMOI = Units.lbsToKilograms(12.5) * Math.pow(Units.inchesToMeters(5), 2);
-    double gearboxMOI =
-        (1219.9 / 1000) * Math.pow(RobotDimensions.Drivetrain.kDrivetrainLengthMeters / 2.0, 2);
-
-    // m_driveSim =
-    //     new DifferentialDrivetrainSim(
-    //         DCMotor.getFalcon500(2),
-    //         Constants.Drivetrain.kDrivetrainGearRatio,
-    //         batteryMOI + gearboxMOI,
-    //         RobotDimensions.kRobotMassKilos,
-    //         Constants.Drivetrain.kWheelRadiusMeters,
-    //         Constants.Drivetrain.kTrackWidthMeters,
-    //         null);
-
+  public DriveIOSim(boolean simulateSystemNoise) {
     m_driveSim =
-        DifferentialDrivetrainSim.createKitbotSim(
-            KitbotMotor.kDoubleFalcon500PerSide,
-            KitbotGearing.k12p75,
-            KitbotWheelSize.kSixInch,
-            null);
+        new DifferentialDrivetrainSim(
+          LinearSystemId.identifyDrivetrainSystem(
+            Constants.Drivetrain.ControlValues.Characterization.kVLinear,
+            Constants.Drivetrain.ControlValues.Characterization.kALinear,
+            Constants.Drivetrain.ControlValues.Characterization.kVAngular,
+            Constants.Drivetrain.ControlValues.Characterization.kAAngular),
+          DCMotor.getFalcon500(2),
+          Constants.Drivetrain.kDrivetrainGearRatio,
+          Constants.Drivetrain.kTrackWidthMeters,
+          Constants.Drivetrain.kWheelRadiusMeters,
+          simulateSystemNoise 
+          ? VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005) 
+          : null 
+    );
+
   }
 
   @Override

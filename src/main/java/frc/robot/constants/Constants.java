@@ -78,14 +78,17 @@ public final class Constants {
     public static final double kRobotStabilizationToleranceDegrees = 1; // TODO
 
     public static class ControlValues {
-      public static class WheelSpeed {
-        public static final double kP = 0.47934; // TODO
+      public static class Characterization {
+        public static final double kP = 0; // TODO
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0.077705; // TODO
-        public static final double kV = 2.8428; // TODO
-        public static final double kA = 0.10828; // TODO
+        public static final double kSLinear = 0; // TODO
+        public static final double kVLinear = 1.98; // TODO this is a sim value, real value must be found in sysid
+        public static final double kALinear = 0.2; // TODO this is a sim value, real value must be found in sysid
+
+        public static final double kVAngular = 1.5; // TODO this is a sim value, real value must be found in sysid
+        public static final double kAAngular = 0.3; // TODO this is a sim value, real value must be found in sysid
       }
 
       public static class Trajectory {

@@ -92,7 +92,7 @@ public class RobotContainer {
                       Constants.Drivetrain.kRightSensorInverted));
         }
         case ROBOT_SIMBOT -> {
-          m_driveBase = new DriveBase(new DriveIOSim());
+          m_driveBase = new DriveBase(new DriveIOSim(false));
         }
       }
     }
