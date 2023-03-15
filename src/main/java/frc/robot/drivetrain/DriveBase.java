@@ -33,14 +33,12 @@ public class DriveBase extends SubsystemBase {
 
     resetNeutralMode();
 
-    m_driveIO.updateInputs(m_driveInputs);
-
     this.m_odometry =
         new DifferentialDrivePoseEstimator(
             Drivetrain.kDrivetrainKinematics,
-            m_driveIO.getHeading(),
-            m_driveInputs.LeftPositionMeters,
-            m_driveInputs.RightPositionMeters,
+            new Rotation2d(),
+            0.0,
+            0.0,
             new Pose2d());
   }
 
@@ -49,14 +47,11 @@ public class DriveBase extends SubsystemBase {
     m_driveIO.updateInputs(m_driveInputs);
     Logger.getInstance().processInputs("Drive", m_driveInputs);
 
-    Logger.getInstance().recordOutput("heading", m_driveIO.getHeading().toString());
-
-    // Data in DriveIO is automatically logged using AutoLog. Odometry is handled in subsystem.
     m_odometry.update(
-        Rotation2d.fromRadians(m_driveInputs.GyroPitchRad),
+        m_driveIO.getHeading(),
         m_driveInputs.LeftPositionMeters,
         m_driveInputs.RightPositionMeters);
-    Logger.getInstance().recordOutput("Drive/Odometry", getPosition());
+    Logger.getInstance().recordOutput("Odometry", getPosition());
 
     ArmStateManager.getInstance().updateRobotPitch(m_driveInputs.GyroPitchRad);
   }
