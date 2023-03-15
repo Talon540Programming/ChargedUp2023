@@ -27,9 +27,7 @@ public class DriveIOFalcon implements DriveIO {
   private final TalonFXMechanism m_leftSensors;
   private final TalonFXMechanism m_rightSensors;
 
-  private final boolean leftSideInverted;
   private final boolean leftSensorInverted;
-  private final boolean rightSideInverted;
   private final boolean rightSensorInverted;
 
   /** Create the DriveIO. */
@@ -45,9 +43,7 @@ public class DriveIOFalcon implements DriveIO {
       boolean leftSensorInverted,
       boolean rightSideInverted,
       boolean rightSensorInverted) {
-    this.leftSideInverted = leftSideInverted;
     this.leftSensorInverted = leftSensorInverted;
-    this.rightSideInverted = rightSideInverted;
     this.rightSensorInverted = rightSensorInverted;
 
     m_leftLeader = new WPI_TalonFX(leftLeaderId);
