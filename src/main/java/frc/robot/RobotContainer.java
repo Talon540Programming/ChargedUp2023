@@ -93,8 +93,7 @@ public class RobotContainer {
         }
         case ROBOT_SIMBOT -> {
           m_driveBase = new DriveBase(new DriveIOSim(false));
-          m_armBase = new ArmBase(
-            new ArmExtensionIOSim(), new ArmRotationIOSim(true));
+          m_armBase = new ArmBase(new ArmExtensionIOSim(), new ArmRotationIOSim(true));
         }
       }
     }
@@ -136,9 +135,7 @@ public class RobotContainer {
     m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
     m_autoChooser.addOption("Drive For 5 Seconds", new DriveTime(5, 0.25, m_driveBase));
     m_autoChooser.addOption("Drive For 5 Seconds (inverse)", new DriveTime(5, -0.25, m_driveBase));
-
     m_autoChooser.addOption("Drive for 2 meters", new DriveDistance(2, m_driveBase));
-
     m_autoChooser.addOption("Stabilize Only", new StabilizeRobot(m_driveBase));
   }
 
