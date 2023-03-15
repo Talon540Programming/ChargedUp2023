@@ -49,16 +49,13 @@ public class DriveIOSim implements DriveIO {
     inputs.CurrentAmps =
         new double[] {m_driveSim.getLeftCurrentDrawAmps(), m_driveSim.getRightCurrentDrawAmps()};
 
-    inputs.GyroYawRad = -m_driveSim.getHeading().getRadians();
+    inputs.GyroYawRad = -m_driveSim.getHeading().getRadians(); // TODO: CCP CCWP
   }
 
   @Override
   public void setVoltage(double leftVolts, double rightVolts) {
     leftVolts = MathUtil.clamp(leftVolts, -12.0, 12.0);
     rightVolts = MathUtil.clamp(rightVolts, -12.0, 12.0);
-
-    SmartDashboard.putNumber("left percent", leftVolts);
-    SmartDashboard.putNumber("right percent", rightVolts);
 
     m_driveSim.setInputs(leftVolts, rightVolts);
   }
