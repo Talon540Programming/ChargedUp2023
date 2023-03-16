@@ -11,7 +11,7 @@ public class ArmRotationIOSim implements ArmRotationIO {
   private final SingleJointedArmSim m_armSim;
 
   public ArmRotationIOSim(boolean simulateGravity) {
-    double effectiveInitalArmLengthMeters =
+    double effectiveInitialArmLengthMeters =
         RobotDimensions.Arm.kFullyRetractedLengthMeters + RobotDimensions.Effector.kLengthMeters;
 
     this.m_armSim =
@@ -19,8 +19,8 @@ public class ArmRotationIOSim implements ArmRotationIO {
             DCMotor.getNEO(2),
             Constants.Arm.kRotationGearRatio,
             SingleJointedArmSim.estimateMOI(
-                effectiveInitalArmLengthMeters, RobotDimensions.kArmAndEffectorWeightKg),
-            effectiveInitalArmLengthMeters,
+                effectiveInitialArmLengthMeters, RobotDimensions.kArmAndEffectorWeightKg),
+            effectiveInitialArmLengthMeters,
             RobotLimits.kMinArmAngleRadians,
             RobotLimits.kMaxArmAngleRadians,
             simulateGravity);

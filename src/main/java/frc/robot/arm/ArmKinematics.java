@@ -90,19 +90,19 @@ public class ArmKinematics {
    *     radians.
    * @return estimated position of the effector in the Robot Coordinate System.
    */
-  public Pose3d calculateEffectorPose(double totalLengthMeters, double armAngleRad) {
-    totalLengthMeters =
+  public Pose3d calculateEffectorPose(double distanceMeters, double armAngleRad) {
+    distanceMeters =
         MathUtil.clamp(
-            totalLengthMeters, RobotLimits.kMinArmLengthMeters, RobotLimits.kMaxArmLengthMeters);
+                distanceMeters, RobotLimits.kMinArmLengthMeters, RobotLimits.kMaxArmLengthMeters);
 
-    return calculatePose(totalLengthMeters, armAngleRad);
+    return calculatePose(distanceMeters, armAngleRad);
   }
 
   /**
    * Calculate the angle of the arm from the position of a point on the arm in the Robot Coordinate
    * System.
    *
-   * @param effectorPosition the point's position as a {@link Pose3d} object in the RCS.
+   * @param pointOnArm the point's position as a {@link Pose3d} object in the RCS.
    * @return angle of the arm in radians.
    */
   public double calculateArmAngleFromPointOnArm(Pose3d pointOnArm) {

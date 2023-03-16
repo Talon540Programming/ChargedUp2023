@@ -38,12 +38,12 @@ public class ArmStateManager {
   public void updateArmState(ArmState state) {
     // Organize the state around the current robot state
     if (balanceModeEnabled) {
-      state.ExtensionLengthMeters = 0;
+      state.ArmLengthMeters = 0;
       state.AngleRadians = (Math.PI / 2) - robotPitchRadians;
     } else {
       // Normalize the state
       state.AngleRadians %= Math.PI * 2.0;
-      state.ExtensionLengthMeters = Math.max(state.ExtensionLengthMeters, 0);
+      state.ArmLengthMeters = Math.max(state.ArmLengthMeters, 0);
 
       // Make sure the arm won't phase through the floor or drivetrain?
       if (RobotLimits.kMinArmAngleRadians <= state.AngleRadians
@@ -58,22 +58,22 @@ public class ArmStateManager {
 
       // Check the horizontal extension
       double horizontalDelta =
-          cosTheta * state.ExtensionLengthMeters + RobotDimensions.Effector.kLengthMeters;
+          cosTheta * state.ArmLengthMeters + RobotDimensions.Effector.kLengthMeters;
       double horizontalDistanceFromFrame =
           RobotDimensions.Drivetrain.kDrivetrainLengthMeters / 2
               - horizontalDelta; // Divide by 2 because the fulcrum is in the center of the robot.
 
       if (horizontalDistanceFromFrame > RobotLimits.kMaxExtensionHorizontalMeters) {
-        state.ExtensionLengthMeters =
+        state.ArmLengthMeters =
             (RobotLimits.kMaxExtensionHorizontalMeters / cosTheta)
                 - RobotDimensions.Effector.kLengthMeters;
       }
 
       double verticalDelta =
-          sinTheta * ((state.ExtensionLengthMeters) + RobotDimensions.Effector.kLengthMeters);
+          sinTheta * ((state.ArmLengthMeters) + RobotDimensions.Effector.kLengthMeters);
 
       if (verticalDelta > RobotLimits.kMaxExtensionVerticalMeters) {
-        state.ExtensionLengthMeters =
+        state.ArmLengthMeters =
             (RobotLimits.kMaxExtensionVerticalMeters / sinTheta)
                 - RobotDimensions.Effector.kLengthMeters;
       }

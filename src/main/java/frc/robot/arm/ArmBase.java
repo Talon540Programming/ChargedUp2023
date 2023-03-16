@@ -18,7 +18,11 @@ public class ArmBase extends SubsystemBase {
       new ArmRotationIOInputsAutoLogged();
 
   private final ArmVisualizer m_measuredVisualizer =
-      new ArmVisualizer("Measured Data", Constants.Arm.kArmKinematics);
+      new ArmVisualizer("Measured", Constants.Arm.kArmKinematics);
+
+  private final ArmVisualizer m_targetVisualizer =
+      new ArmVisualizer("Target", Constants.Arm.kArmKinematics);
+
 
   public ArmBase(ArmExtensionIO extensionIO, ArmRotationIO rotationIO) {
     this.m_armExtensionIO = extensionIO;
@@ -36,9 +40,15 @@ public class ArmBase extends SubsystemBase {
     m_measuredVisualizer.update(
         m_armRotationInputs.AbsoluteArmPositionRad, m_armExtensionInputs.DistanceTraveledMeters);
 
-    // // Log the target state
-    // Logger.getInstance()
-    //     .processInputs("Arm/TargetState", ArmStateManager.getInstance().getTargetState());
+    ArmState targetState = ArmStateManager.getInstance().getTargetState();
+
+    // Log the target state
+    Logger.getInstance().processInputs("Arm/TargetState", targetState);
+
+    m_targetVisualizer.update(targetState.AngleRadians, targetState.ArmLengthMeters
+    );
+
+
   }
 
   /**
@@ -57,15 +67,5 @@ public class ArmBase extends SubsystemBase {
    */
   public void setExtensionVoltage(double voltage) {
     m_armExtensionIO.setVoltage(voltage);
-  }
-
-  /**
-   * Get the distance from the winch to the end of the cable.
-   *
-   * @return distance traveled by the arm.
-   */
-  public double getExtensionDistanceTraveled() {
-    // return m_extensionWinch.getDistanceTraveled(m_armExtensionInputs.DistanceTraveledMeters);
-    return 0.0;
   }
 }
