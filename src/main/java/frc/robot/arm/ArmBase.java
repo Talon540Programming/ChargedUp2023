@@ -6,6 +6,7 @@ import frc.robot.arm.extension.ArmExtensionIOInputsAutoLogged;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOInputsAutoLogged;
 import frc.robot.constants.Constants;
+import frc.robot.constants.RobotDimensions;
 import org.littletonrobotics.junction.Logger;
 
 public class ArmBase extends SubsystemBase {
@@ -33,13 +34,13 @@ public class ArmBase extends SubsystemBase {
     m_armExtensionIO.updateInputs(m_armExtensionInputs);
     Logger.getInstance().processInputs("Arm/Extension", m_armExtensionInputs);
 
-    m_armRotationIO.updateArmLength(m_armExtensionInputs.DistanceTraveledMeters);
+    m_armRotationIO.updateArmLength(getTotalArmLength());
 
     m_armRotationIO.updateInputs(m_armRotationInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
 
     m_measuredVisualizer.update(
-        m_armRotationInputs.AbsoluteArmPositionRad, m_armExtensionInputs.DistanceTraveledMeters);
+        m_armRotationInputs.AbsoluteArmPositionRad, getTotalArmLength());
 
     ArmState targetState = ArmStateManager.getInstance().getTargetState();
 
@@ -65,5 +66,14 @@ public class ArmBase extends SubsystemBase {
    */
   public void setExtensionVoltage(double voltage) {
     m_armExtensionIO.setVoltage(voltage);
+  }
+
+  /**
+   * Get the length of the arm including the effector.
+   *
+   * @return total length of the arm system.
+   */
+  public double getTotalArmLength() {
+    return m_armExtensionInputs.DistanceTraveledMeters + RobotDimensions.Effector.kLengthMeters;
   }
 }

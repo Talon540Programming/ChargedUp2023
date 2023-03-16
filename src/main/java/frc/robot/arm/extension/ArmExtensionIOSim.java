@@ -16,8 +16,8 @@ public class ArmExtensionIOSim implements ArmExtensionIO {
             Constants.Arm.kExtensionGearRatio,
             RobotDimensions.Effector.kEffectorMassKg,
             Constants.Arm.kExtensionWinchRadiusMeters,
-            RobotLimits.kMinArmLengthMeters + RobotDimensions.Effector.kLengthMeters,
-            RobotLimits.kMaxArmLengthMeters + RobotDimensions.Effector.kLengthMeters,
+            RobotLimits.kMinArmLengthMeters,
+            RobotLimits.kMaxArmLengthMeters,
             false);
   }
 
@@ -33,15 +33,5 @@ public class ArmExtensionIOSim implements ArmExtensionIO {
   @Override
   public void setVoltage(double voltage) {
     m_armSim.setInput(voltage);
-  }
-
-  @Override
-  public void setDistance(double distanceMeters) {
-    // m_armSim.setState();
-  }
-
-  @Override
-  public void resetDistance() {
-    // m_armSim.setState();
   }
 }
