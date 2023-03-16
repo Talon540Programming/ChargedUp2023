@@ -2,23 +2,23 @@ package frc.robot.arm.rotation;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
+import frc.lib.arm.VariableSingleJoinedArmSim;
 import frc.robot.constants.Constants;
 import frc.robot.constants.RobotDimensions;
 import frc.robot.constants.RobotLimits;
 
 public class ArmRotationIOSim implements ArmRotationIO {
-  private final SingleJointedArmSim m_armSim;
+  private final VariableSingleJoinedArmSim m_armSim;
 
   public ArmRotationIOSim(boolean simulateGravity) {
     double effectiveInitialArmLengthMeters =
         RobotDimensions.Arm.kFullyRetractedLengthMeters + RobotDimensions.Effector.kLengthMeters;
 
     this.m_armSim =
-        new SingleJointedArmSim(
+        new VariableSingleJoinedArmSim(
             DCMotor.getNEO(2),
             Constants.Arm.kRotationGearRatio,
-            SingleJointedArmSim.estimateMOI(
+            VariableSingleJoinedArmSim.estimateMOI(
                 effectiveInitialArmLengthMeters, RobotDimensions.kArmAndEffectorWeightKg),
             effectiveInitialArmLengthMeters,
             RobotLimits.kMinArmAngleRadians,
@@ -40,5 +40,14 @@ public class ArmRotationIOSim implements ArmRotationIO {
     voltage = MathUtil.clamp(voltage, -12.0, 12.0);
 
     m_armSim.setInputVoltage(voltage);
+  }
+
+  @Override
+  public void updateArmLength(double armLengthMeters) {
+    m_armSim.updateArmLength(armLengthMeters);
+    double armMoI =
+        VariableSingleJoinedArmSim.estimateMOI(
+            armLengthMeters, RobotDimensions.kArmAndEffectorWeightKg);
+    m_armSim.updateMoI(armMoI);
   }
 }

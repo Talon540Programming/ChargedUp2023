@@ -33,6 +33,8 @@ public class ArmBase extends SubsystemBase {
     m_armExtensionIO.updateInputs(m_armExtensionInputs);
     Logger.getInstance().processInputs("Arm/Extension", m_armExtensionInputs);
 
+    m_armRotationIO.updateArmLength(m_armExtensionInputs.DistanceTraveledMeters);
+
     m_armRotationIO.updateInputs(m_armRotationInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
 

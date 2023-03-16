@@ -30,4 +30,11 @@ public interface ArmRotationIO extends LoggedIO<ArmRotationIO.ArmRotationIOInput
    * @param mode NeutralMode to set.
    */
   default void setNeutralMode(Constants.NeutralMode mode) {}
+
+  /**
+   * Update the length of the arm. This is useful for simulations that take into effect the length of the arm.
+   *
+   * @param armLengthMeters length of the arm from the fulcrum to the effector in meters.
+   */
+  default void updateArmLength(double armLengthMeters) {}
 }
