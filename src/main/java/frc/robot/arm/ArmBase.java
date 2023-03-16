@@ -1,19 +1,11 @@
 package frc.robot.arm;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOInputsAutoLogged;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOInputsAutoLogged;
-import frc.robot.constants.RobotDimensions;
+import frc.robot.constants.Constants;
 import org.littletonrobotics.junction.Logger;
 
 public class ArmBase extends SubsystemBase {
@@ -25,31 +17,11 @@ public class ArmBase extends SubsystemBase {
   public final ArmRotationIOInputsAutoLogged m_armRotationInputs =
       new ArmRotationIOInputsAutoLogged();
 
-  Mechanism2d m_mech = new Mechanism2d(Units.inchesToMeters(200), Units.inchesToMeters(200));
-
-  MechanismRoot2d m_mechFulcrum =
-      m_mech.getRoot(
-          "ArmFulcrum", Units.inchesToMeters(100), RobotDimensions.Arm.kFulcrumHeightMeters);
-
-  MechanismLigament2d m_mechUpright =
-      m_mechFulcrum.append(
-          new MechanismLigament2d("ArmTower", RobotDimensions.Arm.kFulcrumHeightMeters, -90));
-
-  private final MechanismLigament2d m_mechArm =
-      m_mechFulcrum.append(
-          new MechanismLigament2d(
-              "Arm",
-              Units.inchesToMeters(25),
-              Units.radiansToDegrees(m_armRotationInputs.AbsoluteArmPositionRad),
-              6,
-              new Color8Bit(Color.kYellow)));
+  private final ArmVisualizer m_measuredVisualizer = new ArmVisualizer("Measured Data", Constants.Arm.kArmKinematics);
 
   public ArmBase(ArmExtensionIO extensionIO, ArmRotationIO rotationIO) {
     this.m_armExtensionIO = extensionIO;
     this.m_armRotationIO = rotationIO;
-
-    SmartDashboard.putData("Arm Simulation", m_mech);
-    m_mechUpright.setColor(new Color8Bit(Color.kAqua));
   }
 
   @Override
@@ -60,12 +32,14 @@ public class ArmBase extends SubsystemBase {
     m_armRotationIO.updateInputs(m_armRotationInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
 
-    m_mechArm.setAngle(Rotation2d.fromRadians(m_armRotationInputs.AbsoluteArmPositionRad));
-    m_mechArm.setLength(m_armExtensionInputs.DistanceTraveledMeters);
+    m_measuredVisualizer.update(
+            m_armRotationInputs.AbsoluteArmPositionRad,
+            m_armExtensionInputs.DistanceTraveledMeters
+    );
 
-    // Log the target state
-    Logger.getInstance()
-        .processInputs("Arm/TargetState", ArmStateManager.getInstance().getTargetState());
+    // // Log the target state
+    // Logger.getInstance()
+    //     .processInputs("Arm/TargetState", ArmStateManager.getInstance().getTargetState());
   }
 
   /**
