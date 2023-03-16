@@ -1,5 +1,6 @@
 package frc.robot.arm.extension;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import frc.robot.constants.Constants;
@@ -32,6 +33,8 @@ public class ArmExtensionIOSim implements ArmExtensionIO {
 
   @Override
   public void setVoltage(double voltage) {
+    voltage = MathUtil.clamp(voltage, -12.0, 12.0);
+
     m_armSim.setInput(voltage);
   }
 }

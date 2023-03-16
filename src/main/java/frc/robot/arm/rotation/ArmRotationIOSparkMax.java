@@ -4,6 +4,8 @@ import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+
+import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.Constants;
 
 /** ArmRotationIO using 2 SparkMax motor controllers. */
@@ -68,6 +70,8 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
 
   @Override
   public void setVoltage(double voltage) {
+    voltage = MathUtil.clamp(voltage, -12.0, 12.0);
+
     m_rotationLeader.setVoltage(voltage);
   }
 
