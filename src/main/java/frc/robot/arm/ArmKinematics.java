@@ -1,23 +1,22 @@
 package frc.robot.arm;
 
-import java.security.InvalidParameterException;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
-import frc.robot.constants.Constants;
 import frc.robot.constants.RobotDimensions;
 import frc.robot.constants.RobotLimits;
 
 /**
- * Kinematics helper class that can help calculate the state of the Arm for either its current or desired state.
+ * Kinematics helper class that can help calculate the state of the Arm for either its current or
+ * desired state.
  */
 public class ArmKinematics {
   private final Translation3d fulcrumPosition;
 
   /**
-   * Create an ArmKinematics object that can be used to predict the position and state of the arm from measured data.
-   * 
+   * Create an ArmKinematics object that can be used to predict the position and state of the arm
+   * from measured data.
+   *
    * @param fulcrumPosition position of the arm's fulcrum as a {@link Translation3d} object.
    */
   public ArmKinematics(Translation3d fulcrumPosition) {
@@ -26,8 +25,9 @@ public class ArmKinematics {
 
   /**
    * Calculate the position of the end of the first extrusion / stage of the telescoping arm.
-   * 
-   * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in radians.
+   *
+   * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in
+   *     radians.
    * @return estimated position of the end of the first extrusion in the Robot Coordinate System.
    */
   public Pose3d calculateFirstExtrusionPose(double armAngleRad) {
@@ -36,10 +36,11 @@ public class ArmKinematics {
 
   /**
    * Calculate the position of the end of the second extrusion / stage of the telescoping arm.
-   * 
-   * @param totalLengthMeters distance from the fulcrum to the end of the effector
-   *     (including the effector itself).
-   * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in radians.
+   *
+   * @param totalLengthMeters distance from the fulcrum to the end of the effector (including the
+   *     effector itself).
+   * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in
+   *     radians.
    * @return estimated position of the end of the second extrusion in the Robot Coordinate System.
    */
   public Pose3d calculateSecondExtrusionPose(double totalLengthMeters, double armAngleRad) {
@@ -47,7 +48,9 @@ public class ArmKinematics {
     totalLengthMeters -= RobotDimensions.Effector.kLengthMeters;
 
     double minLength = RobotDimensions.Arm.kFirstExtrusionLengthMeters + Units.inchesToMeters(2.5);
-    double maxLength = RobotDimensions.Arm.kFirstExtrusionLengthMeters + RobotDimensions.Arm.kSecondExtrusionLengthMeters;
+    double maxLength =
+        RobotDimensions.Arm.kFirstExtrusionLengthMeters
+            + RobotDimensions.Arm.kSecondExtrusionLengthMeters;
 
     totalLengthMeters = MathUtil.clamp(totalLengthMeters, minLength, maxLength);
 
@@ -56,19 +59,24 @@ public class ArmKinematics {
 
   /**
    * Calculate the position of the end of the third extrusion / stage of the telescoping arm.
-   * 
-   * @param totalLengthMeters distance from the fulcrum to the end of the effector
-   *     (including the effector itself).
-   * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in radians.
+   *
+   * @param totalLengthMeters distance from the fulcrum to the end of the effector (including the
+   *     effector itself).
+   * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in
+   *     radians.
    * @return estimated position of the end of the third extrusion in the Robot Coordinate System.
    */
   public Pose3d calculateThirdExtrusionPose(double totalLengthMeters, double armAngleRad) {
     totalLengthMeters -= RobotDimensions.Effector.kLengthMeters;
 
     double minLength = RobotDimensions.Arm.kFirstExtrusionLengthMeters + Units.inchesToMeters(2.5);
-    double maxLength = RobotDimensions.Arm.kFirstExtrusionLengthMeters + RobotDimensions.Arm.kSecondExtrusionLengthMeters + RobotDimensions.Arm.kThirdExtrusionLengthMeters;
+    double maxLength =
+        RobotDimensions.Arm.kFirstExtrusionLengthMeters
+            + RobotDimensions.Arm.kSecondExtrusionLengthMeters
+            + RobotDimensions.Arm.kThirdExtrusionLengthMeters;
 
-    totalLengthMeters = MathUtil.clamp(totalLengthMeters, minLength, maxLength) + Units.inchesToMeters(0.5);
+    totalLengthMeters =
+        MathUtil.clamp(totalLengthMeters, minLength, maxLength) + Units.inchesToMeters(0.5);
 
     return calculatePose(totalLengthMeters, armAngleRad);
   }
@@ -76,13 +84,16 @@ public class ArmKinematics {
   /**
    * Calculate the position of the effector (object at the end of the arm);
    *
-   * @param distanceMeters distance from the fulcrum to the end of the effector
-   *     (including the effector itself).
-   * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in radians.
+   * @param distanceMeters distance from the fulcrum to the end of the effector (including the
+   *     effector itself).
+   * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in
+   *     radians.
    * @return estimated position of the effector in the Robot Coordinate System.
    */
   public Pose3d calculateEffectorPose(double totalLengthMeters, double armAngleRad) {
-    totalLengthMeters = MathUtil.clamp(totalLengthMeters, RobotLimits.kMinArmLengthMeters, RobotLimits.kMaxArmLengthMeters);
+    totalLengthMeters =
+        MathUtil.clamp(
+            totalLengthMeters, RobotLimits.kMinArmLengthMeters, RobotLimits.kMaxArmLengthMeters);
 
     return calculatePose(totalLengthMeters, armAngleRad);
   }
@@ -101,7 +112,7 @@ public class ArmKinematics {
 
   /**
    * Get the position of the fulcrum as a {@link Translation3d} object.
-   * 
+   *
    * @return position of the fulcrum.
    */
   public Translation3d getFulcrumPose() {
@@ -112,11 +123,11 @@ public class ArmKinematics {
     Rotation2d armAngleRotation2d = Rotation2d.fromRadians(angleRad);
 
     return new Pose3d(
-      fulcrumPosition.plus(new Translation3d(
-        lengthMeters * armAngleRotation2d.getCos(),
-        0,
-        lengthMeters * armAngleRotation2d.getSin())),
-        new Rotation3d(0, -angleRad, 0)
-    );
+        fulcrumPosition.plus(
+            new Translation3d(
+                lengthMeters * armAngleRotation2d.getCos(),
+                0,
+                lengthMeters * armAngleRotation2d.getSin())),
+        new Rotation3d(0, -angleRad, 0));
   }
 }

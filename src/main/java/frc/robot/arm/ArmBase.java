@@ -17,7 +17,8 @@ public class ArmBase extends SubsystemBase {
   public final ArmRotationIOInputsAutoLogged m_armRotationInputs =
       new ArmRotationIOInputsAutoLogged();
 
-  private final ArmVisualizer m_measuredVisualizer = new ArmVisualizer("Measured Data", Constants.Arm.kArmKinematics);
+  private final ArmVisualizer m_measuredVisualizer =
+      new ArmVisualizer("Measured Data", Constants.Arm.kArmKinematics);
 
   public ArmBase(ArmExtensionIO extensionIO, ArmRotationIO rotationIO) {
     this.m_armExtensionIO = extensionIO;
@@ -33,9 +34,7 @@ public class ArmBase extends SubsystemBase {
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
 
     m_measuredVisualizer.update(
-            m_armRotationInputs.AbsoluteArmPositionRad,
-            m_armExtensionInputs.DistanceTraveledMeters
-    );
+        m_armRotationInputs.AbsoluteArmPositionRad, m_armExtensionInputs.DistanceTraveledMeters);
 
     // // Log the target state
     // Logger.getInstance()
