@@ -24,6 +24,15 @@ public class ArmKinematics {
   }
 
   /**
+   * Get the position of the fulcrum as a {@link Translation3d} object.
+   *
+   * @return position of the fulcrum.
+   */
+  public Translation3d getFulcrumPose() {
+    return fulcrumPosition;
+  }
+
+  /**
    * Calculate the position of the end of the first extrusion / stage of the telescoping arm.
    *
    * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in
@@ -90,12 +99,12 @@ public class ArmKinematics {
    *     radians.
    * @return estimated position of the effector in the Robot Coordinate System.
    */
-  public Pose3d calculateEffectorPose(double distanceMeters, double armAngleRad) {
-    distanceMeters =
+  public Pose3d calculateEffectorPose(double totalLengthMeters, double armAngleRad) {
+    totalLengthMeters =
         MathUtil.clamp(
-            distanceMeters, RobotLimits.kMinArmLengthMeters, RobotLimits.kMaxArmLengthMeters);
+            totalLengthMeters, RobotLimits.kMinArmLengthMeters, RobotLimits.kMaxArmLengthMeters);
 
-    return calculatePose(distanceMeters, armAngleRad);
+    return calculatePose(totalLengthMeters, armAngleRad);
   }
 
   /**
@@ -111,32 +120,80 @@ public class ArmKinematics {
   }
 
   /**
-   * Get the position of the fulcrum as a {@link Translation3d} object.
+   * Calculate the Moment of Inertia of the arm based on it's length, mass of the arm, and mass of
+   * the effetor.
    *
-   * @return position of the fulcrum.
-   */
-  public Translation3d getFulcrumPose() {
-    return fulcrumPosition;
-  }
-
-  /**
-   * Calculate the Moment of Inertia of the arm based on it's length, mass of the arm, and mass of the effetor.
-   * 
-   * @param armLengthMeters length of the arm in meters
-   * @param massKg mass items of the arm. Include the effector in this
-   * 
+   * @param armLengthMeters length of the arm and effector in meters.
+   * @param massKg mass items of the arm. Include the effector in this.
    * @return estimated MoI of the Arm and Effector
    */
-  public double calculateMoI(double lengthMeters, double... massKg) {
+  public double calculateMoI(double totalLengthMeters, double... massKg) {
     // TODO, make this more accruate to the actual arm
     double totalMassKg = 0;
 
-    for(double mass : massKg)
-      totalMassKg += mass;
+    for (double mass : massKg) totalMassKg += mass;
 
-    return (1.0 / 3.0) * totalMassKg * Math.pow(lengthMeters, 2);
+    return (1.0 / 3.0) * totalMassKg * Math.pow(totalLengthMeters, 2);
   }
 
+  /**
+   * Check if a given length and angle would cause the arm to get close to, or hit the floor in the
+   * front of the robot.
+   *
+   * @param totalLengthMeters length of the arm and effector in meters.
+   * @param armAngleRadians angle of the arm in radians.
+   * @return
+   */
+  public boolean wouldIntersectForward(double totalLengthMeters, double armAngleRadians) {
+    Pose3d effectorPose = calculatePose(totalLengthMeters, armAngleRadians);
+
+    return effectorPose.getZ() <= 0.01 && effectorPose.getX() > 0;
+  }
+
+  /**
+   * Check if a given length and angle would cause the arm to get close to, or hit the floor in the
+   * back of the robot.
+   *
+   * @param totalLengthMeters length of the arm and effector in meters.
+   * @param armAngleRadians angle of the arm in radians.
+   * @return
+   */
+  public boolean wouldIntersectRear(double totalLengthMeters, double armAngleRadians) {
+    Pose3d effectorPose = calculatePose(totalLengthMeters, armAngleRadians);
+
+    return effectorPose.getZ() <= 0.01 && effectorPose.getX() < 0;
+  }
+
+  /**
+   * Get the angle of the arm of the lowest non-intersecting point at the front of the robot. This
+   * is usually the floor.
+   *
+   * @param totalLengthMeters length of the arm in meters.
+   * @return estimated angle of the arm.
+   */
+  public double lowestForwardAngle(double totalLengthMeters) {
+    return -Math.asin(fulcrumPosition.getZ() / totalLengthMeters);
+  }
+
+  /**
+   * Get the angle of the arm of the lowest non-intersecting point at the back of the robot. This is
+   * usually the floor.
+   *
+   * @param totalLengthMeters length of the arm in meters.
+   * @return estimated angle of the arm.
+   */
+  public double lowestRearAngle(double totalLengthMeters) {
+    return Math.PI + Math.asin(fulcrumPosition.getZ() / totalLengthMeters);
+  }
+
+  /**
+   * Calculate the pose of a point on the arm from its distance from the fulcrum and the angle
+   * formed.
+   *
+   * @param lengthMeters magnitude in meters.
+   * @param angleRad angle formed in radians.
+   * @return estimated position of the point on the arm.
+   */
   private Pose3d calculatePose(double lengthMeters, double angleRad) {
     Rotation2d armAngleRotation2d = Rotation2d.fromRadians(angleRad);
 

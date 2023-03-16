@@ -9,6 +9,7 @@ import edu.wpi.first.math.system.NumericalIntegration;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.LinearSystemSim;
+import frc.robot.arm.ArmKinematics;
 
 /**
  * Represents a Sim of a Single Joined Arm that has variable length and center of mass. Credit WPI
@@ -18,8 +19,9 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
   private final DCMotor m_gearbox;
   private final double m_gearing;
   private double m_armLenMeters;
-  private final double m_minAngle;
-  private final double m_maxAngle;
+
+  private final ArmKinematics m_kinematics;
+
   private final boolean m_simulateGravity;
 
   /**
@@ -29,8 +31,7 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
    * @param gearbox The type of and number of motors in the arm gearbox.
    * @param gearing The gearing of the arm (numbers greater than 1 represent reductions).
    * @param armLengthMeters The length of the arm.
-   * @param minAngleRads The minimum angle that the arm is capable of.
-   * @param maxAngleRads The maximum angle that the arm is capable of.
+   * @param armKinematics kinematics of the arm.
    * @param simulateGravity Whether gravity should be simulated or not.
    */
   public VariableSingleJoinedArmSim(
@@ -38,18 +39,9 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
       DCMotor gearbox,
       double gearing,
       double armLengthMeters,
-      double minAngleRads,
-      double maxAngleRads,
+      ArmKinematics armKinematics,
       boolean simulateGravity) {
-    this(
-        plant,
-        gearbox,
-        gearing,
-        armLengthMeters,
-        minAngleRads,
-        maxAngleRads,
-        simulateGravity,
-        null);
+    this(plant, gearbox, gearing, armLengthMeters, armKinematics, simulateGravity, null);
   }
 
   /**
@@ -59,8 +51,7 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
    * @param gearbox The type of and number of motors in the arm gearbox.
    * @param gearing The gearing of the arm (numbers greater than 1 represent reductions).
    * @param armLengthMeters The length of the arm.
-   * @param minAngleRads The minimum angle that the arm is capable of.
-   * @param maxAngleRads The maximum angle that the arm is capable of.
+   * @param armKinematics kinematics of the arm.
    * @param simulateGravity Whether gravity should be simulated or not.
    * @param measurementStdDevs The standard deviations of the measurements.
    */
@@ -69,16 +60,14 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
       DCMotor gearbox,
       double gearing,
       double armLengthMeters,
-      double minAngleRads,
-      double maxAngleRads,
+      ArmKinematics armKinematics,
       boolean simulateGravity,
       Matrix<N1, N1> measurementStdDevs) {
     super(plant, measurementStdDevs);
     m_gearbox = gearbox;
     m_gearing = gearing;
     m_armLenMeters = armLengthMeters;
-    m_minAngle = minAngleRads;
-    m_maxAngle = maxAngleRads;
+    m_kinematics = armKinematics;
     m_simulateGravity = simulateGravity;
   }
 
@@ -89,8 +78,7 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
    * @param gearing The gearing of the arm (numbers greater than 1 represent reductions).
    * @param jKgMetersSquared The moment of inertia of the arm, can be calculated from CAD software.
    * @param armLengthMeters The length of the arm.
-   * @param minAngleRads The minimum angle that the arm is capable of.
-   * @param maxAngleRads The maximum angle that the arm is capable of.
+   * @param armKinematics kinematics of the arm.
    * @param simulateGravity Whether gravity should be simulated or not.
    */
   public VariableSingleJoinedArmSim(
@@ -98,18 +86,9 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
       double gearing,
       double jKgMetersSquared,
       double armLengthMeters,
-      double minAngleRads,
-      double maxAngleRads,
+      ArmKinematics armKinematics,
       boolean simulateGravity) {
-    this(
-        gearbox,
-        gearing,
-        jKgMetersSquared,
-        armLengthMeters,
-        minAngleRads,
-        maxAngleRads,
-        simulateGravity,
-        null);
+    this(gearbox, gearing, jKgMetersSquared, armLengthMeters, armKinematics, simulateGravity, null);
   }
 
   /**
@@ -119,8 +98,7 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
    * @param gearing The gearing of the arm (numbers greater than 1 represent reductions).
    * @param jKgMetersSquared The moment of inertia of the arm; can be calculated from CAD software.
    * @param armLengthMeters The length of the arm.
-   * @param minAngleRads The minimum angle that the arm is capable of.
-   * @param maxAngleRads The maximum angle that the arm is capable of.
+   * @param armKinematics kinematics of the arm.
    * @param simulateGravity Whether gravity should be simulated or not.
    * @param measurementStdDevs The standard deviations of the measurements.
    */
@@ -129,8 +107,7 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
       double gearing,
       double jKgMetersSquared,
       double armLengthMeters,
-      double minAngleRads,
-      double maxAngleRads,
+      ArmKinematics armKinematics,
       boolean simulateGravity,
       Matrix<N1, N1> measurementStdDevs) {
     super(
@@ -139,47 +116,8 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
     m_gearbox = gearbox;
     m_gearing = gearing;
     m_armLenMeters = armLengthMeters;
-    m_minAngle = minAngleRads;
-    m_maxAngle = maxAngleRads;
+    m_kinematics = armKinematics;
     m_simulateGravity = simulateGravity;
-  }
-
-  /**
-   * Returns whether the arm would hit the lower limit.
-   *
-   * @param currentAngleRads The current arm height.
-   * @return Whether the arm would hit the lower limit.
-   */
-  public boolean wouldHitLowerLimit(double currentAngleRads) {
-    return currentAngleRads <= this.m_minAngle;
-  }
-
-  /**
-   * Returns whether the arm would hit the upper limit.
-   *
-   * @param currentAngleRads The current arm height.
-   * @return Whether the arm would hit the upper limit.
-   */
-  public boolean wouldHitUpperLimit(double currentAngleRads) {
-    return currentAngleRads >= this.m_maxAngle;
-  }
-
-  /**
-   * Returns whether the arm has hit the lower limit.
-   *
-   * @return Whether the arm has hit the lower limit.
-   */
-  public boolean hasHitLowerLimit() {
-    return wouldHitLowerLimit(getAngleRads());
-  }
-
-  /**
-   * Returns whether the arm has hit the upper limit.
-   *
-   * @return Whether the arm has hit the upper limit.
-   */
-  public boolean hasHitUpperLimit() {
-    return wouldHitUpperLimit(getAngleRads());
   }
 
   /**
@@ -220,17 +158,6 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
    */
   public void setInputVoltage(double volts) {
     setInput(volts);
-  }
-
-  /**
-   * Calculates a rough estimate of the moment of inertia of an arm given its length and mass.
-   *
-   * @param lengthMeters The length of the arm.
-   * @param massKg The mass of the arm.
-   * @return The calculated moment of inertia.
-   */
-  public static double estimateMOI(double lengthMeters, double massKg) {
-    return 1.0 / 3.0 * massKg * lengthMeters * lengthMeters;
   }
 
   /**
@@ -312,11 +239,11 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
             dtSeconds);
 
     // We check for collision after updating xhat
-    if (wouldHitLowerLimit(updatedXhat.get(0, 0))) {
-      return VecBuilder.fill(m_minAngle, 0);
+    if (m_kinematics.wouldIntersectForward(m_armLenMeters, updatedXhat.get(0, 0))) {
+      return VecBuilder.fill(m_kinematics.lowestForwardAngle(m_armLenMeters), 0);
     }
-    if (wouldHitUpperLimit(updatedXhat.get(0, 0))) {
-      return VecBuilder.fill(m_maxAngle, 0);
+    if (m_kinematics.wouldIntersectRear(m_armLenMeters, updatedXhat.get(0, 0))) {
+      return VecBuilder.fill(m_kinematics.lowestRearAngle(m_armLenMeters), 0);
     }
     return updatedXhat;
   }
