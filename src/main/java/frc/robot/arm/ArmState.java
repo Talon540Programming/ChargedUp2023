@@ -15,8 +15,8 @@ public class ArmState implements LoggableInputs, Cloneable {
    * @param angleRadians Angle of the Arm in radians. This angle should be similar to the Unit
    *     circle where 0 means the arm is perpendicular to the robot's fulcrum and parallel to the
    *     floor, facing towards the front of the robot. The angle is CCW positive.
-   * @param armLengthMeters The length that the arm is extended to beyond the fully retracted
-   *     state at without the grabber or any other * attachment at the end in meters.
+   * @param armLengthMeters The length that the arm is extended to beyond the fully retracted state
+   *     at without the grabber or any other * attachment at the end in meters.
    */
   public ArmState(double angleRadians, double armLengthMeters) {
     this.AngleRadians = angleRadians;
@@ -36,17 +36,13 @@ public class ArmState implements LoggableInputs, Cloneable {
   @Override
   public void toLog(LogTable table) {
     table.put("AngleRadians", AngleRadians);
-    table.put("ArmLengthMeters",
-            ArmLengthMeters
-    );
+    table.put("ArmLengthMeters", ArmLengthMeters);
   }
 
   @Override
   public void fromLog(LogTable table) {
     AngleRadians = table.getDouble("AngleRadians", AngleRadians);
-    ArmLengthMeters = table.getDouble("ExtensionLengthMeters",
-            ArmLengthMeters
-    );
+    ArmLengthMeters = table.getDouble("ExtensionLengthMeters", ArmLengthMeters);
   }
 
   @Override
@@ -60,8 +56,6 @@ public class ArmState implements LoggableInputs, Cloneable {
 
   @Override
   public ArmState clone() {
-    return new ArmState(AngleRadians,
-            ArmLengthMeters
-    );
+    return new ArmState(AngleRadians, ArmLengthMeters);
   }
 }

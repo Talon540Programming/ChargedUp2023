@@ -59,9 +59,7 @@ public class ArmStateController extends CommandBase {
 
     setExtensionOutput(
         m_extensionController.calculate(
-            m_armBase.m_armExtensionInputs.DistanceTraveledMeters,
-            targetState.ArmLengthMeters
-        ));
+            m_armBase.m_armExtensionInputs.DistanceTraveledMeters, targetState.ArmLengthMeters));
 
     TrapezoidProfile.State rotationGoal = targetState.getRotationState();
     setRotationOutput(

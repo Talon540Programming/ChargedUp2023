@@ -23,7 +23,6 @@ public class ArmBase extends SubsystemBase {
   private final ArmVisualizer m_targetVisualizer =
       new ArmVisualizer("Target", Constants.Arm.kArmKinematics);
 
-
   public ArmBase(ArmExtensionIO extensionIO, ArmRotationIO rotationIO) {
     this.m_armExtensionIO = extensionIO;
     this.m_armRotationIO = rotationIO;
@@ -45,10 +44,7 @@ public class ArmBase extends SubsystemBase {
     // Log the target state
     Logger.getInstance().processInputs("Arm/TargetState", targetState);
 
-    m_targetVisualizer.update(targetState.AngleRadians, targetState.ArmLengthMeters
-    );
-
-
+    m_targetVisualizer.update(targetState.AngleRadians, targetState.ArmLengthMeters);
   }
 
   /**

@@ -93,7 +93,7 @@ public class ArmKinematics {
   public Pose3d calculateEffectorPose(double distanceMeters, double armAngleRad) {
     distanceMeters =
         MathUtil.clamp(
-                distanceMeters, RobotLimits.kMinArmLengthMeters, RobotLimits.kMaxArmLengthMeters);
+            distanceMeters, RobotLimits.kMinArmLengthMeters, RobotLimits.kMaxArmLengthMeters);
 
     return calculatePose(distanceMeters, armAngleRad);
   }
