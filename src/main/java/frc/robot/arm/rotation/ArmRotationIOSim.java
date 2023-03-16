@@ -18,8 +18,10 @@ public class ArmRotationIOSim implements ArmRotationIO {
         new VariableSingleJoinedArmSim(
             DCMotor.getNEO(2),
             Constants.Arm.kRotationGearRatio,
-            VariableSingleJoinedArmSim.estimateMOI(
-                effectiveInitialArmLengthMeters, RobotDimensions.kArmAndEffectorWeightKg),
+            Constants.Arm.kArmKinematics.calculateMoI(
+              effectiveInitialArmLengthMeters, 
+              RobotDimensions.kArmAndEffectorWeightKg
+            ),
             effectiveInitialArmLengthMeters,
             RobotLimits.kMinArmAngleRadians,
             RobotLimits.kMaxArmAngleRadians,
@@ -32,7 +34,7 @@ public class ArmRotationIOSim implements ArmRotationIO {
 
     inputs.AbsoluteArmPositionRad = m_armSim.getAngleRads();
     inputs.ArmVelocityRadPerSecond = m_armSim.getVelocityRadPerSec();
-    inputs.CurrentAmps = new double[] {m_armSim.getCurrentDrawAmps()};
+    inputs.CurrentAmps = new double[] { m_armSim.getCurrentDrawAmps() };
   }
 
   @Override
@@ -45,9 +47,8 @@ public class ArmRotationIOSim implements ArmRotationIO {
   @Override
   public void updateArmLength(double armLengthMeters) {
     m_armSim.updateArmLength(armLengthMeters);
-    double armMoI =
-        VariableSingleJoinedArmSim.estimateMOI(
-            armLengthMeters, RobotDimensions.kArmAndEffectorWeightKg);
+    
+    double armMoI = Constants.Arm.kArmKinematics.calculateMoI(armLengthMeters, RobotDimensions.kArmAndEffectorWeightKg);
     m_armSim.updateMoI(armMoI);
   }
 }

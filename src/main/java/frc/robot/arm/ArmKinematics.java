@@ -119,6 +119,24 @@ public class ArmKinematics {
     return fulcrumPosition;
   }
 
+  /**
+   * Calculate the Moment of Inertia of the arm based on it's length, mass of the arm, and mass of the effetor.
+   * 
+   * @param armLengthMeters length of the arm in meters
+   * @param massKg mass items of the arm. Include the effector in this
+   * 
+   * @return estimated MoI of the Arm and Effector
+   */
+  public double calculateMoI(double lengthMeters, double... massKg) {
+    // TODO, make this more accruate to the actual arm
+    double totalMassKg = 0;
+
+    for(double mass : massKg)
+      totalMassKg += mass;
+
+    return (1.0 / 3.0) * totalMassKg * Math.pow(lengthMeters, 2);
+  }
+
   private Pose3d calculatePose(double lengthMeters, double angleRad) {
     Rotation2d armAngleRotation2d = Rotation2d.fromRadians(angleRad);
 
