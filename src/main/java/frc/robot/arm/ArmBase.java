@@ -39,8 +39,7 @@ public class ArmBase extends SubsystemBase {
     m_armRotationIO.updateInputs(m_armRotationInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
 
-    m_measuredVisualizer.update(
-        m_armRotationInputs.AbsoluteArmPositionRad, getTotalArmLength());
+    m_measuredVisualizer.update(m_armRotationInputs.AbsoluteArmPositionRad, getTotalArmLength());
 
     ArmState targetState = ArmStateManager.getInstance().getTargetState();
 
