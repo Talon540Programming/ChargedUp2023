@@ -92,11 +92,6 @@ public final class Constants {
             0.3; // TODO this is a sim value, real value must be found in sysid
       }
 
-      public static class Trajectory {
-        public static final double kRamseteB = 2.0;
-        public static final double kRamseteZeta = 0.7;
-      }
-
       public static class Stabilization {
         public static final double kP = 0; // TODO
         public static final double kI = 0; // TODO
@@ -113,7 +108,7 @@ public final class Constants {
     public static final boolean kExtensionInverted = false; // TODO
 
     @SuppressWarnings("PointlessArithmeticExpression")
-    public static final double kRotationGearRatio = (4.0 / 1.0) * (10.0 / 1.0) * (66.0 / 18.0);
+    public static final double kRotationGearRatio = (4.0 / 1.0) * (10.0 / 1.0) * (66.0 / 18.0); // TODO
 
     @SuppressWarnings("PointlessArithmeticExpression")
     public static final double kExtensionGearRatio = (4.0 / 1.0); // TODO
@@ -159,10 +154,6 @@ public final class Constants {
     }
   }
 
-  public static final class Intake {
-    public static final double kGamepeiceColorTolerance = 25; // TODO
-  }
-
   public enum NeutralMode {
     BRAKE,
     COAST;
@@ -192,10 +183,11 @@ public final class Constants {
     }
   }
 
-  public enum GamePiece {
+  public enum GamePiece {    
     Cone(new Color8Bit(0, 0, 0)), // TODO
     Cube(new Color8Bit(0, 0, 0)); // TODO
 
+    private final double kGamepeiceColorTolerance = 25; // TODO
     public final Color8Bit colorValue;
 
     GamePiece(Color8Bit color) {
@@ -207,9 +199,9 @@ public final class Constants {
       double deltaGreen = Math.abs(otherColor.green - this.colorValue.green);
       double deltaBlue = Math.abs(otherColor.blue - this.colorValue.blue);
 
-      return deltaRed < Intake.kGamepeiceColorTolerance
-          && deltaGreen < Intake.kGamepeiceColorTolerance
-          && deltaBlue < Intake.kGamepeiceColorTolerance;
+      return deltaRed < kGamepeiceColorTolerance
+          && deltaGreen < kGamepeiceColorTolerance
+          && deltaBlue < kGamepeiceColorTolerance;
     }
   }
 }

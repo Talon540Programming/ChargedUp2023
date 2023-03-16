@@ -43,15 +43,5 @@ public final class HardwareDevices {
 
       public static final int kArmRotationEncoderId = 0; // TODO
     }
-
-    public static class Intake {
-      public static final int kIntakeWristId = 0; // TODO
-      public static final int kIntakeClawId = 15;
-
-      public static final int kIntakeWristEncoderId = 0; // TODO
-      public static final int kIntakeClawEncoderID = 0; // TODO
-
-      public static final I2C.Port kColorSensorPort = I2C.Port.kMXP;
-    }
   }
 }

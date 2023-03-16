@@ -41,34 +41,39 @@ public class RobotDimensions {
     public static final Translation3d kFulcrumPose = new Translation3d(0, 0, kFulcrumHeightMeters);
 
     // First extrusion is from fulcrum, not end of extrusion
-    public static final double kFirstExtrusionLengthInches = 17; // TODO
+    public static final double kFirstExtrusionLengthInches = 17;
     public static final double kFirstExtrusionLengthMeters =
         Units.inchesToMeters(kFirstExtrusionLengthInches);
 
-    // Second and Third extrusion lengths are without the end caps
+    // Second and Third extrusion lengths are without the retention hardware,
     // which are retained within their encapsulating extrusions.
-    public static final double kSecondExtrusionLengthInches = 25; // TODO
+    public static final double kSecondExtrusionLengthInches = 25.25;
     public static final double kSecondExtrusionLengthMeters =
         Units.inchesToMeters(kSecondExtrusionLengthInches);
 
-    public static final double kThirdExtrusionLengthInches = 18; // TODO
+    public static final double kThirdExtrusionLengthInches = 17;
     public static final double kThirdExtrusionLengthMeters =
         Units.inchesToMeters(kThirdExtrusionLengthInches);
 
-    public static final double kFullyRetractedLengthInches = 20.625; // TODO
-    public static final double kFullyRetractedLengthMeters =
-        Units.inchesToMeters(kFullyRetractedLengthInches); // TODO
 
-    public static final double kArmMassLbs = 6.097394715877;
+    public static final double kFullyRetractedLengthInches = 20.625;
+    public static final double kFullyRetractedLengthMeters =
+        Units.inchesToMeters(kFullyRetractedLengthInches);
+
+    public static final double kFullyExtendedLengthInches = 60;
+    public static final double kFullyExtendedLengthMeters = Units.inchesToMeters(kFullyExtendedLengthInches);
+
+
+    public static final double kArmMassLbs = 5.169;
     public static final double kArmMassKg = Units.lbsToKilograms(kArmMassLbs);
   }
 
   public static final class Effector {
-    // This includes the mounting hardware onto the third extrusion which is why it lacks it.
+    // This includes the arm mount's length
     public static final double kLengthInches = 15.250; // TODO
     public static final double kLengthMeters = Units.inchesToMeters(kLengthInches);
 
-    public static final double kEffectorMassLbs = 6.605233946065;
+    public static final double kEffectorMassLbs = 6.721;
     public static final double kEffectorMassKg = Units.lbsToKilograms(kEffectorMassLbs);
   }
 }

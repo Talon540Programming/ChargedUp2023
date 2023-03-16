@@ -14,15 +14,15 @@ public class RobotLimits {
   public static final double kMaxArmAngleRadians = Math.PI; // TODO
   public static final double kMinArmAngleRadians = 0; // TODO
 
-  public static final double kMaxDrivetrainVelocityMetersPerSecond = 4; // TODO
-  public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5; // TODO
+  public static final double kMaxDrivetrainVelocityMetersPerSecond = 0; // TODO
+  public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 0; // TODO
 
   public static final double kMaxArmVelocityRadPerSecond = 0; // TODO
   public static final double kMaxArmAccelerationRadPerSecondSquared = 0; // TODO
 
-  public static final double kMinArmLengthInches = 20.625;
+  public static final double kMinArmLengthInches = RobotDimensions.Arm.kFullyRetractedLengthInches;
   public static final double kMinArmLengthMeters = Units.inchesToMeters(kMinArmLengthInches);
 
-  public static final double kMaxArmLengthInches = 61.625;
+  public static final double kMaxArmLengthInches = RobotDimensions.Arm.kFullyExtendedLengthInches;
   public static final double kMaxArmLengthMeters = Units.inchesToMeters(kMaxArmLengthInches);
 }
