@@ -1,7 +1,5 @@
 package frc.robot.constants;
 
-import edu.wpi.first.wpilibj.I2C;
-
 public final class HardwareDevices {
   public static final int kDriverXboxControllerPort = 0;
   public static final int kDepositionXboxControllerPort = 1;

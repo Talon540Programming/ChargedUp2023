@@ -3,7 +3,6 @@ package frc.robot.arm.extension;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
-
 import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.Constants;
 

@@ -55,14 +55,13 @@ public class RobotDimensions {
     public static final double kThirdExtrusionLengthMeters =
         Units.inchesToMeters(kThirdExtrusionLengthInches);
 
-
     public static final double kFullyRetractedLengthInches = 20.625;
     public static final double kFullyRetractedLengthMeters =
         Units.inchesToMeters(kFullyRetractedLengthInches);
 
     public static final double kFullyExtendedLengthInches = 60;
-    public static final double kFullyExtendedLengthMeters = Units.inchesToMeters(kFullyExtendedLengthInches);
-
+    public static final double kFullyExtendedLengthMeters =
+        Units.inchesToMeters(kFullyExtendedLengthInches);
 
     public static final double kArmMassLbs = 5.169;
     public static final double kArmMassKg = Units.lbsToKilograms(kArmMassLbs);

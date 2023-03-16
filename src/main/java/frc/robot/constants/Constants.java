@@ -108,7 +108,8 @@ public final class Constants {
     public static final boolean kExtensionInverted = false; // TODO
 
     @SuppressWarnings("PointlessArithmeticExpression")
-    public static final double kRotationGearRatio = (4.0 / 1.0) * (10.0 / 1.0) * (66.0 / 18.0); // TODO
+    public static final double kRotationGearRatio =
+        (4.0 / 1.0) * (10.0 / 1.0) * (66.0 / 18.0); // TODO
 
     @SuppressWarnings("PointlessArithmeticExpression")
     public static final double kExtensionGearRatio = (4.0 / 1.0); // TODO
@@ -183,7 +184,7 @@ public final class Constants {
     }
   }
 
-  public enum GamePiece {    
+  public enum GamePiece {
     Cone(new Color8Bit(0, 0, 0)), // TODO
     Cube(new Color8Bit(0, 0, 0)); // TODO
 
