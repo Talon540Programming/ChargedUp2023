@@ -10,6 +10,10 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.LinearSystemSim;
 
+/**
+ * Represents a Sim of a Single Joined Arm that has variable length and center of mass. Credit WPI
+ * and Contributors for source.
+ */
 public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
   private final DCMotor m_gearbox;
   private final double m_gearing;
