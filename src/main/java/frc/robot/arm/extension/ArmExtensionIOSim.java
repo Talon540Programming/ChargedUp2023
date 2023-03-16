@@ -16,8 +16,8 @@ public class ArmExtensionIOSim implements ArmExtensionIO {
             Constants.Arm.kExtensionGearRatio,
             RobotDimensions.Effector.kEffectorMassKg,
             Constants.Arm.kExtensionWinchRadiusMeters,
-            RobotLimits.kMinArmLengthMeters,
-            RobotLimits.kMaxArmLengthMeters,
+            RobotLimits.kMinArmLengthMeters + RobotDimensions.Effector.kLengthMeters,
+            RobotLimits.kMaxArmLengthMeters + RobotDimensions.Effector.kLengthMeters,
             false);
   }
 

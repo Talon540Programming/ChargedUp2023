@@ -2,6 +2,7 @@ package frc.robot.constants;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
 // In general, we use metric units within the robot code. When importing from code,
@@ -39,7 +40,7 @@ public class RobotDimensions {
     public static final double kFulcrumHeightInches = 17;
     public static final double kFulcrumHeightMeters = Units.inchesToMeters(kFulcrumHeightInches);
 
-    public static final Pose3d kFulcrumPose = new Pose3d(0, 0, kFulcrumHeightMeters, new Rotation3d());
+    public static final Translation3d kFulcrumPose = new Translation3d(0, 0, kFulcrumHeightMeters);
 
     // First extrusion is from fulcrum, not end of extrusion
     public static final double kFirstExtrusionLengthInches = 17; // TODO
@@ -66,7 +67,7 @@ public class RobotDimensions {
 
   public static final class Effector {
     // This includes the mounting hardware onto the third extrusion which is why it lacks it.
-    public static final double kLengthInches = 14.366; // TODO
+    public static final double kLengthInches = 15.250; // TODO
     public static final double kLengthMeters = Units.inchesToMeters(kLengthInches);
 
     public static final double kEffectorMassLbs = 6.605233946065;
