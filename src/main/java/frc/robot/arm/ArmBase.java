@@ -45,7 +45,8 @@ public class ArmBase extends SubsystemBase {
     Logger.getInstance().processInputs("Arm/TargetState", targetState);
 
     m_measuredVisualizer.update(
-      m_armRotationInputs.AbsoluteArmPositionRad, m_armExtensionInputs.PivotToEffectorDistanceMeters);
+        m_armRotationInputs.AbsoluteArmPositionRad,
+        m_armExtensionInputs.PivotToEffectorDistanceMeters);
     m_targetVisualizer.update(targetState.AngleRadians, targetState.ArmLengthMeters);
   }
 
@@ -73,6 +74,7 @@ public class ArmBase extends SubsystemBase {
    * @return total length of the arm system.
    */
   public double getTotalArmLength() {
-    return m_armExtensionInputs.PivotToEffectorDistanceMeters + RobotDimensions.Effector.kLengthMeters;
+    return m_armExtensionInputs.PivotToEffectorDistanceMeters
+        + RobotDimensions.Effector.kLengthMeters;
   }
 }
