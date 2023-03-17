@@ -99,7 +99,6 @@ public class RobotContainer {
     }
 
     // Create missing subsystems
-
     m_driveBase = m_driveBase != null ? m_driveBase : new DriveBase(new DriveIO() {});
     m_armBase =
         m_armBase != null
