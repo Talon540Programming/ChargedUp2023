@@ -10,13 +10,14 @@ public class ArmRotationIOSim implements ArmRotationIO {
   private final VariableSingleJoinedArmSim m_armSim;
 
   public ArmRotationIOSim(boolean simulateGravity) {
+    double length = RobotDimensions.Arm.kFullyRetractedLengthMeters + RobotDimensions.Effector.kLengthMeters;
     this.m_armSim =
         new VariableSingleJoinedArmSim(
             DCMotor.getNEO(2),
             Constants.Arm.kRotationGearRatio,
             Constants.Arm.kArmKinematics.calculateMoI(
-                RobotDimensions.Arm.kFullyRetractedLengthMeters),
-            RobotDimensions.Arm.kFullyRetractedLengthMeters,
+              length, RobotDimensions.kArmAndEffectorWeightKg),
+            length,
             Constants.Arm.kArmKinematics,
             simulateGravity);
   }
@@ -41,6 +42,6 @@ public class ArmRotationIOSim implements ArmRotationIO {
   public void updateArmLength(double pivotToEffectorMeters) {
     m_armSim.updateArmLength(pivotToEffectorMeters);
 
-    m_armSim.updateMoI(Constants.Arm.kArmKinematics.calculateMoI(pivotToEffectorMeters));
+    m_armSim.updateMoI(Constants.Arm.kArmKinematics.calculateMoI(pivotToEffectorMeters + RobotDimensions.Effector.kLengthMeters, RobotDimensions.kArmAndEffectorWeightKg));
   }
 }

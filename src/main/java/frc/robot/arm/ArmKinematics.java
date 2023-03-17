@@ -122,7 +122,7 @@ public class ArmKinematics {
    *     effector.
    * @return estimated MoI of the Arm and Effector
    */
-  public double calculateMoI(double pivotToEffectorMeters) {
+  public double calculateMoI(double length, double mass) {
     // double armMass = RobotDimensions.Arm.kArmMassKg; // Mass of just the arm.
     // double armDistance =
     //     calculateArmCenterOfMassDistance(
@@ -145,7 +145,7 @@ public class ArmKinematics {
     //     + counterweightMass * Math.pow(counterweightDistance, 2)
     //     + effectorMass * Math.pow(effectorDistance, 2);
 
-    return 0.0;
+    return (1.0 / 3.0) * mass * Math.pow(length, 2);
   }
 
   /**
