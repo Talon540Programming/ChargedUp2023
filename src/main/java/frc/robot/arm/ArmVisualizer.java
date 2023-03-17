@@ -86,19 +86,15 @@ public class ArmVisualizer {
    * <p>For 3d Objects, the estimated position of the end of each extrusion / stage is updated.
    *
    * @param armAngleRad angle of the arm.
-   * @param armLengthMeters total distance of the arm from the fulcrum to the end of the effector in
-   *     meters.
+   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the effector.
    */
-  public void update(double armAngleRad, double armLengthMeters) {
+  public void update(double armAngleRad, double pivotToEffectorMeters) {
     Translation3d fulcrumTrans = m_armKinematics.getFulcrumPose();
 
     // Calculate the position of the required components
     Pose3d firstExtrusionPose = m_armKinematics.calculateFirstExtrusionPose(armAngleRad);
-    Pose3d secondExtrusionPose =
-        m_armKinematics.calculateSecondExtrusionPose(armLengthMeters, armAngleRad);
-    Pose3d thirdExtrusionPose =
-        m_armKinematics.calculateThirdExtrusionPose(armLengthMeters, armAngleRad);
-    Pose3d effectorPose = thirdExtrusionPose;
+    Pose3d secondExtrusionPose = m_armKinematics.calculateSecondExtrusionPose(pivotToEffectorMeters, armAngleRad);
+    Pose3d thirdExtrusionPose = m_armKinematics.calculateThirdExtrusionPose(pivotToEffectorMeters, armAngleRad);
 
     // Update the 2d Ligaments with their correct data
     m_firstExtrusion.setAngle(Math.toDegrees(armAngleRad));
@@ -120,6 +116,7 @@ public class ArmVisualizer {
             firstExtrusionPose,
             secondExtrusionPose,
             thirdExtrusionPose,
-            effectorPose);
+            thirdExtrusionPose // Log the third extrusion pose again for the effector
+        );
   }
 }

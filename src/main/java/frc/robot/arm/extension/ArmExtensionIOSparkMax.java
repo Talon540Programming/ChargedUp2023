@@ -39,7 +39,7 @@ public class ArmExtensionIOSparkMax implements ArmExtensionIO {
 
   @Override
   public void updateInputs(ArmExtensionIOInputs inputs) {
-    inputs.DistanceTraveledMeters = m_winchEncoder.getPosition();
+    inputs.PivotToEffectorDistanceMeters = m_winchEncoder.getPosition();
     inputs.VelocityMetersPerSecond = m_winchEncoder.getVelocity();
     inputs.CurrentAmps = m_winchMotor.getOutputCurrent();
     inputs.TemperatureCelsius = m_winchMotor.getMotorTemperature();

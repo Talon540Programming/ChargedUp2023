@@ -17,8 +17,8 @@ public class ArmExtensionIOSim implements ArmExtensionIO {
             Constants.Arm.kExtensionGearRatio,
             RobotDimensions.Effector.kEffectorMassKg,
             Constants.Arm.kExtensionWinchRadiusMeters,
-            RobotLimits.kMinArmLengthMeters,
-            RobotLimits.kMaxArmLengthMeters,
+            RobotLimits.kMinArmLengthMeters, // Min distance from pivot to effector
+            RobotLimits.kMaxArmLengthMeters, // Max distance from pivot to effector
             false);
   }
 
@@ -27,7 +27,7 @@ public class ArmExtensionIOSim implements ArmExtensionIO {
     m_armSim.update(Constants.loopPeriodSecs);
 
     inputs.CurrentAmps = m_armSim.getCurrentDrawAmps();
-    inputs.DistanceTraveledMeters = m_armSim.getPositionMeters();
+    inputs.PivotToEffectorDistanceMeters = m_armSim.getPositionMeters();
     inputs.VelocityMetersPerSecond = m_armSim.getVelocityMetersPerSecond();
   }
 

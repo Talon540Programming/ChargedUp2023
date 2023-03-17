@@ -41,8 +41,8 @@ public class ArmRotationIOSim implements ArmRotationIO {
   }
 
   @Override
-  public void updateArmLength(double armLengthMeters) {
-    m_armSim.updateArmLength(armLengthMeters);
+  public void updateArmLength(double pivotToEffectorMeters) {
+    m_armSim.updateArmLength(pivotToEffectorMeters);
 
     double armMoI =
         Constants.Arm.kArmKinematics.calculateMoI(
