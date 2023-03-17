@@ -9,15 +9,14 @@ import frc.robot.constants.Constants;
 
 /** ArmRotationIO using 2 SparkMax motor controllers. */
 public class ArmRotationIOSparkMax implements ArmRotationIO {
-  private final CANSparkMax m_rotationLeader, m_rotationFollower;
-  private final WPI_CANCoder m_absoluteEncoder;
+  private final CANSparkMax m_leader, m_follower;
 
   /**
    * Create an IO layer for controlling two SparkMaxes for ArmRotation.
    *
-   * @param rotationLeader id of leader SparkMax.
-   * @param rotationFollower id of the follower SparkMax
-   * @param rotationInverted whether the direction of the motors should be inverted.
+   * @param leader id of leader SparkMax.
+   * @param follower id of the follower SparkMax
+   * @param inverted whether the direction of the motors should be inverted.
    */
   public ArmRotationIOSparkMax(
       int rotationLeader,
@@ -28,10 +27,8 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
     // CONFIGURE ENCODER
     this.m_absoluteEncoder = new WPI_CANCoder(encoderID);
 
-    CANCoderConfiguration config = new CANCoderConfiguration();
-    config.sensorCoefficient = 2 * Math.PI / 4096.0;
-    config.unitString = "rad";
-    config.magnetOffsetDegrees = absoluteEncoderOffset;
+    m_follower.follow(m_leader);
+    m_leader.setInverted(inverted);
 
     this.m_absoluteEncoder.configAllSettings(config);
 
@@ -41,16 +38,8 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
     this.m_rotationFollower =
         new CANSparkMax(rotationFollower, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    m_rotationFollower.follow(m_rotationLeader);
-    m_rotationLeader.setInverted(rotationInverted);
-
-    m_rotationLeader.setSmartCurrentLimit(30);
-    m_rotationFollower.setSmartCurrentLimit(30);
-
-    m_rotationLeader.enableVoltageCompensation(12.0);
-
-    m_rotationLeader.setCANTimeout(0);
-    m_rotationFollower.setCANTimeout(0);
+    m_leader.setCANTimeout(0);
+    m_follower.setCANTimeout(0);
 
     setNeutralMode(Constants.NeutralMode.BRAKE);
   }
@@ -76,7 +65,7 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
 
   @Override
   public void setNeutralMode(Constants.NeutralMode mode) {
-    m_rotationLeader.setIdleMode(mode.toIdleMode());
-    m_rotationFollower.setIdleMode(mode.toIdleMode());
+    m_leader.setIdleMode(mode.toIdleMode());
+    m_follower.setIdleMode(mode.toIdleMode());
   }
 }
