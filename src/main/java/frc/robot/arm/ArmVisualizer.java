@@ -98,6 +98,8 @@ public class ArmVisualizer {
         m_armKinematics.calculateSecondExtrusionPose(armLengthMeters, armAngleRad);
     Pose3d thirdExtrusionPose =
         m_armKinematics.calculateThirdExtrusionPose(armLengthMeters, armAngleRad);
+    Pose3d effectorPose = thirdExtrusionPose;
+
 
     // Update the 2d Ligaments with their correct data
     m_firstExtrusion.setAngle(Math.toDegrees(armAngleRad));
@@ -118,6 +120,8 @@ public class ArmVisualizer {
             "Arm/Mechanism3d/" + m_key,
             firstExtrusionPose,
             secondExtrusionPose,
-            thirdExtrusionPose);
+            thirdExtrusionPose,
+            effectorPose
+        );
   }
 }

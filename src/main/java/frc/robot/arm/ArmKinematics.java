@@ -85,7 +85,7 @@ public class ArmKinematics {
             + RobotDimensions.Arm.kThirdExtrusionLengthMeters;
 
     totalLengthMeters =
-        MathUtil.clamp(totalLengthMeters, minLength, maxLength) + Units.inchesToMeters(0.5);
+        MathUtil.clamp(totalLengthMeters, minLength, maxLength) + Units.inchesToMeters(1);
 
     return calculatePose(totalLengthMeters, armAngleRad);
   }
