@@ -4,11 +4,11 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
 import frc.robot.constants.RobotDimensions;
-import frc.robot.constants.RobotLimits;
 
 /**
  * Kinematics helper class that can help calculate the state of the Arm for either its current or
- * desired state.
+ * desired state. All length measurements should be from the pivot point (center of the rotation
+ * shaft) to the origin of the effector (beginning of the effector).
  */
 public class ArmKinematics {
   private final Translation3d fulcrumPosition;
@@ -44,67 +44,62 @@ public class ArmKinematics {
   }
 
   /**
-   * Calculate the position of the end of the second extrusion / stage of the telescoping arm.
+   * Calculate the distance from the end of the second extrusion to the pivot point.
    *
-   * @param totalLengthMeters distance from the fulcrum to the end of the effector (including the
-   *     effector itself).
-   * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in
-   *     radians.
-   * @return estimated position of the end of the second extrusion in the Robot Coordinate System.
+   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
+   * @return estimated distance from the end of the second extrusion to the pivot point.
    */
-  public Pose3d calculateSecondExtrusionPose(double totalLengthMeters, double armAngleRad) {
-    // Distance from the fulcrum to the end of the third extrusion.
-    totalLengthMeters -= RobotDimensions.Effector.kLengthMeters;
-
-    double minLength = RobotDimensions.Arm.kFirstExtrusionLengthMeters + Units.inchesToMeters(2.5);
+  public double calculateSecondExtrusionDistance(double pivotToEffectorMeters) {
+    double minLength = RobotDimensions.Arm.kFirstExtrusionLengthMeters;
     double maxLength =
         RobotDimensions.Arm.kFirstExtrusionLengthMeters
             + RobotDimensions.Arm.kSecondExtrusionLengthMeters;
 
-    totalLengthMeters =
-        MathUtil.clamp(totalLengthMeters, minLength, maxLength) - Units.inchesToMeters(1);
-
-    return calculatePose(totalLengthMeters, armAngleRad);
+    return MathUtil.clamp(pivotToEffectorMeters, minLength, maxLength) - Units.inchesToMeters(1);
   }
 
   /**
-   * Calculate the position of the end of the third extrusion / stage of the telescoping arm.
+   * Calculate the position of the end of the second extrusion / stage of the telescoping arm.
    *
-   * @param totalLengthMeters distance from the fulcrum to the end of the effector (including the
-   *     effector itself).
+   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
    * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in
    *     radians.
-   * @return estimated position of the end of the third extrusion in the Robot Coordinate System.
+   * @return estimated position of the end of the second extrusion in the Robot Coordinate System.
    */
-  public Pose3d calculateThirdExtrusionPose(double totalLengthMeters, double armAngleRad) {
-    totalLengthMeters -= RobotDimensions.Effector.kLengthMeters;
+  public Pose3d calculateSecondExtrusionPose(double pivotToEffectorMeters, double armAngleRad) {
+    return calculatePose(calculateSecondExtrusionDistance(pivotToEffectorMeters), armAngleRad);
+  }
 
-    double minLength = RobotDimensions.Arm.kFirstExtrusionLengthMeters + Units.inchesToMeters(3.5);
+  /**
+   * Calculate the distance from the end of the third extrusion to the pivot point.
+   *
+   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
+   * @return estimated distance from the end of the third extrusion to the pivot point.
+   */
+  public double calculateThirdExtrusionDistance(double pivotToEffectorMeters) {
+    double minLength = RobotDimensions.Arm.kFirstExtrusionLengthMeters;
     double maxLength =
         RobotDimensions.Arm.kFirstExtrusionLengthMeters
             + RobotDimensions.Arm.kSecondExtrusionLengthMeters
             + RobotDimensions.Arm.kThirdExtrusionLengthMeters;
 
-    totalLengthMeters = MathUtil.clamp(totalLengthMeters, minLength, maxLength);
-
-    return calculatePose(totalLengthMeters, armAngleRad);
+    return MathUtil.clamp(pivotToEffectorMeters, minLength, maxLength);
   }
 
   /**
-   * Calculate the position of the effector (object at the end of the arm);
+   * Calculate the position of the end of the third extrusion / stage of the telescoping arm.
    *
-   * @param totalLengthMeters distance from the fulcrum to the end of the effector (including the
-   *     effector itself).
+   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
    * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in
    *     radians.
-   * @return estimated position of the effector in the Robot Coordinate System.
+   * @return estimated position of the end of the third extrusion in the Robot Coordinate System.
    */
-  public Pose3d calculateEffectorPose(double totalLengthMeters, double armAngleRad) {
-    totalLengthMeters =
-        MathUtil.clamp(
-            totalLengthMeters, RobotLimits.kMinArmLengthMeters, RobotLimits.kMaxArmLengthMeters);
-
-    return calculatePose(totalLengthMeters, armAngleRad);
+  public Pose3d calculateThirdExtrusionPose(double pivotToEffectorMeters, double armAngleRad) {
+    return calculatePose(calculateThirdExtrusionDistance(pivotToEffectorMeters), armAngleRad);
   }
 
   /**
@@ -123,29 +118,65 @@ public class ArmKinematics {
    * Calculate the Moment of Inertia of the arm based on its length, mass of the arm, and mass of
    * the effector.
    *
-   * @param totalLengthMeters length of the arm and effector in meters.
-   * @param massKg mass items of the arm. Include the effector in this.
+   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
    * @return estimated MoI of the Arm and Effector
    */
-  public double calculateMoI(double totalLengthMeters, double... massKg) {
-    // TODO, make this more accurate to the actual arm
-    double totalMassKg = 0;
+  public double calculateMoI(double pivotToEffectorMeters) {
+    // double armMass = RobotDimensions.Arm.kArmMassKg; // Mass of just the arm.
+    // double armDistance =
+    //     calculateArmCenterOfMassDistance(
+    //         pivotToEffectorMeters); // Distance from the pivot point to the center of mass of the
+    // // arm.
+    // double counterweightMass =
+    //     RobotDimensions.Arm.kCounterweightMassKg; // Mass of the counterweight
+    // double counterweightDistance =
+    //     RobotDimensions.Arm
+    //         .kCounterweightCenterOfMassOffsetMeters; // Distance from the pivot point to the center
+    // // of mass of the counterweight.
+    // double effectorMass = RobotDimensions.Effector.kEffectorMassKg; // Mass of the effector
+    // double effectorDistance =
+    //     calculateThirdExtrusionDistance(pivotToEffectorMeters)
+    //         + RobotDimensions.Effector
+    //             .kEffectorCenterOfMassOffsetMeters; // Distance from the pivot point to the center
+    // // of mass of the effector.
 
-    for (double mass : massKg) totalMassKg += mass;
+    // return (1.0 / 3.0) * armMass * Math.pow(armDistance, 2)
+    //     + counterweightMass * Math.pow(counterweightDistance, 2)
+    //     + effectorMass * Math.pow(effectorDistance, 2);
 
-    return (1.0 / 3.0) * totalMassKg * Math.pow(totalLengthMeters, 2);
+    return 0.0;
+  }
+
+  /**
+   * Estimates the distance from the pivot point to the center of mass of just the arm (without the
+   * counterweight and the effector). <a href="https://www.desmos.com/calculator/y82f7lckoo">...</a>
+   *
+   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
+   * @return estimated distance in meters.
+   */
+  public static double calculateArmCenterOfMassDistance(double pivotToEffectorMeters) {
+    double pivotToEffectorInches = Units.metersToInches(pivotToEffectorMeters);
+
+    if (pivotToEffectorInches < 40) {
+      return Units.inchesToMeters(0.465 * pivotToEffectorInches - 0.72744048);
+    } else {
+      return Units.inchesToMeters(0.209 * pivotToEffectorInches + 9.5161);
+    }
   }
 
   /**
    * Check if a given length and angle would cause the arm to get close to, or hit the floor in the
    * front of the robot.
    *
-   * @param totalLengthMeters length of the arm and effector in meters.
+   * @param totalLengthMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
    * @param armAngleRadians angle of the arm in radians.
    * @return whether the arm would intersect in front of the robot.
    */
   public boolean wouldIntersectForward(double totalLengthMeters, double armAngleRadians) {
-    Pose3d effectorPose = calculatePose(totalLengthMeters, armAngleRadians);
+    Pose3d effectorPose = calculatePose((totalLengthMeters), armAngleRadians);
 
     return effectorPose.getZ() <= RobotDimensions.Effector.kWidthMeters / 2
         && effectorPose.getX() > 0;
@@ -155,12 +186,13 @@ public class ArmKinematics {
    * Check if a given length and angle would cause the arm to get close to, or hit the floor in the
    * back of the robot.
    *
-   * @param totalLengthMeters length of the arm and effector in meters.
+   * @param totalLengthMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
    * @param armAngleRadians angle of the arm in radians.
    * @return whether the arm would intersect in the back of the robot.
    */
   public boolean wouldIntersectRear(double totalLengthMeters, double armAngleRadians) {
-    Pose3d effectorPose = calculatePose(totalLengthMeters, armAngleRadians);
+    Pose3d effectorPose = calculatePose((totalLengthMeters), armAngleRadians);
 
     return effectorPose.getZ() <= RobotDimensions.Effector.kWidthMeters / 2
         && effectorPose.getX() < 0;
@@ -170,26 +202,29 @@ public class ArmKinematics {
    * Get the angle of the arm of the lowest non-intersecting point at the front of the robot. This
    * is usually the floor.
    *
-   * @param totalLengthMeters length of the arm in meters.
+   * @param totalLengthMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
    * @return estimated angle of the arm.
    */
   public double lowestForwardAngle(double totalLengthMeters) {
     return -Math.asin(
-        (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2)) / totalLengthMeters);
+        (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2))
+            / (totalLengthMeters));
   }
 
   /**
    * Get the angle of the arm of the lowest non-intersecting point at the back of the robot. This is
    * usually the floor.
    *
-   * @param totalLengthMeters length of the arm in meters.
+   * @param totalLengthMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
    * @return estimated angle of the arm.
    */
   public double lowestRearAngle(double totalLengthMeters) {
     return Math.PI
         + Math.asin(
             (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2))
-                / totalLengthMeters);
+                / (totalLengthMeters));
   }
 
   /**
