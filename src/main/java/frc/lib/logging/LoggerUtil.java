@@ -91,13 +91,10 @@ public class LoggerUtil {
           Logger.getInstance().recordOutput("CommandsAll/" + name, count > 0);
         };
     CommandScheduler.getInstance()
-        .onCommandInitialize(
-            (Command command) -> logCommandFunction.accept(command, true));
+        .onCommandInitialize((Command command) -> logCommandFunction.accept(command, true));
     CommandScheduler.getInstance()
-        .onCommandFinish(
-            (Command command) -> logCommandFunction.accept(command, false));
+        .onCommandFinish((Command command) -> logCommandFunction.accept(command, false));
     CommandScheduler.getInstance()
-        .onCommandInterrupt(
-            (Command command) -> logCommandFunction.accept(command, false));
+        .onCommandInterrupt((Command command) -> logCommandFunction.accept(command, false));
   }
 }
