@@ -188,7 +188,7 @@ public final class Constants {
     Cone(new Color8Bit(0, 0, 0)), // TODO
     Cube(new Color8Bit(0, 0, 0)); // TODO
 
-    private final double kGamepeiceColorTolerance = 25; // TODO
+    private final static double kGamepeiceColorTolerance = 25; // TODO
     public final Color8Bit colorValue;
 
     GamePiece(Color8Bit color) {

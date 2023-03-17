@@ -92,18 +92,12 @@ public class LoggerUtil {
         };
     CommandScheduler.getInstance()
         .onCommandInitialize(
-            (Command command) -> {
-              logCommandFunction.accept(command, true);
-            });
+            (Command command) -> logCommandFunction.accept(command, true));
     CommandScheduler.getInstance()
         .onCommandFinish(
-            (Command command) -> {
-              logCommandFunction.accept(command, false);
-            });
+            (Command command) -> logCommandFunction.accept(command, false));
     CommandScheduler.getInstance()
         .onCommandInterrupt(
-            (Command command) -> {
-              logCommandFunction.accept(command, false);
-            });
+            (Command command) -> logCommandFunction.accept(command, false));
   }
 }

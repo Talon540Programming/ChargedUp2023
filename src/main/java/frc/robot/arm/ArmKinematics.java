@@ -93,7 +93,7 @@ public class ArmKinematics {
   /**
    * Calculate the position of the effector (object at the end of the arm);
    *
-   * @param distanceMeters distance from the fulcrum to the end of the effector (including the
+   * @param totalLengthMeters distance from the fulcrum to the end of the effector (including the
    *     effector itself).
    * @param armAngleRad the angle made between the arm and the plane bisecting the fulcrum in
    *     radians.
@@ -120,15 +120,15 @@ public class ArmKinematics {
   }
 
   /**
-   * Calculate the Moment of Inertia of the arm based on it's length, mass of the arm, and mass of
-   * the effetor.
+   * Calculate the Moment of Inertia of the arm based on its length, mass of the arm, and mass of
+   * the effector.
    *
-   * @param armLengthMeters length of the arm and effector in meters.
+   * @param totalLengthMeters length of the arm and effector in meters.
    * @param massKg mass items of the arm. Include the effector in this.
    * @return estimated MoI of the Arm and Effector
    */
   public double calculateMoI(double totalLengthMeters, double... massKg) {
-    // TODO, make this more accruate to the actual arm
+    // TODO, make this more accurate to the actual arm
     double totalMassKg = 0;
 
     for (double mass : massKg) totalMassKg += mass;
@@ -142,7 +142,7 @@ public class ArmKinematics {
    *
    * @param totalLengthMeters length of the arm and effector in meters.
    * @param armAngleRadians angle of the arm in radians.
-   * @return
+   * @return whether the arm would intersect in front of the robot.
    */
   public boolean wouldIntersectForward(double totalLengthMeters, double armAngleRadians) {
     Pose3d effectorPose = calculatePose(totalLengthMeters, armAngleRadians);
@@ -156,7 +156,7 @@ public class ArmKinematics {
    *
    * @param totalLengthMeters length of the arm and effector in meters.
    * @param armAngleRadians angle of the arm in radians.
-   * @return
+   * @return  whether the arm would intersect in the back of the robot.
    */
   public boolean wouldIntersectRear(double totalLengthMeters, double armAngleRadians) {
     Pose3d effectorPose = calculatePose(totalLengthMeters, armAngleRadians);
