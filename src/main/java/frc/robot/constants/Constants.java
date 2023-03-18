@@ -25,7 +25,6 @@ public final class Constants {
 
   public enum RobotType {
     ROBOT_2023C,
-    ROBOT_2023P,
     ROBOT_SIMBOT
   }
 
@@ -48,7 +47,7 @@ public final class Constants {
 
   public static RobotMode getRobotMode() {
     return switch (getRobotType()) {
-      case ROBOT_2023C, ROBOT_2023P -> RobotBase.isReal() ? RobotMode.REAL : RobotMode.REPLAY;
+      case ROBOT_2023C -> RobotBase.isReal() ? RobotMode.REAL : RobotMode.REPLAY;
       case ROBOT_SIMBOT -> RobotMode.SIM;
     };
   }

@@ -75,22 +75,6 @@ public class RobotContainer {
                       HardwareDevices.COMP2023.Arm.kArmRotationEncoderId,
                       Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees));
         }
-        case ROBOT_2023P -> {
-          m_driveBase =
-              new DriveBase(
-                  new DriveIOFalcon(
-                      HardwareDevices.PROTO2023.Drivetrain.kLeftLeaderId,
-                      HardwareDevices.PROTO2023.Drivetrain.kLeftFollowerId,
-                      HardwareDevices.PROTO2023.Drivetrain.kRightLeaderId,
-                      HardwareDevices.PROTO2023.Drivetrain.kRightFollowerId,
-                      HardwareDevices.PROTO2023.kRobotGyroId,
-                      Constants.Drivetrain.kDrivetrainGearRatio,
-                      Constants.Drivetrain.kWheelRadiusMeters,
-                      Constants.Drivetrain.kLeftSideInverted,
-                      Constants.Drivetrain.kLeftSensorInverted,
-                      Constants.Drivetrain.kRightSideInverted,
-                      Constants.Drivetrain.kRightSensorInverted));
-        }
         case ROBOT_SIMBOT -> {
           m_driveBase = new DriveBase(new DriveIOSim(false));
           m_armBase = new ArmBase(new ArmExtensionIOSim(), new ArmRotationIOSim(true));
