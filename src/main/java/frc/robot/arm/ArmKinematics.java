@@ -116,14 +116,17 @@ public class ArmKinematics {
 
   /**
    * Calculate the Moment of Inertia of the arm based on its length, mass of the arm, and mass of
-   * the effector. The estimation of the MoI is found <a href="https://www.desmos.com/calculator/a6wx6jikow">here</a>.
+   * the effector. The estimation of the MoI is found <a
+   * href="https://www.desmos.com/calculator/a6wx6jikow">here</a>.
    *
    * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
    *     effector.
    * @return estimated MoI of the Arm and Effector
    */
   public static double calculateMoI(double pivotToEffectorMeters) {
-    return 3.08887 * Math.pow(pivotToEffectorMeters, 2) + 2.10357 * pivotToEffectorMeters - 0.0945233;
+    return 3.08887 * Math.pow(pivotToEffectorMeters, 2)
+        + 2.10357 * pivotToEffectorMeters
+        - 0.0945233;
   }
 
   /**
