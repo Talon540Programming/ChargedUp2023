@@ -116,7 +116,7 @@ public class ArmKinematics {
 
   /**
    * Calculate the Moment of Inertia of the arm based on its length, mass of the arm, and mass of
-   * the effector.
+   * the effector. The estimation of the MoI is found <a href="https://www.desmos.com/calculator/a6wx6jikow">here</a>.
    *
    * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
    *     effector.

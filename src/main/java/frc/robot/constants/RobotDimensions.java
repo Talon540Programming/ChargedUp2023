@@ -66,7 +66,7 @@ public class RobotDimensions {
     public static final double kArmMassLbs = 4.1470691;
     public static final double kArmMassKg = Units.lbsToKilograms(kArmMassLbs);
 
-    public static final double kCounterweightCenterOfMassOffsetInches = 6.499;
+    public static final double kCounterweightCenterOfMassOffsetInches = -6.499;
     public static final double kCounterweightCenterOfMassOffsetMeters =
         Units.inchesToMeters(kCounterweightCenterOfMassOffsetInches);
 
@@ -82,7 +82,7 @@ public class RobotDimensions {
     public static final double kWidthInches = 4.875;
     public static final double kWidthMeters = Units.inchesToMeters(kWidthInches);
 
-    public static final double kEffectorCenterOfMassOffsetInches = -8.52405;
+    public static final double kEffectorCenterOfMassOffsetInches = 8.52405;
     public static final double kEffectorCenterOfMassOffsetMeters =
         Units.inchesToMeters(kEffectorCenterOfMassOffsetInches);
 
