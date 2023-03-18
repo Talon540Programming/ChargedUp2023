@@ -3,6 +3,7 @@ package frc.robot.arm.extension;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.Constants;
 
 /** ArmExtensionIO using 1 SparkMax motor controller. */
@@ -38,14 +39,16 @@ public class ArmExtensionIOSparkMax implements ArmExtensionIO {
 
   @Override
   public void updateInputs(ArmExtensionIOInputs inputs) {
-    inputs.DistanceTraveledMeters = m_winchEncoder.getPosition();
-    inputs.VelocityRadiansPerSecond = m_winchEncoder.getVelocity();
+    inputs.PivotToEffectorDistanceMeters = m_winchEncoder.getPosition();
+    inputs.VelocityMetersPerSecond = m_winchEncoder.getVelocity();
     inputs.CurrentAmps = m_winchMotor.getOutputCurrent();
     inputs.TemperatureCelsius = m_winchMotor.getMotorTemperature();
   }
 
   @Override
   public void setVoltage(double voltage) {
+    voltage = MathUtil.clamp(voltage, -12.0, 12.0);
+
     m_winchMotor.setVoltage(voltage);
   }
 

@@ -8,8 +8,8 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ArmExtensionIO extends LoggedIO<ArmExtensionIO.ArmExtensionIOInputs> {
   @AutoLog
   class ArmExtensionIOInputs {
-    public double DistanceTraveledMeters;
-    public double VelocityRadiansPerSecond;
+    public double PivotToEffectorDistanceMeters;
+    public double VelocityMetersPerSecond;
     public double TemperatureCelsius;
     public double CurrentAmps;
   }

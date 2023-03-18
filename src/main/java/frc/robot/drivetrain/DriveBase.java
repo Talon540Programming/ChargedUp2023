@@ -4,6 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
@@ -11,16 +12,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.ArmStateManager;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Drivetrain;
-import frc.robot.sensors.gyro.GyroIO;
-import frc.robot.sensors.gyro.GyroIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class DriveBase extends SubsystemBase {
   private final DriveIO m_driveIO;
   public final DriveIOInputsAutoLogged m_driveInputs = new DriveIOInputsAutoLogged();
-
-  public final GyroIO m_gyroIO;
-  public final GyroIOInputsAutoLogged m_gyroInputs = new GyroIOInputsAutoLogged();
 
   private final DifferentialDrivePoseEstimator m_odometry;
 
@@ -28,26 +24,18 @@ public class DriveBase extends SubsystemBase {
    * Create the drivetrain subsystem.
    *
    * @param driveIO Drive interface to use.
-   * @param gyroIO Gyro interface to use.
    */
-  public DriveBase(DriveIO driveIO, GyroIO gyroIO) {
+  public DriveBase(DriveIO driveIO) {
     this.m_driveIO = driveIO;
-    this.m_gyroIO = gyroIO;
 
     m_driveIO.resetEncoders();
-    m_gyroIO.resetHeading();
+    m_driveIO.resetHeading();
 
     resetNeutralMode();
 
-    m_driveIO.updateInputs(m_driveInputs);
-
     this.m_odometry =
         new DifferentialDrivePoseEstimator(
-            Drivetrain.kDrivetrainKinematics,
-            m_gyroIO.getRotation2d(),
-            m_driveInputs.LeftPositionMeters,
-            m_driveInputs.RightPositionMeters,
-            new Pose2d());
+            Drivetrain.kDrivetrainKinematics, new Rotation2d(), 0.0, 0.0, new Pose2d());
   }
 
   @Override
@@ -55,17 +43,13 @@ public class DriveBase extends SubsystemBase {
     m_driveIO.updateInputs(m_driveInputs);
     Logger.getInstance().processInputs("Drive", m_driveInputs);
 
-    m_gyroIO.updateInputs(m_gyroInputs);
-    Logger.getInstance().processInputs("Drive/Gyro", m_gyroInputs);
-
-    // Data in DriveIO is automatically logged using AutoLog. Odometry is handled in subsystem.
     m_odometry.update(
-        m_gyroIO.getRotation2d(),
+        m_driveIO.getHeading(),
         m_driveInputs.LeftPositionMeters,
         m_driveInputs.RightPositionMeters);
-    Logger.getInstance().recordOutput("Drive/Odometry", getPosition());
+    Logger.getInstance().recordOutput("Odometry", getPosition());
 
-    ArmStateManager.getInstance().updateRobotPitch(m_gyroInputs.GyroPitchRad);
+    ArmStateManager.getInstance().updateRobotPitch(m_driveInputs.GyroPitchRad);
   }
 
   /**
@@ -116,7 +100,10 @@ public class DriveBase extends SubsystemBase {
     double greaterInput = Math.max(Math.abs(forwardPercent), Math.abs(rotationPercent));
     double lesserInput = Math.min(Math.abs(forwardPercent), Math.abs(rotationPercent));
 
-    if (greaterInput == 0) m_driveIO.setVoltage(0, 0);
+    if (greaterInput == 0) {
+      m_driveIO.setVoltage(0, 0);
+      return;
+    }
 
     double saturatedInput = (greaterInput + lesserInput) / greaterInput;
     leftSpeed /= saturatedInput;
@@ -182,7 +169,7 @@ public class DriveBase extends SubsystemBase {
    */
   public void resetPosition(Pose2d position) {
     m_odometry.resetPosition(
-        m_gyroIO.getRotation2d(),
+        m_driveIO.getHeading(),
         m_driveInputs.LeftPositionMeters,
         m_driveInputs.RightPositionMeters,
         position);
@@ -238,7 +225,7 @@ public class DriveBase extends SubsystemBase {
    * @return whether the gyroscope is level.
    */
   public boolean isLevel() {
-    return Math.abs(m_gyroInputs.GyroPitchRad)
+    return Math.abs(m_driveInputs.GyroPitchRad)
         < Math.toRadians(Drivetrain.kRobotStabilizationToleranceDegrees);
   }
 }

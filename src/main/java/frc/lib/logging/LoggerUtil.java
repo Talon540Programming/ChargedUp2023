@@ -3,12 +3,17 @@ package frc.lib.logging;
 import edu.wpi.first.networktables.ConnectionInfo;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.generated.BuildConstants;
 import frc.robot.constants.Constants;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
 import org.littletonrobotics.junction.Logger;
 
 /** Utilities used by the AdvantageKit Logger. */
@@ -69,5 +74,27 @@ public class LoggerUtil {
     Logger.getInstance().recordOutput("NTClients/Names", clientNames.toArray(new String[0]));
     Logger.getInstance()
         .recordOutput("NTClients/Addresses", clientAddresses.toArray(new String[0]));
+  }
+
+  /** Log Commands scheduled by the CommandScheduler to telemetry automatically. */
+  public static void initCommandLogging() {
+    // Log active commands
+    Map<String, Integer> commandCounts = new HashMap<>();
+    BiConsumer<Command, Boolean> logCommandFunction =
+        (Command command, Boolean active) -> {
+          String name = command.getName();
+          int count = commandCounts.getOrDefault(name, 0) + (active ? 1 : -1);
+          commandCounts.put(name, count);
+          Logger.getInstance()
+              .recordOutput(
+                  "CommandsUnique/" + name + "_" + Integer.toHexString(command.hashCode()), active);
+          Logger.getInstance().recordOutput("CommandsAll/" + name, count > 0);
+        };
+    CommandScheduler.getInstance()
+        .onCommandInitialize((Command command) -> logCommandFunction.accept(command, true));
+    CommandScheduler.getInstance()
+        .onCommandFinish((Command command) -> logCommandFunction.accept(command, false));
+    CommandScheduler.getInstance()
+        .onCommandInterrupt((Command command) -> logCommandFunction.accept(command, false));
   }
 }

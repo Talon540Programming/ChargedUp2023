@@ -1,5 +1,6 @@
 package frc.robot.drivetrain.commands.control;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drivetrain.DriveBase;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -39,6 +40,11 @@ public abstract class DriveControl extends CommandBase {
   public void execute() {
     kLeftPercent *= m_speedLimiter.get();
     kRightPercent *= m_speedLimiter.get();
+
+    if (RobotBase.isSimulation()) {
+      kLeftPercent *= -1;
+      kRightPercent *= -1;
+    }
 
     switch (m_driveMode.get()) {
       case Differential -> this.m_driveBase.tankDrivePercent(kLeftPercent, kRightPercent);

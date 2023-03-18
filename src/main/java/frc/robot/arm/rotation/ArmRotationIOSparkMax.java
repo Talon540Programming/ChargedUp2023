@@ -1,53 +1,84 @@
 package frc.robot.arm.rotation;
 
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.Constants;
 
 /** ArmRotationIO using 2 SparkMax motor controllers. */
 public class ArmRotationIOSparkMax implements ArmRotationIO {
-  private final CANSparkMax m_leader, m_follower;
+  private final CANSparkMax m_rotationLeader, m_rotationFollower;
+  private final WPI_CANCoder m_absoluteEncoder;
 
   /**
    * Create an IO layer for controlling two SparkMaxes for ArmRotation.
    *
-   * @param leader id of leader SparkMax.
-   * @param follower id of the follower SparkMax
-   * @param inverted whether the direction of the motors should be inverted.
+   * @param rotationLeader id of leader SparkMax.
+   * @param rotationFollower id of the follower SparkMax
+   * @param rotationInverted whether the direction of the motors should be inverted.
+   * @param encoderID id of the CANcoder
+   * @param absoluteEncoderOffset offset of the CANCoder in degrees.
    */
-  public ArmRotationIOSparkMax(int leader, int follower, boolean inverted) {
-    this.m_leader = new CANSparkMax(leader, CANSparkMaxLowLevel.MotorType.kBrushless);
-    this.m_follower = new CANSparkMax(follower, CANSparkMaxLowLevel.MotorType.kBrushless);
+  public ArmRotationIOSparkMax(
+      int rotationLeader,
+      int rotationFollower,
+      boolean rotationInverted,
+      int encoderID,
+      double absoluteEncoderOffset) {
+    // CONFIGURE ENCODER
+    this.m_absoluteEncoder = new WPI_CANCoder(encoderID);
 
-    m_follower.follow(m_leader);
-    m_leader.setInverted(inverted);
+    CANCoderConfiguration config = new CANCoderConfiguration();
+    config.sensorCoefficient = 2 * Math.PI / 4096.0;
+    config.unitString = "rad";
+    config.magnetOffsetDegrees = absoluteEncoderOffset;
 
-    m_leader.setSmartCurrentLimit(40);
-    m_follower.setSmartCurrentLimit(40);
+    this.m_absoluteEncoder.configAllSettings(config);
 
-    m_leader.enableVoltageCompensation(12.0);
+    // CONFIGURE ROTATION MOTORS
+    this.m_rotationLeader =
+        new CANSparkMax(rotationLeader, CANSparkMaxLowLevel.MotorType.kBrushless);
+    this.m_rotationFollower =
+        new CANSparkMax(rotationFollower, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    m_leader.setCANTimeout(0);
-    m_follower.setCANTimeout(0);
+    m_rotationFollower.follow(m_rotationLeader);
+    m_rotationLeader.setInverted(rotationInverted);
+
+    m_rotationLeader.setSmartCurrentLimit(30);
+    m_rotationFollower.setSmartCurrentLimit(30);
+
+    m_rotationLeader.enableVoltageCompensation(12.0);
+
+    m_rotationLeader.setCANTimeout(0);
+    m_rotationFollower.setCANTimeout(0);
 
     setNeutralMode(Constants.NeutralMode.BRAKE);
   }
 
   @Override
   public void updateInputs(ArmRotationIOInputs inputs) {
-    inputs.CurrentAmps = new double[] {m_leader.getOutputCurrent(), m_follower.getOutputCurrent()};
+    inputs.CurrentAmps =
+        new double[] {m_rotationLeader.getOutputCurrent(), m_rotationFollower.getOutputCurrent()};
     inputs.TemperatureCelsius =
-        new double[] {m_leader.getMotorTemperature(), m_follower.getMotorTemperature()};
+        new double[] {
+          m_rotationLeader.getMotorTemperature(), m_rotationFollower.getMotorTemperature()
+        };
+    inputs.ArmVelocityRadPerSecond = m_absoluteEncoder.getAbsolutePosition();
+    inputs.AbsoluteArmPositionRad = m_absoluteEncoder.getVelocity();
   }
 
   @Override
   public void setVoltage(double voltage) {
-    m_leader.setVoltage(voltage);
+    voltage = MathUtil.clamp(voltage, -12.0, 12.0);
+
+    m_rotationLeader.setVoltage(voltage);
   }
 
   @Override
   public void setNeutralMode(Constants.NeutralMode mode) {
-    m_leader.setIdleMode(mode.toIdleMode());
-    m_follower.setIdleMode(mode.toIdleMode());
+    m_rotationFollower.setIdleMode(mode.toIdleMode());
+    m_rotationFollower.setIdleMode(mode.toIdleMode());
   }
 }

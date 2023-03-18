@@ -3,12 +3,10 @@ package frc.robot.arm;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOInputsAutoLogged;
-import frc.robot.arm.extension.Winch;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOInputsAutoLogged;
 import frc.robot.constants.Constants;
-import frc.robot.sensors.encoder.QuadratureEncoderIO;
-import frc.robot.sensors.encoder.QuadratureEncoderIOInputsAutoLogged;
+import frc.robot.constants.RobotDimensions;
 import org.littletonrobotics.junction.Logger;
 
 public class ArmBase extends SubsystemBase {
@@ -20,25 +18,15 @@ public class ArmBase extends SubsystemBase {
   public final ArmRotationIOInputsAutoLogged m_armRotationInputs =
       new ArmRotationIOInputsAutoLogged();
 
-  private final QuadratureEncoderIO m_rotationEncoderIO;
-  public final QuadratureEncoderIOInputsAutoLogged m_rotationEncoderInputs =
-      new QuadratureEncoderIOInputsAutoLogged();
+  private final ArmVisualizer m_measuredVisualizer =
+      new ArmVisualizer("Measured", Constants.Arm.kArmKinematics);
 
-  private final Winch m_extensionWinch;
+  private final ArmVisualizer m_targetVisualizer =
+      new ArmVisualizer("Target", Constants.Arm.kArmKinematics);
 
-  public ArmBase(
-      ArmExtensionIO extensionIO, ArmRotationIO rotationIO, QuadratureEncoderIO rotationEncoderIO) {
+  public ArmBase(ArmExtensionIO extensionIO, ArmRotationIO rotationIO) {
     this.m_armExtensionIO = extensionIO;
     this.m_armRotationIO = rotationIO;
-    this.m_rotationEncoderIO = rotationEncoderIO;
-
-    this.m_extensionWinch =
-        new Winch(
-            Constants.Arm.kExtensionWinchRadiusMeters,
-            Constants.Arm.kExtensionCableLengthMeters,
-            Constants.Arm.kExtensionCableDiameterMeters,
-            Constants.Arm.kNumberOfWrapsPerRadiusIncrease,
-            Constants.Arm.kInitialWrapsAtBoot);
   }
 
   @Override
@@ -46,18 +34,20 @@ public class ArmBase extends SubsystemBase {
     m_armExtensionIO.updateInputs(m_armExtensionInputs);
     Logger.getInstance().processInputs("Arm/Extension", m_armExtensionInputs);
 
-    Logger.getInstance()
-        .recordOutput("Arm/Extension/Winch/Distance", getExtensionDistanceTraveled());
+    m_armRotationIO.updateArmLength(getTotalArmLength());
 
     m_armRotationIO.updateInputs(m_armRotationInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
 
-    m_rotationEncoderIO.updateInputs(m_rotationEncoderInputs);
-    Logger.getInstance().processInputs("Arm/Rotation/Encoder", m_rotationEncoderInputs);
+    ArmState targetState = ArmStateManager.getInstance().getTargetState();
 
     // Log the target state
-    Logger.getInstance()
-        .processInputs("Arm/TargetState", ArmStateManager.getInstance().getTargetState());
+    Logger.getInstance().processInputs("Arm/TargetState", targetState);
+
+    m_measuredVisualizer.update(
+        m_armRotationInputs.AbsoluteArmPositionRad,
+        m_armExtensionInputs.PivotToEffectorDistanceMeters);
+    m_targetVisualizer.update(targetState.AngleRadians, targetState.ArmLengthMeters);
   }
 
   /**
@@ -79,11 +69,12 @@ public class ArmBase extends SubsystemBase {
   }
 
   /**
-   * Get the distance from the winch to the end of the cable.
+   * Get the length of the arm including the effector.
    *
-   * @return distance traveled by the arm.
+   * @return total length of the arm system.
    */
-  public double getExtensionDistanceTraveled() {
-    return m_extensionWinch.getDistanceTraveled(m_armExtensionInputs.DistanceTraveledMeters);
+  public double getTotalArmLength() {
+    return m_armExtensionInputs.PivotToEffectorDistanceMeters
+        + RobotDimensions.Effector.kLengthMeters;
   }
 }

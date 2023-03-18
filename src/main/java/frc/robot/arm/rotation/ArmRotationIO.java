@@ -8,8 +8,10 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ArmRotationIO extends LoggedIO<ArmRotationIO.ArmRotationIOInputs> {
   @AutoLog
   class ArmRotationIOInputs {
-    public double[] CurrentAmps;
-    public double[] TemperatureCelsius;
+    public double[] CurrentAmps = new double[] {};
+    public double[] TemperatureCelsius = new double[] {};
+    public double ArmVelocityRadPerSecond;
+    public double AbsoluteArmPositionRad;
   }
 
   @Override
@@ -28,4 +30,12 @@ public interface ArmRotationIO extends LoggedIO<ArmRotationIO.ArmRotationIOInput
    * @param mode NeutralMode to set.
    */
   default void setNeutralMode(Constants.NeutralMode mode) {}
+
+  /**
+   * Update the length of the arm. This is useful for simulations that take into effect the length
+   * of the arm.
+   *
+   * @param armLengthMeters distance from the pivot point to the effector's origin in meters.
+   */
+  default void updateArmLength(double pivotToEffectorMeters) {}
 }
