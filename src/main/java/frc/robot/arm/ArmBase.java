@@ -1,5 +1,6 @@
 package frc.robot.arm;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOInputsAutoLogged;
@@ -60,12 +61,32 @@ public class ArmBase extends SubsystemBase {
   }
 
   /**
+   * Set the output of the arm's rotation given a percent.
+   *
+   * @param percent percent in [-1, 1]
+   */
+  public void setRotationPercent(double percent) {
+    percent = MathUtil.clamp(percent, -1, 1);
+    setRotationVoltage(percent * 12.0);
+  }
+
+  /**
    * Set the voltage output of the extension motors.
    *
    * @param voltage voltage to set.
    */
   public void setExtensionVoltage(double voltage) {
     m_armExtensionIO.setVoltage(voltage);
+  }
+
+  /**
+   * Set the output of the arm's extension given a percent.
+   *
+   * @param percent percent in [-1, 1]
+   */
+  public void setExtensionPercent(double percent) {
+    percent = MathUtil.clamp(percent, -1, 1);
+    setExtensionVoltage(percent * 12.0);
   }
 
   /**
