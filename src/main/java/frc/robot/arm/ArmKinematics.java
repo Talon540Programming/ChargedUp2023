@@ -4,6 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
 import frc.robot.constants.RobotDimensions;
+import frc.robot.constants.RobotLimits;
 
 /**
  * Kinematics helper class that can help calculate the state of the Arm for either its current or
@@ -31,6 +32,8 @@ public class ArmKinematics {
   public Translation3d getFulcrumPose() {
     return fulcrumPosition;
   }
+
+
 
   /**
    * Calculate the position of the end of the first extrusion / stage of the telescoping arm.
@@ -103,18 +106,6 @@ public class ArmKinematics {
   }
 
   /**
-   * Calculate the angle of the arm from the position of a point on the arm in the Robot Coordinate
-   * System.
-   *
-   * @param pointOnArm the point's position as a {@link Pose3d} object in the RCS.
-   * @return angle of the arm in radians.
-   */
-  public double calculateArmAngleFromPointOnArm(Pose3d pointOnArm) {
-    double dist = fulcrumPosition.getDistance(pointOnArm.getTranslation());
-    return Math.asin((pointOnArm.getZ() - fulcrumPosition.getZ()) / dist);
-  }
-
-  /**
    * Calculate the Moment of Inertia of the arm based on its length, mass of the arm, and mass of
    * the effector. The estimation of the MoI is found <a
    * href="https://www.desmos.com/calculator/a6wx6jikow">here</a>.
@@ -145,6 +136,19 @@ public class ArmKinematics {
     } else {
       return Units.inchesToMeters(0.209 * pivotToEffectorInches + 9.5161);
     }
+  }
+
+  /**
+   * Check if an arm's dimensions would breach the extension limits.
+   *
+   * @param totalLengthMeters total length of the arm from the pivot point to the end of the effector.
+   * @param armAngleRad angle of the arm.
+   * @return whether the extension limit would be breached.
+   */
+  public boolean wouldBreakExtensionLimit(double totalLengthMeters, double armAngleRad) {
+    Pose3d endPose = calculatePose(totalLengthMeters, armAngleRad);
+
+    return Math.abs(endPose.getX()) > Units.inchesToMeters(48) || endPose.getZ() > Units.inchesToMeters(78);
   }
 
   /**
