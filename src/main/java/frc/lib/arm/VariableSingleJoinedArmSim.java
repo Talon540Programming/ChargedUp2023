@@ -10,7 +10,6 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.LinearSystemSim;
 import frc.robot.arm.ArmKinematics;
-import frc.robot.constants.RobotDimensions;
 
 /**
  * Represents a Sim of a Single Joined Arm that has variable length and center of mass. Credit WPI
@@ -45,7 +44,15 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
       double effectorLengthMeters,
       ArmKinematics armKinematics,
       boolean simulateGravity) {
-    this(plant, gearbox, gearing, armLengthMeters, effectorLengthMeters, armKinematics, simulateGravity, null);
+    this(
+        plant,
+        gearbox,
+        gearing,
+        armLengthMeters,
+        effectorLengthMeters,
+        armKinematics,
+        simulateGravity,
+        null);
   }
 
   /**
@@ -95,7 +102,15 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
       double effectorLengthMeters,
       ArmKinematics armKinematics,
       boolean simulateGravity) {
-    this(gearbox, gearing, jKgMetersSquared, armLengthMeters,effectorLengthMeters, armKinematics, simulateGravity, null);
+    this(
+        gearbox,
+        gearing,
+        jKgMetersSquared,
+        armLengthMeters,
+        effectorLengthMeters,
+        armKinematics,
+        simulateGravity,
+        null);
   }
 
   /**
@@ -252,11 +267,15 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
             dtSeconds);
 
     // We check for collision after updating xhat
-    if (m_kinematics.wouldIntersectForward(m_armLenMeters + m_effectorLengthMeters, updatedXhat.get(0, 0))) {
-      return VecBuilder.fill(m_kinematics.lowestForwardAngle(m_armLenMeters + m_effectorLengthMeters), 0);
+    if (m_kinematics.wouldIntersectForward(
+        m_armLenMeters + m_effectorLengthMeters, updatedXhat.get(0, 0))) {
+      return VecBuilder.fill(
+          m_kinematics.lowestForwardAngle(m_armLenMeters + m_effectorLengthMeters), 0);
     }
-    if (m_kinematics.wouldIntersectRear(m_armLenMeters + m_effectorLengthMeters, updatedXhat.get(0, 0))) {
-      return VecBuilder.fill(m_kinematics.lowestRearAngle(m_armLenMeters + m_effectorLengthMeters), 0);
+    if (m_kinematics.wouldIntersectRear(
+        m_armLenMeters + m_effectorLengthMeters, updatedXhat.get(0, 0))) {
+      return VecBuilder.fill(
+          m_kinematics.lowestRearAngle(m_armLenMeters + m_effectorLengthMeters), 0);
     }
     return updatedXhat;
   }

@@ -138,29 +138,35 @@ public class ArmKinematics {
   /**
    * Check if an arm's dimensions would breach the extension limits.
    *
-   * @param totalLengthMeters total length of the arm from the pivot point to the end of the effector.
+   * @param totalLengthMeters total length of the arm from the pivot point to the end of the
+   *     effector.
    * @param armAngleRad angle of the arm.
    * @return whether the extension limit would be breached.
    */
   public boolean wouldBreakExtensionLimit(double totalLengthMeters, double armAngleRad) {
     Pose3d endPose = calculatePose(totalLengthMeters, armAngleRad);
-    double horizontalOffset = RobotDimensions.Drivetrain.kDrivetrainLengthMeters / 2.0 + Units.inchesToMeters(48.0);
+    double horizontalOffset =
+        RobotDimensions.Drivetrain.kDrivetrainLengthMeters / 2.0 + Units.inchesToMeters(48.0);
 
     return Math.abs(endPose.getX()) > horizontalOffset || endPose.getZ() > Units.inchesToMeters(78);
   }
 
   /**
-   * Calculate the max arm length that would still be within the extension limit given the angle of the arm.
+   * Calculate the max arm length that would still be within the extension limit given the angle of
+   * the arm.
    *
    * @param armAngleRadians angle of the arm in radians.
    * @return max length of the arm.
    */
   public double maxArmAndEffectorLength(double armAngleRadians) {
     Rotation2d armAngle = Rotation2d.fromRadians(armAngleRadians);
-    double horizontalOffset = RobotDimensions.Drivetrain.kDrivetrainLengthMeters / 2.0 + Units.inchesToMeters(48.0);
+    double horizontalOffset =
+        RobotDimensions.Drivetrain.kDrivetrainLengthMeters / 2.0 + Units.inchesToMeters(48.0);
     double verticalOffset = Units.inchesToMeters(78.0) - fulcrumPosition.getZ();
 
-    return Math.min(Math.abs(horizontalOffset / armAngle.getCos()), Math.abs(verticalOffset / armAngle.getSin()));
+    return Math.min(
+        Math.abs(horizontalOffset / armAngle.getCos()),
+        Math.abs(verticalOffset / armAngle.getSin()));
   }
 
   /**

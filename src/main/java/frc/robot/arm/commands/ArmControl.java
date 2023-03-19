@@ -24,14 +24,22 @@ public class ArmControl extends CommandBase {
     double armAngleRad = m_armBase.getTargetState().AngleRadians;
     double armLength = m_armBase.getTargetState().LengthMeters;
 
-    if((m_operatorInterface.getRotationLinearX() != 0.0 || m_operatorInterface.getRotationLinearY() != 0.0) && !m_operatorInterface.lockRotation().getAsBoolean()) {
+    if ((m_operatorInterface.getRotationLinearX() != 0.0
+            || m_operatorInterface.getRotationLinearY() != 0.0)
+        && !m_operatorInterface.lockRotation().getAsBoolean()) {
       // Calculate the target state from the linear axes
-      armAngleRad = Math.atan2(m_operatorInterface.getRotationLinearY(), m_operatorInterface.getRotationLinearX());
+      armAngleRad =
+          Math.atan2(
+              m_operatorInterface.getRotationLinearY(), m_operatorInterface.getRotationLinearX());
       armAngleRad += armAngleRad < -Math.PI / 2.0 ? Math.PI * 2.0 : 0;
     }
 
     armLength += .05 * m_operatorInterface.getExtensionPercent();
-    armLength = MathUtil.clamp(armLength, RobotLimits.kMinArmLengthMeters, Constants.Arm.kArmKinematics.maxArmAndEffectorLength(armAngleRad));
+    armLength =
+        MathUtil.clamp(
+            armLength,
+            RobotLimits.kMinArmLengthMeters,
+            Constants.Arm.kArmKinematics.maxArmAndEffectorLength(armAngleRad));
 
     m_armBase.updateState(new ArmState(armAngleRad, armLength));
   }

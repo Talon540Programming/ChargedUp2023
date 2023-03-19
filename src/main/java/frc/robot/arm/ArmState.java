@@ -3,7 +3,6 @@ package frc.robot.arm;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.numbers.N2;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.constants.RobotLimits;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
@@ -27,7 +26,8 @@ public class ArmState implements LoggableInputs, Cloneable {
    * Create an ArmState object.
    *
    * @param angleRadians angle of the arm in radians.
-   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the effector.
+   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
    */
   public ArmState(double angleRadians, double pivotToEffectorMeters) {
     this.AngleRadians = angleRadians;
@@ -36,14 +36,16 @@ public class ArmState implements LoggableInputs, Cloneable {
 
   /**
    * Return a copy of the ArmState with the angle reflected across the y-axis.
+   *
    * @return reflected angle.
    */
   public ArmState inverted() {
-    return new ArmState(Math.PI - AngleRadians, LengthMeters) ;
+    return new ArmState(Math.PI - AngleRadians, LengthMeters);
   }
 
   /**
    * Return the ArmState as a vector.
+   *
    * @return ArmState as a vector.
    */
   public Vector<N2> toVec() {
