@@ -144,8 +144,9 @@ public class ArmKinematics {
    */
   public boolean wouldBreakExtensionLimit(double totalLengthMeters, double armAngleRad) {
     Pose3d endPose = calculatePose(totalLengthMeters, armAngleRad);
+    double horizontalOffset = RobotDimensions.Drivetrain.kDrivetrainLengthMeters / 2.0 + Units.inchesToMeters(48.0);
 
-    return Math.abs(endPose.getX()) > Units.inchesToMeters(48) || endPose.getZ() > Units.inchesToMeters(78);
+    return Math.abs(endPose.getX()) > horizontalOffset || endPose.getZ() > Units.inchesToMeters(78);
   }
 
   /**
