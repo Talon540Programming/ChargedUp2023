@@ -38,7 +38,7 @@ public class DriveIOSim implements DriveIO {
     inputs.CurrentAmps =
         new double[] {m_driveSim.getLeftCurrentDrawAmps(), m_driveSim.getRightCurrentDrawAmps()};
 
-    inputs.GyroYawRad = -m_driveSim.getHeading().getRadians(); // TODO: CCP CCWP
+    inputs.GyroYawRad = -m_driveSim.getHeading().getRadians();
   }
 
   @Override
