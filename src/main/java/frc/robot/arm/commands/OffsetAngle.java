@@ -22,4 +22,9 @@ public class OffsetAngle extends CommandBase {
     double angle = Math.PI / 2 - m_angleSupplier.getAsDouble();
     m_armBase.updateState(new ArmState(angle, RobotLimits.kMinArmLengthMeters));
   }
+
+  @Override
+  public boolean isFinished() {
+    return m_armBase.atSetpoint();
+  }
 }

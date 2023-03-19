@@ -159,4 +159,8 @@ public class ArmBase extends SubsystemBase {
     return m_armExtensionInputs.PivotToEffectorDistanceMeters
         + RobotDimensions.Effector.kLengthMeters;
   }
+
+  public boolean atSetpoint() {
+    return m_rotationController.atSetpoint() && m_extensionController.atSetpoint();
+  }
 }
