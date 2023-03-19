@@ -17,6 +17,7 @@ public class ArmRotationIOSim implements ArmRotationIO {
             Constants.Arm.kRotationGearRatio,
             ArmKinematics.calculateMoI(RobotDimensions.Arm.kFullyRetractedLengthMeters),
             RobotDimensions.Arm.kFullyRetractedLengthMeters,
+            RobotDimensions.Effector.kLengthMeters,
             Constants.Arm.kArmKinematics,
             simulateGravity);
   }
