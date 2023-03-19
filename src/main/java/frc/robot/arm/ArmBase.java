@@ -95,17 +95,16 @@ public class ArmBase extends SubsystemBase {
       m_rotationController.reset(m_armRotationInputs.AbsoluteArmPositionRad);
       m_extensionController.reset();
     } else {
-      double rotationOutputVolts =
+      double rotationFeedforward = m_rotationFeedforward.calculate(m_targetState.AngleRadians, 0);
+      double rotationFeedback =
           m_rotationController.calculate(
               m_armRotationInputs.AbsoluteArmPositionRad, m_targetState.AngleRadians);
-      rotationOutputVolts +=
-          m_rotationFeedforward.calculate(m_armRotationInputs.AbsoluteArmPositionRad, 0);
-      m_armRotationIO.setVoltage(rotationOutputVolts);
+      m_armRotationIO.setVoltage(rotationFeedforward + rotationFeedback);
 
-      double extensionOutputVolts =
+      double extensionFeedBack =
           m_extensionController.calculate(
               m_armExtensionInputs.PivotToEffectorDistanceMeters, m_targetState.LengthMeters);
-      m_armExtensionIO.setVoltage(extensionOutputVolts);
+      m_armExtensionIO.setVoltage(extensionFeedBack);
     }
   }
 
