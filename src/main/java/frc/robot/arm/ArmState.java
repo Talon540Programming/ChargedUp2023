@@ -54,7 +54,11 @@ public class ArmState implements LoggableInputs, Cloneable {
   }
 
   @Override
-  public ArmState clone() {
-    return new ArmState(AngleRadians, LengthMeters);
+  public ArmState clone() throws CloneNotSupportedException {
+    ArmState clone = (ArmState) super.clone();
+    clone.AngleRadians = AngleRadians;
+    clone.LengthMeters = LengthMeters;
+
+    return clone;
   }
 }
