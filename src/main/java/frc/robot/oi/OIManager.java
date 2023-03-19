@@ -9,9 +9,8 @@ public class OIManager {
 
   public OIManager() {
     if (RobotBase.isSimulation()) {
-      PS4DriverOperator controls = new PS4DriverOperator(0);
-      m_driverInterface = controls;
-      m_operatorInterface = controls;
+      m_driverInterface = new PS4Driver(HardwareDevices.kDriverPort);
+      m_operatorInterface = new PS4Operator(HardwareDevices.kOperatorPort);
     } else {
       m_driverInterface = new XboxDriver(HardwareDevices.kDriverPort);
       m_operatorInterface = new XboxOperator(HardwareDevices.kOperatorPort);
