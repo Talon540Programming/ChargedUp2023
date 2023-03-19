@@ -33,8 +33,6 @@ public class ArmControl extends CommandBase {
     armLength += .05 * m_operatorInterface.getExtensionPercent();
     armLength = MathUtil.clamp(armLength, RobotLimits.kMinArmLengthMeters, Constants.Arm.kArmKinematics.maxArmAndEffectorLength(armAngleRad));
 
-    System.out.println(armLength);
-
     m_armBase.updateState(new ArmState(armAngleRad, armLength));
   }
 }
