@@ -5,25 +5,25 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
-public class PS4DriverOperator implements DriverInterface, OperatorInterface {
+public class PS4Driver implements DriverInterface {
   private final CommandPS4Controller m_controller;
-
-  private final LoggedDashboardChooser<DriveMode> m_driveMode =
-      new LoggedDashboardChooser<>("Drive Mode");
 
   private final LoggedDashboardChooser<Double> m_speedLimiter =
       new LoggedDashboardChooser<>("Drive Speed Limiter");
 
-  public PS4DriverOperator(int port) {
-    this.m_controller = new CommandPS4Controller(port);
+  private final LoggedDashboardChooser<DriveMode> m_driveMode =
+      new LoggedDashboardChooser<>("Drive Mode");
 
-    m_driveMode.addDefaultOption("Arcade Drive", DriveMode.Arcade);
-    m_driveMode.addOption("Differential (Tank) Drive", DriveMode.Differential);
+  public PS4Driver(int port) {
+    this.m_controller = new CommandPS4Controller(port);
 
     m_speedLimiter.addDefaultOption("Default (100%)", 1.0);
     m_speedLimiter.addOption("Fast (70%)", 0.7);
     m_speedLimiter.addOption("Medium (30%)", 0.3);
     m_speedLimiter.addOption("Slow (15%)", 0.15);
+
+    m_driveMode.addDefaultOption("Arcade Drive", DriveMode.Arcade);
+    m_driveMode.addOption("Differential (Tank) Drive", DriveMode.Differential);
   }
 
   @Override
@@ -49,19 +49,5 @@ public class PS4DriverOperator implements DriverInterface, OperatorInterface {
   @Override
   public Trigger toggleBalanceMode() {
     return m_controller.touchpad();
-  }
-
-  @Override
-  public double getArmRotationPercent() {
-    return m_controller.povUp().getAsBoolean()
-        ? 0.5
-        : m_controller.povDown().getAsBoolean() ? -0.5 : 0;
-  }
-
-  @Override
-  public double getArmExtensionPercent() {
-    return m_controller.povRight().getAsBoolean()
-        ? 0.5
-        : m_controller.povLeft().getAsBoolean() ? -0.5 : 0;
   }
 }

@@ -71,7 +71,7 @@ public final class Constants {
 
     public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.COAST;
 
-    public static final double kRobotStabilizationToleranceDegrees = 1; // TODO
+    public static final double kRobotStabilizationToleranceDegrees = 3;
 
     public static class ControlValues {
       public static class Characterization {
@@ -103,8 +103,8 @@ public final class Constants {
     public static final ArmKinematics kArmKinematics =
         new ArmKinematics(RobotDimensions.Arm.kFulcrumPose);
 
-    public static final boolean kRotationInverted = false; // TODO
-    public static final boolean kExtensionInverted = false; // TODO
+    public static final boolean kRotationInverted = false;
+    public static final boolean kExtensionInverted = false;
 
     @SuppressWarnings("PointlessArithmeticExpression")
     public static final double kRotationGearRatio =

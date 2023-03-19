@@ -9,7 +9,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.arm.ArmStateManager;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Drivetrain;
 import org.littletonrobotics.junction.Logger;
@@ -48,8 +47,6 @@ public class DriveBase extends SubsystemBase {
         m_driveInputs.LeftPositionMeters,
         m_driveInputs.RightPositionMeters);
     Logger.getInstance().recordOutput("Odometry", getPosition());
-
-    ArmStateManager.getInstance().updateRobotPitch(m_driveInputs.GyroPitchRad);
   }
 
   /**

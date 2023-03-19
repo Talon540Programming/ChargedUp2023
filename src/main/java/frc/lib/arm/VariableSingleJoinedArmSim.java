@@ -18,7 +18,9 @@ import frc.robot.arm.ArmKinematics;
 public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
   private final DCMotor m_gearbox;
   private final double m_gearing;
+
   private double m_armLenMeters;
+  private double m_effectorLengthMeters;
 
   private final ArmKinematics m_kinematics;
 
@@ -39,9 +41,18 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
       DCMotor gearbox,
       double gearing,
       double armLengthMeters,
+      double effectorLengthMeters,
       ArmKinematics armKinematics,
       boolean simulateGravity) {
-    this(plant, gearbox, gearing, armLengthMeters, armKinematics, simulateGravity, null);
+    this(
+        plant,
+        gearbox,
+        gearing,
+        armLengthMeters,
+        effectorLengthMeters,
+        armKinematics,
+        simulateGravity,
+        null);
   }
 
   /**
@@ -60,6 +71,7 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
       DCMotor gearbox,
       double gearing,
       double armLengthMeters,
+      double effectorLengthMeters,
       ArmKinematics armKinematics,
       boolean simulateGravity,
       Matrix<N1, N1> measurementStdDevs) {
@@ -67,6 +79,7 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
     m_gearbox = gearbox;
     m_gearing = gearing;
     m_armLenMeters = armLengthMeters;
+    m_effectorLengthMeters = effectorLengthMeters;
     m_kinematics = armKinematics;
     m_simulateGravity = simulateGravity;
   }
@@ -86,9 +99,18 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
       double gearing,
       double jKgMetersSquared,
       double armLengthMeters,
+      double effectorLengthMeters,
       ArmKinematics armKinematics,
       boolean simulateGravity) {
-    this(gearbox, gearing, jKgMetersSquared, armLengthMeters, armKinematics, simulateGravity, null);
+    this(
+        gearbox,
+        gearing,
+        jKgMetersSquared,
+        armLengthMeters,
+        effectorLengthMeters,
+        armKinematics,
+        simulateGravity,
+        null);
   }
 
   /**
@@ -107,6 +129,7 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
       double gearing,
       double jKgMetersSquared,
       double armLengthMeters,
+      double effectorLengthMeters,
       ArmKinematics armKinematics,
       boolean simulateGravity,
       Matrix<N1, N1> measurementStdDevs) {
@@ -116,6 +139,7 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
     m_gearbox = gearbox;
     m_gearing = gearing;
     m_armLenMeters = armLengthMeters;
+    m_effectorLengthMeters = effectorLengthMeters;
     m_kinematics = armKinematics;
     m_simulateGravity = simulateGravity;
   }
@@ -167,6 +191,10 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
    */
   public void updateArmLength(double armLengthMeters) {
     this.m_armLenMeters = armLengthMeters;
+  }
+
+  public void updateEffectorLength(double effectorLengthMeters) {
+    this.m_effectorLengthMeters = effectorLengthMeters;
   }
 
   /**
@@ -239,11 +267,15 @@ public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
             dtSeconds);
 
     // We check for collision after updating xhat
-    if (m_kinematics.wouldIntersectForward(m_armLenMeters, updatedXhat.get(0, 0))) {
-      return VecBuilder.fill(m_kinematics.lowestForwardAngle(m_armLenMeters), 0);
+    if (m_kinematics.wouldIntersectForward(
+        m_armLenMeters + m_effectorLengthMeters, updatedXhat.get(0, 0))) {
+      return VecBuilder.fill(
+          m_kinematics.lowestForwardAngle(m_armLenMeters + m_effectorLengthMeters), 0);
     }
-    if (m_kinematics.wouldIntersectRear(m_armLenMeters, updatedXhat.get(0, 0))) {
-      return VecBuilder.fill(m_kinematics.lowestRearAngle(m_armLenMeters), 0);
+    if (m_kinematics.wouldIntersectRear(
+        m_armLenMeters + m_effectorLengthMeters, updatedXhat.get(0, 0))) {
+      return VecBuilder.fill(
+          m_kinematics.lowestRearAngle(m_armLenMeters + m_effectorLengthMeters), 0);
     }
     return updatedXhat;
   }

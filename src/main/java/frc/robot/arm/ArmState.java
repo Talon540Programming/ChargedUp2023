@@ -1,61 +1,84 @@
 package frc.robot.arm;
 
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.numbers.N2;
+import frc.robot.constants.RobotLimits;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
-/** An object that can be used to track or represent the state of, or desired state of the arm. */
 public class ArmState implements LoggableInputs, Cloneable {
+  // Set of Preset ArmStates
+  public static final ArmState IDLE = new ArmState(Math.PI / 2.0, RobotLimits.kMinArmLengthMeters);
+  public static final ArmState SCORE_HYBRID = null; // TODO
+  public static final ArmState SCORE_MID_CUBE = null; // TODO
+  public static final ArmState SCORE_HIGH_CUBE = null; // TODO
+  public static final ArmState SCORE_MID_CONE = null; // TODO
+  public static final ArmState SCORE_HIGH_CONE = null; // TODO
+  public static final ArmState SINGLE_SUBSTATION = null; // TODO
+  public static final ArmState DOUBLE_SUBSTATION = null; // TODO
+  public static final ArmState FLOOR = null; // TODO
+
   public double AngleRadians;
-  public double ArmLengthMeters;
+  public double LengthMeters;
 
   /**
    * Create an ArmState object.
    *
-   * @param angleRadians Angle of the Arm in radians. This angle should be similar to the Unit
-   *     circle where 0 means the arm is perpendicular to the robot's fulcrum and parallel to the
-   *     floor, facing towards the front of the robot. The angle is CCW positive.
-   * @param armLengthMeters The length that the arm is extended to beyond the fully retracted state
-   *     at without the grabber or any other * attachment at the end in meters.
+   * @param angleRadians angle of the arm in radians.
+   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
    */
-  public ArmState(double angleRadians, double armLengthMeters) {
+  public ArmState(double angleRadians, double pivotToEffectorMeters) {
     this.AngleRadians = angleRadians;
-    this.ArmLengthMeters = armLengthMeters;
+    this.LengthMeters = pivotToEffectorMeters;
   }
 
   /**
-   * Convert the ArmState to a Trapezoidal Motion Profile Position State as a {@link
-   * TrapezoidProfile.State}.
+   * Return a copy of the ArmState with the angle reflected across the y-axis.
    *
-   * @return ArmState as a position state.
+   * @return reflected angle.
    */
-  public TrapezoidProfile.State getRotationState() {
-    return new TrapezoidProfile.State(AngleRadians, 0);
+  public ArmState inverted() {
+    return new ArmState(Math.PI - AngleRadians, LengthMeters);
+  }
+
+  /**
+   * Return the ArmState as a vector.
+   *
+   * @return ArmState as a vector.
+   */
+  public Vector<N2> toVec() {
+    return VecBuilder.fill(AngleRadians, LengthMeters);
   }
 
   @Override
   public void toLog(LogTable table) {
     table.put("AngleRadians", AngleRadians);
-    table.put("ArmLengthMeters", ArmLengthMeters);
+    table.put("LengthMeters", LengthMeters);
   }
 
   @Override
   public void fromLog(LogTable table) {
     AngleRadians = table.getDouble("AngleRadians", AngleRadians);
-    ArmLengthMeters = table.getDouble("ExtensionLengthMeters", ArmLengthMeters);
+    LengthMeters = table.getDouble("ExtensionLengthMeters", LengthMeters);
   }
 
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof ArmState other) {
       return Math.abs(AngleRadians - other.AngleRadians) < Math.toRadians(0.25)
-          && Math.abs(ArmLengthMeters - other.ArmLengthMeters) < 5e-3;
+          && Math.abs(LengthMeters - other.LengthMeters) < 5e-3;
     }
     return false;
   }
 
   @Override
-  public ArmState clone() {
-    return new ArmState(AngleRadians, ArmLengthMeters);
+  public ArmState clone() throws CloneNotSupportedException {
+    ArmState clone = (ArmState) super.clone();
+    clone.AngleRadians = AngleRadians;
+    clone.LengthMeters = LengthMeters;
+
+    return clone;
   }
 }

@@ -35,7 +35,7 @@ public interface ArmRotationIO extends LoggedIO<ArmRotationIO.ArmRotationIOInput
    * Update the length of the arm. This is useful for simulations that take into effect the length
    * of the arm.
    *
-   * @param armLengthMeters distance from the pivot point to the effector's origin in meters.
+   * @param pivotToEffectorMeters distance from the pivot point to the effector's origin in meters.
    */
   default void updateArmLength(double pivotToEffectorMeters) {}
 }

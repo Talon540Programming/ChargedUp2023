@@ -1,14 +1,14 @@
 package frc.robot.oi;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-public class XboxOperator implements OperatorInterface {
-  private final CommandXboxController m_controller;
+public class PS4Operator implements OperatorInterface {
+  private final CommandPS4Controller m_controller;
 
-  public XboxOperator(int port) {
-    this.m_controller = new CommandXboxController(port);
+  public PS4Operator(int port) {
+    this.m_controller = new CommandPS4Controller(port);
   }
 
   @Override
@@ -28,6 +28,6 @@ public class XboxOperator implements OperatorInterface {
 
   @Override
   public Trigger lockRotation() {
-    return m_controller.leftBumper();
+    return m_controller.L1();
   }
 }
