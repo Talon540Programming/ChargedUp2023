@@ -18,11 +18,11 @@ import org.littletonrobotics.junction.Logger;
 
 public class ArmBase extends SubsystemBase {
   // region
-  private final ArmExtensionIO m_armExtensionIO;
+  private final ArmExtensionIO m_extensionIO;
   public final ArmExtensionIOInputsAutoLogged m_armExtensionInputs =
       new ArmExtensionIOInputsAutoLogged();
 
-  private final ArmRotationIO m_armRotationIO;
+  private final ArmRotationIO m_rotationIO;
   public final ArmRotationIOInputsAutoLogged m_armRotationInputs =
       new ArmRotationIOInputsAutoLogged();
 
@@ -58,8 +58,8 @@ public class ArmBase extends SubsystemBase {
   // endregion
 
   public ArmBase(ArmExtensionIO extensionIO, ArmRotationIO rotationIO) {
-    this.m_armExtensionIO = extensionIO;
-    this.m_armRotationIO = rotationIO;
+    this.m_extensionIO = extensionIO;
+    this.m_rotationIO = rotationIO;
   }
 
   public void setDisabled(boolean disabled) {
@@ -72,8 +72,8 @@ public class ArmBase extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_armExtensionIO.updateInputs(m_armExtensionInputs);
-    m_armRotationIO.updateInputs(m_armRotationInputs);
+    m_extensionIO.updateInputs(m_armExtensionInputs);
+    m_rotationIO.updateInputs(m_armRotationInputs);
 
     Logger.getInstance().processInputs("Arm/Extension", m_armExtensionInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
@@ -88,8 +88,8 @@ public class ArmBase extends SubsystemBase {
 
     if (armDisabled()) {
       m_targetState = ArmState.IDLE;
-      m_armExtensionIO.setVoltage(0.0);
-      m_armRotationIO.setVoltage(0.0);
+      m_extensionIO.setVoltage(0.0);
+      m_rotationIO.setVoltage(0.0);
 
       // Controllers will be continuously reset while the arm is considered disabled.
       m_rotationController.reset(m_armRotationInputs.AbsoluteArmPositionRad);
@@ -99,18 +99,18 @@ public class ArmBase extends SubsystemBase {
       double rotationFeedback =
           m_rotationController.calculate(
               m_armRotationInputs.AbsoluteArmPositionRad, m_targetState.AngleRadians);
-      m_armRotationIO.setVoltage(rotationFeedforward + rotationFeedback);
+      m_rotationIO.setVoltage(rotationFeedforward + rotationFeedback);
 
       double extensionFeedBack =
           m_extensionController.calculate(
               m_armExtensionInputs.PivotToEffectorDistanceMeters, m_targetState.LengthMeters);
-      m_armExtensionIO.setVoltage(extensionFeedBack);
+      m_extensionIO.setVoltage(extensionFeedBack);
     }
   }
 
   @Override
   public void simulationPeriodic() {
-    m_armRotationIO.updateArmLength(m_armExtensionInputs.PivotToEffectorDistanceMeters);
+    m_rotationIO.updateArmLength(m_armExtensionInputs.PivotToEffectorDistanceMeters);
   }
 
   public ArmState getTargetState() {
