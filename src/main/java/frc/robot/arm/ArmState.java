@@ -1,26 +1,25 @@
 package frc.robot.arm;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import frc.robot.constants.RobotLimits;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
-/** An object that can be used to track or represent the state of, or desired state of the arm. */
 public class ArmState implements LoggableInputs, Cloneable {
+  public static final ArmState kDefaultState = new ArmState(Math.PI / 2.0, RobotLimits.kMinArmLengthMeters);
+
   public double AngleRadians;
-  public double ArmLengthMeters;
+  public double LengthMeters;
 
   /**
    * Create an ArmState object.
    *
-   * @param angleRadians Angle of the Arm in radians. This angle should be similar to the Unit
-   *     circle where 0 means the arm is perpendicular to the robot's fulcrum and parallel to the
-   *     floor, facing towards the front of the robot. The angle is CCW positive.
-   * @param armLengthMeters The length that the arm is extended to beyond the fully retracted state
-   *     at without the grabber or any other * attachment at the end in meters.
+   * @param angleRadians angle of the arm in radians.
+   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the effector.
    */
-  public ArmState(double angleRadians, double armLengthMeters) {
+  public ArmState(double angleRadians, double pivotToEffectorMeters) {
     this.AngleRadians = angleRadians;
-    this.ArmLengthMeters = armLengthMeters;
+    this.LengthMeters = pivotToEffectorMeters;
   }
 
   /**
@@ -36,26 +35,26 @@ public class ArmState implements LoggableInputs, Cloneable {
   @Override
   public void toLog(LogTable table) {
     table.put("AngleRadians", AngleRadians);
-    table.put("ArmLengthMeters", ArmLengthMeters);
+    table.put("LengthMeters", LengthMeters);
   }
 
   @Override
   public void fromLog(LogTable table) {
     AngleRadians = table.getDouble("AngleRadians", AngleRadians);
-    ArmLengthMeters = table.getDouble("ExtensionLengthMeters", ArmLengthMeters);
+    LengthMeters = table.getDouble("ExtensionLengthMeters", LengthMeters);
   }
 
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof ArmState other) {
       return Math.abs(AngleRadians - other.AngleRadians) < Math.toRadians(0.25)
-          && Math.abs(ArmLengthMeters - other.ArmLengthMeters) < 5e-3;
+          && Math.abs(LengthMeters - other.LengthMeters) < 5e-3;
     }
     return false;
   }
 
   @Override
   public ArmState clone() {
-    return new ArmState(AngleRadians, ArmLengthMeters);
+    return new ArmState(AngleRadians, LengthMeters);
   }
 }
