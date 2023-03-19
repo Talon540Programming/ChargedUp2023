@@ -1,12 +1,24 @@
 package frc.robot.arm;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.constants.RobotLimits;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 public class ArmState implements LoggableInputs, Cloneable {
-  public static final ArmState kDefaultState = new ArmState(Math.PI / 2.0, RobotLimits.kMinArmLengthMeters);
+  // Set of Preset ArmStates
+  public static final ArmState IDLE = new ArmState(Math.PI / 2.0, RobotLimits.kMinArmLengthMeters);
+  public static final ArmState SCORE_HYBRID = null;
+  public static final ArmState SCORE_MID_CUBE = null;
+  public static final ArmState SCORE_HIGH_CUBE = null;
+  public static final ArmState SCORE_MID_CONE = null;
+  public static final ArmState SCORE_HIGH_CONE = null;
+  public static final ArmState SINGLE_SUBSTATION = null;
+  public static final ArmState DOUBLE_SUBSTATION = null;
+  public static final ArmState FLOOR = null;
 
   public double AngleRadians;
   public double LengthMeters;
@@ -23,13 +35,19 @@ public class ArmState implements LoggableInputs, Cloneable {
   }
 
   /**
-   * Convert the ArmState to a Trapezoidal Motion Profile Position State as a {@link
-   * TrapezoidProfile.State}.
-   *
-   * @return ArmState as a position state.
+   * Return a copy of the ArmState with the angle reflected across the y-axis.
+   * @return reflected angle.
    */
-  public TrapezoidProfile.State getRotationState() {
-    return new TrapezoidProfile.State(AngleRadians, 0);
+  public ArmState inverted() {
+    return new ArmState(Math.PI - AngleRadians, LengthMeters) ;
+  }
+
+  /**
+   * Return the ArmState as a vector.
+   * @return ArmState as a vector.
+   */
+  public Vector<N2> toVec() {
+    return VecBuilder.fill(AngleRadians, LengthMeters);
   }
 
   @Override
