@@ -1,5 +1,6 @@
 package frc.robot.arm.rotation;
 
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
@@ -34,6 +35,7 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
     config.sensorCoefficient = 2 * Math.PI / 4096.0;
     config.unitString = "rad";
     config.magnetOffsetDegrees = absoluteEncoderOffset;
+    config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
 
     this.m_absoluteEncoder.configAllSettings(config);
 
