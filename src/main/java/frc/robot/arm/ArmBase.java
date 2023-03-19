@@ -162,4 +162,26 @@ public class ArmBase extends SubsystemBase {
   public boolean atSetpoint() {
     return m_rotationController.atSetpoint() && m_extensionController.atSetpoint();
   }
+
+  public void stopExtension() {
+    m_extensionIO.setVoltage(0.0);
+  }
+
+  public void stopRotation() {
+    m_rotationIO.setVoltage(0.0);
+  }
+
+  public void resetExtensionDistance(double distanceMeters) {
+    m_extensionIO.setDistance(distanceMeters);
+  }
+
+  public void setRotationVoltage(double voltage) {
+    voltage = MathUtil.clamp(voltage, -12, 12);
+    m_rotationIO.setVoltage(voltage);
+  }
+
+  public void setExtensionVoltage(double voltage) {
+    voltage = MathUtil.clamp(voltage, -12, 12);
+    m_extensionIO.setVoltage(voltage);
+  }
 }
