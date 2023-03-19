@@ -1,8 +1,8 @@
 package frc.robot.constants;
 
 public final class HardwareDevices {
-  public static final int kDriverXboxControllerPort = 0;
-  public static final int kDepositionXboxControllerPort = 1;
+  public static final int kDriverPort = 0;
+  public static final int kOperatorPort = 1;
 
   public static final class COMP2023 {
     public static final int kRobotGyroId = 11;
