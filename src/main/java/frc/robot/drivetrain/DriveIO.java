@@ -25,9 +25,6 @@ public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
     public double AccelZ;
   }
 
-  @Override
-  default void updateInputs(DriveIOInputs inputs) {}
-
   /**
    * Drive the robot based on output voltage to set to each side of the drivetrain. This is useful
    * when controlling the drivetrain using closed loop control via Feed Forward control.
