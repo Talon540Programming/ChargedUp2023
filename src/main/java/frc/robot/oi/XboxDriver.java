@@ -33,16 +33,16 @@ public class XboxDriver implements DriverInterface {
 
   @Override
   public double getLeftPercent() {
-    return MathUtil.applyDeadband(m_controller.getLeftY(), 0.05) * m_speedLimiter.get();
+    return MathUtil.applyDeadband(-m_controller.getLeftY(), 0.05) * m_speedLimiter.get();
   }
 
   @Override
   public double getRightPercent() {
     return MathUtil.applyDeadband(
             getDriveMode() == DriveMode.Differential
-                ? m_controller.getRightY()
+                ? -m_controller.getRightY()
                 : m_controller.getRightX(),
-            0.05)
+            0.15)
         * m_speedLimiter.get();
   }
 
