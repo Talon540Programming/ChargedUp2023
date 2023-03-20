@@ -11,4 +11,6 @@ public interface OperatorInterface {
   public double getExtensionPercent();
 
   public Trigger lockRotation();
+
+  public Trigger resetExtension();
 }

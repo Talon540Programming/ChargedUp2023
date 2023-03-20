@@ -30,4 +30,9 @@ public class PS4Operator implements OperatorInterface {
   public Trigger lockRotation() {
     return m_controller.L1();
   }
+
+  @Override
+  public Trigger resetExtension() {
+    return m_controller.share();
+  }
 }

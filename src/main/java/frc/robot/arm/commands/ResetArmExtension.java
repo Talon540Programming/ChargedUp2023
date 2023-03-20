@@ -5,7 +5,7 @@ import frc.robot.arm.ArmBase;
 import frc.robot.constants.RobotDimensions;
 
 public class ResetArmExtension extends CommandBase {
-  public static final double kCurrentThresholdAmps = 10;
+  public static final double kCurrentThresholdAmps = 10; // TODO
 
   private final ArmBase m_armBase;
 
@@ -17,7 +17,7 @@ public class ResetArmExtension extends CommandBase {
   @Override
   public void initialize() {
     m_armBase.setDisabled(true);
-    m_armBase.setExtensionVoltage(-8.0);
+    m_armBase.setExtensionVoltage(-4.0);
   }
 
   @Override

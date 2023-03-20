@@ -4,7 +4,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.arm.ArmBase;
-import frc.robot.arm.commands.ArmControl;
+import frc.robot.arm.commands.ArmControlVoltage;
+import frc.robot.arm.commands.ResetArmExtension;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOSim;
 import frc.robot.arm.extension.ArmExtensionIOSparkMax;
@@ -30,7 +31,7 @@ public class RobotContainer {
   private ArmBase m_armBase;
 
   // Controllers
-  private final OIManager m_manager = new OIManager();
+  private final OIManager m_OIManager = new OIManager();
 
   // Trajectory Chooser
   private final LoggedDashboardChooser<Command> m_autoChooser =
@@ -90,10 +91,11 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_driveBase.setDefaultCommand(new DriveControl(m_driveBase, m_manager.getDriverInterface()));
-    m_armBase.setDefaultCommand(new ArmControl(m_armBase, m_manager.getOperatorInterface()));
+    m_driveBase.setDefaultCommand(new DriveControl(m_driveBase, m_OIManager.getDriverInterface()));
+    m_armBase.setDefaultCommand(new ArmControlVoltage(m_armBase, m_OIManager.getOperatorInterface()));
 
-    m_manager.getDriverInterface().toggleBalanceMode().whileTrue(new StabilizeRobot(m_driveBase));
+    m_OIManager.getDriverInterface().toggleBalanceMode().whileTrue(new StabilizeRobot(m_driveBase));
+    m_OIManager.getOperatorInterface().resetExtension().onTrue(new ResetArmExtension(m_armBase));
   }
 
   private void configureAuto() {
