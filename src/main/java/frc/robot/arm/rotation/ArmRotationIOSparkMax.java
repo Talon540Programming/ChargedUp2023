@@ -80,7 +80,7 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
 
   @Override
   public void setNeutralMode(Constants.NeutralMode mode) {
-    m_rotationFollower.setIdleMode(mode.toIdleMode());
+    m_rotationLeader.setIdleMode(mode.toIdleMode());
     m_rotationFollower.setIdleMode(mode.toIdleMode());
   }
 }
