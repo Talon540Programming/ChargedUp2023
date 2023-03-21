@@ -181,7 +181,7 @@ public class ArmKinematics {
   public boolean wouldIntersectForward(double totalLengthMeters, double armAngleRadians) {
     Pose3d effectorPose = calculatePose((totalLengthMeters), armAngleRadians);
 
-    return effectorPose.getZ() <= RobotDimensions.Effector.kWidthMeters / 2
+    return effectorPose.getZ() <= RobotDimensions.Effector.kWidthMeters / 2 + 0.05
         && effectorPose.getX() > 0;
   }
 
@@ -197,7 +197,7 @@ public class ArmKinematics {
   public boolean wouldIntersectRear(double totalLengthMeters, double armAngleRadians) {
     Pose3d effectorPose = calculatePose((totalLengthMeters), armAngleRadians);
 
-    return effectorPose.getZ() <= RobotDimensions.Effector.kWidthMeters / 2
+    return effectorPose.getZ() <= RobotDimensions.Effector.kWidthMeters / 2 + 0.05
         && effectorPose.getX() < 0;
   }
 
@@ -211,7 +211,7 @@ public class ArmKinematics {
    */
   public double lowestForwardAngle(double totalLengthMeters) {
     return -Math.asin(
-        (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2))
+        (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2  + 0.05))
             / (totalLengthMeters));
   }
 
@@ -226,7 +226,7 @@ public class ArmKinematics {
   public double lowestRearAngle(double totalLengthMeters) {
     return Math.PI
         + Math.asin(
-            (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2))
+            (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2 + 0.05))
                 / (totalLengthMeters));
   }
 
