@@ -5,13 +5,16 @@ import frc.robot.intake.IntakeBase;
 import frc.robot.oi.OperatorInterface;
 
 public class IntakeControl extends CommandBase {
-    private final IntakeBase m_intakeBase;
-    private final OperatorInterface m_operatorInterface;
+  private final IntakeBase m_intakeBase;
+  private final OperatorInterface m_operatorInterface;
 
-    public IntakeControl(IntakeBase intakeBase, OperatorInterface operatorInterface) {
-        this.m_intakeBase = intakeBase;
-        this.m_operatorInterface = operatorInterface;
+  public IntakeControl(IntakeBase intakeBase, OperatorInterface operatorInterface) {
+    this.m_intakeBase = intakeBase;
+    this.m_operatorInterface = operatorInterface;
 
-        addRequirements(intakeBase);
-    }
+    addRequirements(intakeBase);
+  }
+
+  @Override
+  public void execute() {}
 }
