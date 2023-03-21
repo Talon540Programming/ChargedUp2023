@@ -11,10 +11,7 @@ public class ArmExtensionIOSparkMax implements ArmExtensionIO {
   private final CANSparkMax m_winchMotor;
   private final RelativeEncoder m_winchEncoder;
 
-  public ArmExtensionIOSparkMax(
-      int id,
-      boolean motorInverted,
-      double conversionFactor) {
+  public ArmExtensionIOSparkMax(int id, boolean motorInverted, double conversionFactor) {
     m_winchMotor = new CANSparkMax(id, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     m_winchMotor.setInverted(motorInverted);

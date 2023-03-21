@@ -114,9 +114,11 @@ public final class Constants {
     public static final double kExtensionGearRatio = (10.0 / 1.0);
 
     public static final double kExtensionWinchRadiusInches = 0.5; // TODO
-    public static final double kExtensionWinchRadiusMeters = Units.inchesToMeters(kExtensionWinchRadiusInches);
+    public static final double kExtensionWinchRadiusMeters =
+        Units.inchesToMeters(kExtensionWinchRadiusInches);
 
-    public static final double kExtensionConversionFactor = (1 / kExtensionGearRatio) * 2 * Math.PI * kExtensionWinchRadiusMeters;
+    public static final double kExtensionConversionFactor =
+        (1 / kExtensionGearRatio) * 2 * Math.PI * kExtensionWinchRadiusMeters;
 
     public static final double kRotationAbsoluteEncoderOffsetDegrees = 0; // TODO
 
