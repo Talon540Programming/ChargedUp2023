@@ -35,4 +35,9 @@ public class PS4Operator implements OperatorInterface {
   public Trigger resetExtension() {
     return m_controller.share();
   }
+
+  @Override
+  public double getIntakePercent() {
+    return m_controller.getR2Axis() - m_controller.getL2Axis();
+  }
 }
