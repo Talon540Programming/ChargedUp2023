@@ -19,10 +19,7 @@ public class IntakeIOSparkMax implements IntakeIO {
   private final ColorSensorV3 m_colorSensor;
 
   public IntakeIOSparkMax(
-      int leftId,
-      int rightId,
-      I2C.Port colorSensorPort,
-      double conversionFactor) {
+      int leftId, int rightId, I2C.Port colorSensorPort, double conversionFactor) {
     m_leftMotor = new CANSparkMax(leftId, CANSparkMaxLowLevel.MotorType.kBrushless);
     m_rightMotor = new CANSparkMax(rightId, CANSparkMaxLowLevel.MotorType.kBrushless);
 

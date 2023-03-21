@@ -77,14 +77,12 @@ public class RobotContainer {
                       Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees));
 
           m_intakeBase =
-                  new IntakeBase(
-                          new IntakeIOSparkMax(
-                              HardwareDevices.COMP2023.Intake.kLeftMotorId,
-                              HardwareDevices.COMP2023.Intake.kRightMotorId,
-                              HardwareDevices.COMP2023.Intake.kColorSensorPort,
-                              Constants.Intake.kConversionFactor
-                          )
-                  );
+              new IntakeBase(
+                  new IntakeIOSparkMax(
+                      HardwareDevices.COMP2023.Intake.kLeftMotorId,
+                      HardwareDevices.COMP2023.Intake.kRightMotorId,
+                      HardwareDevices.COMP2023.Intake.kColorSensorPort,
+                      Constants.Intake.kConversionFactor));
         }
         case ROBOT_SIMBOT -> {
           m_driveBase = new DriveBase(new DriveIOSim(false));
@@ -95,12 +93,11 @@ public class RobotContainer {
 
     // Create missing subsystems
     m_driveBase = m_driveBase != null ? m_driveBase : new DriveBase(new DriveIO() {});
-    m_armBase = m_armBase != null
+    m_armBase =
+        m_armBase != null
             ? m_armBase
             : new ArmBase(new ArmExtensionIO() {}, new ArmRotationIO() {});
-    m_intakeBase = m_intakeBase != null
-            ? m_intakeBase
-            : new IntakeBase(new IntakeIO() {});
+    m_intakeBase = m_intakeBase != null ? m_intakeBase : new IntakeBase(new IntakeIO() {});
 
     configureBindings();
     configureAuto();
@@ -108,8 +105,10 @@ public class RobotContainer {
 
   private void configureBindings() {
     m_driveBase.setDefaultCommand(new DriveControl(m_driveBase, m_OIManager.getDriverInterface()));
-    m_armBase.setDefaultCommand(new ArmControlVoltage(m_armBase, m_OIManager.getOperatorInterface()));
-    m_intakeBase.setDefaultCommand(new IntakeControl(m_intakeBase, m_OIManager.getOperatorInterface()));
+    m_armBase.setDefaultCommand(
+        new ArmControlVoltage(m_armBase, m_OIManager.getOperatorInterface()));
+    m_intakeBase.setDefaultCommand(
+        new IntakeControl(m_intakeBase, m_OIManager.getOperatorInterface()));
 
     m_OIManager.getDriverInterface().toggleBalanceMode().whileTrue(new StabilizeRobot(m_driveBase));
     m_OIManager.getOperatorInterface().resetExtension().onTrue(new ResetArmExtension(m_armBase));

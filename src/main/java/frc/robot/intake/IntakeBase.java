@@ -30,8 +30,7 @@ public class IntakeBase extends SubsystemBase {
 
   public Optional<Constants.GamePiece> getSeenGamePiece() {
     // Color is inaccurate if not 2cm away
-    if (m_intakeInputs.ProximityValueCm < 2)
-      return Optional.empty();
+    if (m_intakeInputs.ProximityValueCm <= 2) return Optional.empty();
 
     Color8Bit currentColor = m_intakeIO.getColor8Bit();
     for (Constants.GamePiece piece : Constants.GamePiece.values()) {

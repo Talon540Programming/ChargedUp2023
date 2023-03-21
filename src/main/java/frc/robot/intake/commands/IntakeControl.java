@@ -17,6 +17,6 @@ public class IntakeControl extends CommandBase {
 
   @Override
   public void execute() {
-      m_intakeBase.setVoltage(12.0 * m_operatorInterface.getIntakePercent());
+    m_intakeBase.setVoltage(12.0 * m_operatorInterface.getIntakePercent());
   }
 }
