@@ -22,8 +22,7 @@ public class IntakeIOSparkMax implements IntakeIO {
       int leftId,
       int rightId,
       I2C.Port colorSensorPort,
-      double positionConversionFactor,
-      double velocityConversionFactor) {
+      double conversionFactor) {
     m_leftMotor = new CANSparkMax(leftId, CANSparkMaxLowLevel.MotorType.kBrushless);
     m_rightMotor = new CANSparkMax(rightId, CANSparkMaxLowLevel.MotorType.kBrushless);
 
@@ -37,17 +36,19 @@ public class IntakeIOSparkMax implements IntakeIO {
     m_leftEncoder = m_leftMotor.getEncoder();
     m_leftEncoder.setMeasurementPeriod(10);
     m_leftEncoder.setAverageDepth(2);
-    m_leftEncoder.setPositionConversionFactor(positionConversionFactor);
-    m_leftEncoder.setVelocityConversionFactor(velocityConversionFactor);
+    m_leftEncoder.setPositionConversionFactor(conversionFactor);
+    m_leftEncoder.setVelocityConversionFactor(conversionFactor / 60.0);
 
     m_rightEncoder = m_rightMotor.getEncoder();
     m_rightEncoder.setMeasurementPeriod(10);
     m_rightEncoder.setAverageDepth(2);
-    m_rightEncoder.setPositionConversionFactor(positionConversionFactor);
-    m_rightEncoder.setVelocityConversionFactor(velocityConversionFactor);
+    m_rightEncoder.setPositionConversionFactor(conversionFactor);
+    m_rightEncoder.setVelocityConversionFactor(conversionFactor / 60.0);
 
     m_leftMotor.setCANTimeout(0);
     m_rightMotor.setCANTimeout(0);
+
+    setNeutralMode(Constants.NeutralMode.BRAKE);
 
     m_colorSensor = new ColorSensorV3(colorSensorPort);
 
@@ -64,7 +65,7 @@ public class IntakeIOSparkMax implements IntakeIO {
     inputs.RedValue = m_colorSensor.getRed();
     inputs.BlueValue = m_colorSensor.getBlue();
     inputs.GreenValue = m_colorSensor.getGreen();
-    inputs.ProximityValueCm = m_colorSensor.getProximity() / 2047.0;
+    inputs.ProximityValueCm = m_colorSensor.getProximity() / 2047.0 * 10.0; // [0, 10] cm range
 
     inputs.CurrentAmps =
         new double[] {m_leftMotor.getOutputCurrent(), m_rightMotor.getOutputCurrent()};
