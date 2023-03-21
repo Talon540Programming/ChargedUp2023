@@ -13,4 +13,6 @@ public interface OperatorInterface {
   public Trigger lockRotation();
 
   public Trigger resetExtension();
+
+  public double getIntakePercent();
 }

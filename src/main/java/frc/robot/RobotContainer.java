@@ -108,8 +108,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     m_driveBase.setDefaultCommand(new DriveControl(m_driveBase, m_OIManager.getDriverInterface()));
-    m_armBase.setDefaultCommand(
-        new ArmControlVoltage(m_armBase, m_OIManager.getOperatorInterface()));
+    m_armBase.setDefaultCommand(new ArmControlVoltage(m_armBase, m_OIManager.getOperatorInterface()));
+    m_intakeBase.setDefaultCommand(new IntakeControl(m_intakeBase, m_OIManager.getOperatorInterface()));
 
     m_OIManager.getDriverInterface().toggleBalanceMode().whileTrue(new StabilizeRobot(m_driveBase));
     m_OIManager.getOperatorInterface().resetExtension().onTrue(new ResetArmExtension(m_armBase));
