@@ -9,10 +9,6 @@ public class RobotDimensions {
   public static final double kRobotMassLbs = 128.25; // TODO
   public static final double kRobotMassKilos = Units.lbsToKilograms(kRobotMassLbs);
 
-  public static final double kTotalArmSystemMassLbs =
-      Arm.kArmMassLbs + Effector.kEffectorMassLbs + Arm.kCounterweightMassLbs;
-  public static final double kTotalArmSystemMassKg = Units.lbsToKilograms(kTotalArmSystemMassLbs);
-
   public static final class Drivetrain {
     public static final double kBumperWidthInches = 3.5;
     public static final double kBumperWidthMeters = Units.inchesToMeters(kBumperWidthInches);
@@ -82,11 +78,11 @@ public class RobotDimensions {
     public static final double kWidthInches = 4.875;
     public static final double kWidthMeters = Units.inchesToMeters(kWidthInches);
 
-    public static final double kEffectorCenterOfMassOffsetInches = 8.52405;
+    public static final double kEffectorCenterOfMassOffsetInches = 8.720548;
     public static final double kEffectorCenterOfMassOffsetMeters =
         Units.inchesToMeters(kEffectorCenterOfMassOffsetInches);
 
-    public static final double kEffectorMassLbs = 6.721;
+    public static final double kEffectorMassLbs = 7.5740058;
     public static final double kEffectorMassKg = Units.lbsToKilograms(kEffectorMassLbs);
   }
 }
