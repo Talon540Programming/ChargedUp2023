@@ -40,6 +40,7 @@ public class DriveTime extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_driveBase.stop();
+    m_timer.stop();
   }
 
   @Override
