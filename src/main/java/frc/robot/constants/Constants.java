@@ -142,6 +142,11 @@ public final class Constants {
     }
   }
 
+  public static final class Intake {
+    public static final double kGearRatio = 4.0;
+    public static final double kConversionFactor = 1 / kGearRatio * 2.0 * Math.PI;
+  }
+
   public enum NeutralMode {
     BRAKE,
     COAST;

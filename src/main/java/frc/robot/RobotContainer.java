@@ -22,6 +22,10 @@ import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.DriveIOSim;
 import frc.robot.drivetrain.commands.DriveControl;
 import frc.robot.drivetrain.commands.StabilizeRobot;
+import frc.robot.intake.IntakeBase;
+import frc.robot.intake.IntakeIO;
+import frc.robot.intake.IntakeIOSparkMax;
+import frc.robot.intake.commands.IntakeControl;
 import frc.robot.oi.OIManager;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -29,6 +33,7 @@ public class RobotContainer {
   // Subsystems
   private DriveBase m_driveBase;
   private ArmBase m_armBase;
+  private IntakeBase m_intakeBase;
 
   // Controllers
   private final OIManager m_OIManager = new OIManager();
@@ -70,6 +75,16 @@ public class RobotContainer {
                       Constants.Arm.kRotationInverted,
                       HardwareDevices.COMP2023.Arm.kArmRotationEncoderId,
                       Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees));
+
+          m_intakeBase =
+                  new IntakeBase(
+                          new IntakeIOSparkMax(
+                              HardwareDevices.COMP2023.Intake.kLeftMotorId,
+                              HardwareDevices.COMP2023.Intake.kRightMotorId,
+                              HardwareDevices.COMP2023.Intake.kColorSensorPort,
+                              Constants.Intake.kConversionFactor
+                          )
+                  );
         }
         case ROBOT_SIMBOT -> {
           m_driveBase = new DriveBase(new DriveIOSim(false));
@@ -80,10 +95,12 @@ public class RobotContainer {
 
     // Create missing subsystems
     m_driveBase = m_driveBase != null ? m_driveBase : new DriveBase(new DriveIO() {});
-    m_armBase =
-        m_armBase != null
+    m_armBase = m_armBase != null
             ? m_armBase
             : new ArmBase(new ArmExtensionIO() {}, new ArmRotationIO() {});
+    m_intakeBase = m_intakeBase != null
+            ? m_intakeBase
+            : new IntakeBase(new IntakeIO() {});
 
     configureBindings();
     configureAuto();
