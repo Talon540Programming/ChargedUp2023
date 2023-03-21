@@ -103,8 +103,8 @@ public class ArmKinematics {
   }
 
   /**
-   * Calculate the Moment of Inertia of the arm based on its length from the pivot point to the beginning of the effector.
-   * <a href="https://www.desmos.com/calculator/kbxjguo57w">here</a>.
+   * Calculate the Moment of Inertia of the arm based on its length from the pivot point to the
+   * beginning of the effector. <a href="https://www.desmos.com/calculator/kbxjguo57w">here</a>.
    *
    * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
    *     effector.
@@ -192,7 +192,7 @@ public class ArmKinematics {
    */
   public double lowestForwardAngle(double totalLengthMeters) {
     return -Math.asin(
-        (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2  + 0.05))
+        (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2 + 0.05))
             / (totalLengthMeters));
   }
 
