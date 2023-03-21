@@ -21,7 +21,7 @@ public class DriveControl extends CommandBase {
       case Differential -> m_driveBase.tankDrivePercent(
           m_driverInterface.getLeftPercent(), m_driverInterface.getRightPercent());
       case Arcade -> m_driveBase.arcadeDrivePercent(
-          m_driverInterface.getLeftPercent(), m_driverInterface.getRightPercent());
+          m_driverInterface.getLeftPercent(), -m_driverInterface.getRightPercent());
     }
   }
 }
