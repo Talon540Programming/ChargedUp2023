@@ -30,4 +30,9 @@ public class XboxOperator implements OperatorInterface {
   public Trigger lockRotation() {
     return m_controller.leftBumper();
   }
+
+  @Override
+  public Trigger resetExtension() {
+    return m_controller.back();
+  }
 }
