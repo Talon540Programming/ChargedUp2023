@@ -1,8 +1,8 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.lib.SparkMaxBurnManager;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.commands.ArmControlVoltage;
 import frc.robot.arm.commands.ResetArmExtension;
@@ -43,7 +43,7 @@ public class RobotContainer {
       new LoggedDashboardChooser<>("Autonomous Mode Chooser");
 
   public RobotContainer() {
-    DriverStation.silenceJoystickConnectionWarning(true);
+    SparkMaxBurnManager.checkBuildStatus();
 
     if (Constants.getRobotMode() != Constants.RobotMode.REPLAY) {
       switch (Constants.getRobotType()) {

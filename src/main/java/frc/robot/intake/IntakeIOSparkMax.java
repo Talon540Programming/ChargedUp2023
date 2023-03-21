@@ -7,6 +7,8 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import frc.lib.SparkMaxBurnManager;
+import frc.lib.SparkMaxPeriodicFrameConfig;
 import frc.robot.constants.Constants;
 
 public class IntakeIOSparkMax implements IntakeIO {
@@ -22,6 +24,17 @@ public class IntakeIOSparkMax implements IntakeIO {
       int leftId, int rightId, I2C.Port colorSensorPort, double conversionFactor) {
     m_leftMotor = new CANSparkMax(leftId, CANSparkMaxLowLevel.MotorType.kBrushless);
     m_rightMotor = new CANSparkMax(rightId, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+    if (SparkMaxBurnManager.shouldBurnFlash()) {
+      m_leftMotor.restoreFactoryDefaults();
+      m_rightMotor.restoreFactoryDefaults();
+    }
+
+    m_leftMotor.setCANTimeout(SparkMaxBurnManager.kConfigurationStatusTimeoutMs);
+    m_rightMotor.setCANTimeout(SparkMaxBurnManager.kConfigurationStatusTimeoutMs);
+
+    SparkMaxPeriodicFrameConfig.configureLeader(m_leftMotor);
+    SparkMaxPeriodicFrameConfig.configureFollower(m_rightMotor);
 
     m_rightMotor.follow(m_leftMotor, true);
 
@@ -44,6 +57,11 @@ public class IntakeIOSparkMax implements IntakeIO {
 
     m_leftMotor.setCANTimeout(0);
     m_rightMotor.setCANTimeout(0);
+
+    if (SparkMaxBurnManager.shouldBurnFlash()) {
+      m_leftMotor.burnFlash();
+      m_rightMotor.burnFlash();
+    }
 
     setNeutralMode(Constants.NeutralMode.BRAKE);
 
