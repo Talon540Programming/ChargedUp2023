@@ -113,7 +113,7 @@ public final class Constants {
     @SuppressWarnings("PointlessArithmeticExpression")
     public static final double kExtensionGearRatio = (10.0 / 1.0);
 
-    public static final double kExtensionWinchRadiusInches = 0.5; // TODO
+    public static final double kExtensionWinchRadiusInches = (3.0 / 4.0) / 2.0;
     public static final double kExtensionWinchRadiusMeters =
         Units.inchesToMeters(kExtensionWinchRadiusInches);
 
