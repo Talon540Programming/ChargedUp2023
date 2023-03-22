@@ -103,20 +103,6 @@ public class ArmKinematics {
   }
 
   /**
-   * Calculate the Moment of Inertia of the arm based on its length from the pivot point to the
-   * beginning of the effector. <a href="https://www.desmos.com/calculator/kbxjguo57w">here</a>.
-   *
-   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
-   *     effector.
-   * @return estimated MoI of the Arm and Effector
-   */
-  public static double calculateMoI(double pivotToEffectorMeters) {
-    return 3.47384 * Math.pow(pivotToEffectorMeters, 2)
-        + 2.4162 * pivotToEffectorMeters
-        - 0.0945204;
-  }
-
-  /**
    * Check if an arm's dimensions would breach the extension limits.
    *
    * @param totalLengthMeters total length of the arm from the pivot point to the end of the
