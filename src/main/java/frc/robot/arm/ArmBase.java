@@ -55,6 +55,8 @@ public class ArmBase extends SubsystemBase {
           Constants.Arm.ControlValues.ExtensionValues.kP,
           Constants.Arm.ControlValues.ExtensionValues.kI,
           Constants.Arm.ControlValues.ExtensionValues.kD);
+
+  private boolean extensionCalibrated = false;
   // endregion
 
   public ArmBase(ArmExtensionIO extensionIO, ArmRotationIO rotationIO) {
@@ -67,7 +69,7 @@ public class ArmBase extends SubsystemBase {
   }
 
   private boolean armDisabled() {
-    return DriverStation.isDisabled() || m_disabled;
+    return DriverStation.isDisabled() || m_disabled || !extensionCalibrated;
   }
 
   @Override
@@ -150,13 +152,16 @@ public class ArmBase extends SubsystemBase {
   }
 
   /**
-   * Get the length of the arm including the effector.
-   *
-   * @return total length of the arm system.
+   * Reset the extension of the arm to all the way down and register the arm's extension encoder to
+   * be calibrated. Until extension is calibrated, the arm is unable to work.
    */
-  public double getTotalArmLength() {
-    return m_armExtensionInputs.PivotToEffectorDistanceMeters
-        + RobotDimensions.Effector.kLengthMeters;
+  public void completeExtensionCalibration() {
+    m_extensionIO.setDistance(RobotDimensions.Arm.kFullyRetractedLengthMeters);
+    extensionCalibrated = true;
+  }
+
+  public boolean extensionCalibrated() {
+    return extensionCalibrated;
   }
 
   public boolean atSetpoint() {
@@ -169,10 +174,6 @@ public class ArmBase extends SubsystemBase {
 
   public void stopRotation() {
     m_rotationIO.setVoltage(0.0);
-  }
-
-  public void resetExtensionDistance(double distanceMeters) {
-    m_extensionIO.setDistance(distanceMeters);
   }
 
   public void setRotationVoltage(double voltage) {

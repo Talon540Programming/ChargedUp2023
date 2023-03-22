@@ -2,7 +2,6 @@ package frc.robot.arm.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.arm.ArmBase;
-import frc.robot.constants.RobotDimensions;
 
 public class ResetArmExtension extends CommandBase {
   public static final double kCurrentThresholdAmps = 10; // TODO
@@ -23,7 +22,7 @@ public class ResetArmExtension extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_armBase.stopExtension();
-    m_armBase.resetExtensionDistance(RobotDimensions.Arm.kFullyRetractedLengthMeters);
+    m_armBase.completeExtensionCalibration();
     m_armBase.setDisabled(false);
   }
 
