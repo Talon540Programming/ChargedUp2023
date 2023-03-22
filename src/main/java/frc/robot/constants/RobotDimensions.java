@@ -78,11 +78,11 @@ public class RobotDimensions {
     public static final double kWidthInches = 4.875;
     public static final double kWidthMeters = Units.inchesToMeters(kWidthInches);
 
-    public static final double kEffectorCenterOfMassOffsetInches = 8.720548;
+    public static final double kEffectorCenterOfMassOffsetInches = 8.674336;
     public static final double kEffectorCenterOfMassOffsetMeters =
         Units.inchesToMeters(kEffectorCenterOfMassOffsetInches);
 
-    public static final double kEffectorMassLbs = 7.5740058;
+    public static final double kEffectorMassLbs = 6.3642175;
     public static final double kEffectorMassKg = Units.lbsToKilograms(kEffectorMassLbs);
   }
 }
