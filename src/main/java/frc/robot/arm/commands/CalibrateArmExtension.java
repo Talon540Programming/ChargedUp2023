@@ -3,12 +3,12 @@ package frc.robot.arm.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.arm.ArmBase;
 
-public class ResetArmExtension extends CommandBase {
+public class CalibrateArmExtension extends CommandBase {
   public static final double kCurrentThresholdAmps = 10; // TODO
 
   private final ArmBase m_armBase;
 
-  public ResetArmExtension(ArmBase armBase) {
+  public CalibrateArmExtension(ArmBase armBase) {
     this.m_armBase = armBase;
     addRequirements(armBase);
   }

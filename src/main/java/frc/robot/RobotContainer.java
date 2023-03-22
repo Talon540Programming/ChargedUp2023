@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.SparkMaxBurnManager;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.commands.ArmControlVoltage;
-import frc.robot.arm.commands.ResetArmExtension;
+import frc.robot.arm.commands.CalibrateArmExtension;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOSim;
 import frc.robot.arm.extension.ArmExtensionIOSparkMax;
@@ -111,7 +111,10 @@ public class RobotContainer {
         new IntakeControl(m_intakeBase, m_OIManager.getOperatorInterface()));
 
     m_OIManager.getDriverInterface().toggleBalanceMode().whileTrue(new StabilizeRobot(m_driveBase));
-    m_OIManager.getOperatorInterface().resetExtension().onTrue(new ResetArmExtension(m_armBase));
+    m_OIManager
+        .getOperatorInterface()
+        .resetExtension()
+        .onTrue(new CalibrateArmExtension(m_armBase));
   }
 
   private void configureAuto() {
