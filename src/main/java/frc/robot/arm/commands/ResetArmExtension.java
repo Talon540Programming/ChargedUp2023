@@ -22,7 +22,9 @@ public class ResetArmExtension extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_armBase.stopExtension();
-    m_armBase.completeExtensionCalibration();
+
+    if (!interrupted) m_armBase.completeExtensionCalibration();
+
     m_armBase.setDisabled(false);
   }
 
