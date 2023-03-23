@@ -2,11 +2,7 @@ package frc.robot.intake;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.lib.SparkMaxBurnManager;
 import frc.lib.SparkMaxPeriodicFrameConfig;
 import frc.robot.constants.Constants;
@@ -18,10 +14,7 @@ public class IntakeIOSparkMax implements IntakeIO {
   private final RelativeEncoder m_leftEncoder;
   private final RelativeEncoder m_rightEncoder;
 
-  private final ColorSensorV3 m_colorSensor;
-
-  public IntakeIOSparkMax(
-      int leftId, int rightId, I2C.Port colorSensorPort, double conversionFactor) {
+  public IntakeIOSparkMax(int leftId, int rightId, double conversionFactor) {
     m_leftMotor = new CANSparkMax(leftId, CANSparkMaxLowLevel.MotorType.kBrushless);
     m_rightMotor = new CANSparkMax(rightId, CANSparkMaxLowLevel.MotorType.kBrushless);
 
@@ -64,24 +57,10 @@ public class IntakeIOSparkMax implements IntakeIO {
     }
 
     setNeutralMode(Constants.NeutralMode.BRAKE);
-
-    m_colorSensor = new ColorSensorV3(colorSensorPort);
-
-    if (!m_colorSensor.isConnected()) {
-      DriverStation.reportError(
-          "Unable to Communicate with the Color Sensor, please make sure it is plugged into the correct I2C port and is powered.",
-          false);
-    }
   }
 
   @Override
   public void updateInputs(IntakeInputs inputs) {
-    inputs.InfraredValue = m_colorSensor.getIR();
-    inputs.RedValue = m_colorSensor.getRed();
-    inputs.BlueValue = m_colorSensor.getBlue();
-    inputs.GreenValue = m_colorSensor.getGreen();
-    inputs.ProximityValueCm = m_colorSensor.getProximity() / 2047.0 * 10.0; // [0, 10] cm range
-
     inputs.CurrentAmps =
         new double[] {m_leftMotor.getOutputCurrent(), m_rightMotor.getOutputCurrent()};
     inputs.TemperatureCelsius =
@@ -94,11 +73,6 @@ public class IntakeIOSparkMax implements IntakeIO {
   @Override
   public void setVoltage(double voltage) {
     m_leftMotor.setVoltage(voltage);
-  }
-
-  @Override
-  public Color8Bit getColor8Bit() {
-    return new Color8Bit(m_colorSensor.getColor());
   }
 
   @Override

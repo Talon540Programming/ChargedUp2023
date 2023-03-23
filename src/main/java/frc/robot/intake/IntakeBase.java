@@ -1,9 +1,6 @@
 package frc.robot.intake;
 
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.Constants;
-import java.util.Optional;
 import org.littletonrobotics.junction.Logger;
 
 public class IntakeBase extends SubsystemBase {
@@ -26,17 +23,5 @@ public class IntakeBase extends SubsystemBase {
 
   public void stopIntake() {
     m_intakeIO.setVoltage(0.0);
-  }
-
-  public Optional<Constants.GamePiece> getSeenGamePiece() {
-    // Color is inaccurate if not 2cm away
-    if (m_intakeInputs.ProximityValueCm <= 2) return Optional.empty();
-
-    Color8Bit currentColor = m_intakeIO.getColor8Bit();
-    for (Constants.GamePiece piece : Constants.GamePiece.values()) {
-      if (piece.matches(currentColor)) return Optional.of(piece);
-    }
-
-    return Optional.empty();
   }
 }
