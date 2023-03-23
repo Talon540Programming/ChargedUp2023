@@ -8,8 +8,8 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.arm.ArmKinematics;
 import java.io.IOException;
 
@@ -19,27 +19,41 @@ public final class Constants {
    */
   public static final boolean kAdvancedLoggingEnabled = true;
 
-  private static final RobotType kRobotType = RobotType.ROBOT_2023C;
+  private static RobotType kRobotType = RobotType.ROBOT_SIMBOT;
+  public static final double loopPeriodSecs = 0.02;
 
   public enum RobotMode {
     REAL,
-    REPLAY
+    REPLAY,
+    SIM
   }
 
   public enum RobotType {
     ROBOT_2023C,
-    ROBOT_2023P
+    ROBOT_SIMBOT
   }
 
   public static RobotType getRobotType() {
+    if (RobotBase.isReal() && kRobotType == RobotType.ROBOT_SIMBOT) {
+      DriverStation.reportError(
+          "Robot is set to SIM but it isn't a SIM, setting it to Competition Robot as redundancy.",
+          false);
+      kRobotType = RobotType.ROBOT_2023C;
+    }
+
+    if (RobotBase.isSimulation() && kRobotType != RobotType.ROBOT_SIMBOT) {
+      DriverStation.reportError(
+          "Robot is set to REAL but it is a SIM, setting it to SIMBOT as redundancy.", false);
+      kRobotType = RobotType.ROBOT_SIMBOT;
+    }
+
     return kRobotType;
   }
 
-  @SuppressWarnings("UnnecessaryDefault")
   public static RobotMode getRobotMode() {
     return switch (getRobotType()) {
-      case ROBOT_2023C, ROBOT_2023P -> RobotBase.isReal() ? RobotMode.REAL : RobotMode.REPLAY;
-      default -> RobotMode.REAL;
+      case ROBOT_2023C -> RobotBase.isReal() ? RobotMode.REAL : RobotMode.REPLAY;
+      case ROBOT_SIMBOT -> RobotMode.SIM;
     };
   }
 
@@ -62,22 +76,24 @@ public final class Constants {
 
     public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.COAST;
 
-    public static final double kRobotStabilizationToleranceDegrees = 1; // TODO
+    public static final double kRobotStabilizationToleranceDegrees = 3;
 
     public static class ControlValues {
-      public static class WheelSpeed {
-        public static final double kP = 0.47934; // TODO
+      public static class Characterization {
+        public static final double kP = 0; // TODO
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0.077705; // TODO
-        public static final double kV = 2.8428; // TODO
-        public static final double kA = 0.10828; // TODO
-      }
+        public static final double kSLinear = 0; // TODO
+        public static final double kVLinear =
+            1.98; // TODO this is a sim value, real value must be found in sysid
+        public static final double kALinear =
+            0.2; // TODO this is a sim value, real value must be found in sysid
 
-      public static class Trajectory {
-        public static final double kRamseteB = 2.0;
-        public static final double kRamseteZeta = 0.7;
+        public static final double kVAngular =
+            1.5; // TODO this is a sim value, real value must be found in sysid
+        public static final double kAAngular =
+            0.3; // TODO this is a sim value, real value must be found in sysid
       }
 
       public static class Stabilization {
@@ -90,36 +106,24 @@ public final class Constants {
 
   public static final class Arm {
     public static final ArmKinematics kArmKinematics =
-        new ArmKinematics(
-            new Pose3d(
-                0,
-                0,
-                Units.inchesToMeters(RobotDimensions.Arm.kFulcrumHeightInches),
-                new Rotation3d()));
-    public static final boolean kRotationInverted = false; // TODO
-    public static final boolean kExtensionInverted = false; // TODO
+        new ArmKinematics(RobotDimensions.Arm.kFulcrumPose);
+
+    public static final boolean kRotationInverted = false;
+    public static final boolean kExtensionInverted = false;
 
     @SuppressWarnings("PointlessArithmeticExpression")
-    public static final double kExtensionGearRatio = 4.0 / 1.0; // TODO
+    public static final double kRotationGearRatio =
+        (4.0 / 1.0) * (10.0 / 1.0) * (66.0 / 18.0); // TODO
 
-    public static final double kExtensionWinchRadiusInches = 0.4; // TODO
+    @SuppressWarnings("PointlessArithmeticExpression")
+    public static final double kExtensionGearRatio = (10.0 / 1.0);
+
+    public static final double kExtensionWinchRadiusInches = (3.0 / 4.0) / 2.0;
     public static final double kExtensionWinchRadiusMeters =
         Units.inchesToMeters(kExtensionWinchRadiusInches);
 
-    public static final double kExtensionCableLengthInches = 0; // TODO;
-    public static final double kExtensionCableLengthMeters =
-        Units.inchesToMeters(kExtensionCableLengthInches);
-
-    public static final double kExtensionCableDiameterInches = 0; // TODO
-    public static final double kExtensionCableDiameterMeters =
-        Units.inchesToMeters(kExtensionCableDiameterInches);
-
-    public static final int kNumberOfWrapsPerRadiusIncrease = 0; // TODO
-    public static final double kInitialWrapsAtBoot = 0; // TODO
-
-    public static final double kExtensionPositionConversionFactor = (1 / kExtensionGearRatio);
-    public static final double kExtensionVelocityConversionFactor =
-        Math.PI / (30.0 * kExtensionGearRatio); // TODO
+    public static final double kExtensionConversionFactor =
+        (1 / kExtensionGearRatio) * 2 * Math.PI * kExtensionWinchRadiusMeters;
 
     public static final double kRotationAbsoluteEncoderOffsetDegrees = 0; // TODO
 
@@ -144,39 +148,8 @@ public final class Constants {
   }
 
   public static final class Intake {
-    public static final double kWristChangePercent = 0.2; // TODO
-    public static final double kClawChangePercent = 0.2; // TODO
-
-    public static final double kIntakeClawMinimumAngleRad = 0; // TODO
-    public static final double kIntakeClawMaximumAngleRad = 0; // TODO
-
-    public static final double kConeIntakeAngle = 0; // TODO
-    public static final double kCubeIntakeAngle = 0; // TODO
-
-    public static final double kWristPositionConversionFactor = 0; // TODO
-    public static final double kWristVelocityConversionFactor = 0; // TODO
-
-    public static final double kWristEncoderOffsetDegrees = 0; // TODO
-    public static final double kClawEncoderOffsetDegrees = 0; // TODO
-
-    public static final double kGamepeiceColorTolerance = 25; // TODO
-
-    public static final double kWristIdleAngleRad = 0; // TODO
-    public static final double kWristFlippedAngleRad = Math.PI; // TODO
-
-    public static class ControlValues {
-      public static class ClawPosition {
-        public static final double kP = 0; // TODO
-        public static final double kI = 0; // TODO
-        public static final double kD = 0; // TODO
-      }
-
-      public static class WristPosition {
-        public static final double kP = 0; // TODO
-        public static final double kI = 0; // TODO
-        public static final double kD = 0; // TODO
-      }
-    }
+    public static final double kGearRatio = 4.0;
+    public static final double kConversionFactor = 1 / kGearRatio * 2.0 * Math.PI;
   }
 
   public static final class Vision {
@@ -220,27 +193,6 @@ public final class Constants {
         case BRAKE -> CANSparkMax.IdleMode.kBrake;
         case COAST -> CANSparkMax.IdleMode.kCoast;
       };
-    }
-  }
-
-  public enum GamePiece {
-    Cone(new Color8Bit(0, 0, 0)), // TODO
-    Cube(new Color8Bit(0, 0, 0)); // TODO
-
-    public final Color8Bit colorValue;
-
-    GamePiece(Color8Bit color) {
-      this.colorValue = color;
-    }
-
-    public boolean matches(Color8Bit otherColor) {
-      double deltaRed = Math.abs(otherColor.red - this.colorValue.red);
-      double deltaGreen = Math.abs(otherColor.green - this.colorValue.green);
-      double deltaBlue = Math.abs(otherColor.blue - this.colorValue.blue);
-
-      return deltaRed < Intake.kGamepeiceColorTolerance
-          && deltaGreen < Intake.kGamepeiceColorTolerance
-          && deltaBlue < Intake.kGamepeiceColorTolerance;
     }
   }
 }

@@ -1,6 +1,6 @@
-package frc.robot.sensors.gyro;
+package frc.lib;
 
-import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix.sensors.BasePigeon;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 /** Object representing the Accelerometer on a Pigeon2. */
@@ -17,14 +17,14 @@ public class Pigeon2Accelerometer implements Accelerometer {
     }
   }
 
-  private final Pigeon2 m_gyro;
+  private final BasePigeon m_gyro;
 
   /**
    * Create a Pigeon2.0 Accelerometer object.
    *
    * @param gyro gyro to use as accelerometer.
    */
-  public Pigeon2Accelerometer(Pigeon2 gyro) {
+  public Pigeon2Accelerometer(BasePigeon gyro) {
     m_gyro = gyro;
   }
 
