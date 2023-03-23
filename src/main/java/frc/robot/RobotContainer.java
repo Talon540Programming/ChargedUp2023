@@ -4,10 +4,10 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.lib.SparkMaxBurnManager;
 import frc.lib.vision.PhotonCamera;
 import frc.lib.vision.position.EstimatedRobotPose;
 import frc.lib.vision.position.VisionPoseEstimator;
-import frc.lib.SparkMaxBurnManager;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.commands.ArmControlVoltage;
 import frc.robot.arm.commands.ResetArmExtension;
@@ -33,12 +33,11 @@ import frc.robot.intake.IntakeIOSim;
 import frc.robot.intake.IntakeIOSparkMax;
 import frc.robot.intake.commands.IntakeControl;
 import frc.robot.oi.OIManager;
-import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class RobotContainer {
   // Subsystems
@@ -179,9 +178,8 @@ public class RobotContainer {
 
   public static void configureFieldOrigin() {
     Constants.Vision.kFieldLayout.setOrigin(
-            DriverStation.getAlliance() == DriverStation.Alliance.Blue
-                    ? AprilTagFieldLayout.OriginPosition.kBlueAllianceWallRightSide
-                    : AprilTagFieldLayout.OriginPosition.kRedAllianceWallRightSide
-    );
+        DriverStation.getAlliance() == DriverStation.Alliance.Blue
+            ? AprilTagFieldLayout.OriginPosition.kBlueAllianceWallRightSide
+            : AprilTagFieldLayout.OriginPosition.kRedAllianceWallRightSide);
   }
 }
