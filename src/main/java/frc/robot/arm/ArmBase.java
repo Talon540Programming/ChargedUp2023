@@ -6,6 +6,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOInputsAutoLogged;
@@ -57,6 +58,7 @@ public class ArmBase extends SubsystemBase {
           Constants.Arm.ControlValues.ExtensionValues.kD);
 
   private boolean extensionCalibrated = false;
+  private double extensionCalibratedTimeSeconds = -1;
   // endregion
 
   public ArmBase(ArmExtensionIO extensionIO, ArmRotationIO rotationIO) {
@@ -79,6 +81,11 @@ public class ArmBase extends SubsystemBase {
 
     Logger.getInstance().processInputs("Arm/Extension", m_armExtensionInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
+
+    // Log extension calibration state
+    Logger.getInstance().recordOutput("Arm/Extension/Calibrated", extensionCalibrated);
+    Logger.getInstance()
+        .recordOutput("Arm/Extension/CalibrationTimestamp", extensionCalibratedTimeSeconds);
 
     // Log the target state
     Logger.getInstance().processInputs("Arm/TargetState", m_targetState);
@@ -157,6 +164,7 @@ public class ArmBase extends SubsystemBase {
    */
   public void completeExtensionCalibration() {
     m_extensionIO.setDistance(RobotDimensions.Arm.kFullyRetractedLengthMeters);
+    extensionCalibratedTimeSeconds = Timer.getFPGATimestamp();
     extensionCalibrated = true;
   }
 
