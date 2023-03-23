@@ -1,4 +1,4 @@
-package frc.lib.arm;
+package frc.robot.arm.rotation;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
