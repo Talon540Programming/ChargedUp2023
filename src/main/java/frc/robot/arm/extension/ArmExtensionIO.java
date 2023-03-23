@@ -14,9 +14,6 @@ public interface ArmExtensionIO extends LoggedIO<ArmExtensionIO.ArmExtensionIOIn
     public double CurrentAmps;
   }
 
-  @Override
-  default void updateInputs(ArmExtensionIOInputs inputs) {}
-
   /**
    * Set the output voltage of the extension winch motor.
    *

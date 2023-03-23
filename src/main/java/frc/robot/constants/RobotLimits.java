@@ -11,9 +11,6 @@ public class RobotLimits {
   public static final double kMaxExtensionVerticalMeters =
       Units.inchesToMeters(kMaxExtensionVerticalInches);
 
-  public static final double kMaxArmAngleRadians = Math.PI; // TODO
-  public static final double kMinArmAngleRadians = 0; // TODO
-
   public static final double kMaxDrivetrainVelocityMetersPerSecond = 0; // TODO
   public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 0; // TODO
 

@@ -5,7 +5,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.arm.ArmKinematics;
 
 public final class Constants {
@@ -113,7 +112,7 @@ public final class Constants {
     @SuppressWarnings("PointlessArithmeticExpression")
     public static final double kExtensionGearRatio = (10.0 / 1.0);
 
-    public static final double kExtensionWinchRadiusInches = 0.5; // TODO
+    public static final double kExtensionWinchRadiusInches = (3.0 / 4.0) / 2.0;
     public static final double kExtensionWinchRadiusMeters =
         Units.inchesToMeters(kExtensionWinchRadiusInches);
 
@@ -142,6 +141,11 @@ public final class Constants {
     }
   }
 
+  public static final class Intake {
+    public static final double kGearRatio = 4.0;
+    public static final double kConversionFactor = 1 / kGearRatio * 2.0 * Math.PI;
+  }
+
   public enum NeutralMode {
     BRAKE,
     COAST;
@@ -168,28 +172,6 @@ public final class Constants {
         case BRAKE -> CANSparkMax.IdleMode.kBrake;
         case COAST -> CANSparkMax.IdleMode.kCoast;
       };
-    }
-  }
-
-  public enum GamePiece {
-    Cone(new Color8Bit(0, 0, 0)), // TODO
-    Cube(new Color8Bit(0, 0, 0)); // TODO
-
-    private static final double kGamepeiceColorTolerance = 25; // TODO
-    public final Color8Bit colorValue;
-
-    GamePiece(Color8Bit color) {
-      this.colorValue = color;
-    }
-
-    public boolean matches(Color8Bit otherColor) {
-      double deltaRed = Math.abs(otherColor.red - this.colorValue.red);
-      double deltaGreen = Math.abs(otherColor.green - this.colorValue.green);
-      double deltaBlue = Math.abs(otherColor.blue - this.colorValue.blue);
-
-      return deltaRed < kGamepeiceColorTolerance
-          && deltaGreen < kGamepeiceColorTolerance
-          && deltaBlue < kGamepeiceColorTolerance;
     }
   }
 }

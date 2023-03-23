@@ -35,4 +35,9 @@ public class XboxOperator implements OperatorInterface {
   public Trigger resetExtension() {
     return m_controller.back();
   }
+
+  @Override
+  public double getIntakePercent() {
+    return m_controller.getRightTriggerAxis() - m_controller.getLeftTriggerAxis();
+  }
 }

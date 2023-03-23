@@ -103,39 +103,6 @@ public class ArmKinematics {
   }
 
   /**
-   * Calculate the Moment of Inertia of the arm based on its length, mass of the arm, and mass of
-   * the effector. The estimation of the MoI is found <a
-   * href="https://www.desmos.com/calculator/a6wx6jikow">here</a>.
-   *
-   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
-   *     effector.
-   * @return estimated MoI of the Arm and Effector
-   */
-  public static double calculateMoI(double pivotToEffectorMeters) {
-    return 3.08887 * Math.pow(pivotToEffectorMeters, 2)
-        + 2.10357 * pivotToEffectorMeters
-        - 0.0945233;
-  }
-
-  /**
-   * Estimates the distance from the pivot point to the center of mass of just the arm (without the
-   * counterweight and the effector). <a href="https://www.desmos.com/calculator/y82f7lckoo">...</a>
-   *
-   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
-   *     effector.
-   * @return estimated distance in meters.
-   */
-  public static double calculateArmCenterOfMassDistance(double pivotToEffectorMeters) {
-    double pivotToEffectorInches = Units.metersToInches(pivotToEffectorMeters);
-
-    if (pivotToEffectorInches < 40) {
-      return Units.inchesToMeters(0.465 * pivotToEffectorInches - 0.72744048);
-    } else {
-      return Units.inchesToMeters(0.209 * pivotToEffectorInches + 9.5161);
-    }
-  }
-
-  /**
    * Check if an arm's dimensions would breach the extension limits.
    *
    * @param totalLengthMeters total length of the arm from the pivot point to the end of the
@@ -181,7 +148,7 @@ public class ArmKinematics {
   public boolean wouldIntersectForward(double totalLengthMeters, double armAngleRadians) {
     Pose3d effectorPose = calculatePose((totalLengthMeters), armAngleRadians);
 
-    return effectorPose.getZ() <= RobotDimensions.Effector.kWidthMeters / 2
+    return effectorPose.getZ() <= RobotDimensions.Effector.kWidthMeters / 2 + 0.05
         && effectorPose.getX() > 0;
   }
 
@@ -197,7 +164,7 @@ public class ArmKinematics {
   public boolean wouldIntersectRear(double totalLengthMeters, double armAngleRadians) {
     Pose3d effectorPose = calculatePose((totalLengthMeters), armAngleRadians);
 
-    return effectorPose.getZ() <= RobotDimensions.Effector.kWidthMeters / 2
+    return effectorPose.getZ() <= RobotDimensions.Effector.kWidthMeters / 2 + 0.05
         && effectorPose.getX() < 0;
   }
 
@@ -211,7 +178,7 @@ public class ArmKinematics {
    */
   public double lowestForwardAngle(double totalLengthMeters) {
     return -Math.asin(
-        (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2))
+        (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2 + 0.05))
             / (totalLengthMeters));
   }
 
@@ -226,7 +193,7 @@ public class ArmKinematics {
   public double lowestRearAngle(double totalLengthMeters) {
     return Math.PI
         + Math.asin(
-            (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2))
+            (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2 + 0.05))
                 / (totalLengthMeters));
   }
 

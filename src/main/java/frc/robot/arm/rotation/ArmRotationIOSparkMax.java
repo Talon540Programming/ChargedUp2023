@@ -6,6 +6,8 @@ import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.math.MathUtil;
+import frc.lib.SparkMaxBurnManager;
+import frc.lib.SparkMaxPeriodicFrameConfig;
 import frc.robot.constants.Constants;
 
 /** ArmRotationIO using 2 SparkMax motor controllers. */
@@ -19,7 +21,7 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
    * @param rotationLeader id of leader SparkMax.
    * @param rotationFollower id of the follower SparkMax
    * @param rotationInverted whether the direction of the motors should be inverted.
-   * @param encoderID id of the CANcoder
+   * @param encoderID id of the CANCoder
    * @param absoluteEncoderOffset offset of the CANCoder in degrees.
    */
   public ArmRotationIOSparkMax(
@@ -45,6 +47,17 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
     this.m_rotationFollower =
         new CANSparkMax(rotationFollower, CANSparkMaxLowLevel.MotorType.kBrushless);
 
+    if (SparkMaxBurnManager.shouldBurnFlash()) {
+      m_rotationLeader.restoreFactoryDefaults();
+      m_rotationFollower.restoreFactoryDefaults();
+    }
+
+    m_rotationLeader.setCANTimeout(SparkMaxBurnManager.kConfigurationStatusTimeoutMs);
+    m_rotationFollower.setCANTimeout(SparkMaxBurnManager.kConfigurationStatusTimeoutMs);
+
+    SparkMaxPeriodicFrameConfig.configureLeader(m_rotationLeader);
+    SparkMaxPeriodicFrameConfig.configureFollower(m_rotationFollower);
+
     m_rotationFollower.follow(m_rotationLeader);
     m_rotationLeader.setInverted(rotationInverted);
 
@@ -55,6 +68,11 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
 
     m_rotationLeader.setCANTimeout(0);
     m_rotationFollower.setCANTimeout(0);
+
+    if (SparkMaxBurnManager.shouldBurnFlash()) {
+      m_rotationLeader.burnFlash();
+      m_rotationFollower.burnFlash();
+    }
 
     setNeutralMode(Constants.NeutralMode.BRAKE);
   }

@@ -3,7 +3,7 @@ package frc.robot.arm.rotation;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import frc.lib.arm.VariableSingleJoinedArmSim;
-import frc.robot.arm.ArmKinematics;
+import frc.robot.arm.ArmSystemDynamics;
 import frc.robot.constants.Constants;
 import frc.robot.constants.RobotDimensions;
 
@@ -15,7 +15,8 @@ public class ArmRotationIOSim implements ArmRotationIO {
         new VariableSingleJoinedArmSim(
             DCMotor.getNEO(2),
             Constants.Arm.kRotationGearRatio,
-            ArmKinematics.calculateMoI(RobotDimensions.Arm.kFullyRetractedLengthMeters),
+            ArmSystemDynamics.calculateSystemMomentOfInertia(
+                RobotDimensions.Arm.kFullyRetractedLengthMeters),
             RobotDimensions.Arm.kFullyRetractedLengthMeters,
             RobotDimensions.Effector.kLengthMeters,
             Constants.Arm.kArmKinematics,
@@ -42,6 +43,6 @@ public class ArmRotationIOSim implements ArmRotationIO {
   public void updateArmLength(double pivotToEffectorMeters) {
     m_armSim.updateArmLength(pivotToEffectorMeters);
 
-    m_armSim.updateMoI(ArmKinematics.calculateMoI(pivotToEffectorMeters));
+    m_armSim.updateMoI(ArmSystemDynamics.calculateSystemMomentOfInertia(pivotToEffectorMeters));
   }
 }

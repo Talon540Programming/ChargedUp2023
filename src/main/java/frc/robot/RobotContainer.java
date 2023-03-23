@@ -1,8 +1,8 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.lib.SparkMaxBurnManager;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.commands.ArmControlVoltage;
 import frc.robot.arm.commands.ResetArmExtension;
@@ -22,6 +22,10 @@ import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.DriveIOSim;
 import frc.robot.drivetrain.commands.DriveControl;
 import frc.robot.drivetrain.commands.StabilizeRobot;
+import frc.robot.intake.IntakeBase;
+import frc.robot.intake.IntakeIO;
+import frc.robot.intake.IntakeIOSparkMax;
+import frc.robot.intake.commands.IntakeControl;
 import frc.robot.oi.OIManager;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -29,6 +33,7 @@ public class RobotContainer {
   // Subsystems
   private DriveBase m_driveBase;
   private ArmBase m_armBase;
+  private IntakeBase m_intakeBase;
 
   // Controllers
   private final OIManager m_OIManager = new OIManager();
@@ -38,7 +43,7 @@ public class RobotContainer {
       new LoggedDashboardChooser<>("Autonomous Mode Chooser");
 
   public RobotContainer() {
-    DriverStation.silenceJoystickConnectionWarning(true);
+    SparkMaxBurnManager.checkBuildStatus();
 
     if (Constants.getRobotMode() != Constants.RobotMode.REPLAY) {
       switch (Constants.getRobotType()) {
@@ -70,6 +75,13 @@ public class RobotContainer {
                       Constants.Arm.kRotationInverted,
                       HardwareDevices.COMP2023.Arm.kArmRotationEncoderId,
                       Constants.Arm.kRotationAbsoluteEncoderOffsetDegrees));
+
+          m_intakeBase =
+              new IntakeBase(
+                  new IntakeIOSparkMax(
+                      HardwareDevices.COMP2023.Intake.kLeftMotorId,
+                      HardwareDevices.COMP2023.Intake.kRightMotorId,
+                      Constants.Intake.kConversionFactor));
         }
         case ROBOT_SIMBOT -> {
           m_driveBase = new DriveBase(new DriveIOSim(false));
@@ -84,6 +96,7 @@ public class RobotContainer {
         m_armBase != null
             ? m_armBase
             : new ArmBase(new ArmExtensionIO() {}, new ArmRotationIO() {});
+    m_intakeBase = m_intakeBase != null ? m_intakeBase : new IntakeBase(new IntakeIO() {});
 
     configureBindings();
     configureAuto();
@@ -93,6 +106,8 @@ public class RobotContainer {
     m_driveBase.setDefaultCommand(new DriveControl(m_driveBase, m_OIManager.getDriverInterface()));
     m_armBase.setDefaultCommand(
         new ArmControlVoltage(m_armBase, m_OIManager.getOperatorInterface()));
+    m_intakeBase.setDefaultCommand(
+        new IntakeControl(m_intakeBase, m_OIManager.getOperatorInterface()));
 
     m_OIManager.getDriverInterface().toggleBalanceMode().whileTrue(new StabilizeRobot(m_driveBase));
     m_OIManager.getOperatorInterface().resetExtension().onTrue(new ResetArmExtension(m_armBase));
