@@ -19,7 +19,7 @@ public final class HardwareDevices {
       public static final int kRotationFollowerId = 12;
       public static final int kExtensionId = 14;
 
-      public static final int kArmRotationEncoderId = 0; // TODO
+      public static final int kArmRotationEncoderId = -1; // TODO
     }
 
     public static class Intake {
