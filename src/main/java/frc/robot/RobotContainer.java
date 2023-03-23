@@ -81,7 +81,6 @@ public class RobotContainer {
                   new IntakeIOSparkMax(
                       HardwareDevices.COMP2023.Intake.kLeftMotorId,
                       HardwareDevices.COMP2023.Intake.kRightMotorId,
-                      HardwareDevices.COMP2023.Intake.kColorSensorPort,
                       Constants.Intake.kConversionFactor));
         }
         case ROBOT_SIMBOT -> {

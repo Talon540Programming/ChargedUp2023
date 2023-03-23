@@ -25,6 +25,7 @@ public class SparkMaxBurnManager {
   }
 
   public static void checkBuildStatus() {
+    // TODO, make sure read and write functions work
     if (RobotBase.isSimulation()) {
       shouldBurn = false;
       return;
