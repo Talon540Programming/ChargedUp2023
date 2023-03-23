@@ -3,6 +3,7 @@ package frc.robot.intake;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.math.MathUtil;
 import frc.lib.SparkMaxBurnManager;
 import frc.lib.SparkMaxPeriodicFrameConfig;
 import frc.robot.constants.Constants;
@@ -72,6 +73,7 @@ public class IntakeIOSparkMax implements IntakeIO {
 
   @Override
   public void setVoltage(double voltage) {
+    voltage = MathUtil.clamp(voltage, -12, 12);
     m_leftMotor.setVoltage(voltage);
   }
 

@@ -24,6 +24,7 @@ import frc.robot.drivetrain.commands.DriveControl;
 import frc.robot.drivetrain.commands.StabilizeRobot;
 import frc.robot.intake.IntakeBase;
 import frc.robot.intake.IntakeIO;
+import frc.robot.intake.IntakeIOSim;
 import frc.robot.intake.IntakeIOSparkMax;
 import frc.robot.intake.commands.IntakeControl;
 import frc.robot.oi.OIManager;
@@ -86,6 +87,7 @@ public class RobotContainer {
         case ROBOT_SIMBOT -> {
           m_driveBase = new DriveBase(new DriveIOSim(false));
           m_armBase = new ArmBase(new ArmExtensionIOSim(), new ArmRotationIOSim(true));
+          m_intakeBase = new IntakeBase(new IntakeIOSim());
         }
       }
     }
