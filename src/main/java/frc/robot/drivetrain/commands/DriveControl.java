@@ -13,7 +13,7 @@ public class DriveControl extends CommandBase {
       new LoggedDashboardChooser<>("Drive Speed Limiter");
 
   private final LoggedDashboardChooser<Double> m_rightSpeedLimiter =
-          new LoggedDashboardChooser<>("Drive Speed Limiter");
+      new LoggedDashboardChooser<>("Drive Speed Limiter");
 
   private final LoggedDashboardChooser<DriverInterface.DriveMode> m_driveMode =
       new LoggedDashboardChooser<>("Drive Mode");
