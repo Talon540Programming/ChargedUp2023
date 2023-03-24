@@ -16,6 +16,11 @@ public class CalibrateArmExtension extends CommandBase {
   @Override
   public void initialize() {
     m_armBase.setDisabled(true);
+  }
+
+  @Override
+  public void execute() {
+    // This need to be called periodically to bypass the disabled voltage application
     m_armBase.setExtensionVoltage(-4.0);
   }
 

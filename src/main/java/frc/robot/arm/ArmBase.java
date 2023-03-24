@@ -35,6 +35,7 @@ public class ArmBase extends SubsystemBase {
       new ArmVisualizer("Target", Constants.Arm.kArmKinematics);
 
   private boolean m_disabled = false;
+  private boolean m_disabledVoltageApplied = false;
 
   private final ProfiledPIDController m_rotationController =
       new ProfiledPIDController(
@@ -92,13 +93,22 @@ public class ArmBase extends SubsystemBase {
 
     if (armDisabled()) {
       m_targetState = ArmState.IDLE;
-      m_extensionIO.setVoltage(0.0);
-      m_rotationIO.setVoltage(0.0);
+
+      // Only stop movement as soon as arm is disabled instead of continuously while disabled.
+      // Ideally, this isn't needed, but because some processes work through direct control, this is
+      // needed.
+      if (!m_disabledVoltageApplied) {
+        stopExtension();
+        stopRotation();
+        m_disabledVoltageApplied = true;
+      }
 
       // Controllers will be continuously reset while the arm is considered disabled.
       m_rotationController.reset(m_armRotationInputs.AbsoluteArmPositionRad);
       m_extensionController.reset();
     } else {
+      m_disabledVoltageApplied = false;
+
       double rotationFeedforward = m_rotationFeedforward.calculate(m_targetState.AngleRadians, 0);
       double rotationFeedback =
           m_rotationController.calculate(
