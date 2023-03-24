@@ -15,4 +15,9 @@ public interface OperatorInterface {
   public Trigger resetExtension();
 
   public double getIntakePercent();
+
+  public enum ArmMode {
+    Direct,
+    StateSpace
+  }
 }
