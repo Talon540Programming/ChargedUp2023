@@ -90,11 +90,6 @@ public class ArmBase extends SubsystemBase {
     // Log the target state
     Logger.getInstance().processInputs("Arm/TargetState", m_targetState);
 
-    m_measuredVisualizer.update(
-        m_armRotationInputs.AbsoluteArmPositionRad,
-        m_armExtensionInputs.PivotToEffectorDistanceMeters);
-    m_targetVisualizer.update(m_targetState.AngleRadians, m_targetState.LengthMeters);
-
     if (armDisabled()) {
       m_targetState = ArmState.IDLE;
       m_extensionIO.setVoltage(0.0);
@@ -115,6 +110,11 @@ public class ArmBase extends SubsystemBase {
               m_armExtensionInputs.PivotToEffectorDistanceMeters, m_targetState.LengthMeters);
       m_extensionIO.setVoltage(extensionFeedBack);
     }
+
+    m_measuredVisualizer.update(
+        m_armRotationInputs.AbsoluteArmPositionRad,
+        m_armExtensionInputs.PivotToEffectorDistanceMeters);
+    m_targetVisualizer.update(m_targetState.AngleRadians, m_targetState.LengthMeters);
   }
 
   @Override
