@@ -111,7 +111,7 @@ public class RobotContainer {
     m_intakeBase.setDefaultCommand(
         new IntakeControl(m_intakeBase, m_OIManager.getOperatorInterface()));
 
-    m_OIManager.getDriverInterface().toggleBalanceMode().whileTrue(new StabilizeRobot(m_driveBase));
+    m_OIManager.getDriverInterface().toggleBalanceMode().toggleOnTrue(new StabilizeRobot(m_driveBase));
     m_OIManager
         .getOperatorInterface()
         .resetExtension()
