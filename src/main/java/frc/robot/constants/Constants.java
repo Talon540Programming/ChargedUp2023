@@ -52,9 +52,9 @@ public final class Constants {
   }
 
   public static final class Drivetrain {
-    public static final boolean kLeftSideInverted = true;
+    public static final boolean kLeftSideInverted = false;
     public static final boolean kLeftSensorInverted = false;
-    public static final boolean kRightSideInverted = false;
+    public static final boolean kRightSideInverted = true;
     public static final boolean kRightSensorInverted = true;
 
     public static final double kDrivetrainGearRatio = (54.0 / 20.0) * (50.0 / 11.0);
