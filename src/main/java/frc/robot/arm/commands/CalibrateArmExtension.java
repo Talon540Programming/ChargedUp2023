@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.arm.ArmBase;
 
 public class CalibrateArmExtension extends CommandBase {
-  public static final double kCurrentThresholdAmps = 40; // TODO
+  public static final double kCurrentThresholdAmps = 40;
 
   private final ArmBase m_armBase;
 
