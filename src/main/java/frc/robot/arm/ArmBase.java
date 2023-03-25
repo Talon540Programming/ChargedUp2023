@@ -119,14 +119,16 @@ public class ArmBase extends SubsystemBase {
 
       double extensionFeedBack =
           m_extensionController.calculate(
-              m_armExtensionInputs.PivotToEffectorDistanceMeters, m_targetState.LengthMeters);
+              m_armExtensionInputs.PivotToEffectorDistanceMeters,
+              m_targetState.PivotToEffectorDistanceMeters);
       m_extensionIO.setVoltage(extensionFeedBack);
     }
 
     m_measuredVisualizer.update(
         m_armRotationInputs.AbsoluteArmPositionRad,
         m_armExtensionInputs.PivotToEffectorDistanceMeters);
-    m_targetVisualizer.update(m_targetState.AngleRadians, m_targetState.LengthMeters);
+    m_targetVisualizer.update(
+        m_targetState.AngleRadians, m_targetState.PivotToEffectorDistanceMeters);
   }
 
   @Override
@@ -143,11 +145,14 @@ public class ArmBase extends SubsystemBase {
   }
 
   public void updateState(ArmState state) {
-    state.LengthMeters =
+    state.PivotToEffectorDistanceMeters =
         MathUtil.clamp(
-            state.LengthMeters, RobotLimits.kMinArmLengthMeters, RobotLimits.kMaxArmLengthMeters);
+            state.PivotToEffectorDistanceMeters,
+            RobotLimits.kMinArmLengthMeters,
+            RobotLimits.kMaxArmLengthMeters);
 
-    double totalLength = state.LengthMeters + RobotDimensions.Effector.kLengthMeters;
+    double totalLength =
+        state.PivotToEffectorDistanceMeters + RobotDimensions.Effector.kLengthMeters;
 
     // Prevent from going through the floor
     if (Math.PI > state.AngleRadians && state.AngleRadians >= -Math.PI / 2.0) {
@@ -162,12 +167,12 @@ public class ArmBase extends SubsystemBase {
 
     // Prevent from breaching extension limit
     if (Constants.Arm.kArmKinematics.wouldBreakExtensionLimit(totalLength, state.AngleRadians)) {
-      state.LengthMeters =
+      state.PivotToEffectorDistanceMeters =
           Constants.Arm.kArmKinematics.maxArmAndEffectorLength(state.AngleRadians)
               - RobotDimensions.Effector.kLengthMeters;
     }
 
-    m_targetState = new ArmState(state.AngleRadians, state.LengthMeters);
+    m_targetState = new ArmState(state.AngleRadians, state.PivotToEffectorDistanceMeters);
   }
 
   /**

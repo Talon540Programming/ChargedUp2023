@@ -31,7 +31,7 @@ public class ArmControl extends CommandBase {
   @Override
   public void execute() {
     double armAngleRad = m_armBase.getTargetState().AngleRadians;
-    double armLength = m_armBase.getTargetState().LengthMeters;
+    double armLength = m_armBase.getTargetState().PivotToEffectorDistanceMeters;
 
     if ((m_operatorInterface.getRotationLinearX() != 0.0
             || m_operatorInterface.getRotationLinearY() != 0.0)
