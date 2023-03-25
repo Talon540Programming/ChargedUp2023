@@ -6,25 +6,46 @@ import frc.robot.drivetrain.DriveBase;
 
 public class DriveDistance extends CommandBase {
   private final DriveBase m_driveBase;
-  private final double distance;
+
+  private final double driveDistanceMeters;
+
+  private double initialLeftDistanceMeters;
+  private double initialRightDistanceMeters;
 
   public DriveDistance(double distanceMeters, DriveBase driveBase) {
     this.m_driveBase = driveBase;
-    this.distance = m_driveBase.getLinearDistanceTraveled() + distanceMeters;
+    this.driveDistanceMeters = distanceMeters;
+
     addRequirements(driveBase);
   }
 
   @Override
+  public void initialize() {
+    initialLeftDistanceMeters = m_driveBase.m_driveInputs.LeftPositionMeters;
+    initialRightDistanceMeters = m_driveBase.m_driveInputs.RightPositionMeters;
+  }
+
+  @Override
   public void execute() {
-    double deltaDistance = distance - m_driveBase.getLinearDistanceTraveled();
-    double speed = MathUtil.clamp(deltaDistance, -0.5, 0.5);
+    double distanceTraveledLeft =
+        m_driveBase.m_driveInputs.LeftPositionMeters - initialLeftDistanceMeters;
+    // double distanceTraveledRight = m_driveBase.m_driveInputs.RightPositionMeters -
+    // initialRightDistanceMeters;
+
+    double deltaLeftDistance = driveDistanceMeters - distanceTraveledLeft;
+    // double deltaRightDistance = driveDistanceMeters - distanceTraveledRight;
+
+    double speed = MathUtil.clamp(deltaLeftDistance, -0.5, 0.5);
 
     m_driveBase.tankDrivePercent(speed, speed);
   }
 
   @Override
   public boolean isFinished() {
-    return Math.abs(m_driveBase.getLinearDistanceTraveled() - distance) <= 0.1;
+    double distanceTraveledLeft =
+        m_driveBase.m_driveInputs.LeftPositionMeters - initialLeftDistanceMeters;
+
+    return Math.abs(driveDistanceMeters - distanceTraveledLeft) <= 0.1;
   }
 
   @Override
