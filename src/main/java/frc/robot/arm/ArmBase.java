@@ -124,6 +124,7 @@ public class ArmBase extends SubsystemBase {
       m_extensionIO.setVoltage(extensionFeedBack);
     }
 
+    // Update the logged visualizers of the Arm's state
     m_measuredVisualizer.update(
         m_armRotationInputs.AbsoluteArmPositionRad,
         m_armExtensionInputs.PivotToEffectorDistanceMeters);
