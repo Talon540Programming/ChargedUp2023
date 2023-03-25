@@ -21,6 +21,7 @@ public class ArmState implements LoggableInputs, Cloneable {
 
   public double AngleRadians;
   public double LengthMeters;
+  public double VelocityRadiansPerSecond;
 
   /**
    * Create an ArmState object.

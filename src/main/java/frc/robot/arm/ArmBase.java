@@ -109,7 +109,9 @@ public class ArmBase extends SubsystemBase {
     } else {
       m_disabledVoltageApplied = false;
 
-      double rotationFeedforward = m_rotationFeedforward.calculate(m_targetState.AngleRadians, 0);
+      double rotationFeedforward =
+          m_rotationFeedforward.calculate(
+              m_targetState.AngleRadians, m_targetState.VelocityRadiansPerSecond);
       double rotationFeedback =
           m_rotationController.calculate(
               m_armRotationInputs.AbsoluteArmPositionRad, m_targetState.AngleRadians);
