@@ -19,11 +19,11 @@ public class DriveTime extends CommandBase {
   /**
    * Create a DriveTime Auto.
    *
+   * @param driveBase drivetrain subsystem.
    * @param duration how long to drive in seconds.
    * @param speed speed to drive at [-1.0, 1.0].
-   * @param driveBase drivetrain subsystem.
    */
-  public DriveTime(double duration, double speed, DriveBase driveBase) {
+  public DriveTime(DriveBase driveBase, double duration, double speed) {
     kDuration = Math.max(0, duration);
     kSpeed = MathUtil.clamp(speed, -1, 1);
     m_driveBase = driveBase;

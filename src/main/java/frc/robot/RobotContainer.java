@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.SparkMaxBurnManager;
 import frc.robot.arm.ArmBase;
-import frc.robot.arm.commands.ArmControl;
+import frc.robot.arm.commands.ArmControlVoltage;
 import frc.robot.arm.commands.CalibrateArmExtension;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOSim;
@@ -12,8 +12,9 @@ import frc.robot.arm.extension.ArmExtensionIOSparkMax;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOSim;
 import frc.robot.arm.rotation.ArmRotationIOSparkMax;
-import frc.robot.autos.DriveDistance;
 import frc.robot.autos.DriveTime;
+import frc.robot.autos.ScoreCubeHybridBalance;
+import frc.robot.autos.ScoreCubeHybridTaxi;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
 import frc.robot.drivetrain.DriveBase;
@@ -106,7 +107,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     m_driveBase.setDefaultCommand(new DriveControl(m_driveBase, m_OIManager.getDriverInterface()));
-    m_armBase.setDefaultCommand(new ArmControl(m_armBase, m_OIManager.getOperatorInterface()));
+    m_armBase.setDefaultCommand(
+        new ArmControlVoltage(m_armBase, m_OIManager.getOperatorInterface()));
     m_intakeBase.setDefaultCommand(
         new IntakeControl(m_intakeBase, m_OIManager.getOperatorInterface()));
 
@@ -122,10 +124,11 @@ public class RobotContainer {
 
   private void configureAuto() {
     m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
-    m_autoChooser.addOption("Drive For 5 Seconds", new DriveTime(5, 0.25, m_driveBase));
-    m_autoChooser.addOption("Drive For 5 Seconds (inverse)", new DriveTime(5, -0.25, m_driveBase));
-    m_autoChooser.addOption("Drive for 2 meters", new DriveDistance(2, m_driveBase));
-    m_autoChooser.addOption("Stabilize Only", new StabilizeRobot(m_driveBase));
+    m_autoChooser.addOption("Drive For 5 Seconds", new DriveTime(m_driveBase, 5, 0.25));
+    m_autoChooser.addOption("Drive For 5 Seconds (inverse)", new DriveTime(m_driveBase, 5, -0.25));
+    m_autoChooser.addOption(
+        "Score Cube Hybrid then Balance", new ScoreCubeHybridBalance(m_driveBase));
+    m_autoChooser.addOption("Score Cube Hybrid then Taxi", new ScoreCubeHybridTaxi(m_driveBase));
   }
 
   public Command getAutonomousCommand() {
