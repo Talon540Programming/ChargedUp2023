@@ -19,10 +19,9 @@ public class ArmControlVoltage extends CommandBase {
     this.m_armBase = armBase;
     this.m_operatorInterface = operatorInterface;
 
-    m_rotationSpeedLimiter.addDefaultOption("Default (100%)", 1.0);
-    m_rotationSpeedLimiter.addOption("Fast (70%)", 0.7);
-    m_rotationSpeedLimiter.addOption("Medium (30%)", 0.3);
-    m_rotationSpeedLimiter.addOption("Slow (15%)", 0.15);
+    m_rotationSpeedLimiter.addDefaultOption("Fast (30%)", 0.30);
+    m_rotationSpeedLimiter.addOption("Medium (15%)", 0.15);
+    m_rotationSpeedLimiter.addOption("Slow (10%)", 0.10);
 
     m_extensionSpeedLimiter.addDefaultOption("Default (100%)", 1.0);
     m_extensionSpeedLimiter.addOption("Fast (70%)", 0.7);
