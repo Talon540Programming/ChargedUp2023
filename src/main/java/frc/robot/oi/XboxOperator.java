@@ -38,6 +38,7 @@ public class XboxOperator implements OperatorInterface {
 
   @Override
   public double getIntakePercent() {
-    return m_controller.getRightTriggerAxis() - m_controller.getLeftTriggerAxis();
+    return MathUtil.applyDeadband(m_controller.getRightTriggerAxis(), 0.15)
+        - MathUtil.applyDeadband(m_controller.getLeftTriggerAxis(), 0.15);
   }
 }
