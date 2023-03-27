@@ -1,7 +1,6 @@
 package frc.robot.drivetrain.commands;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.Drivetrain;
@@ -10,41 +9,31 @@ import frc.robot.drivetrain.DriveBase;
 public class StabilizeRobot extends CommandBase {
   private final DriveBase m_driveBase;
 
-  private final PIDController m_stabilizationController =
-      new PIDController(
-          Drivetrain.ControlValues.Stabilization.kP,
-          Drivetrain.ControlValues.Stabilization.kI,
-          Drivetrain.ControlValues.Stabilization.kD);
-
   public StabilizeRobot(DriveBase driveBase) {
     m_driveBase = driveBase;
-
-    // We want a robot pitch of 0.
-    m_stabilizationController.setSetpoint(0.0);
-    m_stabilizationController.setTolerance(Drivetrain.kRobotStabilizationToleranceDegrees);
 
     addRequirements(driveBase);
   }
 
   @Override
   public void initialize() {
-    m_stabilizationController.reset();
     m_driveBase.setNeutralMode(Constants.NeutralMode.BRAKE);
   }
 
   @Override
   public void execute() {
-    double measurement = Math.toDegrees(m_driveBase.m_driveInputs.GyroPitchRad);
-    double outputPercent = -m_stabilizationController.calculate(measurement);
+    double rawMeasurement = Math.toDegrees(m_driveBase.m_driveInputs.GyroPitchRad);
+    double measurement = Math.abs(rawMeasurement) <= 3 ? 0 : rawMeasurement;
 
-    outputPercent = MathUtil.clamp(outputPercent, -0.5, 0.5);
+    double outputPercent = MathUtil.clamp(measurement, -0.25, 0.25);
 
     m_driveBase.tankDrivePercent(outputPercent, outputPercent);
   }
 
   @Override
   public boolean isFinished() {
-    return m_stabilizationController.atSetpoint();
+    return Math.abs(Math.toDegrees(m_driveBase.m_driveInputs.GyroPitchRad))
+        < Drivetrain.kRobotStabilizationToleranceDegrees;
   }
 
   @Override

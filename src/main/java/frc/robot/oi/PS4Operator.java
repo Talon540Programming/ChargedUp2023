@@ -38,6 +38,7 @@ public class PS4Operator implements OperatorInterface {
 
   @Override
   public double getIntakePercent() {
-    return m_controller.getR2Axis() - m_controller.getL2Axis();
+    return MathUtil.applyDeadband(m_controller.getR2Axis(), 0.15)
+        - MathUtil.applyDeadband(m_controller.getL2Axis(), 0.15);
   }
 }

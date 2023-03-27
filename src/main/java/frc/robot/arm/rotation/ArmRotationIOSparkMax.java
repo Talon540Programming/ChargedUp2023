@@ -85,8 +85,8 @@ public class ArmRotationIOSparkMax implements ArmRotationIO {
         new double[] {
           m_rotationLeader.getMotorTemperature(), m_rotationFollower.getMotorTemperature()
         };
-    inputs.ArmVelocityRadPerSecond = m_absoluteEncoder.getAbsolutePosition();
-    inputs.AbsoluteArmPositionRad = m_absoluteEncoder.getVelocity();
+    inputs.ArmVelocityRadPerSecond = m_absoluteEncoder.getVelocity();
+    inputs.AbsoluteArmPositionRad = m_absoluteEncoder.getAbsolutePosition();
   }
 
   @Override

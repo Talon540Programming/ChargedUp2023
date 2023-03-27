@@ -2,7 +2,6 @@ package frc.robot.arm.rotation;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
-import frc.lib.arm.VariableSingleJoinedArmSim;
 import frc.robot.arm.ArmSystemDynamics;
 import frc.robot.constants.Constants;
 import frc.robot.constants.RobotDimensions;

@@ -20,18 +20,34 @@ public class ArmState implements LoggableInputs, Cloneable {
   public static final ArmState FLOOR = null; // TODO
 
   public double AngleRadians;
-  public double LengthMeters;
+  public double VelocityRadiansPerSecond;
+
+  public double PivotToEffectorDistanceMeters;
 
   /**
    * Create an ArmState object.
    *
-   * @param angleRadians angle of the arm in radians.
+   * @param angleRad angle of the arm in radians.
+   * @param armVelocityRadPerSecond velocity of the arm in radians per second.
    * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
    *     effector.
    */
-  public ArmState(double angleRadians, double pivotToEffectorMeters) {
-    this.AngleRadians = angleRadians;
-    this.LengthMeters = pivotToEffectorMeters;
+  public ArmState(double angleRad, double armVelocityRadPerSecond, double pivotToEffectorMeters) {
+    this.AngleRadians = angleRad;
+    this.VelocityRadiansPerSecond = armVelocityRadPerSecond;
+    this.PivotToEffectorDistanceMeters = pivotToEffectorMeters;
+  }
+
+  /**
+   * Create an ArmState object. Assumed the arm shouldn't be moving (velocity of 0).
+   *
+   * @param angleRad angle of the arm in radians.
+   * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
+   *     effector.
+   */
+  public ArmState(double angleRad, double pivotToEffectorMeters) {
+    this.AngleRadians = angleRad;
+    this.PivotToEffectorDistanceMeters = pivotToEffectorMeters;
   }
 
   /**
@@ -40,7 +56,7 @@ public class ArmState implements LoggableInputs, Cloneable {
    * @return reflected angle.
    */
   public ArmState inverted() {
-    return new ArmState(Math.PI - AngleRadians, LengthMeters);
+    return new ArmState(Math.PI - AngleRadians, PivotToEffectorDistanceMeters);
   }
 
   /**
@@ -49,26 +65,27 @@ public class ArmState implements LoggableInputs, Cloneable {
    * @return ArmState as a vector.
    */
   public Vector<N2> toVec() {
-    return VecBuilder.fill(AngleRadians, LengthMeters);
+    return VecBuilder.fill(AngleRadians, PivotToEffectorDistanceMeters);
   }
 
   @Override
   public void toLog(LogTable table) {
     table.put("AngleRadians", AngleRadians);
-    table.put("LengthMeters", LengthMeters);
+    table.put("LengthMeters", PivotToEffectorDistanceMeters);
   }
 
   @Override
   public void fromLog(LogTable table) {
     AngleRadians = table.getDouble("AngleRadians", AngleRadians);
-    LengthMeters = table.getDouble("ExtensionLengthMeters", LengthMeters);
+    PivotToEffectorDistanceMeters =
+        table.getDouble("ExtensionLengthMeters", PivotToEffectorDistanceMeters);
   }
 
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof ArmState other) {
       return Math.abs(AngleRadians - other.AngleRadians) < Math.toRadians(0.25)
-          && Math.abs(LengthMeters - other.LengthMeters) < 5e-3;
+          && Math.abs(PivotToEffectorDistanceMeters - other.PivotToEffectorDistanceMeters) < 5e-3;
     }
     return false;
   }
@@ -77,7 +94,7 @@ public class ArmState implements LoggableInputs, Cloneable {
   public ArmState clone() throws CloneNotSupportedException {
     ArmState clone = (ArmState) super.clone();
     clone.AngleRadians = AngleRadians;
-    clone.LengthMeters = LengthMeters;
+    clone.PivotToEffectorDistanceMeters = PivotToEffectorDistanceMeters;
 
     return clone;
   }

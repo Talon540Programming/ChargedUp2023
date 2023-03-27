@@ -13,7 +13,7 @@ public final class Constants {
    */
   public static final boolean kAdvancedLoggingEnabled = true;
 
-  private static RobotType kRobotType = RobotType.ROBOT_SIMBOT;
+  private static RobotType kRobotType = RobotType.ROBOT_2023C;
   public static final double loopPeriodSecs = 0.02;
 
   public enum RobotMode {
@@ -52,9 +52,9 @@ public final class Constants {
   }
 
   public static final class Drivetrain {
-    public static final boolean kLeftSideInverted = true;
+    public static final boolean kLeftSideInverted = false;
     public static final boolean kLeftSensorInverted = false;
-    public static final boolean kRightSideInverted = false;
+    public static final boolean kRightSideInverted = true;
     public static final boolean kRightSensorInverted = true;
 
     public static final double kDrivetrainGearRatio = (54.0 / 20.0) * (50.0 / 11.0);
@@ -70,7 +70,7 @@ public final class Constants {
 
     public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.COAST;
 
-    public static final double kRobotStabilizationToleranceDegrees = 3;
+    public static final double kRobotStabilizationToleranceDegrees = 5;
 
     public static class ControlValues {
       public static class Characterization {
@@ -110,7 +110,7 @@ public final class Constants {
         (4.0 / 1.0) * (10.0 / 1.0) * (66.0 / 18.0); // TODO
 
     @SuppressWarnings("PointlessArithmeticExpression")
-    public static final double kExtensionGearRatio = (10.0 / 1.0);
+    public static final double kExtensionGearRatio = (10.0 / 1.0) * (4.0 / 1.0);
 
     public static final double kExtensionWinchRadiusInches = (3.0 / 4.0) / 2.0;
     public static final double kExtensionWinchRadiusMeters =
@@ -119,7 +119,7 @@ public final class Constants {
     public static final double kExtensionConversionFactor =
         (1 / kExtensionGearRatio) * 2 * Math.PI * kExtensionWinchRadiusMeters;
 
-    public static final double kRotationAbsoluteEncoderOffsetDegrees = 0; // TODO
+    public static final double kRotationAbsoluteEncoderOffsetDegrees = -37.596;
 
     public static class ControlValues {
       public static class RotationValues {

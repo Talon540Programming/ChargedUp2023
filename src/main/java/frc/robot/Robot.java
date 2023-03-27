@@ -43,11 +43,8 @@ public class Robot extends LoggedRobot {
         logger.addDataReceiver(new NT4Publisher());
 
         LoggedPowerDistribution.getInstance();
-
-        if (Constants.kAdvancedLoggingEnabled) {
-          LoggedDriverStation.getInstance();
-          LoggedSystemStats.getInstance();
-        }
+        LoggedDriverStation.getInstance();
+        LoggedSystemStats.getInstance();
       }
       case SIM -> logger.addDataReceiver(new NT4Publisher());
       case REPLAY -> {
@@ -61,7 +58,7 @@ public class Robot extends LoggedRobot {
     // Start AdvantageKit logger
     logger.start();
 
-    if (Constants.kAdvancedLoggingEnabled) LoggerUtil.initCommandLogging();
+    LoggerUtil.initCommandLogging();
 
     if (Constants.getRobotMode() == Constants.RobotMode.SIM)
       DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);

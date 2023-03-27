@@ -23,7 +23,7 @@ public class ArmExtensionIOSparkMax implements ArmExtensionIO {
     SparkMaxPeriodicFrameConfig.configureIsolated(m_winchMotor);
 
     m_winchMotor.setInverted(motorInverted);
-    m_winchMotor.setSmartCurrentLimit(20);
+    m_winchMotor.setSmartCurrentLimit(40);
     m_winchMotor.enableVoltageCompensation(12.0);
 
     m_winchEncoder = m_winchMotor.getEncoder();

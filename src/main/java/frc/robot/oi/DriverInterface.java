@@ -4,13 +4,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /** Represents the inputs required for the primary driver. */
 public interface DriverInterface {
-  public DriveMode getDriveMode();
+  public double getLeftPercent(DriveMode mode);
 
-  public double getLeftPercent();
-
-  public double getRightPercent();
+  public double getRightPercent(DriveMode mode);
 
   public Trigger toggleBalanceMode();
+
+  public Trigger enableBrakeMode();
+
+  public Trigger enableCoastMode();
 
   public enum DriveMode {
     Differential,
