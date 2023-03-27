@@ -119,7 +119,7 @@ public final class Constants {
     public static final double kExtensionConversionFactor =
         (1 / kExtensionGearRatio) * 2 * Math.PI * kExtensionWinchRadiusMeters;
 
-    public static final double kRotationAbsoluteEncoderOffsetDegrees = -32.859;
+    public static final double kRotationAbsoluteEncoderOffsetDegrees = -37.596;
 
     public static class ControlValues {
       public static class RotationValues {
