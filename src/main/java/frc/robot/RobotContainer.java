@@ -120,10 +120,19 @@ public class RobotContainer {
         .getOperatorInterface()
         .resetExtension()
         .onTrue(new CalibrateArmExtension(m_armBase));
+
+    m_OIManager.getDriverInterface()
+            .enableBrakeMode()
+            .onTrue(Commands.run(() -> m_driveBase.setNeutralMode(Constants.NeutralMode.BRAKE), m_driveBase));
+
+    m_OIManager.getDriverInterface()
+            .enableCoastMode()
+            .onTrue(Commands.run(() -> m_driveBase.setNeutralMode(Constants.NeutralMode.COAST), m_driveBase));
   }
 
   private void configureAuto() {
     m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
+    m_autoChooser.addOption("Score Cube Only", new DriveTime(m_driveBase, 0.75, -0.5));
     m_autoChooser.addOption("Drive For 5 Seconds", new DriveTime(m_driveBase, 5, 0.25));
     m_autoChooser.addOption("Drive For 5 Seconds (inverse)", new DriveTime(m_driveBase, 5, -0.25));
     m_autoChooser.addOption(

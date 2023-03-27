@@ -25,6 +25,16 @@ public class PS4Driver implements DriverInterface {
   }
 
   @Override
+  public Trigger enableBrakeMode() {
+    return m_controller.share();
+  }
+
+  @Override
+  public Trigger enableCoastMode() {
+    return m_controller.options();
+  }
+
+  @Override
   public Trigger toggleBalanceMode() {
     return m_controller.touchpad();
   }

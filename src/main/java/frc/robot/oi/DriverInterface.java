@@ -10,6 +10,10 @@ public interface DriverInterface {
 
   public Trigger toggleBalanceMode();
 
+  public Trigger enableBrakeMode();
+
+  public Trigger enableCoastMode();
+
   public enum DriveMode {
     Differential,
     Arcade

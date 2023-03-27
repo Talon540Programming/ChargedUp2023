@@ -25,6 +25,16 @@ public class XboxDriver implements DriverInterface {
   }
 
   @Override
+  public Trigger enableBrakeMode() {
+    return m_controller.back();
+  }
+
+  @Override
+  public Trigger enableCoastMode() {
+    return m_controller.start();
+  }
+
+  @Override
   public Trigger toggleBalanceMode() {
     return m_controller.start();
   }
