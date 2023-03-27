@@ -121,13 +121,19 @@ public class RobotContainer {
         .resetExtension()
         .onTrue(new CalibrateArmExtension(m_armBase));
 
-    m_OIManager.getDriverInterface()
-            .enableBrakeMode()
-            .onTrue(Commands.run(() -> m_driveBase.setNeutralMode(Constants.NeutralMode.BRAKE), m_driveBase));
+    m_OIManager
+        .getDriverInterface()
+        .enableBrakeMode()
+        .onTrue(
+            Commands.run(
+                () -> m_driveBase.setNeutralMode(Constants.NeutralMode.BRAKE), m_driveBase));
 
-    m_OIManager.getDriverInterface()
-            .enableCoastMode()
-            .onTrue(Commands.run(() -> m_driveBase.setNeutralMode(Constants.NeutralMode.COAST), m_driveBase));
+    m_OIManager
+        .getDriverInterface()
+        .enableCoastMode()
+        .onTrue(
+            Commands.run(
+                () -> m_driveBase.setNeutralMode(Constants.NeutralMode.COAST), m_driveBase));
   }
 
   private void configureAuto() {
