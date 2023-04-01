@@ -37,37 +37,25 @@ public class RobotDimensions {
     public static final Translation3d kFulcrumPose = new Translation3d(0, 0, kFulcrumHeightMeters);
 
     // First extrusion is from fulcrum, not end of extrusion
-    public static final double kFirstExtrusionLengthInches = 17.007;
+    public static final double kFirstExtrusionLengthInches = 17;
     public static final double kFirstExtrusionLengthMeters =
         Units.inchesToMeters(kFirstExtrusionLengthInches);
 
     // Second and Third extrusion lengths are without the retention hardware,
     // which are retained within their encapsulating extrusions.
-    public static final double kSecondExtrusionLengthInches = 22;
+    public static final double kSecondExtrusionLengthInches = 14;
     public static final double kSecondExtrusionLengthMeters =
         Units.inchesToMeters(kSecondExtrusionLengthInches);
 
-    public static final double kThirdExtrusionLengthInches = 15.5;
+    public static final double kThirdExtrusionLengthInches = 15.25;
     public static final double kThirdExtrusionLengthMeters =
         Units.inchesToMeters(kThirdExtrusionLengthInches);
 
-    public static final double kFullyRetractedLengthInches = 20.506;
-    public static final double kFullyRetractedLengthMeters =
-        Units.inchesToMeters(kFullyRetractedLengthInches);
+    public static final double kFullyRetractedLengthInches = 20.750;
+    public static final double kFullyRetractedLengthMeters = Units.inchesToMeters(kFullyRetractedLengthInches);
 
-    public static final double kFullyExtendedLengthInches = 54.502;
-    public static final double kFullyExtendedLengthMeters =
-        Units.inchesToMeters(kFullyExtendedLengthInches);
-
-    public static final double kArmMassLbs = 4.1470691;
-    public static final double kArmMassKg = Units.lbsToKilograms(kArmMassLbs);
-
-    public static final double kCounterweightCenterOfMassOffsetInches = -6.499;
-    public static final double kCounterweightCenterOfMassOffsetMeters =
-        Units.inchesToMeters(kCounterweightCenterOfMassOffsetInches);
-
-    public static final double kCounterweightMassLbs = 1.9925797;
-    public static final double kCounterweightMassKg = Units.lbsToKilograms(kCounterweightMassLbs);
+    public static final double kFullyExtendedLengthInches = 47.0;
+    public static final double kFullyExtendedLengthMeters = Units.inchesToMeters(kFullyExtendedLengthInches);
   }
 
   public static final class Effector {
@@ -82,7 +70,7 @@ public class RobotDimensions {
     public static final double kEffectorCenterOfMassOffsetMeters =
         Units.inchesToMeters(kEffectorCenterOfMassOffsetInches);
 
-    public static final double kEffectorMassLbs = 6.3642175; // TODO calculate empirical data
+    public static final double kEffectorMassLbs = 6.0;
     public static final double kEffectorMassKg = Units.lbsToKilograms(kEffectorMassLbs);
   }
 }
