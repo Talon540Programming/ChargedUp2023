@@ -4,7 +4,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,15 +41,7 @@ public class ArmBase extends SubsystemBase {
           Constants.Arm.ControlValues.RotationValues.kP,
           Constants.Arm.ControlValues.RotationValues.kI,
           Constants.Arm.ControlValues.RotationValues.kD,
-          new TrapezoidProfile.Constraints(
-              RobotLimits.kMaxArmVelocityRadPerSecond,
-              RobotLimits.kMaxArmAccelerationRadPerSecondSquared));
-  private final ArmFeedforward m_rotationFeedforward =
-      new ArmFeedforward(
-          Constants.Arm.ControlValues.RotationValues.kS,
-          Constants.Arm.ControlValues.RotationValues.kG,
-          Constants.Arm.ControlValues.RotationValues.kV,
-          Constants.Arm.ControlValues.RotationValues.kA);
+          RobotLimits.kArmRotationConstraints);
 
   private final PIDController m_extensionController =
       new PIDController(
