@@ -1,5 +1,6 @@
 package frc.robot.arm;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.numbers.N2;
@@ -17,7 +18,6 @@ public class ArmState implements LoggableInputs, Cloneable {
   public static final ArmState SCORE_HIGH_CONE = null; // TODO
   public static final ArmState SINGLE_SUBSTATION = null; // TODO
   public static final ArmState DOUBLE_SUBSTATION = null; // TODO
-  public static final ArmState FLOOR = null; // TODO
 
   public double AngleRadians;
   public double VelocityRadiansPerSecond;
@@ -47,7 +47,7 @@ public class ArmState implements LoggableInputs, Cloneable {
    */
   public ArmState(double angleRad, double pivotToEffectorMeters) {
     this.AngleRadians = angleRad;
-    this.PivotToEffectorDistanceMeters = pivotToEffectorMeters;
+    this.PivotToEffectorDistanceMeters = MathUtil.clamp(pivotToEffectorMeters, RobotLimits.kMinArmLengthMeters, RobotLimits.kMaxArmLengthMeters);
   }
 
   /**
