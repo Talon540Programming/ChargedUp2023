@@ -1,4 +1,4 @@
-package frc.groups;
+package frc.robot.groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.arm.ArmBase;
