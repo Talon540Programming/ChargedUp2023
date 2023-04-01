@@ -18,7 +18,9 @@ public class RobotLimits {
   public static final double kMaxArmVelocityRadPerSecond = Math.PI / 4;
   public static final double kMaxArmAccelerationRadPerSecondSquared = Math.PI / 2;
 
-  public static final TrapezoidProfile.Constraints kArmRotationConstraints = new TrapezoidProfile.Constraints(kMaxArmVelocityRadPerSecond, kMaxArmAccelerationRadPerSecondSquared);
+  public static final TrapezoidProfile.Constraints kArmRotationConstraints =
+      new TrapezoidProfile.Constraints(
+          kMaxArmVelocityRadPerSecond, kMaxArmAccelerationRadPerSecondSquared);
 
   public static final double kMinArmLengthInches = RobotDimensions.Arm.kFullyRetractedLengthInches;
   public static final double kMinArmLengthMeters = Units.inchesToMeters(kMinArmLengthInches);

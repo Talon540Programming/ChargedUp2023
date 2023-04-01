@@ -95,11 +95,11 @@ public class ArmBase extends SubsystemBase {
     } else {
       m_disabledVoltageApplied = false;
 
-      ArmState currentState = new ArmState(
+      ArmState currentState =
+          new ArmState(
               m_armRotationInputs.AbsoluteArmPositionRad,
               m_armRotationInputs.ArmVelocityRadPerSecond,
-              m_armExtensionInputs.PivotToEffectorDistanceMeters
-      );
+              m_armExtensionInputs.PivotToEffectorDistanceMeters);
 
       double rotationFeedforward =
           ArmSystemDynamics.calculateRotationFeedForward(currentState, m_targetState);

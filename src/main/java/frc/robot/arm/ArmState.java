@@ -47,7 +47,11 @@ public class ArmState implements LoggableInputs, Cloneable {
    */
   public ArmState(double angleRad, double pivotToEffectorMeters) {
     this.AngleRadians = angleRad;
-    this.PivotToEffectorDistanceMeters = MathUtil.clamp(pivotToEffectorMeters, RobotLimits.kMinArmLengthMeters, RobotLimits.kMaxArmLengthMeters);
+    this.PivotToEffectorDistanceMeters =
+        MathUtil.clamp(
+            pivotToEffectorMeters,
+            RobotLimits.kMinArmLengthMeters,
+            RobotLimits.kMaxArmLengthMeters);
   }
 
   /**
