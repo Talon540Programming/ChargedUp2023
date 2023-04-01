@@ -10,6 +10,8 @@ import frc.robot.constants.RobotLimits;
 public class ArmExtensionIOSim implements ArmExtensionIO {
   private final ElevatorSim m_armSim;
 
+  double voltage = 0;
+
   public ArmExtensionIOSim() {
     m_armSim =
         new ElevatorSim(
@@ -36,5 +38,11 @@ public class ArmExtensionIOSim implements ArmExtensionIO {
     voltage = MathUtil.clamp(voltage, -12.0, 12.0);
 
     m_armSim.setInput(voltage);
+    this.voltage = voltage;
+  }
+
+  @Override
+  public boolean isStalled() {
+    return m_armSim.getCurrentDrawAmps() * Math.abs(12.0 / this.voltage) >= 105;
   }
 }

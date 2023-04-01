@@ -1,12 +1,13 @@
 package frc.robot.arm.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.arm.ArmBase;
 
 public class CalibrateArmExtension extends CommandBase {
-  public static final double kCurrentThresholdAmps = 40;
-
   private final ArmBase m_armBase;
+
+  private final Timer m_timer = new Timer();
 
   public CalibrateArmExtension(ArmBase armBase) {
     this.m_armBase = armBase;
@@ -15,6 +16,7 @@ public class CalibrateArmExtension extends CommandBase {
 
   @Override
   public void initialize() {
+    m_timer.restart();
     m_armBase.setDisabled(true);
   }
 
@@ -31,10 +33,11 @@ public class CalibrateArmExtension extends CommandBase {
     if (!interrupted) m_armBase.completeExtensionCalibration();
 
     m_armBase.setDisabled(false);
+    m_timer.stop();
   }
 
   @Override
   public boolean isFinished() {
-    return m_armBase.m_armExtensionInputs.CurrentAmps >= kCurrentThresholdAmps;
+    return m_armBase.isExtensionStalled() && m_timer.hasElapsed(0.1);
   }
 }

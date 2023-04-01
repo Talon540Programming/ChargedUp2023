@@ -211,4 +211,8 @@ public class ArmBase extends SubsystemBase {
     voltage = MathUtil.clamp(voltage, -12, 12);
     m_extensionIO.setVoltage(voltage);
   }
+
+  public boolean isExtensionStalled() {
+    return m_extensionIO.isStalled();
+  }
 }
