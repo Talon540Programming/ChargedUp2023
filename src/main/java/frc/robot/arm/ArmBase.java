@@ -1,7 +1,6 @@
 package frc.robot.arm;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -96,9 +95,14 @@ public class ArmBase extends SubsystemBase {
     } else {
       m_disabledVoltageApplied = false;
 
+      ArmState currentState = new ArmState(
+              m_armRotationInputs.AbsoluteArmPositionRad,
+              m_armRotationInputs.ArmVelocityRadPerSecond,
+              m_armExtensionInputs.PivotToEffectorDistanceMeters
+      );
+
       double rotationFeedforward =
-          m_rotationFeedforward.calculate(
-              m_targetState.AngleRadians, m_targetState.VelocityRadiansPerSecond);
+          ArmSystemDynamics.calculateRotationFeedForward(currentState, m_targetState);
       double rotationFeedback =
           m_rotationController.calculate(
               m_armRotationInputs.AbsoluteArmPositionRad, m_targetState.AngleRadians);
