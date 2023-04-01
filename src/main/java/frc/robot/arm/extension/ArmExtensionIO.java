@@ -38,5 +38,7 @@ public interface ArmExtensionIO extends LoggedIO<ArmExtensionIO.ArmExtensionIOIn
    */
   default void setNeutralMode(Constants.NeutralMode mode) {}
 
-  default boolean isStalled() { return false; }
+  default boolean isStalled() {
+    return false;
+  }
 }

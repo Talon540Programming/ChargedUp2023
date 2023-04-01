@@ -52,10 +52,12 @@ public class RobotDimensions {
         Units.inchesToMeters(kThirdExtrusionLengthInches);
 
     public static final double kFullyRetractedLengthInches = 20.750;
-    public static final double kFullyRetractedLengthMeters = Units.inchesToMeters(kFullyRetractedLengthInches);
+    public static final double kFullyRetractedLengthMeters =
+        Units.inchesToMeters(kFullyRetractedLengthInches);
 
     public static final double kFullyExtendedLengthInches = 47.0;
-    public static final double kFullyExtendedLengthMeters = Units.inchesToMeters(kFullyExtendedLengthInches);
+    public static final double kFullyExtendedLengthMeters =
+        Units.inchesToMeters(kFullyExtendedLengthInches);
   }
 
   public static final class Effector {
