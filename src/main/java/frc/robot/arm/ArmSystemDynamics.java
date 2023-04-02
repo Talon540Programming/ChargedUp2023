@@ -30,6 +30,8 @@ public class ArmSystemDynamics {
     double kG =
         0; // TODO find this using Linear or Polynomial Regression over multiple runs of SysID
     double kV = 0; // TODO find this using sysID
+    double kA =
+        0; // TODO find this using Linear or Polynomial Regression over multiple runs of SysID
 
     return kS * Math.signum(setpointState.VelocityRadiansPerSecond)
         + kG * Math.cos(setpointState.AngleRadians)
