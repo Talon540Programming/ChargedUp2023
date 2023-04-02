@@ -11,13 +11,13 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 public class ArmState implements LoggableInputs, Cloneable {
   // Set of Preset ArmStates
   public static final ArmState IDLE = new ArmState(Math.PI / 2.0, RobotLimits.kMinArmLengthMeters);
-  public static final ArmState SCORE_HYBRID = null; // TODO
-  public static final ArmState SCORE_MID_CUBE = null; // TODO
-  public static final ArmState SCORE_HIGH_CUBE = null; // TODO
-  public static final ArmState SCORE_MID_CONE = null; // TODO
-  public static final ArmState SCORE_HIGH_CONE = null; // TODO
-  public static final ArmState SINGLE_SUBSTATION = null; // TODO
-  public static final ArmState DOUBLE_SUBSTATION = null; // TODO
+
+  public static final ArmState SCORE_HYBRID = new ArmState(-0.3573930726493018, 0.52705);
+  public static final ArmState SCORE_MID_CUBE = new ArmState(0.3205280129168529, 0.52705);
+  public static final ArmState SCORE_HIGH_CUBE = new ArmState(0.432861251376473, 1.0498237311755916);
+  public static final ArmState SCORE_MID_CONE = new ArmState(0.5450884182598523, 0.9092489998705285);
+  public static final ArmState SINGLE_SUBSTATION = new ArmState(0.423389123941221, 0.52705);
+  public static final ArmState DOUBLE_SUBSTATION = new ArmState(0.4885123780965301, 1.1938);
 
   public double AngleRadians;
   public double VelocityRadiansPerSecond;
