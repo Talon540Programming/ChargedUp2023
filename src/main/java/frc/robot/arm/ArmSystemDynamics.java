@@ -1,7 +1,5 @@
 package frc.robot.arm;
 
-import edu.wpi.first.math.util.Units;
-
 public class ArmSystemDynamics {
   private ArmSystemDynamics() {}
 
@@ -21,7 +19,20 @@ public class ArmSystemDynamics {
         - 0.153263;
   }
 
-  public static double calculateRotationFeedForward(ArmState currentState, ArmState setpointState) {
-    return  0.0;
+  /**
+   * Calculate the FeedForward value to apply in volts. Doesn't take acceleration into account.
+   *
+   * @param setpointState the setpoint to calculate FeedForward values for.
+   * @return feedforward value in volts.
+   */
+  public static double calculateRotationFeedForward(ArmState setpointState) {
+    double kS = 0; // TODO find this using sysID
+    double kG =
+        0; // TODO find this using Linear or Polynomial Regression over multiple runs of SysID
+    double kV = 0; // TODO find this using sysID
+
+    return kS * Math.signum(setpointState.VelocityRadiansPerSecond)
+        + kG * Math.cos(setpointState.AngleRadians)
+        + kV * setpointState.VelocityRadiansPerSecond;
   }
 }

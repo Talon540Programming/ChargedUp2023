@@ -101,8 +101,7 @@ public class ArmBase extends SubsystemBase {
               m_armRotationInputs.ArmVelocityRadPerSecond,
               m_armExtensionInputs.PivotToEffectorDistanceMeters);
 
-      double rotationFeedforward =
-          ArmSystemDynamics.calculateRotationFeedForward(currentState, m_targetState);
+      double rotationFeedforward = ArmSystemDynamics.calculateRotationFeedForward(m_targetState);
       double rotationFeedback =
           m_rotationController.calculate(
               m_armRotationInputs.AbsoluteArmPositionRad, m_targetState.AngleRadians);
