@@ -1,5 +1,6 @@
 package frc.robot.drivetrain;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
@@ -7,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.lib.Pigeon2Accelerometer;
 import frc.robot.constants.Constants;
 import org.talon540.sensors.TalonFXMechanism;
 
@@ -22,7 +22,8 @@ public class DriveIOFalcon implements DriveIO {
   private final WPI_TalonFX m_rightFollower;
 
   private final WPI_Pigeon2 m_gyro;
-  private final Pigeon2Accelerometer m_accelerometer;
+  private final double[] xyzDegreesPerSecond = new double[3];
+  private final short[] xyzAccelData = new short[3];
 
   private final TalonFXMechanism m_leftSensors;
   private final TalonFXMechanism m_rightSensors;
@@ -77,7 +78,6 @@ public class DriveIOFalcon implements DriveIO {
     m_rightFollower.setInverted(InvertType.FollowMaster);
 
     m_gyro = new WPI_Pigeon2(gyroId);
-    m_accelerometer = new Pigeon2Accelerometer(m_gyro);
   }
 
   @Override
@@ -103,14 +103,22 @@ public class DriveIOFalcon implements DriveIO {
         };
 
     // Handle Gyro Inputs
-    inputs.GyroYawRad = Math.toRadians(m_gyro.getYaw());
-    inputs.GyroPitchRad = Math.toRadians(m_gyro.getPitch());
-    inputs.GyroRollRad = Math.toRadians(m_gyro.getRoll());
-    inputs.GyroRateRadPerSecond = Math.toRadians(m_gyro.getRate());
+    m_gyro.getRawGyro(xyzDegreesPerSecond);
+    m_gyro.getBiasedAccelerometer(xyzAccelData);
 
-    inputs.AccelX = m_accelerometer.getX();
-    inputs.AccelY = m_accelerometer.getY();
-    inputs.AccelZ = m_accelerometer.getZ();
+    inputs.GyroConnected = m_gyro.getLastError().equals(ErrorCode.OK);
+
+    inputs.YawPositionRad = Math.toRadians(m_gyro.getYaw());
+    inputs.PitchPositionRad = Math.toRadians(m_gyro.getPitch());
+    inputs.RollPositionRad = Math.toRadians(m_gyro.getRoll());
+
+    inputs.YawRateRadPerSecond = Math.toRadians(xyzDegreesPerSecond[2]);
+    inputs.PitchRateRadPerSecond = Math.toRadians(xyzDegreesPerSecond[1]);
+    inputs.RollRateRadPerSecond = Math.toRadians(xyzDegreesPerSecond[0]);
+
+    inputs.AccelXGForces = (double) xyzAccelData[0] / (1 << 14);
+    inputs.AccelYGForces = (double) xyzAccelData[1] / (1 << 14);
+    inputs.AccelZGForces = (double) xyzAccelData[2] / (1 << 14);
   }
 
   @Override
@@ -137,12 +145,12 @@ public class DriveIOFalcon implements DriveIO {
   }
 
   @Override
-  public void resetHeading() {
-    m_gyro.reset();
+  public Rotation2d getHeading() {
+    return m_gyro.getRotation2d();
   }
 
   @Override
-  public Rotation2d getHeading() {
-    return m_gyro.getRotation2d();
+  public void resetHeading() {
+    m_gyro.reset();
   }
 }

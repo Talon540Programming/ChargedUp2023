@@ -16,13 +16,19 @@ public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
     public double[] TemperatureCelsius = new double[] {};
     public double[] CurrentAmps = new double[] {};
 
-    public double GyroYawRad;
-    public double GyroPitchRad;
-    public double GyroRollRad;
-    public double GyroRateRadPerSecond;
-    public double AccelX;
-    public double AccelY;
-    public double AccelZ;
+    public boolean GyroConnected;
+
+    public double YawPositionRad;
+    public double PitchPositionRad;
+    public double RollPositionRad;
+
+    public double YawRateRadPerSecond;
+    public double PitchRateRadPerSecond;
+    public double RollRateRadPerSecond;
+
+    public double AccelXGForces;
+    public double AccelYGForces;
+    public double AccelZGForces;
   }
 
   /**
