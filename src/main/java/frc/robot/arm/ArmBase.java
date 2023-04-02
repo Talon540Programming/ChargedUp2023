@@ -71,8 +71,8 @@ public class ArmBase extends SubsystemBase {
     Logger.getInstance().processInputs("Arm/Extension", m_armExtensionInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
 
-    // Log extension calibration state
     Logger.getInstance().recordOutput("Arm/Extension/Calibrated", extensionCalibrated);
+    Logger.getInstance().recordOutput("Arm/Disabled", armDisabled());
 
     // Log the target state
     Logger.getInstance().processInputs("Arm/TargetState", m_targetState);
