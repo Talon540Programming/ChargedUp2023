@@ -13,7 +13,7 @@ public class ScoreCubeHybridBalance extends SequentialCommandGroup {
         new DriveTillCondition(
             driveBase,
             () ->
-                Math.abs(Math.toDegrees(driveBase.m_driveInputs.GyroPitchRad))
+                Math.abs(Math.toDegrees(driveBase.m_driveInputs.PitchPositionRad))
                     >= Constants.Drivetrain.kRobotStabilizationToleranceDegrees,
             0.1),
         new StabilizeRobot(driveBase));
