@@ -27,9 +27,11 @@ public class ArmSystemDynamics {
    */
   public static double calculateRotationFeedForward(ArmState setpointState) {
     double kS = 1; // TODO find this using sysID
-    double kG = 1; // TODO find this using Linear or Polynomial Regression over multiple runs of SysID
+    double kG =
+        1; // TODO find this using Linear or Polynomial Regression over multiple runs of SysID
     double kV = 0.5; // TODO find this using sysID
-    double kA = 0.1; // TODO find this using Linear or Polynomial Regression over multiple runs of SysID
+    double kA =
+        0.1; // TODO find this using Linear or Polynomial Regression over multiple runs of SysID
 
     return kS * Math.signum(setpointState.VelocityRadiansPerSecond)
         + kG * Math.cos(setpointState.AngleRadians)
