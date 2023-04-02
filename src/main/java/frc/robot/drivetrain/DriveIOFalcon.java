@@ -8,8 +8,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.lib.TalonFXMechanism;
 import frc.robot.constants.Constants;
-import org.talon540.sensors.TalonFXMechanism;
 
 /**
  * {@link DriveIO} used for interfacing with a series of {@link WPI_TalonFX} devices for a
@@ -25,11 +25,8 @@ public class DriveIOFalcon implements DriveIO {
   private final double[] xyzDegreesPerSecond = new double[3];
   private final short[] xyzAccelData = new short[3];
 
-  private final TalonFXMechanism m_leftSensors;
-  private final TalonFXMechanism m_rightSensors;
-
-  private final boolean leftSensorInverted;
-  private final boolean rightSensorInverted;
+  private final TalonFXMechanism m_leftEncoder;
+  private final TalonFXMechanism m_rightEncoder;
 
   /** Create the DriveIO. */
   public DriveIOFalcon(
@@ -41,24 +38,26 @@ public class DriveIOFalcon implements DriveIO {
       double driveGearRatio,
       double driveWheelRadiusMeters,
       boolean leftSideInverted,
-      boolean leftSensorInverted,
+      boolean leftEncoderInverted,
       boolean rightSideInverted,
-      boolean rightSensorInverted) {
-    this.leftSensorInverted = leftSensorInverted;
-    this.rightSensorInverted = rightSensorInverted;
-
+      boolean rightEncoderInverted) {
     m_leftLeader = new WPI_TalonFX(leftLeaderId);
     m_leftFollower = new WPI_TalonFX(leftFollowerId);
     m_rightLeader = new WPI_TalonFX(rightLeaderId);
     m_rightFollower = new WPI_TalonFX(rightFollowerId);
 
-    m_leftSensors =
+    m_leftEncoder =
         new TalonFXMechanism(
-            m_leftLeader.getSensorCollection(), driveWheelRadiusMeters, driveGearRatio);
-
-    m_rightSensors =
+            m_leftLeader.getSensorCollection(),
+            driveWheelRadiusMeters,
+            driveGearRatio,
+            leftEncoderInverted);
+    m_rightEncoder =
         new TalonFXMechanism(
-            m_rightLeader.getSensorCollection(), driveWheelRadiusMeters, driveGearRatio);
+            m_rightLeader.getSensorCollection(),
+            driveWheelRadiusMeters,
+            driveGearRatio,
+            rightEncoderInverted);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.voltageCompSaturation = 12.0;
@@ -82,13 +81,10 @@ public class DriveIOFalcon implements DriveIO {
 
   @Override
   public void updateInputs(DriveIOInputs inputs) {
-    double leftSignum = leftSensorInverted ? -1 : 1;
-    double rightSignum = rightSensorInverted ? -1 : 1;
-
-    inputs.LeftPositionMeters = leftSignum * m_leftSensors.getPosition();
-    inputs.LeftVelocityMetersPerSecond = leftSignum * m_leftSensors.getLinearVelocity();
-    inputs.RightPositionMeters = rightSignum * m_rightSensors.getPosition();
-    inputs.RightVelocityMetersPerSecond = rightSignum * m_rightSensors.getLinearVelocity();
+    inputs.LeftPositionMeters = m_leftEncoder.getPositionMeters();
+    inputs.LeftVelocityMetersPerSecond = m_leftEncoder.getVelocityMetersPerSecond();
+    inputs.RightPositionMeters = m_rightEncoder.getPositionMeters();
+    inputs.RightVelocityMetersPerSecond = m_rightEncoder.getVelocityMetersPerSecond();
 
     inputs.TemperatureCelsius =
         new double[] {
@@ -123,8 +119,8 @@ public class DriveIOFalcon implements DriveIO {
 
   @Override
   public void resetEncoders() {
-    m_leftSensors.resetEncoder();
-    m_rightSensors.resetEncoder();
+    m_leftEncoder.resetPosition(0);
+    m_rightEncoder.resetPosition(0);
   }
 
   @Override
