@@ -16,7 +16,7 @@ public class ArmExtensionIOSim implements ArmExtensionIO {
     m_armSim =
         new ElevatorSim(
             DCMotor.getNEO(1),
-            Constants.Arm.kExtensionGearRatio,
+            1,
             RobotDimensions.Effector.kEffectorMassKg,
             Constants.Arm.kExtensionWinchRadiusMeters,
             RobotLimits.kMinArmLengthMeters, // Min distance from pivot to effector

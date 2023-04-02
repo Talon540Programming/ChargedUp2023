@@ -74,10 +74,6 @@ public final class Constants {
 
     public static class ControlValues {
       public static class Characterization {
-        public static final double kP = 0; // TODO
-        public static final double kI = 0;
-        public static final double kD = 0;
-
         public static final double kSLinear = 0; // TODO
         public static final double kVLinear =
             1.98; // TODO this is a sim value, real value must be found in sysid
@@ -123,15 +119,15 @@ public final class Constants {
 
     public static class ControlValues {
       public static class RotationValues {
-        public static final double kP = 0; // TODO
+        public static final double kP = 5; // TODO
         public static final double kI = 0; // TODO
-        public static final double kD = 0; // TODO
+        public static final double kD = 1; // TODO
       }
 
       public static class ExtensionValues {
-        public static final double kP = 0; // TODO
-        public static final double kI = 0; // TODO
-        public static final double kD = 0; // TODO
+        public static final double kP = 4; // TODO this is a sim value and should not be used
+        public static final double kI = 0; // TODO this is a sim value and should not be used
+        public static final double kD = 0; // TODO this is a sim value and should not be used
       }
     }
   }
