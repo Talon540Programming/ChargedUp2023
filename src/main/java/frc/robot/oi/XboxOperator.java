@@ -13,17 +13,17 @@ public class XboxOperator implements OperatorInterface {
 
   @Override
   public double getRotationLinearX() {
-    return MathUtil.applyDeadband(m_controller.getLeftX(), .15);
+    return MathUtil.applyDeadband(m_controller.getLeftX(), 0.15);
   }
 
   @Override
   public double getRotationLinearY() {
-    return MathUtil.applyDeadband(-m_controller.getLeftY(), .15);
+    return MathUtil.applyDeadband(-m_controller.getLeftY(), 0.15);
   }
 
   @Override
   public double getExtensionPercent() {
-    return MathUtil.applyDeadband(-m_controller.getRightY(), .15);
+    return MathUtil.applyDeadband(-m_controller.getRightY(), 0.15);
   }
 
   @Override

@@ -13,14 +13,14 @@ public class PS4Driver implements DriverInterface {
 
   @Override
   public double getLeftPercent(DriveMode mode) {
-    return MathUtil.applyDeadband(-m_controller.getLeftY(), 0.05);
+    return MathUtil.applyDeadband(-m_controller.getLeftY(), 0.15);
   }
 
   @Override
   public double getRightPercent(DriveMode mode) {
     return switch (mode) {
-      case Arcade -> m_controller.getRightX();
-      case Differential -> -m_controller.getRightY();
+      case Arcade -> MathUtil.applyDeadband(-m_controller.getRightX(), 0.15);
+      case Differential -> MathUtil.applyDeadband(-m_controller.getRightY(), 0.15);
     };
   }
 
