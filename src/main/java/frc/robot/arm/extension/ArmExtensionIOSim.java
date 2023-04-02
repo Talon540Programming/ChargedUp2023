@@ -43,6 +43,6 @@ public class ArmExtensionIOSim implements ArmExtensionIO {
 
   @Override
   public boolean isStalled() {
-    return m_armSim.getCurrentDrawAmps() * Math.abs(12.0 / this.voltage) >= 105;
+    return  Math.abs(m_armSim.getCurrentDrawAmps() * 12.0 / this.voltage) >= 105;
   }
 }
