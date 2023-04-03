@@ -1,12 +1,14 @@
 package frc.robot.drivetrain.commands;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.Constants;
-import frc.robot.constants.Constants.Drivetrain;
 import frc.robot.drivetrain.DriveBase;
 
 public class StabilizeRobot extends CommandBase {
+  public static final double DrivePercent = 0.15;
+  public static final double PositionThresholdRad = Math.toRadians(3.0);
+  public static final double VelocityThresholdRadPerSec = Math.toRadians(8.0);
+
   private final DriveBase m_driveBase;
 
   public StabilizeRobot(DriveBase driveBase) {
@@ -22,18 +24,23 @@ public class StabilizeRobot extends CommandBase {
 
   @Override
   public void execute() {
-    double rawMeasurement = Math.toDegrees(m_driveBase.m_driveInputs.PitchPositionRad);
-    double measurement = Math.abs(rawMeasurement) <= 3 ? 0 : rawMeasurement;
+    double gyroPitchRad = m_driveBase.m_driveInputs.PitchPositionRad;
+    double gyroPitchRateRadPerSec = m_driveBase.m_driveInputs.PitchRateRadPerSecond;
 
-    double outputPercent = MathUtil.clamp(measurement, -0.25, 0.25);
+    boolean shouldStop = (gyroPitchRad < 0.0 && gyroPitchRateRadPerSec > VelocityThresholdRadPerSec)
+            || (gyroPitchRad > 0.0 && gyroPitchRateRadPerSec < -VelocityThresholdRadPerSec);
 
-    m_driveBase.tankDrivePercent(outputPercent, outputPercent);
+    if(shouldStop) {
+      m_driveBase.stop();
+    } else {
+      double signum = gyroPitchRad > 0.0 ? -1.0 : 1.0;
+      m_driveBase.tankDrivePercent(signum * DrivePercent, signum * DrivePercent);
+    }
   }
 
   @Override
   public boolean isFinished() {
-    return Math.abs(Math.toDegrees(m_driveBase.m_driveInputs.PitchPositionRad))
-        < Drivetrain.kRobotStabilizationToleranceDegrees;
+    return Math.abs(m_driveBase.m_driveInputs.PitchPositionRad) < PositionThresholdRad;
   }
 
   @Override
