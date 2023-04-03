@@ -13,8 +13,8 @@ public class RobotLimits {
   public static final double kMaxExtensionVerticalMeters =
       Units.inchesToMeters(kMaxExtensionVerticalInches);
 
-  public static final double kMaxDrivetrainVelocityMetersPerSecond = 4; // TODO
-  public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5; // TODO
+  public static final double kMaxDrivetrainVelocityMetersPerSecond = 4;
+  public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5;
 
   public static final PathConstraints kTrajectoryConstraints = new PathConstraints(kMaxDrivetrainVelocityMetersPerSecond, kMaxDrivetrainAccelerationMetersPerSecondSquared);
 

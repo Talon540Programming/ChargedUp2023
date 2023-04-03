@@ -80,12 +80,6 @@ public final class Constants {
         public static final double kAAngular = 0.3; // TODO this is a sim value, real value must be found in sysid
       }
 
-      public static class Stabilization {
-        public static final double kP = 0; // TODO
-        public static final double kI = 0; // TODO
-        public static final double kD = 0; // TODO
-      }
-
       public static class Trajectory {
         public static final double kP = 8.5; // TODO
         public static final double kI = 0; // TODO
