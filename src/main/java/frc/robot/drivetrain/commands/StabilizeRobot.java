@@ -27,10 +27,11 @@ public class StabilizeRobot extends CommandBase {
     double gyroPitchRad = m_driveBase.m_driveInputs.PitchPositionRad;
     double gyroPitchRateRadPerSec = m_driveBase.m_driveInputs.PitchRateRadPerSecond;
 
-    boolean shouldStop = (gyroPitchRad < 0.0 && gyroPitchRateRadPerSec > VelocityThresholdRadPerSec)
+    boolean shouldStop =
+        (gyroPitchRad < 0.0 && gyroPitchRateRadPerSec > VelocityThresholdRadPerSec)
             || (gyroPitchRad > 0.0 && gyroPitchRateRadPerSec < -VelocityThresholdRadPerSec);
 
-    if(shouldStop) {
+    if (shouldStop) {
       m_driveBase.stop();
     } else {
       double signum = gyroPitchRad > 0.0 ? -1.0 : 1.0;

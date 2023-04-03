@@ -7,9 +7,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 
 public class GeomUtil {
 
-    public static Pose2d invertAngle(Pose2d pose) {
-        return pose.transformBy(new Transform2d(new Translation2d(),
-                Rotation2d.fromDegrees(180)
-        ));
-    }
+  public static Pose2d invertAngle(Pose2d pose) {
+    return pose.transformBy(new Transform2d(new Translation2d(), Rotation2d.fromDegrees(180)));
+  }
 }

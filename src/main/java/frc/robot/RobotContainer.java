@@ -27,8 +27,8 @@ import frc.robot.intake.IntakeIOSim;
 import frc.robot.intake.IntakeIOSparkMax;
 import frc.robot.intake.commands.IntakeControl;
 import frc.robot.oi.OIManager;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import java.util.function.Supplier;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class RobotContainer {
   // Subsystems
@@ -40,7 +40,8 @@ public class RobotContainer {
   private final OIManager m_OIManager = new OIManager();
 
   // Trajectory Chooser
-  private final LoggedDashboardChooser<Supplier<Command>> m_autoChooser = new LoggedDashboardChooser<>("Autonomous Mode Chooser");
+  private final LoggedDashboardChooser<Supplier<Command>> m_autoChooser =
+      new LoggedDashboardChooser<>("Autonomous Mode Chooser");
 
   public RobotContainer() {
     SparkMaxBurnManager.checkBuildStatus();
@@ -137,10 +138,13 @@ public class RobotContainer {
     m_autoChooser.addDefaultOption("Do Nothing", Commands::none);
     m_autoChooser.addOption("Score Cube Only", () -> new DriveTime(m_driveBase, 0.75, -0.5));
     m_autoChooser.addOption("Drive For 5 Seconds", () -> new DriveTime(m_driveBase, 5, 0.25));
-    m_autoChooser.addOption("Drive For 5 Seconds (inverse)", () -> new DriveTime(m_driveBase, 5, -0.25));
+    m_autoChooser.addOption(
+        "Drive For 5 Seconds (inverse)", () -> new DriveTime(m_driveBase, 5, -0.25));
     m_autoChooser.addOption("Drive For 4 Meters", () -> new DriveDistance(m_driveBase, 4));
-    m_autoChooser.addOption("Drive For 4 Meters (inverse)", () -> new DriveDistance(m_driveBase, -4));
-    m_autoChooser.addOption("Score Cube Hybrid then Taxi", () -> new ScoreCubeHybridTaxi(m_driveBase));
+    m_autoChooser.addOption(
+        "Drive For 4 Meters (inverse)", () -> new DriveDistance(m_driveBase, -4));
+    m_autoChooser.addOption(
+        "Score Cube Hybrid then Taxi", () -> new ScoreCubeHybridTaxi(m_driveBase));
   }
 
   public Command getAutonomousCommand() {

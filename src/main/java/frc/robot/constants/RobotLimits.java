@@ -16,7 +16,9 @@ public class RobotLimits {
   public static final double kMaxDrivetrainVelocityMetersPerSecond = 4;
   public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5;
 
-  public static final PathConstraints kTrajectoryConstraints = new PathConstraints(kMaxDrivetrainVelocityMetersPerSecond, kMaxDrivetrainAccelerationMetersPerSecondSquared);
+  public static final PathConstraints kTrajectoryConstraints =
+      new PathConstraints(
+          kMaxDrivetrainVelocityMetersPerSecond, kMaxDrivetrainAccelerationMetersPerSecondSquared);
 
   public static final double kMaxArmVelocityRadPerSecond = 3 * Math.PI / 4;
   public static final double kMaxArmAccelerationRadPerSecondSquared = Math.PI / 3;

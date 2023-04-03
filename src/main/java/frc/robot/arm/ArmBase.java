@@ -124,9 +124,9 @@ public class ArmBase extends SubsystemBase {
 
   public ArmState getCurrentState() {
     return new ArmState(
-            m_armRotationInputs.AbsoluteArmPositionRad,
-            m_armRotationInputs.ArmVelocityRadPerSecond,
-            m_armExtensionInputs.PivotToEffectorDistanceMeters);
+        m_armRotationInputs.AbsoluteArmPositionRad,
+        m_armRotationInputs.ArmVelocityRadPerSecond,
+        m_armExtensionInputs.PivotToEffectorDistanceMeters);
   }
 
   public ArmState getTargetState() {
