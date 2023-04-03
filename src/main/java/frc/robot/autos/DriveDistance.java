@@ -9,10 +9,9 @@ public class DriveDistance extends CommandBase {
 
   private final double driveDistanceMeters;
 
-  private double initialLeftDistanceMeters;
-  private double initialRightDistanceMeters;
+  private double targetDistanceMeters;
 
-  public DriveDistance(double distanceMeters, DriveBase driveBase) {
+  public DriveDistance(DriveBase driveBase, double distanceMeters) {
     this.m_driveBase = driveBase;
     this.driveDistanceMeters = distanceMeters;
 
@@ -21,31 +20,20 @@ public class DriveDistance extends CommandBase {
 
   @Override
   public void initialize() {
-    initialLeftDistanceMeters = m_driveBase.m_driveInputs.LeftPositionMeters;
-    initialRightDistanceMeters = m_driveBase.m_driveInputs.RightPositionMeters;
+    targetDistanceMeters = m_driveBase.m_driveInputs.LeftPositionMeters + driveDistanceMeters;
   }
 
   @Override
   public void execute() {
-    double distanceTraveledLeft =
-        m_driveBase.m_driveInputs.LeftPositionMeters - initialLeftDistanceMeters;
-    // double distanceTraveledRight = m_driveBase.m_driveInputs.RightPositionMeters -
-    // initialRightDistanceMeters;
-
-    double deltaLeftDistance = driveDistanceMeters - distanceTraveledLeft;
-    // double deltaRightDistance = driveDistanceMeters - distanceTraveledRight;
-
-    double speed = MathUtil.clamp(deltaLeftDistance, -0.5, 0.5);
+    double deltaDistance = targetDistanceMeters - m_driveBase.m_driveInputs.LeftPositionMeters;
+    double speed = MathUtil.clamp(deltaDistance, -0.5, 0.5);
 
     m_driveBase.tankDrivePercent(speed, speed);
   }
 
   @Override
   public boolean isFinished() {
-    double distanceTraveledLeft =
-        m_driveBase.m_driveInputs.LeftPositionMeters - initialLeftDistanceMeters;
-
-    return Math.abs(driveDistanceMeters - distanceTraveledLeft) <= 0.1;
+    return Math.abs(m_driveBase.m_driveInputs.LeftPositionMeters - targetDistanceMeters) <= 0.1;
   }
 
   @Override
