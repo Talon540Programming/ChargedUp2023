@@ -73,6 +73,7 @@ public class ArmBase extends SubsystemBase {
 
     Logger.getInstance().recordOutput("Arm/Extension/Calibrated", extensionCalibrated);
     Logger.getInstance().recordOutput("Arm/Disabled", armDisabled());
+    Logger.getInstance().recordOutput("Arm/AtSetpoint", atSetpoint());
 
     // Log the target state
     Logger.getInstance().processInputs("Arm/TargetState", m_targetState);
@@ -94,12 +95,6 @@ public class ArmBase extends SubsystemBase {
       m_extensionController.reset();
     } else {
       m_disabledVoltageApplied = false;
-
-      ArmState currentState =
-          new ArmState(
-              m_armRotationInputs.AbsoluteArmPositionRad,
-              m_armRotationInputs.ArmVelocityRadPerSecond,
-              m_armExtensionInputs.PivotToEffectorDistanceMeters);
 
       double rotationFeedforward = ArmSystemDynamics.calculateRotationFeedForward(m_targetState);
       double rotationFeedback =
@@ -125,6 +120,13 @@ public class ArmBase extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     m_rotationIO.updateArmLength(m_armExtensionInputs.PivotToEffectorDistanceMeters);
+  }
+
+  public ArmState getCurrentState() {
+    return new ArmState(
+            m_armRotationInputs.AbsoluteArmPositionRad,
+            m_armRotationInputs.ArmVelocityRadPerSecond,
+            m_armExtensionInputs.PivotToEffectorDistanceMeters);
   }
 
   public ArmState getTargetState() {
