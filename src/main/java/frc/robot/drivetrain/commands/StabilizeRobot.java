@@ -22,7 +22,7 @@ public class StabilizeRobot extends CommandBase {
 
   @Override
   public void execute() {
-    double rawMeasurement = Math.toDegrees(m_driveBase.m_driveInputs.GyroPitchRad);
+    double rawMeasurement = Math.toDegrees(m_driveBase.m_driveInputs.PitchPositionRad);
     double measurement = Math.abs(rawMeasurement) <= 3 ? 0 : rawMeasurement;
 
     double outputPercent = MathUtil.clamp(measurement, -0.25, 0.25);
@@ -32,7 +32,7 @@ public class StabilizeRobot extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return Math.abs(Math.toDegrees(m_driveBase.m_driveInputs.GyroPitchRad))
+    return Math.abs(Math.toDegrees(m_driveBase.m_driveInputs.PitchPositionRad))
         < Drivetrain.kRobotStabilizationToleranceDegrees;
   }
 

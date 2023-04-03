@@ -213,7 +213,7 @@ public class DriveBase extends SubsystemBase {
    * @return whether the gyroscope is level.
    */
   public boolean isLevel() {
-    return Math.abs(m_driveInputs.GyroPitchRad)
+    return Math.abs(m_driveInputs.PitchPositionRad)
         < Math.toRadians(Drivetrain.kRobotStabilizationToleranceDegrees);
   }
 }

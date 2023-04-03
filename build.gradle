@@ -44,7 +44,6 @@ def includeDesktopSupport = true
 repositories {
     mavenLocal()
 
-    maven { url = uri('https://jitpack.io') }
     maven {
         url = uri("https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit")
         credentials {
@@ -82,7 +81,6 @@ dependencies {
 
     def AdvantageKitJSON = new JsonSlurper().parseText(new File(projectDir.getAbsolutePath() + "/vendordeps/AdvantageKit.json").text)
     annotationProcessor "org.littletonrobotics.akit.junction:junction-autolog:$AdvantageKitJSON.version"
-    implementation "com.github.Talon540Programming:TalonLib:2023-SNAPSHOT"
 }
 
 test {

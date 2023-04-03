@@ -38,7 +38,8 @@ public class DriveIOSim implements DriveIO {
     inputs.CurrentAmps =
         new double[] {m_driveSim.getLeftCurrentDrawAmps(), m_driveSim.getRightCurrentDrawAmps()};
 
-    inputs.GyroYawRad = -m_driveSim.getHeading().getRadians();
+    inputs.GyroConnected = true;
+    inputs.YawPositionRad = -m_driveSim.getHeading().getRadians();
   }
 
   @Override

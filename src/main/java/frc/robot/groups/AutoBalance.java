@@ -10,6 +10,6 @@ public class AutoBalance extends ParallelCommandGroup {
   public AutoBalance(DriveBase driveBase, ArmBase armBase) {
     super(
         new StabilizeRobot(driveBase),
-        new OffsetAngle(armBase, () -> driveBase.m_driveInputs.GyroPitchRad));
+        new OffsetAngle(armBase, () -> driveBase.m_driveInputs.PitchPositionRad));
   }
 }
