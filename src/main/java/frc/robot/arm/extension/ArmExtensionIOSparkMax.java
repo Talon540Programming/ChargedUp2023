@@ -69,4 +69,9 @@ public class ArmExtensionIOSparkMax implements ArmExtensionIO {
   public void setNeutralMode(Constants.NeutralMode mode) {
     m_winchMotor.setIdleMode(mode.toIdleMode());
   }
+
+  @Override
+  public boolean isStalled() {
+    return m_winchMotor.getOutputCurrent() >= 40;
+  }
 }

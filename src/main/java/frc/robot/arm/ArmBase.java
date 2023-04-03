@@ -1,12 +1,9 @@
 package frc.robot.arm;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOInputsAutoLogged;
@@ -42,15 +39,7 @@ public class ArmBase extends SubsystemBase {
           Constants.Arm.ControlValues.RotationValues.kP,
           Constants.Arm.ControlValues.RotationValues.kI,
           Constants.Arm.ControlValues.RotationValues.kD,
-          new TrapezoidProfile.Constraints(
-              RobotLimits.kMaxArmVelocityRadPerSecond,
-              RobotLimits.kMaxArmAccelerationRadPerSecondSquared));
-  private final ArmFeedforward m_rotationFeedforward =
-      new ArmFeedforward(
-          Constants.Arm.ControlValues.RotationValues.kS,
-          Constants.Arm.ControlValues.RotationValues.kG,
-          Constants.Arm.ControlValues.RotationValues.kV,
-          Constants.Arm.ControlValues.RotationValues.kA);
+          RobotLimits.kArmRotationConstraints);
 
   private final PIDController m_extensionController =
       new PIDController(
@@ -59,7 +48,6 @@ public class ArmBase extends SubsystemBase {
           Constants.Arm.ControlValues.ExtensionValues.kD);
 
   private boolean extensionCalibrated = false;
-  private double extensionCalibratedTimeSeconds = -1;
   // endregion
 
   public ArmBase(ArmExtensionIO extensionIO, ArmRotationIO rotationIO) {
@@ -83,10 +71,8 @@ public class ArmBase extends SubsystemBase {
     Logger.getInstance().processInputs("Arm/Extension", m_armExtensionInputs);
     Logger.getInstance().processInputs("Arm/Rotation", m_armRotationInputs);
 
-    // Log extension calibration state
     Logger.getInstance().recordOutput("Arm/Extension/Calibrated", extensionCalibrated);
-    Logger.getInstance()
-        .recordOutput("Arm/Extension/CalibrationTimestamp", extensionCalibratedTimeSeconds);
+    Logger.getInstance().recordOutput("Arm/Disabled", armDisabled());
 
     // Log the target state
     Logger.getInstance().processInputs("Arm/TargetState", m_targetState);
@@ -109,9 +95,13 @@ public class ArmBase extends SubsystemBase {
     } else {
       m_disabledVoltageApplied = false;
 
-      double rotationFeedforward =
-          m_rotationFeedforward.calculate(
-              m_targetState.AngleRadians, m_targetState.VelocityRadiansPerSecond);
+      ArmState currentState =
+          new ArmState(
+              m_armRotationInputs.AbsoluteArmPositionRad,
+              m_armRotationInputs.ArmVelocityRadPerSecond,
+              m_armExtensionInputs.PivotToEffectorDistanceMeters);
+
+      double rotationFeedforward = ArmSystemDynamics.calculateRotationFeedForward(m_targetState);
       double rotationFeedback =
           m_rotationController.calculate(
               m_armRotationInputs.AbsoluteArmPositionRad, m_targetState.AngleRadians);
@@ -182,7 +172,6 @@ public class ArmBase extends SubsystemBase {
    */
   public void completeExtensionCalibration() {
     m_extensionIO.setDistance(RobotDimensions.Arm.kFullyRetractedLengthMeters);
-    extensionCalibratedTimeSeconds = Timer.getFPGATimestamp();
     extensionCalibrated = true;
   }
 
@@ -210,5 +199,9 @@ public class ArmBase extends SubsystemBase {
   public void setExtensionVoltage(double voltage) {
     voltage = MathUtil.clamp(voltage, -12, 12);
     m_extensionIO.setVoltage(voltage);
+  }
+
+  public boolean isExtensionStalled() {
+    return m_extensionIO.isStalled();
   }
 }

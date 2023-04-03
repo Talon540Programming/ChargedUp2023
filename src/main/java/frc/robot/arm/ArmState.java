@@ -1,5 +1,6 @@
 package frc.robot.arm;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.numbers.N2;
@@ -10,14 +11,13 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 public class ArmState implements LoggableInputs, Cloneable {
   // Set of Preset ArmStates
   public static final ArmState IDLE = new ArmState(Math.PI / 2.0, RobotLimits.kMinArmLengthMeters);
-  public static final ArmState SCORE_HYBRID = null; // TODO
-  public static final ArmState SCORE_MID_CUBE = null; // TODO
-  public static final ArmState SCORE_HIGH_CUBE = null; // TODO
-  public static final ArmState SCORE_MID_CONE = null; // TODO
-  public static final ArmState SCORE_HIGH_CONE = null; // TODO
-  public static final ArmState SINGLE_SUBSTATION = null; // TODO
-  public static final ArmState DOUBLE_SUBSTATION = null; // TODO
-  public static final ArmState FLOOR = null; // TODO
+
+  public static final ArmState SCORE_HYBRID = new ArmState(-0.357393, 0.52705);
+  public static final ArmState SCORE_MID_CUBE = new ArmState(0.32053, 0.52705);
+  public static final ArmState SCORE_HIGH_CUBE = new ArmState(0.43286, 1.04982);
+  public static final ArmState SCORE_MID_CONE = new ArmState(0.54509, 0.90925);
+  public static final ArmState SINGLE_SUBSTATION = new ArmState(0.42339, 0.52705);
+  public static final ArmState DOUBLE_SUBSTATION = new ArmState(0.48851, 1.19380);
 
   public double AngleRadians;
   public double VelocityRadiansPerSecond;
@@ -47,7 +47,11 @@ public class ArmState implements LoggableInputs, Cloneable {
    */
   public ArmState(double angleRad, double pivotToEffectorMeters) {
     this.AngleRadians = angleRad;
-    this.PivotToEffectorDistanceMeters = pivotToEffectorMeters;
+    this.PivotToEffectorDistanceMeters =
+        MathUtil.clamp(
+            pivotToEffectorMeters,
+            RobotLimits.kMinArmLengthMeters,
+            RobotLimits.kMaxArmLengthMeters);
   }
 
   /**

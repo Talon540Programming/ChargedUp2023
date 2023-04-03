@@ -10,11 +10,13 @@ import frc.robot.constants.RobotLimits;
 public class ArmExtensionIOSim implements ArmExtensionIO {
   private final ElevatorSim m_armSim;
 
+  double voltage = 0;
+
   public ArmExtensionIOSim() {
     m_armSim =
         new ElevatorSim(
             DCMotor.getNEO(1),
-            Constants.Arm.kExtensionGearRatio,
+            1,
             RobotDimensions.Effector.kEffectorMassKg,
             Constants.Arm.kExtensionWinchRadiusMeters,
             RobotLimits.kMinArmLengthMeters, // Min distance from pivot to effector
@@ -36,5 +38,11 @@ public class ArmExtensionIOSim implements ArmExtensionIO {
     voltage = MathUtil.clamp(voltage, -12.0, 12.0);
 
     m_armSim.setInput(voltage);
+    this.voltage = voltage;
+  }
+
+  @Override
+  public boolean isStalled() {
+    return Math.abs(m_armSim.getCurrentDrawAmps() * 12.0 / this.voltage) >= 105;
   }
 }
