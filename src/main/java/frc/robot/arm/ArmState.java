@@ -88,8 +88,8 @@ public class ArmState implements LoggableInputs, Cloneable {
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof ArmState other) {
-      return Math.abs(AngleRadians - other.AngleRadians) < Math.toRadians(0.25)
-          && Math.abs(PivotToEffectorDistanceMeters - other.PivotToEffectorDistanceMeters) < 5e-3;
+      return Math.abs(AngleRadians - other.AngleRadians) < 0.05
+          && Math.abs(PivotToEffectorDistanceMeters - other.PivotToEffectorDistanceMeters) < 0.01;
     }
     return false;
   }

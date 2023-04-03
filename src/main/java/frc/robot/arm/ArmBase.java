@@ -182,7 +182,7 @@ public class ArmBase extends SubsystemBase {
   }
 
   public boolean atSetpoint() {
-    return m_rotationController.atSetpoint() && m_extensionController.atSetpoint();
+    return getCurrentState().equals(getTargetState());
   }
 
   public void stopExtension() {
