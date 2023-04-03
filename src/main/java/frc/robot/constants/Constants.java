@@ -70,8 +70,6 @@ public final class Constants {
 
     public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.COAST;
 
-    public static final double kRobotStabilizationToleranceDegrees = 5;
-
     public static class ControlValues {
       public static class Characterization {
         public static final double kSLinear = 0.22; // TODO
