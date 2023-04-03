@@ -59,7 +59,7 @@ public class ArmState implements LoggableInputs, Cloneable {
    *
    * @return reflected angle.
    */
-  public ArmState inverted() {
+  public ArmState invert() {
     return new ArmState(Math.PI - AngleRadians, PivotToEffectorDistanceMeters);
   }
 
