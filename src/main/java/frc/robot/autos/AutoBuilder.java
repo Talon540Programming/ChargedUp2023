@@ -232,7 +232,7 @@ public class AutoBuilder {
     return autoCommand;
   }
 
-  enum GridToRobotPose {
+  public enum GridToRobotPose {
     LeftLeftCone(new Pose2d(1.85, 5, new Rotation2d())),
     LeftCube(new Pose2d(1.85, 4.4, new Rotation2d())),
     LeftRightCone(new Pose2d(1.85, 3.85, new Rotation2d())),
@@ -250,7 +250,7 @@ public class AutoBuilder {
     }
   }
 
-  enum FloorPiecePose {
+  public enum FloorPiecePose {
     Top(new Pose2d(6.17, 4.6, new Rotation2d())),
     TopMiddle(new Pose2d(6.17, 3.37, new Rotation2d())),
     BottomMiddle(new Pose2d(6.17, 2.15, new Rotation2d())),
@@ -263,7 +263,7 @@ public class AutoBuilder {
     }
   }
 
-  enum GridDepositionLevels {
+  public enum GridDepositionLevels {
     HighCube(ArmState.SCORE_HIGH_CUBE),
     MidCone(ArmState.SCORE_MID_CONE),
     MidCube(ArmState.SCORE_HIGH_CUBE),
