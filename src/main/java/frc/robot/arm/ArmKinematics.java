@@ -203,13 +203,19 @@ public class ArmKinematics {
    *
    * @param robotPose position of the robot.
    * @param targetPose target position to put the beginning of the effector.
-   * @param distanceOffsetMeters distance offset to use. Use this if you need to reduce how far to extend the arm (say for shooting cubes instead of placing them).
+   * @param distanceOffsetMeters distance offset to use. Use this if you need to reduce how far to
+   *     extend the arm (say for shooting cubes instead of placing them).
    * @return ArmState to reach targetPose
    */
-  public ArmState calculateArmState(Pose2d robotPose, Translation3d targetPose, double distanceOffsetMeters) {
-    double armAngle = Math.atan2(targetPose.getZ() - fulcrumPosition.getZ(), targetPose.getX() - robotPose.getX());
-    double totalLength = MathUtil.clamp(
-            Math.hypot(targetPose.getZ() - fulcrumPosition.getZ(), targetPose.getX() - robotPose.getX()),
+  public ArmState calculateArmState(
+      Pose2d robotPose, Translation3d targetPose, double distanceOffsetMeters) {
+    double armAngle =
+        Math.atan2(
+            targetPose.getZ() - fulcrumPosition.getZ(), targetPose.getX() - robotPose.getX());
+    double totalLength =
+        MathUtil.clamp(
+            Math.hypot(
+                targetPose.getZ() - fulcrumPosition.getZ(), targetPose.getX() - robotPose.getX()),
             RobotLimits.kMinArmLengthMeters,
             RobotLimits.kMaxArmLengthMeters);
 

@@ -18,5 +18,7 @@ public interface IntakeIO extends LoggedIO<IntakeIO.IntakeInputs> {
 
   default void setNeutralMode(Constants.NeutralMode mode) {}
 
-  default boolean isStalled() { return false; }
+  default boolean isStalled() {
+    return false;
+  }
 }

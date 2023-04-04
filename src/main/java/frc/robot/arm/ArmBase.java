@@ -75,7 +75,6 @@ public class ArmBase extends SubsystemBase {
     Logger.getInstance().recordOutput("Arm/Disabled", armDisabled());
     Logger.getInstance().recordOutput("Arm/AtSetpoint", atSetpoint());
 
-
     if (armDisabled()) {
       m_targetState = ArmState.IDLE;
 
@@ -132,7 +131,7 @@ public class ArmBase extends SubsystemBase {
   }
 
   public void updateState(ArmState state) {
-    if(state.equals(getTargetState())) return;
+    if (state.equals(getTargetState())) return;
 
     double stateAngleRad = state.AngleRadians;
     double stateDistanceMeters = state.PivotToEffectorDistanceMeters;
@@ -152,7 +151,9 @@ public class ArmBase extends SubsystemBase {
 
     // Prevent from breaching extension limit
     if (Constants.Arm.kArmKinematics.wouldBreakExtensionLimit(totalLength, stateAngleRad)) {
-      stateDistanceMeters = Constants.Arm.kArmKinematics.maxArmAndEffectorLength(stateAngleRad) - RobotDimensions.Effector.kLengthMeters;
+      stateDistanceMeters =
+          Constants.Arm.kArmKinematics.maxArmAndEffectorLength(stateAngleRad)
+              - RobotDimensions.Effector.kLengthMeters;
     }
 
     m_targetState = new ArmState(stateAngleRad, stateDistanceMeters);

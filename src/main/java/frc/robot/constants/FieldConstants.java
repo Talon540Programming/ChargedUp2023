@@ -1,6 +1,5 @@
 package frc.robot.constants;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 
@@ -21,10 +20,10 @@ public class FieldConstants {
   }
 
   public enum NodeType {
-        ConeNode,
-        CubeNode,
-        HybridNode
-}
+    ConeNode,
+    CubeNode,
+    HybridNode
+  }
 
   /**
    * Represents the GRID on the field. Each pose represents the point at the origin of that GRID
@@ -69,8 +68,12 @@ public class FieldConstants {
       };
     // spotless:on
 
-    public static final Pose3d kTopFloorPiecePose = new Pose3d(7.06, 4.58, 0, new Rotation3d(0, -Math.PI / 2, 0));
-    public static final Pose3d kTopMiddleFloorPiecePose = new Pose3d(7.06, 3.35, 0, new Rotation3d(0, Math.PI / -2, 0));
-    public static final Pose3d kBottomMiddleFloorPiecePose = new Pose3d(7.06, 2.15, 0, new Rotation3d(0, Math.PI / -2, 0));
-    public static final Pose3d kBottomFloorPiecePose = new Pose3d(7.06, 0.9, 0, new Rotation3d(0, Math.PI / -2, 0));
+  public static final Pose3d kTopFloorPiecePose =
+      new Pose3d(7.06, 4.58, 0, new Rotation3d(0, -Math.PI / 2, 0));
+  public static final Pose3d kTopMiddleFloorPiecePose =
+      new Pose3d(7.06, 3.35, 0, new Rotation3d(0, Math.PI / -2, 0));
+  public static final Pose3d kBottomMiddleFloorPiecePose =
+      new Pose3d(7.06, 2.15, 0, new Rotation3d(0, Math.PI / -2, 0));
+  public static final Pose3d kBottomFloorPiecePose =
+      new Pose3d(7.06, 0.9, 0, new Rotation3d(0, Math.PI / -2, 0));
 }

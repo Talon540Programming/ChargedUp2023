@@ -1,12 +1,7 @@
 package frc.robot.arm;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.Vector;
-import edu.wpi.first.math.numbers.N2;
 import frc.robot.constants.RobotLimits;
-import org.littletonrobotics.junction.LogTable;
-import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 public class ArmState {
   // Set of Preset ArmStates
