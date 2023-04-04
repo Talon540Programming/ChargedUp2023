@@ -30,7 +30,7 @@ public class IntakeForTime extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_intakeBase.stopIntake();
+    m_intakeBase.stop();
     m_timer.stop();
   }
 
