@@ -21,6 +21,7 @@ import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.DriveIOSim;
 import frc.robot.drivetrain.commands.DriveControl;
 import frc.robot.drivetrain.commands.StabilizeRobot;
+import frc.robot.groups.AutoBalance;
 import frc.robot.intake.IntakeBase;
 import frc.robot.intake.IntakeIO;
 import frc.robot.intake.IntakeIOSim;
@@ -113,7 +114,7 @@ public class RobotContainer {
     m_OIManager
         .getDriverInterface()
         .toggleBalanceMode()
-        .toggleOnTrue(new StabilizeRobot(m_driveBase));
+        .toggleOnTrue(new AutoBalance(m_driveBase, m_armBase));
     m_OIManager
         .getOperatorInterface()
         .resetExtension()
