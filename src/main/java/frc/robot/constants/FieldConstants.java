@@ -71,9 +71,9 @@ public class FieldConstants {
   public static final Pose3d kTopFloorPiecePose =
       new Pose3d(7.06, 4.58, 0, new Rotation3d(0, -Math.PI / 2, 0));
   public static final Pose3d kTopMiddleFloorPiecePose =
-      new Pose3d(7.06, 3.35, 0, new Rotation3d(0, Math.PI / -2, 0));
+      new Pose3d(7.06, 3.35, 0, new Rotation3d(0, -Math.PI / 2, 0));
   public static final Pose3d kBottomMiddleFloorPiecePose =
-      new Pose3d(7.06, 2.15, 0, new Rotation3d(0, Math.PI / -2, 0));
+      new Pose3d(7.06, 2.15, 0, new Rotation3d(0, -Math.PI / 2, 0));
   public static final Pose3d kBottomFloorPiecePose =
-      new Pose3d(7.06, 0.9, 0, new Rotation3d(0, Math.PI / -2, 0));
+      new Pose3d(7.06, 0.90, 0, new Rotation3d(0, -Math.PI / 2, 0));
 }
