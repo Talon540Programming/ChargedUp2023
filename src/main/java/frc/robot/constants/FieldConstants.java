@@ -1,13 +1,34 @@
 package frc.robot.constants;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.util.Units;
+
+import java.io.IOException;
 
 /**
  * Constants pertaining to the Field and its dimensions. All dimensions are respective to the Blue
  * Alliance where the blue alliance is on the left wall of the field.
  */
 public class FieldConstants {
+  public static final AprilTagFieldLayout kFieldLayout;
+
+  public static final double kFieldLengthInches = 651.25;
+  public static final double kFieldLengthMeters = Units.inchesToMeters(kFieldLengthInches);
+
+  public static final double kFieldWidthInches = 315.5;
+  public static final double kFieldWidthMeters = Units.inchesToMeters(kFieldWidthInches);
+
+  static {
+    try {
+      kFieldLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to Load the AprilTagFieldLayout of the field");
+    }
+  }
+
   public static class GridNode {
     public final NodeType nodeType;
 
