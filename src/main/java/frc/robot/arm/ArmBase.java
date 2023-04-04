@@ -138,6 +138,8 @@ public class ArmBase extends SubsystemBase {
   }
 
   public void updateState(ArmState state) {
+    if(state.equals(getTargetState())) return;
+
     state.PivotToEffectorDistanceMeters =
         MathUtil.clamp(
             state.PivotToEffectorDistanceMeters,
