@@ -40,9 +40,15 @@ public class FieldConstants {
   }
 
   public enum NodeType {
-    ConeNode,
-    CubeNode,
-    HybridNode
+    Cone,
+    Cube,
+    Hybrid
+  }
+
+  public enum NodeLevel {
+    High,
+    Middle,
+    Low
   }
 
   /**
@@ -53,37 +59,37 @@ public class FieldConstants {
   public static final GridNode[][] kGrid =
       new GridNode[][] {
         new GridNode[] {
-          new GridNode(NodeType.ConeNode, new Pose3d(0.376585, 0.508730, 1.170, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.CubeNode, new Pose3d(0.379667, 1.067530, 0.826326, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.ConeNode, new Pose3d(0.376585, 1.626330, 1.170, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.ConeNode, new Pose3d(0.376585, 2.185130, 1.170, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.CubeNode, new Pose3d(0.379667, 2.743930, 0.826326, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.ConeNode, new Pose3d(0.376585, 3.302730, 1.170, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.ConeNode, new Pose3d(0.376585, 3.861530, 1.170, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.CubeNode, new Pose3d(0.379667, 4.420330, 0.826326, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.ConeNode, new Pose3d(0.376585, 4.979130, 1.170, new Rotation3d(0, -Math.PI / 2, 0)))
+          new GridNode(NodeType.Cone, NodeLevel.High, new Pose3d(0.376585, 0.508730, 1.170, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cube, NodeLevel.High, new Pose3d(0.379667, 1.067530, 0.826326, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cone, NodeLevel.High, new Pose3d(0.376585, 1.626330, 1.170, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cone, NodeLevel.High, new Pose3d(0.376585, 2.185130, 1.170, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cube, NodeLevel.High, new Pose3d(0.379667, 2.743930, 0.826326, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cone, NodeLevel.High, new Pose3d(0.376585, 3.302730, 1.170, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cone, NodeLevel.High, new Pose3d(0.376585, 3.861530, 1.170, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cube, NodeLevel.High, new Pose3d(0.379667, 4.420330, 0.826326, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cone, NodeLevel.High, new Pose3d(0.376585, 4.979130, 1.170, new Rotation3d(0, 0, 0)))
         },
         new GridNode[] {
-          new GridNode(NodeType.ConeNode, new Pose3d(0.798040, 0.508730, 0.865950, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.CubeNode, new Pose3d(0.828040, 1.067530, 0.523050, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.ConeNode, new Pose3d(0.798040, 1.626330, 0.865950, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.ConeNode, new Pose3d(0.798040, 2.185130, 0.865950, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.CubeNode, new Pose3d(0.828040, 2.743930, 0.523050, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.ConeNode, new Pose3d(0.798040, 3.302730, 0.865950, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.ConeNode, new Pose3d(0.798040, 3.861530, 0.865950, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.CubeNode, new Pose3d(0.828040, 4.420330, 0.523050, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.ConeNode, new Pose3d(0.798040, 4.979130, 0.865950, new Rotation3d(0, -Math.PI / 2, 0)))
+          new GridNode(NodeType.Cone, NodeLevel.Middle, new Pose3d(0.798040, 0.508730, 0.865950, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cube, NodeLevel.Middle, new Pose3d(0.828040, 1.067530, 0.523050, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cone, NodeLevel.Middle, new Pose3d(0.798040, 1.626330, 0.865950, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cone, NodeLevel.Middle, new Pose3d(0.798040, 2.185130, 0.865950, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cube, NodeLevel.Middle, new Pose3d(0.828040, 2.743930, 0.523050, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cone, NodeLevel.Middle, new Pose3d(0.798040, 3.302730, 0.865950, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cone, NodeLevel.Middle, new Pose3d(0.798040, 3.861530, 0.865950, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cube, NodeLevel.Middle, new Pose3d(0.828040, 4.420330, 0.523050, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Cone, NodeLevel.Middle, new Pose3d(0.798040, 4.979130, 0.865950, new Rotation3d(0, 0, 0)))
         },
         new GridNode[] {
-          new GridNode(NodeType.HybridNode, new Pose3d(1.186813, 0.508730, 0, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.HybridNode, new Pose3d(1.186813, 1.067530, 0, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.HybridNode, new Pose3d(1.186813, 1.626330, 0, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.HybridNode, new Pose3d(1.186813, 2.185130, 0, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.HybridNode, new Pose3d(1.186813, 2.743930, 0, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.HybridNode, new Pose3d(1.186813, 3.302730, 0, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.HybridNode, new Pose3d(1.186813, 3.861530, 0, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.HybridNode, new Pose3d(1.186813, 4.420330, 0, new Rotation3d(0, -Math.PI / 2, 0))),
-          new GridNode(NodeType.HybridNode, new Pose3d(1.186813, 4.979130, 0, new Rotation3d(0, -Math.PI / 2, 0)))
+          new GridNode(NodeType.Hybrid, NodeLevel.Low, new Pose3d(1.186813, 0.508730, 0, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Hybrid, NodeLevel.Low, new Pose3d(1.186813, 1.067530, 0, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Hybrid, NodeLevel.Low, new Pose3d(1.186813, 1.626330, 0, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Hybrid, NodeLevel.Low, new Pose3d(1.186813, 2.185130, 0, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Hybrid, NodeLevel.Low, new Pose3d(1.186813, 2.743930, 0, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Hybrid, NodeLevel.Low, new Pose3d(1.186813, 3.302730, 0, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Hybrid, NodeLevel.Low, new Pose3d(1.186813, 3.861530, 0, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Hybrid, NodeLevel.Low, new Pose3d(1.186813, 4.420330, 0, new Rotation3d(0, 0, 0))),
+          new GridNode(NodeType.Hybrid, NodeLevel.Low, new Pose3d(1.186813, 4.979130, 0, new Rotation3d(0, 0, 0)))
         },
       };
     // spotless:on
