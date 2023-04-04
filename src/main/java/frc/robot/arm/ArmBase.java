@@ -75,8 +75,6 @@ public class ArmBase extends SubsystemBase {
     Logger.getInstance().recordOutput("Arm/Disabled", armDisabled());
     Logger.getInstance().recordOutput("Arm/AtSetpoint", atSetpoint());
 
-    // Log the target state
-    Logger.getInstance().processInputs("Arm/TargetState", m_targetState);
 
     if (armDisabled()) {
       m_targetState = ArmState.IDLE;
@@ -130,44 +128,34 @@ public class ArmBase extends SubsystemBase {
   }
 
   public ArmState getTargetState() {
-    try {
-      return m_targetState.clone();
-    } catch (CloneNotSupportedException e) {
-      throw new RuntimeException(e);
-    }
+    return m_targetState;
   }
 
   public void updateState(ArmState state) {
     if(state.equals(getTargetState())) return;
 
-    state.PivotToEffectorDistanceMeters =
-        MathUtil.clamp(
-            state.PivotToEffectorDistanceMeters,
-            RobotLimits.kMinArmLengthMeters,
-            RobotLimits.kMaxArmLengthMeters);
+    double stateAngleRad = state.AngleRadians;
+    double stateDistanceMeters = state.PivotToEffectorDistanceMeters;
 
-    double totalLength =
-        state.PivotToEffectorDistanceMeters + RobotDimensions.Effector.kLengthMeters;
+    double totalLength = stateDistanceMeters + RobotDimensions.Effector.kLengthMeters;
 
     // Prevent from going through the floor
-    if (Math.PI > state.AngleRadians && state.AngleRadians >= -Math.PI / 2.0) {
-      if (Constants.Arm.kArmKinematics.wouldIntersectForward(totalLength, state.AngleRadians)) {
-        state.AngleRadians = Constants.Arm.kArmKinematics.lowestForwardAngle(totalLength);
+    if (Math.PI > stateAngleRad && stateAngleRad >= -Math.PI / 2.0) {
+      if (Constants.Arm.kArmKinematics.wouldIntersectForward(totalLength, stateAngleRad)) {
+        stateAngleRad = Constants.Arm.kArmKinematics.lowestForwardAngle(totalLength);
       }
     } else {
-      if (Constants.Arm.kArmKinematics.wouldIntersectRear(totalLength, state.AngleRadians)) {
-        state.AngleRadians = Constants.Arm.kArmKinematics.lowestRearAngle(totalLength);
+      if (Constants.Arm.kArmKinematics.wouldIntersectRear(totalLength, stateAngleRad)) {
+        stateAngleRad = Constants.Arm.kArmKinematics.lowestRearAngle(totalLength);
       }
     }
 
     // Prevent from breaching extension limit
-    if (Constants.Arm.kArmKinematics.wouldBreakExtensionLimit(totalLength, state.AngleRadians)) {
-      state.PivotToEffectorDistanceMeters =
-          Constants.Arm.kArmKinematics.maxArmAndEffectorLength(state.AngleRadians)
-              - RobotDimensions.Effector.kLengthMeters;
+    if (Constants.Arm.kArmKinematics.wouldBreakExtensionLimit(totalLength, stateAngleRad)) {
+      stateDistanceMeters = Constants.Arm.kArmKinematics.maxArmAndEffectorLength(stateAngleRad) - RobotDimensions.Effector.kLengthMeters;
     }
 
-    m_targetState = new ArmState(state.AngleRadians, state.PivotToEffectorDistanceMeters);
+    m_targetState = new ArmState(stateAngleRad, stateDistanceMeters);
   }
 
   /**

@@ -8,7 +8,7 @@ import frc.robot.constants.RobotLimits;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
-public class ArmState implements LoggableInputs, Cloneable {
+public class ArmState {
   // Set of Preset ArmStates
   public static final ArmState IDLE = new ArmState(Math.PI / 2.0, RobotLimits.kMinArmLengthMeters);
 
@@ -19,10 +19,9 @@ public class ArmState implements LoggableInputs, Cloneable {
   public static final ArmState SINGLE_SUBSTATION = new ArmState(0.42339, 0.52705);
   public static final ArmState DOUBLE_SUBSTATION = new ArmState(0.48851, 1.19380);
 
-  public double AngleRadians;
-  public double VelocityRadiansPerSecond;
-
-  public double PivotToEffectorDistanceMeters;
+  public final double AngleRadians;
+  public final double VelocityRadiansPerSecond;
+  public final double PivotToEffectorDistanceMeters;
 
   /**
    * Create an ArmState object.
@@ -52,6 +51,7 @@ public class ArmState implements LoggableInputs, Cloneable {
             pivotToEffectorMeters,
             RobotLimits.kMinArmLengthMeters,
             RobotLimits.kMaxArmLengthMeters);
+    this.VelocityRadiansPerSecond = 0;
   }
 
   /**
@@ -63,28 +63,6 @@ public class ArmState implements LoggableInputs, Cloneable {
     return new ArmState(Math.PI - AngleRadians, PivotToEffectorDistanceMeters);
   }
 
-  /**
-   * Return the ArmState as a vector.
-   *
-   * @return ArmState as a vector.
-   */
-  public Vector<N2> toVec() {
-    return VecBuilder.fill(AngleRadians, PivotToEffectorDistanceMeters);
-  }
-
-  @Override
-  public void toLog(LogTable table) {
-    table.put("AngleRadians", AngleRadians);
-    table.put("LengthMeters", PivotToEffectorDistanceMeters);
-  }
-
-  @Override
-  public void fromLog(LogTable table) {
-    AngleRadians = table.getDouble("AngleRadians", AngleRadians);
-    PivotToEffectorDistanceMeters =
-        table.getDouble("ExtensionLengthMeters", PivotToEffectorDistanceMeters);
-  }
-
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof ArmState other) {
@@ -92,14 +70,5 @@ public class ArmState implements LoggableInputs, Cloneable {
           && Math.abs(PivotToEffectorDistanceMeters - other.PivotToEffectorDistanceMeters) < 0.01;
     }
     return false;
-  }
-
-  @Override
-  public ArmState clone() throws CloneNotSupportedException {
-    ArmState clone = (ArmState) super.clone();
-    clone.AngleRadians = AngleRadians;
-    clone.PivotToEffectorDistanceMeters = PivotToEffectorDistanceMeters;
-
-    return clone;
   }
 }
