@@ -16,7 +16,7 @@ public class AutoBalance extends ParallelCommandGroup {
                 new ParallelRaceGroup(
                         new StabilizeRobot(driveBase),
                         new GoToSuppliedState(armBase, () -> new ArmState(
-                                (Math.PI / 2) - driveBase.m_driveInputs.PitchPositionRad,
+                                (Math.PI / 2) + driveBase.m_driveInputs.PitchPositionRad,
                                 RobotLimits.kMinArmLengthMeters
                         ))
                 ),
