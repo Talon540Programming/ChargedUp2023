@@ -70,7 +70,7 @@ public class FieldConstants {
    * Represents the GRID on the field. Each pose represents the point at the origin of that GRID
    * Node. (Top Center of the PEG for CONES and Center of the Square for the rest)
    */
-  // spotless:off
+  // region spotless:off
   public static final GridNode[][] kGrid =
       new GridNode[][] {
         new GridNode[] {
@@ -107,7 +107,7 @@ public class FieldConstants {
           new GridNode(NodeType.Hybrid, NodeLevel.Low, new Pose3d(1.186813, 4.979130, 0, new Rotation3d(0, 0, 0)))
         },
       };
-    // spotless:on
+    // endregion spotless:on
 
   public static final Pose3d kTopFloorPiecePose =
       new Pose3d(7.06, 4.58, 0, new Rotation3d(0, -Math.PI / 2, 0));
