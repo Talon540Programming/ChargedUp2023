@@ -110,18 +110,18 @@ public class FieldConstants {
     // endregion spotless:on
 
   public static final Pose3d kTopFloorPiecePose =
-      new Pose3d(7.06, 4.58, 0, new Rotation3d(0, -Math.PI / 2, 0));
+      new Pose3d(7.06, 4.58, 0, new Rotation3d(0, 0, 0));
   public static final Pose3d kTopMiddleFloorPiecePose =
-      new Pose3d(7.06, 3.35, 0, new Rotation3d(0, -Math.PI / 2, 0));
+      new Pose3d(7.06, 3.35, 0, new Rotation3d(0, 0, 0));
   public static final Pose3d kBottomMiddleFloorPiecePose =
-      new Pose3d(7.06, 2.15, 0, new Rotation3d(0, -Math.PI / 2, 0));
+      new Pose3d(7.06, 2.15, 0, new Rotation3d(0, 0, 0));
   public static final Pose3d kBottomFloorPiecePose =
-      new Pose3d(7.06, 0.90, 0, new Rotation3d(0, -Math.PI / 2, 0));
+      new Pose3d(7.06, 0.90, 0, new Rotation3d(0, 0, 0));
 
   public static final Pose3d kSingleSubstationPose =
-      new Pose3d(14.20, 8, 0.75, new Rotation3d(0, Math.PI / 6, -Math.PI / 2));
+      new Pose3d(14.20, 8, 0.75, new Rotation3d(0, 0, 0));
   public static final Pose3d kDoubleSubstationLeftPose =
-      new Pose3d(16.35, 6.957, 0.946150, new Rotation3d(0, -Math.PI / 2, 0));
+      new Pose3d(16.35, 6.957, 0.946150, new Rotation3d(0, 0, 0));
   public static final Pose3d kDoubleSubstationRightPose =
-      new Pose3d(16.35, 5.73, 0.946150, new Rotation3d(0, -Math.PI / 2, 0));
+      new Pose3d(16.35, 5.73, 0.946150, new Rotation3d(0, 0, 0));
 }
