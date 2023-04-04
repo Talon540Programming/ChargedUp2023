@@ -4,6 +4,8 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import java.io.IOException;
 
@@ -30,12 +32,25 @@ public class FieldConstants {
 
   public static class GridNode {
     public final NodeType nodeType;
+    public final NodeLevel nodeLevel;
 
     public final Pose3d nodePose;
 
-    public GridNode(NodeType type, Pose3d pose) {
+    public GridNode(NodeType type, NodeLevel level, Pose3d pose) {
       this.nodeType = type;
       this.nodePose = pose;
+      this.nodeLevel = level;
+    }
+
+    public Pose3d getIdealEffectorPose() {
+      return switch (nodeType) {
+        case Cone -> nodePose.transformBy(
+            new Transform3d(new Translation3d(0.25, 0.0, 0.1), new Rotation3d()));
+        case Cube -> nodePose.transformBy(
+            new Transform3d(new Translation3d(0.25, 0.0, 0.25), new Rotation3d()));
+        case Hybrid -> nodePose.transformBy(
+            new Transform3d(new Translation3d(0.1, 0.0, 0.25), new Rotation3d()));
+      };
     }
   }
 
