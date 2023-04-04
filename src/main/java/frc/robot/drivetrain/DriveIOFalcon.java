@@ -46,6 +46,7 @@ public class DriveIOFalcon implements DriveIO {
     m_rightLeader = new WPI_TalonFX(rightLeaderId);
     m_rightFollower = new WPI_TalonFX(rightFollowerId);
 
+    // TODO, test to make sure new TalonFXMechanism works
     m_leftEncoder =
         new TalonFXMechanism(
             m_leftLeader.getSensorCollection(),
@@ -61,7 +62,8 @@ public class DriveIOFalcon implements DriveIO {
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.voltageCompSaturation = 12.0;
-    config.statorCurrLimit = new StatorCurrentLimitConfiguration(true, 40, 0, 0);
+    config.statorCurrLimit = new StatorCurrentLimitConfiguration(
+            true, 40, 0, 0);
 
     m_leftLeader.configAllSettings(config);
     m_rightLeader.configAllSettings(config);
