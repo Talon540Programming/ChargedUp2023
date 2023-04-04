@@ -20,7 +20,6 @@ import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.DriveIOSim;
 import frc.robot.drivetrain.commands.DriveControl;
-import frc.robot.drivetrain.commands.StabilizeRobot;
 import frc.robot.groups.AutoBalance;
 import frc.robot.intake.IntakeBase;
 import frc.robot.intake.IntakeIO;
@@ -126,7 +125,6 @@ public class RobotContainer {
         .onTrue(
             Commands.run(
                 () -> m_driveBase.setNeutralMode(Constants.NeutralMode.BRAKE), m_driveBase));
-
     m_OIManager
         .getDriverInterface()
         .enableCoastMode()

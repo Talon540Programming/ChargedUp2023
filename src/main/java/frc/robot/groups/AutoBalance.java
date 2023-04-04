@@ -11,16 +11,16 @@ import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.commands.StabilizeRobot;
 
 public class AutoBalance extends ParallelCommandGroup {
-    public AutoBalance(DriveBase driveBase, ArmBase armBase) {
-        super(
-                new ParallelRaceGroup(
-                        new StabilizeRobot(driveBase),
-                        new GoToSuppliedState(armBase, () -> new ArmState(
-                                (Math.PI / 2) + driveBase.m_driveInputs.PitchPositionRad,
-                                RobotLimits.kMinArmLengthMeters
-                        ))
-                ),
-                new GoToState(armBase, ArmState.IDLE)
-        );
-    }
+  public AutoBalance(DriveBase driveBase, ArmBase armBase) {
+    super(
+        new ParallelRaceGroup(
+            new StabilizeRobot(driveBase),
+            new GoToSuppliedState(
+                armBase,
+                () ->
+                    new ArmState(
+                        (Math.PI / 2) + driveBase.m_driveInputs.PitchPositionRad,
+                        RobotLimits.kMinArmLengthMeters))),
+        new GoToState(armBase, ArmState.IDLE));
+  }
 }
