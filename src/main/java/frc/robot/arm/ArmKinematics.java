@@ -209,13 +209,20 @@ public class ArmKinematics {
    */
   public ArmState calculateArmState(
       Pose2d robotPose, Translation3d targetPose, double distanceOffsetMeters) {
-    double armAngle =
-        Math.atan2(
-            targetPose.getZ() - fulcrumPosition.getZ(), targetPose.getX() - robotPose.getX());
+    double deltaDistance = 0;
+
+    if(Math.abs(targetPose.getX() - robotPose.getX()) >= 1e-2) {
+      deltaDistance = targetPose.getX() - robotPose.getX();
+    } else if(Math.abs(targetPose.getY() - robotPose.getY()) >= 1e-2) {
+      deltaDistance = targetPose.getY() - robotPose.getY();
+    }
+
+    double armAngle = Math.atan2(targetPose.getZ() - fulcrumPosition.getZ(), deltaDistance);
+    
     double totalLength =
         MathUtil.clamp(
             Math.hypot(
-                targetPose.getZ() - fulcrumPosition.getZ(), targetPose.getX() - robotPose.getX()),
+                targetPose.getZ() - fulcrumPosition.getZ(), deltaDistance),
             RobotLimits.kMinArmLengthMeters,
             RobotLimits.kMaxArmLengthMeters);
 
