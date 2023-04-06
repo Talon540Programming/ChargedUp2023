@@ -29,6 +29,9 @@ import frc.robot.intake.IntakeIOSparkMax;
 import frc.robot.intake.commands.EjectIntake;
 import frc.robot.intake.commands.IntakeControl;
 import frc.robot.oi.OIManager;
+import frc.robot.vision.VisionBase;
+import frc.robot.vision.VisionIOPhotonCamera;
+import frc.robot.vision.VisionIOSim;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class RobotContainer {
@@ -36,6 +39,7 @@ public class RobotContainer {
   private DriveBase m_driveBase;
   private ArmBase m_armBase;
   private IntakeBase m_intakeBase;
+  private VisionBase m_visionBase;
 
   // Controllers
   private final OIManager m_OIManager = new OIManager();
@@ -84,11 +88,34 @@ public class RobotContainer {
                       HardwareDevices.COMP2023.Intake.kLeftMotorId,
                       HardwareDevices.COMP2023.Intake.kRightMotorId,
                       Constants.Intake.kConversionFactor));
+
+          m_visionBase =
+                  new VisionBase(
+                          m_driveBase::addEstimatedPose,
+                          new VisionIOPhotonCamera(
+                                  HardwareDevices.COMP2023.Vision.kFrontCameraName,
+                                  RobotDimensions.Vision.kFrontCameraRobotToCamera),
+                          new VisionIOPhotonCamera(
+                                  HardwareDevices.COMP2023.Vision.kRearCameraName,
+                                  RobotDimensions.Vision.kRearCameraRobotToCamera)
+                  );
         }
         case ROBOT_SIMBOT -> {
           m_driveBase = new DriveBase(new DriveIOSim(false));
           m_armBase = new ArmBase(new ArmExtensionIOSim(), new ArmRotationIOSim(true));
           m_intakeBase = new IntakeBase(new IntakeIOSim());
+          m_visionBase =
+                  new VisionBase(
+                          m_driveBase::addEstimatedPose,
+                          new VisionIOSim(
+                                  HardwareDevices.COMP2023.Vision.kFrontCameraName,
+                                  RobotDimensions.Vision.kFrontCameraRobotToCamera,
+                                  m_driveBase::getPosition),
+                          new VisionIOSim(
+                                  HardwareDevices.COMP2023.Vision.kRearCameraName,
+                                  RobotDimensions.Vision.kRearCameraRobotToCamera,
+                                  m_driveBase::getPosition)
+                  );
         }
       }
     }
@@ -100,6 +127,13 @@ public class RobotContainer {
             ? m_armBase
             : new ArmBase(new ArmExtensionIO() {}, new ArmRotationIO() {});
     m_intakeBase = m_intakeBase != null ? m_intakeBase : new IntakeBase(new IntakeIO() {});
+    m_visionBase =
+        m_visionBase != null
+            ? m_visionBase
+            : new VisionBase(
+                m_driveBase::addEstimatedPose,
+                () -> "Replay Camera 1",
+                () -> "Replay Camera 2");
 
     configureBindings();
     configureAuto();
