@@ -3,6 +3,7 @@ package frc.robot.vision;
 import edu.wpi.first.math.geometry.Transform3d;
 import frc.lib.vision.EstimatedRobotPose;
 import frc.lib.vision.VisionPoseEstimator;
+import frc.robot.constants.FieldConstants;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ public class VisionIOPhotonCamera implements VisionIO {
 
   public VisionIOPhotonCamera(String cameraName, Transform3d robotToCamera) {
     m_camera = new PhotonCamera(cameraName);
-    m_poseEstimator = new VisionPoseEstimator(m_camera, robotToCamera);
+    m_poseEstimator = new VisionPoseEstimator(m_camera, robotToCamera, FieldConstants.kFieldLayout);
   }
 
   @Override
