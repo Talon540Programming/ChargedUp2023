@@ -3,6 +3,7 @@ package frc.robot.oi;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.drivetrain.commands.DriveControl;
 
 public class XboxDriver implements DriverInterface {
   private final CommandXboxController m_controller;
@@ -12,12 +13,12 @@ public class XboxDriver implements DriverInterface {
   }
 
   @Override
-  public double getLeftPercent(DriveMode mode) {
+  public double getLeftPercent(DriveControl.DriveMode mode) {
     return MathUtil.applyDeadband(-m_controller.getLeftY(), 0.15);
   }
 
   @Override
-  public double getRightPercent(DriveMode mode) {
+  public double getRightPercent(DriveControl.DriveMode mode) {
     return switch (mode) {
       case Arcade -> MathUtil.applyDeadband(-m_controller.getRightX(), 0.15);
       case Differential -> MathUtil.applyDeadband(-m_controller.getRightY(), 0.15);
