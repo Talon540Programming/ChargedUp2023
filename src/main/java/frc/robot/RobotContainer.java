@@ -28,7 +28,6 @@ import frc.robot.intake.IntakeIOSim;
 import frc.robot.intake.IntakeIOSparkMax;
 import frc.robot.intake.commands.EjectIntake;
 import frc.robot.intake.commands.IntakeControl;
-import frc.robot.intake.commands.IntakeTillGrabbing;
 import frc.robot.oi.OIManager;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -119,56 +118,53 @@ public class RobotContainer {
         .toggleBalanceMode()
         .toggleOnTrue(new AutoBalance(m_driveBase, m_armBase));
     m_OIManager
-            .getDriverInterface()
-            .enableBrakeMode()
-            .onTrue(
-                    Commands.run(
-                            () -> m_driveBase.setNeutralMode(Constants.NeutralMode.BRAKE), m_driveBase));
+        .getDriverInterface()
+        .enableBrakeMode()
+        .onTrue(
+            Commands.run(
+                () -> m_driveBase.setNeutralMode(Constants.NeutralMode.BRAKE), m_driveBase));
     m_OIManager
-            .getDriverInterface()
-            .enableCoastMode()
-            .onTrue(
-                    Commands.run(
-                            () -> m_driveBase.setNeutralMode(Constants.NeutralMode.COAST), m_driveBase));
+        .getDriverInterface()
+        .enableCoastMode()
+        .onTrue(
+            Commands.run(
+                () -> m_driveBase.setNeutralMode(Constants.NeutralMode.COAST), m_driveBase));
 
     // Bind Operator's Buttons
     m_OIManager
         .getOperatorInterface()
         .calibrateExtension()
         .onTrue(new CalibrateArmExtension(m_armBase));
+    m_OIManager.getOperatorInterface().ejectIntake().onTrue(new EjectIntake(m_intakeBase));
     m_OIManager
-            .getOperatorInterface()
-            .ejectIntake()
-            .onTrue(new EjectIntake(m_intakeBase));
+        .getOperatorInterface()
+        .idle()
+        .onTrue(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
     m_OIManager
-            .getOperatorInterface()
-            .idle()
-            .onTrue(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
+        .getOperatorInterface()
+        .singleSubstation()
+        .whileTrue(new GoToState(m_armBase, ArmState.SINGLE_SUBSTATION))
+        .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
     m_OIManager
-            .getOperatorInterface()
-            .singleSubstation()
-            .whileTrue(new GoToState(m_armBase, ArmState.SINGLE_SUBSTATION))
-            .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
+        .getOperatorInterface()
+        .cubeHigh()
+        .whileTrue(new GoToState(m_armBase, ArmState.SCORE_HIGH_CUBE))
+        .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
     m_OIManager
-            .getOperatorInterface()
-            .cubeHigh()
-            .whileTrue(new GoToState(m_armBase, ArmState.SCORE_HIGH_CUBE))
-            .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
+        .getOperatorInterface()
+        .cubeMid()
+        .whileTrue(new GoToState(m_armBase, ArmState.SCORE_MID_CUBE))
+        .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
     m_OIManager
-            .getOperatorInterface()
-            .cubeMid()
-            .whileTrue(new GoToState(m_armBase, ArmState.SCORE_MID_CUBE))
-            .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
+        .getOperatorInterface()
+        .coneMid()
+        .whileTrue(new GoToState(m_armBase, ArmState.SCORE_MID_CONE))
+        .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
     m_OIManager
-            .getOperatorInterface()
-            .coneMid()
-            .whileTrue(new GoToState(m_armBase, ArmState.SCORE_MID_CONE))
-            .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
-    m_OIManager
-            .getOperatorInterface()
-            .hybrid()
-            .whileTrue(new GoToState(m_armBase, ArmState.SCORE_HYBRID))
-            .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
+        .getOperatorInterface()
+        .hybrid()
+        .whileTrue(new GoToState(m_armBase, ArmState.SCORE_HYBRID))
+        .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
   }
 
   private void configureAuto() {

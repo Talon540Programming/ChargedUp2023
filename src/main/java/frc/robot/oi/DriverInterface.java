@@ -14,5 +14,4 @@ public interface DriverInterface {
   public Trigger enableBrakeMode();
 
   public Trigger enableCoastMode();
-
 }
