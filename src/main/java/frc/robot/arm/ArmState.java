@@ -7,6 +7,7 @@ public class ArmState {
   // Set of Preset ArmStates
   public static final ArmState IDLE = new ArmState(Math.PI / 2.0, RobotLimits.kMinArmLengthMeters);
 
+  public static final ArmState FLOOR = new ArmState(-0.357393, 0.52705);
   public static final ArmState SCORE_HYBRID = new ArmState(-0.357393, 0.52705);
   public static final ArmState SCORE_MID_CUBE = new ArmState(0.32053, 0.52705);
   public static final ArmState SCORE_HIGH_CUBE = new ArmState(0.43286, 1.04982);
