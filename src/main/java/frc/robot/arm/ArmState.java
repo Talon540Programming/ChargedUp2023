@@ -72,7 +72,7 @@ public class ArmState {
    * @return reflected angle.
    */
   public ArmState invert() {
-    return new ArmState(Rotation2d.fromDegrees(90).minus(Angle), PivotToEffectorDistanceMeters);
+    return new ArmState(new Rotation2d(-Angle.getCos(), Angle.getSin()), PivotToEffectorDistanceMeters);
   }
 
   @Override
