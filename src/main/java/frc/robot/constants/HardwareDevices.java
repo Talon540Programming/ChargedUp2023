@@ -1,7 +1,5 @@
 package frc.robot.constants;
 
-import edu.wpi.first.math.geometry.Transform3d;
-
 public final class HardwareDevices {
   public static final int kDriverPort = 0;
   public static final int kOperatorPort = 1;

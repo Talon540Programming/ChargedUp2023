@@ -90,32 +90,30 @@ public class RobotContainer {
                       Constants.Intake.kConversionFactor));
 
           m_visionBase =
-                  new VisionBase(
-                          m_driveBase::addEstimatedPose,
-                          new VisionIOPhotonCamera(
-                                  HardwareDevices.COMP2023.Vision.kFrontCameraName,
-                                  RobotDimensions.Vision.kFrontCameraRobotToCamera),
-                          new VisionIOPhotonCamera(
-                                  HardwareDevices.COMP2023.Vision.kRearCameraName,
-                                  RobotDimensions.Vision.kRearCameraRobotToCamera)
-                  );
+              new VisionBase(
+                  m_driveBase::addEstimatedPose,
+                  new VisionIOPhotonCamera(
+                      HardwareDevices.COMP2023.Vision.kFrontCameraName,
+                      RobotDimensions.Vision.kFrontCameraRobotToCamera),
+                  new VisionIOPhotonCamera(
+                      HardwareDevices.COMP2023.Vision.kRearCameraName,
+                      RobotDimensions.Vision.kRearCameraRobotToCamera));
         }
         case ROBOT_SIMBOT -> {
           m_driveBase = new DriveBase(new DriveIOSim(false));
           m_armBase = new ArmBase(new ArmExtensionIOSim(), new ArmRotationIOSim(true));
           m_intakeBase = new IntakeBase(new IntakeIOSim());
           m_visionBase =
-                  new VisionBase(
-                          m_driveBase::addEstimatedPose,
-                          new VisionIOSim(
-                                  HardwareDevices.COMP2023.Vision.kFrontCameraName,
-                                  RobotDimensions.Vision.kFrontCameraRobotToCamera,
-                                  m_driveBase::getPosition),
-                          new VisionIOSim(
-                                  HardwareDevices.COMP2023.Vision.kRearCameraName,
-                                  RobotDimensions.Vision.kRearCameraRobotToCamera,
-                                  m_driveBase::getPosition)
-                  );
+              new VisionBase(
+                  m_driveBase::addEstimatedPose,
+                  new VisionIOSim(
+                      HardwareDevices.COMP2023.Vision.kFrontCameraName,
+                      RobotDimensions.Vision.kFrontCameraRobotToCamera,
+                      m_driveBase::getPosition),
+                  new VisionIOSim(
+                      HardwareDevices.COMP2023.Vision.kRearCameraName,
+                      RobotDimensions.Vision.kRearCameraRobotToCamera,
+                      m_driveBase::getPosition));
         }
       }
     }
@@ -131,9 +129,7 @@ public class RobotContainer {
         m_visionBase != null
             ? m_visionBase
             : new VisionBase(
-                m_driveBase::addEstimatedPose,
-                () -> "Replay Camera 1",
-                () -> "Replay Camera 2");
+                m_driveBase::addEstimatedPose, () -> "Replay Camera 1", () -> "Replay Camera 2");
 
     configureBindings();
     configureAuto();

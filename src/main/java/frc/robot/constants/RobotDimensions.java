@@ -87,7 +87,19 @@ public class RobotDimensions {
   }
 
   public static final class Vision {
-    public static final Transform3d kFrontCameraRobotToCamera = new Transform3d(new Translation3d(Units.inchesToMeters(2.050197), Units.inchesToMeters(-8.928564), Units.inchesToMeters(24.398889)), new Rotation3d(0, 0, 0));
-    public static final Transform3d kRearCameraRobotToCamera = new Transform3d(new Translation3d(Units.inchesToMeters(-2.050197), Units.inchesToMeters(-8.928564), Units.inchesToMeters(24.398889)), new Rotation3d(0, 0, Math.PI));
+    public static final Transform3d kFrontCameraRobotToCamera =
+        new Transform3d(
+            new Translation3d(
+                Units.inchesToMeters(2.050197),
+                Units.inchesToMeters(-8.928564),
+                Units.inchesToMeters(24.398889)),
+            new Rotation3d(0, 0, 0));
+    public static final Transform3d kRearCameraRobotToCamera =
+        new Transform3d(
+            new Translation3d(
+                Units.inchesToMeters(-2.050197),
+                Units.inchesToMeters(-8.928564),
+                Units.inchesToMeters(24.398889)),
+            new Rotation3d(0, 0, Math.PI));
   }
 }
