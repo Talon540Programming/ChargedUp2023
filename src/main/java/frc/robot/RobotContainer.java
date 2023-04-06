@@ -1,16 +1,11 @@
 package frc.robot;
 
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.SparkMaxBurnManager;
 import frc.robot.arm.ArmBase;
-import frc.robot.arm.ArmState;
 import frc.robot.arm.commands.ArmControl;
 import frc.robot.arm.commands.CalibrateArmExtension;
-import frc.robot.arm.commands.GoToState;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOSim;
 import frc.robot.arm.extension.ArmExtensionIOSparkMax;
@@ -24,19 +19,14 @@ import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.DriveIOSim;
 import frc.robot.drivetrain.commands.DriveControl;
-import frc.robot.drivetrain.commands.FollowTrajectory;
 import frc.robot.groups.AutoBalance;
 import frc.robot.groups.GoToSingleSubstationAndIntake;
 import frc.robot.intake.IntakeBase;
 import frc.robot.intake.IntakeIO;
 import frc.robot.intake.IntakeIOSim;
 import frc.robot.intake.IntakeIOSparkMax;
-import frc.robot.intake.commands.EjectIntake;
 import frc.robot.intake.commands.IntakeControl;
 import frc.robot.oi.OIManager;
-
-import java.util.List;
-import java.util.function.Supplier;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class RobotContainer {

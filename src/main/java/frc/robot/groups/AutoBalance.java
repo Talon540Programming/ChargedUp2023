@@ -13,13 +13,14 @@ import frc.robot.drivetrain.commands.StabilizeRobot;
 public class AutoBalance extends SequentialCommandGroup {
   public AutoBalance(DriveBase driveBase, ArmBase armBase) {
     addCommands(
-            Commands.race(
-              new StabilizeRobot(driveBase),
-              new GoToSuppliedState(
-                      armBase,
-                      () -> new ArmState((Math.PI / 2) + driveBase.m_driveInputs.PitchPositionRad, RobotLimits.kMinArmLengthMeters))
-            ),
-            new GoToState(armBase, ArmState.IDLE)
-    );
+        Commands.race(
+            new StabilizeRobot(driveBase),
+            new GoToSuppliedState(
+                armBase,
+                () ->
+                    new ArmState(
+                        (Math.PI / 2) + driveBase.m_driveInputs.PitchPositionRad,
+                        RobotLimits.kMinArmLengthMeters))),
+        new GoToState(armBase, ArmState.IDLE));
   }
 }

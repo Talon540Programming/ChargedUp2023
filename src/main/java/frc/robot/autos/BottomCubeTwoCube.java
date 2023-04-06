@@ -17,38 +17,37 @@ import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.commands.FollowTrajectory;
 import frc.robot.intake.IntakeBase;
 import frc.robot.intake.commands.EjectIntake;
-
 import java.util.List;
 
 public class BottomCubeTwoCube extends SequentialCommandGroup {
-    public BottomCubeTwoCube(DriveBase driveBase, ArmBase armBase, IntakeBase intakeBase) {
-        List<PathPlannerTrajectory> trajectories =
-                PathPlanner.loadPathGroup("BottomCubeTwoCube", RobotLimits.kTrajectoryConstraints);
+  public BottomCubeTwoCube(DriveBase driveBase, ArmBase armBase, IntakeBase intakeBase) {
+    List<PathPlannerTrajectory> trajectories =
+        PathPlanner.loadPathGroup("BottomCubeTwoCube", RobotLimits.kTrajectoryConstraints);
 
-        Pose2d initialPose = trajectories.get(0).getInitialPose();
+    Pose2d initialPose = trajectories.get(0).getInitialPose();
 
-        addCommands(
-                Commands.runOnce(() -> driveBase.resetPosition(initialPose), driveBase),
-                Commands.either(Commands.none(), new CalibrateArmExtension(armBase), armBase::extensionCalibrated),
-                new GoToState(
-                        armBase,
-                        Constants.Arm.kArmKinematics.calculateArmState(
-                                initialPose,
-                                FieldConstants.kGrid[0][1].getIdealEffectorPose().getTranslation(),
-                                RobotDimensions.Effector.kEffectorCubeOffsetMeters)),
-                new EjectIntake(intakeBase),
-                Commands.runOnce(() -> intakeBase.setVoltage(8), intakeBase),
-                new GoToState(armBase, ArmState.FLOOR),
-                new FollowTrajectory(driveBase, trajectories.get(0)),
-                new GoToState(
-                        armBase,
-                        Constants.Arm.kArmKinematics.calculateArmState(
-                                trajectories.get(1).getInitialPose(),
-                                FieldConstants.kGrid[1][1].getIdealEffectorPose().getTranslation(),
-                                RobotDimensions.Effector.kEffectorCubeOffsetMeters)),
-                new EjectIntake(intakeBase),
-                new FollowTrajectory(driveBase, trajectories.get(1)),
-                new GoToState(armBase, ArmState.IDLE)
-        );
-    }
+    addCommands(
+        Commands.runOnce(() -> driveBase.resetPosition(initialPose), driveBase),
+        Commands.either(
+            Commands.none(), new CalibrateArmExtension(armBase), armBase::extensionCalibrated),
+        new GoToState(
+            armBase,
+            Constants.Arm.kArmKinematics.calculateArmState(
+                initialPose,
+                FieldConstants.kGrid[0][1].getIdealEffectorPose().getTranslation(),
+                RobotDimensions.Effector.kEffectorCubeOffsetMeters)),
+        new EjectIntake(intakeBase),
+        Commands.runOnce(() -> intakeBase.setVoltage(8), intakeBase),
+        new GoToState(armBase, ArmState.FLOOR),
+        new FollowTrajectory(driveBase, trajectories.get(0)),
+        new GoToState(
+            armBase,
+            Constants.Arm.kArmKinematics.calculateArmState(
+                trajectories.get(1).getInitialPose(),
+                FieldConstants.kGrid[1][1].getIdealEffectorPose().getTranslation(),
+                RobotDimensions.Effector.kEffectorCubeOffsetMeters)),
+        new EjectIntake(intakeBase),
+        new FollowTrajectory(driveBase, trajectories.get(1)),
+        new GoToState(armBase, ArmState.IDLE));
+  }
 }
