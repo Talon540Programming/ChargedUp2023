@@ -12,7 +12,21 @@ public interface OperatorInterface {
 
   public Trigger lockRotation();
 
-  public Trigger resetExtension();
+  public Trigger calibrateExtension();
 
   public double getIntakePercent();
+
+  public Trigger ejectIntake();
+
+  public Trigger idle();
+
+  public Trigger singleSubstation();
+
+  public Trigger cubeHigh();
+
+  public Trigger cubeMid();
+
+  public Trigger coneMid();
+
+  public Trigger hybrid();
 }

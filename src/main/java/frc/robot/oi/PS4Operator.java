@@ -32,7 +32,7 @@ public class PS4Operator implements OperatorInterface {
   }
 
   @Override
-  public Trigger resetExtension() {
+  public Trigger calibrateExtension() {
     return m_controller.share();
   }
 
@@ -40,5 +40,40 @@ public class PS4Operator implements OperatorInterface {
   public double getIntakePercent() {
     return MathUtil.applyDeadband(m_controller.getR2Axis(), 0.15)
         - MathUtil.applyDeadband(m_controller.getL2Axis(), 0.15);
+  }
+
+  @Override
+  public Trigger ejectIntake() {
+    return m_controller.R1();
+  }
+
+  @Override
+  public Trigger idle() {
+    return m_controller.options();
+  }
+
+  @Override
+  public Trigger singleSubstation() {
+    return m_controller.povUp();
+  }
+
+  @Override
+  public Trigger cubeHigh() {
+    return m_controller.triangle();
+  }
+
+  @Override
+  public Trigger cubeMid() {
+    return m_controller.square();
+  }
+
+  @Override
+  public Trigger coneMid() {
+    return m_controller.circle();
+  }
+
+  @Override
+  public Trigger hybrid() {
+    return m_controller.cross();
   }
 }

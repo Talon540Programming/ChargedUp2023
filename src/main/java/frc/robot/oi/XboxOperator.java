@@ -32,7 +32,7 @@ public class XboxOperator implements OperatorInterface {
   }
 
   @Override
-  public Trigger resetExtension() {
+  public Trigger calibrateExtension() {
     return m_controller.back();
   }
 
@@ -40,5 +40,40 @@ public class XboxOperator implements OperatorInterface {
   public double getIntakePercent() {
     return MathUtil.applyDeadband(m_controller.getRightTriggerAxis(), 0.15)
         - MathUtil.applyDeadband(m_controller.getLeftTriggerAxis(), 0.15);
+  }
+
+  @Override
+  public Trigger ejectIntake() {
+    return m_controller.rightBumper();
+  }
+
+  @Override
+  public Trigger idle() {
+    return m_controller.start();
+  }
+
+  @Override
+  public Trigger singleSubstation() {
+    return m_controller.povUp();
+  }
+
+  @Override
+  public Trigger cubeHigh() {
+    return m_controller.y();
+  }
+
+  @Override
+  public Trigger cubeMid() {
+    return m_controller.x();
+  }
+
+  @Override
+  public Trigger coneMid() {
+    return m_controller.b();
+  }
+
+  @Override
+  public Trigger hybrid() {
+    return m_controller.a();
   }
 }
