@@ -34,7 +34,7 @@ public class VisionBase extends SubsystemBase {
           .getEstimatedPose()
           .ifPresent(
               pose ->
-                  m_poseConsumer.accept(GeomUtil.toPose2d(pose.robotPose), pose.timestampSeconds));
+                  m_poseConsumer.accept(pose.robotPose.toPose2d(), pose.timestampSeconds));
     }
   }
 }
