@@ -20,7 +20,8 @@ public class AutoBalance extends SequentialCommandGroup {
                 armBase,
                 () ->
                     new ArmState(
-                        Rotation2d.fromRadians((Math.PI / 2) + driveBase.m_driveInputs.PitchPositionRad),
+                        Rotation2d.fromRadians(
+                            (Math.PI / 2) + driveBase.m_driveInputs.PitchPositionRad),
                         RobotLimits.kMinArmLengthMeters))),
         new GoToState(armBase, ArmState.IDLE));
   }
