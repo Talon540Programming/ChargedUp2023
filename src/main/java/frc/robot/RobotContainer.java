@@ -20,7 +20,6 @@ import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.DriveIOSim;
 import frc.robot.drivetrain.commands.DriveControl;
 import frc.robot.groups.AutoBalance;
-import frc.robot.groups.GoToSingleSubstationAndIntake;
 import frc.robot.intake.IntakeBase;
 import frc.robot.intake.IntakeIO;
 import frc.robot.intake.IntakeIOSim;
@@ -117,11 +116,6 @@ public class RobotContainer {
         .getOperatorInterface()
         .resetExtension()
         .onTrue(new CalibrateArmExtension(m_armBase));
-
-    m_OIManager
-        .getDriverInterface()
-        .goToSingleSubstation()
-        .whileTrue(new GoToSingleSubstationAndIntake(m_driveBase, m_armBase, m_intakeBase));
 
     m_OIManager
         .getDriverInterface()
