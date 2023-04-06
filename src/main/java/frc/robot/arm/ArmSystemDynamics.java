@@ -34,7 +34,7 @@ public class ArmSystemDynamics {
         0.1; // TODO find this using Linear or Polynomial Regression over multiple runs of SysID
 
     return kS * Math.signum(setpointState.VelocityRadiansPerSecond)
-        + kG * Math.cos(setpointState.AngleRadians)
+        + kG * setpointState.Angle.getCos()
         + kV * setpointState.VelocityRadiansPerSecond;
   }
 }

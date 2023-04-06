@@ -217,7 +217,7 @@ public class ArmKinematics {
       deltaDistance = targetPose.getY() - robotPose.getY();
     }
 
-    double armAngle = Math.atan2(targetPose.getZ() - fulcrumPosition.getZ(), deltaDistance);
+    double armAngleRad = Math.atan2(targetPose.getZ() - fulcrumPosition.getZ(), deltaDistance);
 
     double totalLength =
         MathUtil.clamp(
@@ -225,7 +225,7 @@ public class ArmKinematics {
             RobotLimits.kMinArmLengthMeters,
             RobotLimits.kMaxArmLengthMeters);
 
-    return new ArmState(armAngle, 0, totalLength - distanceOffsetMeters);
+    return new ArmState(Rotation2d.fromRadians(armAngleRad), 0, totalLength - distanceOffsetMeters);
   }
 
   /**

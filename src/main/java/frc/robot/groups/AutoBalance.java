@@ -1,5 +1,6 @@
 package frc.robot.groups;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.arm.ArmBase;
@@ -19,7 +20,7 @@ public class AutoBalance extends SequentialCommandGroup {
                 armBase,
                 () ->
                     new ArmState(
-                        (Math.PI / 2) + driveBase.m_driveInputs.PitchPositionRad,
+                        Rotation2d.fromRadians((Math.PI / 2) + driveBase.m_driveInputs.PitchPositionRad),
                         RobotLimits.kMinArmLengthMeters))),
         new GoToState(armBase, ArmState.IDLE));
   }

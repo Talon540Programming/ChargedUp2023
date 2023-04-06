@@ -3,6 +3,7 @@ package frc.robot.arm;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.extension.ArmExtensionIO;
@@ -96,7 +97,7 @@ public class ArmBase extends SubsystemBase {
       double rotationFeedforward = ArmSystemDynamics.calculateRotationFeedForward(m_targetState);
       double rotationFeedback =
           m_rotationController.calculate(
-              m_armRotationInputs.AbsoluteArmPositionRad, m_targetState.AngleRadians);
+              m_armRotationInputs.AbsoluteArmPositionRad, m_targetState.Angle.getRadians());
       m_rotationIO.setVoltage(rotationFeedforward + rotationFeedback);
 
       double extensionFeedBack =
@@ -111,7 +112,7 @@ public class ArmBase extends SubsystemBase {
         m_armRotationInputs.AbsoluteArmPositionRad,
         m_armExtensionInputs.PivotToEffectorDistanceMeters);
     m_targetVisualizer.update(
-        m_targetState.AngleRadians, m_targetState.PivotToEffectorDistanceMeters);
+        m_targetState.Angle.getRadians(), m_targetState.PivotToEffectorDistanceMeters);
   }
 
   @Override
@@ -121,7 +122,7 @@ public class ArmBase extends SubsystemBase {
 
   public ArmState getCurrentState() {
     return new ArmState(
-        m_armRotationInputs.AbsoluteArmPositionRad,
+        Rotation2d.fromRadians(m_armRotationInputs.AbsoluteArmPositionRad),
         m_armRotationInputs.ArmVelocityRadPerSecond,
         m_armExtensionInputs.PivotToEffectorDistanceMeters);
   }
@@ -133,7 +134,7 @@ public class ArmBase extends SubsystemBase {
   public void updateState(ArmState state) {
     if (state.equals(getTargetState())) return;
 
-    double stateAngleRad = state.AngleRadians;
+    double stateAngleRad = state.Angle.getRadians();
     double stateDistanceMeters = state.PivotToEffectorDistanceMeters;
 
     double totalLength = stateDistanceMeters + RobotDimensions.Effector.kLengthMeters;
@@ -156,7 +157,7 @@ public class ArmBase extends SubsystemBase {
               - RobotDimensions.Effector.kLengthMeters;
     }
 
-    m_targetState = new ArmState(stateAngleRad, stateDistanceMeters);
+    m_targetState = new ArmState(Rotation2d.fromRadians(stateAngleRad), stateDistanceMeters);
   }
 
   /**

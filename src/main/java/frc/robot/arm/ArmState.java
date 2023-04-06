@@ -1,34 +1,50 @@
 package frc.robot.arm;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.constants.Constants;
+import frc.robot.constants.FieldConstants;
+import frc.robot.constants.RobotDimensions;
 import frc.robot.constants.RobotLimits;
 
 public class ArmState {
   // Set of Preset ArmStates
-  public static final ArmState IDLE = new ArmState(Math.PI / 2.0, RobotLimits.kMinArmLengthMeters);
+  public static final ArmState IDLE = new ArmState(Rotation2d.fromDegrees(90), RobotLimits.kMinArmLengthMeters);
 
-  public static final ArmState FLOOR = new ArmState(-0.357393, 0.52705);
-  public static final ArmState SCORE_HYBRID = new ArmState(-0.357393, 0.52705);
-  public static final ArmState SCORE_MID_CUBE = new ArmState(0.32053, 0.52705);
-  public static final ArmState SCORE_HIGH_CUBE = new ArmState(0.43286, 1.04982);
-  public static final ArmState SCORE_MID_CONE = new ArmState(0.54509, 0.90925);
-  public static final ArmState SINGLE_SUBSTATION = new ArmState(0.42339, 0.52705);
-  public static final ArmState DOUBLE_SUBSTATION = new ArmState(0.48851, 1.19380);
+  public static final ArmState FLOOR = new ArmState(Rotation2d.fromRadians(-0.357393), 0.52705);
+  public static final ArmState SINGLE_SUBSTATION = new ArmState(Rotation2d.fromRadians(0.42339), 0.52705);
+  public static final ArmState DOUBLE_SUBSTATION = new ArmState(Rotation2d.fromRadians(0.48851), 1.19380);
 
-  public final double AngleRadians;
+  public static final ArmState SCORE_HIGH_CUBE;
+  public static final ArmState SCORE_MID_CUBE;
+  public static final ArmState SCORE_MID_CONE;
+  public static final ArmState SCORE_HYBRID;
+
+  static {
+    // Resolve the ideal ArmStates incase they were changed and because I am lazy to redo it by hand
+    Pose2d idealRobotPose = new Pose2d(FieldConstants.kGridWallXCoordinateMeters + RobotDimensions.Drivetrain.kDrivetrainLengthBumpersMeters / 2.0 + FieldConstants.kGridScoreDistanceAwayMeters, 0, Rotation2d.fromDegrees(180));
+
+    SCORE_HIGH_CUBE = Constants.Arm.kArmKinematics.calculateArmState(idealRobotPose, FieldConstants.kGrid[0][1].getIdealEffectorPose().getTranslation(), RobotDimensions.Effector.kEffectorCubeOffsetMeters).invert();
+    SCORE_MID_CONE = Constants.Arm.kArmKinematics.calculateArmState(idealRobotPose, FieldConstants.kGrid[1][0].getIdealEffectorPose().getTranslation(), RobotDimensions.Effector.kEffectorCubeOffsetMeters).invert();
+    SCORE_MID_CUBE = Constants.Arm.kArmKinematics.calculateArmState(idealRobotPose, FieldConstants.kGrid[1][1].getIdealEffectorPose().getTranslation(), RobotDimensions.Effector.kEffectorCubeOffsetMeters).invert();
+    SCORE_HYBRID = Constants.Arm.kArmKinematics.calculateArmState(idealRobotPose, FieldConstants.kGrid[2][0].getIdealEffectorPose().getTranslation(), RobotDimensions.Effector.kEffectorCubeOffsetMeters).invert();
+  }
+
+  public final Rotation2d Angle;
   public final double VelocityRadiansPerSecond;
   public final double PivotToEffectorDistanceMeters;
 
   /**
    * Create an ArmState object.
    *
-   * @param angleRad angle of the arm in radians.
+   * @param angleRad angle of the arm.
    * @param armVelocityRadPerSecond velocity of the arm in radians per second.
    * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
    *     effector.
    */
-  public ArmState(double angleRad, double armVelocityRadPerSecond, double pivotToEffectorMeters) {
-    this.AngleRadians = angleRad;
+  public ArmState(Rotation2d angleRad, double armVelocityRadPerSecond, double pivotToEffectorMeters) {
+    this.Angle = angleRad;
     this.VelocityRadiansPerSecond = armVelocityRadPerSecond;
     this.PivotToEffectorDistanceMeters = pivotToEffectorMeters;
   }
@@ -40,8 +56,8 @@ public class ArmState {
    * @param pivotToEffectorMeters distance from the pivot to the origin (beginning point) of the
    *     effector.
    */
-  public ArmState(double angleRad, double pivotToEffectorMeters) {
-    this.AngleRadians = angleRad;
+  public ArmState(Rotation2d angleRad, double pivotToEffectorMeters) {
+    this.Angle = angleRad;
     this.PivotToEffectorDistanceMeters =
         MathUtil.clamp(
             pivotToEffectorMeters,
@@ -56,13 +72,13 @@ public class ArmState {
    * @return reflected angle.
    */
   public ArmState invert() {
-    return new ArmState(Math.PI - AngleRadians, PivotToEffectorDistanceMeters);
+    return new ArmState(Rotation2d.fromDegrees(90).minus(Angle), PivotToEffectorDistanceMeters);
   }
 
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof ArmState other) {
-      return Math.abs(AngleRadians - other.AngleRadians) < 0.05
+      return Math.abs(Angle.getRadians() - other.Angle.getRadians()) < 0.05
           && Math.abs(PivotToEffectorDistanceMeters - other.PivotToEffectorDistanceMeters) < 0.01;
     }
     return false;
