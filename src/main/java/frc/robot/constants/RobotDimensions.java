@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
@@ -82,5 +84,10 @@ public class RobotDimensions {
 
     public static final double kEffectorMassLbs = 6.0;
     public static final double kEffectorMassKg = Units.lbsToKilograms(kEffectorMassLbs);
+  }
+
+  public static final class Vision {
+    public static final Transform3d kFrontCameraRobotToCamera = new Transform3d(new Translation3d(Units.inchesToMeters(2.050197), Units.inchesToMeters(-8.928564), Units.inchesToMeters(24.398889)), new Rotation3d(0, 0, 0));
+    public static final Transform3d kRearCameraRobotToCamera = new Transform3d(new Translation3d(Units.inchesToMeters(-2.050197), Units.inchesToMeters(-8.928564), Units.inchesToMeters(24.398889)), new Rotation3d(0, 0, Math.PI));
   }
 }

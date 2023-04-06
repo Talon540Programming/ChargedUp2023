@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import edu.wpi.first.math.geometry.Transform3d;
+
 public final class HardwareDevices {
   public static final int kDriverPort = 0;
   public static final int kOperatorPort = 1;
@@ -25,6 +27,11 @@ public final class HardwareDevices {
     public static class Intake {
       public static final int kLeftMotorId = 15;
       public static final int kRightMotorId = 16;
+    }
+
+    public static class Vision {
+      public static final String kFrontCameraName = "FRONT_CAMERA";
+      public static final String kRearCameraName = "REAR_CAMERA";
     }
   }
 }
