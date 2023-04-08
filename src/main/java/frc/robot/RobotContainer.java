@@ -14,14 +14,12 @@ import frc.robot.arm.extension.ArmExtensionIOSparkMax;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOSim;
 import frc.robot.arm.rotation.ArmRotationIOSparkMax;
-import frc.robot.autos.*;
 import frc.robot.constants.*;
 import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.DriveIOSim;
 import frc.robot.drivetrain.commands.DriveControl;
-import frc.robot.groups.AutoBalance;
 import frc.robot.intake.IntakeBase;
 import frc.robot.intake.IntakeIO;
 import frc.robot.intake.IntakeIOSim;
@@ -166,13 +164,6 @@ public class RobotContainer {
   private void configureAuto() {
     // spotless:off
     m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
-    m_autoChooser.addOption("Bottom Cube. Score Two Cubes. Taxi", new BottomCubeTwoCube(m_driveBase, m_armBase, m_intakeBase));
-    m_autoChooser.addOption("Score Cube Only", new DriveTime(m_driveBase, 0.75, -0.5));
-    m_autoChooser.addOption("Drive For 5 Seconds", new DriveTime(m_driveBase, 5, 0.25));
-    m_autoChooser.addOption("Drive For 5 Seconds (inverse)", new DriveTime(m_driveBase, 5, -0.25));
-    m_autoChooser.addOption("Drive For 4 Meters", new DriveDistance(m_driveBase, 4));
-    m_autoChooser.addOption("Drive For 4 Meters (inverse)", new DriveDistance(m_driveBase, -4));
-    m_autoChooser.addOption("Score Cube Hybrid then Taxi", new ScoreCubeHybridTaxi(m_driveBase));
     // spotless:on
   }
 
