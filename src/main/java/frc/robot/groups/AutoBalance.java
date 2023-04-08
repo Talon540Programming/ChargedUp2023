@@ -15,9 +15,15 @@ public class AutoBalance extends SequentialCommandGroup {
     addCommands(
         Commands.race(
             new StabilizeRobot(driveBase),
-            Commands.run(() -> armBase.updateState(new ArmState(Rotation2d.fromRadians((Math.PI / 2) + driveBase.m_driveInputs.PitchPositionRad), RobotLimits.kMinArmLengthMeters)), armBase)
-        ),
-        Commands.either(new GoToState(armBase, ArmState.IDLE), Commands.none(), () -> endWithArmUp)
-    );
+            Commands.run(
+                () ->
+                    armBase.updateState(
+                        new ArmState(
+                            Rotation2d.fromRadians(
+                                (Math.PI / 2) + driveBase.m_driveInputs.PitchPositionRad),
+                            RobotLimits.kMinArmLengthMeters)),
+                armBase)),
+        Commands.either(
+            new GoToState(armBase, ArmState.IDLE), Commands.none(), () -> endWithArmUp));
   }
 }

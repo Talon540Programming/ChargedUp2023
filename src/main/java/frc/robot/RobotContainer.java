@@ -168,7 +168,7 @@ public class RobotContainer {
 
     m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
 
-    for(String path : PathPlannerUtil.getDeployedPaths()) {
+    for (String path : PathPlannerUtil.getDeployedPaths()) {
       m_autoChooser.addOption(path, autoFactory.createAutoCommandFromPaths(path));
     }
   }

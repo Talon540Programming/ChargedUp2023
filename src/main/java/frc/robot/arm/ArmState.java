@@ -10,11 +10,14 @@ import frc.robot.constants.RobotLimits;
 
 public class ArmState {
   // Set of Preset ArmStates
-  public static final ArmState IDLE = new ArmState(Rotation2d.fromDegrees(90), RobotLimits.kMinArmLengthMeters);
+  public static final ArmState IDLE =
+      new ArmState(Rotation2d.fromDegrees(90), RobotLimits.kMinArmLengthMeters);
 
   public static final ArmState FLOOR = new ArmState(Rotation2d.fromRadians(-0.357393), 0.52705);
-  public static final ArmState SINGLE_SUBSTATION = new ArmState(Rotation2d.fromRadians(0.42339), 0.52705);
-  public static final ArmState DOUBLE_SUBSTATION = new ArmState(Rotation2d.fromRadians(0.48851), 1.19380);
+  public static final ArmState SINGLE_SUBSTATION =
+      new ArmState(Rotation2d.fromRadians(0.42339), 0.52705);
+  public static final ArmState DOUBLE_SUBSTATION =
+      new ArmState(Rotation2d.fromRadians(0.48851), 1.19380);
 
   public static final ArmState SCORE_HIGH_CUBE;
   public static final ArmState SCORE_MID_CUBE;
@@ -79,10 +82,10 @@ public class ArmState {
     this.Angle = Rotation2d.fromRadians(angleRad.getRadians() % (2 * Math.PI));
     this.VelocityRadiansPerSecond = armVelocityRadPerSecond;
     this.PivotToEffectorDistanceMeters =
-            MathUtil.clamp(
-                    pivotToEffectorMeters,
-                    RobotLimits.kMinArmLengthMeters,
-                    RobotLimits.kMaxArmLengthMeters);
+        MathUtil.clamp(
+            pivotToEffectorMeters,
+            RobotLimits.kMinArmLengthMeters,
+            RobotLimits.kMaxArmLengthMeters);
   }
 
   /**
@@ -103,7 +106,9 @@ public class ArmState {
    */
   public ArmState invert() {
     return new ArmState(
-        new Rotation2d(-Angle.getCos(), Angle.getSin()), VelocityRadiansPerSecond, PivotToEffectorDistanceMeters);
+        new Rotation2d(-Angle.getCos(), Angle.getSin()),
+        VelocityRadiansPerSecond,
+        PivotToEffectorDistanceMeters);
   }
 
   @Override
@@ -118,10 +123,7 @@ public class ArmState {
   @Override
   public String toString() {
     return String.format(
-            "ArmState(Position Rad: %.2f, Velocity Rad/s: %.2f, Length Meters: %.2f",
-            Angle.getRadians(),
-            VelocityRadiansPerSecond,
-            PivotToEffectorDistanceMeters
-    );
+        "ArmState(Position Rad: %.2f, Velocity Rad/s: %.2f, Length Meters: %.2f",
+        Angle.getRadians(), VelocityRadiansPerSecond, PivotToEffectorDistanceMeters);
   }
 }
