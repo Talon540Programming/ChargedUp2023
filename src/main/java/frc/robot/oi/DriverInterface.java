@@ -5,13 +5,13 @@ import frc.robot.drivetrain.commands.DriveControl;
 
 /** Represents the inputs required for the primary driver. */
 public interface DriverInterface {
-  public double getLeftPercent(DriveControl.DriveMode mode);
+  double getLeftPercent(DriveControl.DriveMode mode);
 
-  public double getRightPercent(DriveControl.DriveMode mode);
+  double getRightPercent(DriveControl.DriveMode mode);
 
-  public Trigger toggleBalanceMode();
+  Trigger toggleBalanceMode();
 
-  public Trigger enableBrakeMode();
+  Trigger enableBrakeMode();
 
-  public Trigger enableCoastMode();
+  Trigger enableCoastMode();
 }

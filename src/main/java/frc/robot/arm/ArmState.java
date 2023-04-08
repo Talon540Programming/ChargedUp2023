@@ -25,7 +25,7 @@ public class ArmState {
   public static final ArmState SCORE_HYBRID;
 
   static {
-    // Resolve the ideal ArmStates incase they were changed and because I am lazy to redo them by
+    // Resolve the ideal ArmStates in case they were changed and because I am lazy to redo them by
     // hand
     Pose2d idealRobotPose =
         new Pose2d(
