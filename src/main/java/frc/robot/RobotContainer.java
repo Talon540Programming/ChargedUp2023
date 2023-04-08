@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.SparkMaxBurnManager;
+import frc.lib.trajectory.PathPlannerUtil;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.ArmState;
 import frc.robot.arm.commands.ArmControl;
@@ -14,6 +15,7 @@ import frc.robot.arm.extension.ArmExtensionIOSparkMax;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOSim;
 import frc.robot.arm.rotation.ArmRotationIOSparkMax;
+import frc.robot.auto.*;
 import frc.robot.constants.*;
 import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.DriveIO;
@@ -162,9 +164,13 @@ public class RobotContainer {
   }
 
   private void configureAuto() {
-    // spotless:off
+    AutoFactory autoFactory = new AutoFactory(m_driveBase, m_armBase, m_intakeBase);
+
     m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
-    // spotless:on
+
+    for(String path : PathPlannerUtil.getDeployedPaths()) {
+      m_autoChooser.addOption(path, autoFactory.createAutoCommandFromPaths(path));
+    }
   }
 
   public Command getAutonomousCommand() {
