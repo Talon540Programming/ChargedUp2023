@@ -82,9 +82,4 @@ public class IntakeIOSparkMax implements IntakeIO {
     m_leader.setIdleMode(mode.toIdleMode());
     m_follower.setIdleMode(mode.toIdleMode());
   }
-
-  @Override
-  public boolean isStalled() {
-    return m_leader.getOutputCurrent() >= 20;
-  }
 }
