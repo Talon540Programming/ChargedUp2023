@@ -115,10 +115,6 @@ public class RobotContainer {
     // Bind Driver's Buttons
     m_OIManager
         .getDriverInterface()
-        .toggleBalanceMode()
-        .toggleOnTrue(new AutoBalance(m_driveBase, m_armBase));
-    m_OIManager
-        .getDriverInterface()
         .enableBrakeMode()
         .onTrue(
             Commands.run(
