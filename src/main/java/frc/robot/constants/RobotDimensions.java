@@ -6,9 +6,6 @@ import edu.wpi.first.math.util.Units;
 // In general, we use metric units within the robot code. When importing from code,
 // we use imperial units which is why we must convert it.
 public class RobotDimensions {
-  public static final double kRobotMassLbs = 128.25; // TODO calculate empirical data
-  public static final double kRobotMassKilos = Units.lbsToKilograms(kRobotMassLbs);
-
   public static final class Drivetrain {
     public static final double kBumperWidthInches = 3.5; // TODO calculate empirical data
     public static final double kBumperWidthMeters = Units.inchesToMeters(kBumperWidthInches);
@@ -68,7 +65,15 @@ public class RobotDimensions {
     public static final double kWidthInches = 4.875;
     public static final double kWidthMeters = Units.inchesToMeters(kWidthInches);
 
-    public static final double kEffectorCenterOfMassOffsetInches = 8.674336;
+    public static final double kEffectorCubeOffsetInches = 14.06;
+    public static final double kEffectorCubeOffsetMeters =
+        Units.inchesToMeters(kEffectorCubeOffsetInches);
+
+    public static final double kEffectorConeOffsetInches = 8.8;
+    public static final double kEffectorConeOffsetMeters =
+        Units.inchesToMeters(kEffectorConeOffsetInches);
+
+    public static final double kEffectorCenterOfMassOffsetInches = 8.67;
     public static final double kEffectorCenterOfMassOffsetMeters =
         Units.inchesToMeters(kEffectorCenterOfMassOffsetInches);
 

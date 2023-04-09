@@ -46,6 +46,7 @@ public class DriveIOFalcon implements DriveIO {
     m_rightLeader = new WPI_TalonFX(rightLeaderId);
     m_rightFollower = new WPI_TalonFX(rightFollowerId);
 
+    // TODO, test to make sure new TalonFXMechanism works
     m_leftEncoder =
         new TalonFXMechanism(
             m_leftLeader.getSensorCollection(),

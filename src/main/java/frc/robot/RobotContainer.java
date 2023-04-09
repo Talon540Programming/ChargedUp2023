@@ -3,30 +3,30 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.SparkMaxBurnManager;
+import frc.lib.trajectory.PathPlannerUtil;
 import frc.robot.arm.ArmBase;
+import frc.robot.arm.ArmState;
 import frc.robot.arm.commands.ArmControl;
 import frc.robot.arm.commands.CalibrateArmExtension;
+import frc.robot.arm.commands.GoToState;
 import frc.robot.arm.extension.ArmExtensionIO;
 import frc.robot.arm.extension.ArmExtensionIOSim;
 import frc.robot.arm.extension.ArmExtensionIOSparkMax;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOSim;
 import frc.robot.arm.rotation.ArmRotationIOSparkMax;
-import frc.robot.autos.DriveTime;
-import frc.robot.autos.ScoreCubeHybridBalance;
-import frc.robot.autos.ScoreCubeHybridTaxi;
-import frc.robot.constants.Constants;
-import frc.robot.constants.HardwareDevices;
+import frc.robot.auto.*;
+import frc.robot.constants.*;
 import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.DriveIOSim;
 import frc.robot.drivetrain.commands.DriveControl;
-import frc.robot.drivetrain.commands.StabilizeRobot;
 import frc.robot.intake.IntakeBase;
 import frc.robot.intake.IntakeIO;
 import frc.robot.intake.IntakeIOSim;
 import frc.robot.intake.IntakeIOSparkMax;
+import frc.robot.intake.commands.EjectIntake;
 import frc.robot.intake.commands.IntakeControl;
 import frc.robot.oi.OIManager;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -106,43 +106,71 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    // Bind Default Commands
     m_driveBase.setDefaultCommand(new DriveControl(m_driveBase, m_OIManager.getDriverInterface()));
     m_armBase.setDefaultCommand(new ArmControl(m_armBase, m_OIManager.getOperatorInterface()));
     m_intakeBase.setDefaultCommand(
         new IntakeControl(m_intakeBase, m_OIManager.getOperatorInterface()));
 
-    m_OIManager
-        .getDriverInterface()
-        .toggleBalanceMode()
-        .toggleOnTrue(new StabilizeRobot(m_driveBase));
-    m_OIManager
-        .getOperatorInterface()
-        .resetExtension()
-        .onTrue(new CalibrateArmExtension(m_armBase));
-
+    // Bind Driver's Buttons
     m_OIManager
         .getDriverInterface()
         .enableBrakeMode()
         .onTrue(
             Commands.run(
                 () -> m_driveBase.setNeutralMode(Constants.NeutralMode.BRAKE), m_driveBase));
-
     m_OIManager
         .getDriverInterface()
         .enableCoastMode()
         .onTrue(
             Commands.run(
                 () -> m_driveBase.setNeutralMode(Constants.NeutralMode.COAST), m_driveBase));
+
+    // Bind Operator's Buttons
+    m_OIManager
+        .getOperatorInterface()
+        .calibrateExtension()
+        .onTrue(new CalibrateArmExtension(m_armBase));
+    m_OIManager.getOperatorInterface().ejectIntake().onTrue(new EjectIntake(m_intakeBase));
+    m_OIManager
+        .getOperatorInterface()
+        .idle()
+        .onTrue(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
+    m_OIManager
+        .getOperatorInterface()
+        .singleSubstation()
+        .whileTrue(new GoToState(m_armBase, ArmState.SINGLE_SUBSTATION))
+        .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
+    m_OIManager
+        .getOperatorInterface()
+        .cubeHigh()
+        .whileTrue(new GoToState(m_armBase, ArmState.SCORE_HIGH_CUBE))
+        .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
+    m_OIManager
+        .getOperatorInterface()
+        .cubeMid()
+        .whileTrue(new GoToState(m_armBase, ArmState.SCORE_MID_CUBE))
+        .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
+    m_OIManager
+        .getOperatorInterface()
+        .coneMid()
+        .whileTrue(new GoToState(m_armBase, ArmState.SCORE_MID_CONE))
+        .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
+    m_OIManager
+        .getOperatorInterface()
+        .hybrid()
+        .whileTrue(new GoToState(m_armBase, ArmState.SCORE_HYBRID))
+        .onFalse(Commands.runOnce(() -> m_armBase.updateState(ArmState.IDLE), m_armBase));
   }
 
   private void configureAuto() {
+    AutoFactory autoFactory = new AutoFactory(m_driveBase, m_armBase, m_intakeBase);
+
     m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
-    m_autoChooser.addOption("Score Cube Only", new DriveTime(m_driveBase, 0.75, -0.5));
-    m_autoChooser.addOption("Drive For 5 Seconds", new DriveTime(m_driveBase, 5, 0.25));
-    m_autoChooser.addOption("Drive For 5 Seconds (inverse)", new DriveTime(m_driveBase, 5, -0.25));
-    m_autoChooser.addOption(
-        "Score Cube Hybrid then Balance", new ScoreCubeHybridBalance(m_driveBase));
-    m_autoChooser.addOption("Score Cube Hybrid then Taxi", new ScoreCubeHybridTaxi(m_driveBase));
+
+    for (String path : PathPlannerUtil.getDeployedPaths()) {
+      m_autoChooser.addOption(path, autoFactory.createAutoCommandFromPaths(path));
+    }
   }
 
   public Command getAutonomousCommand() {

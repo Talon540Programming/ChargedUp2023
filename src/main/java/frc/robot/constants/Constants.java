@@ -70,22 +70,18 @@ public final class Constants {
 
     public static final NeutralMode kDrivetrainDefaultNeutralMode = NeutralMode.COAST;
 
-    public static final double kRobotStabilizationToleranceDegrees = 5;
-
     public static class ControlValues {
       public static class Characterization {
         public static final double kSLinear = 0.22; // TODO
-        public static final double kVLinear = 1.98; // TODO this is a sim value, real value must be found in sysid
-        public static final double kALinear = 0.2; // TODO this is a sim value, real value must be found in sysid
+        public static final double kVLinear =
+            1.98; // TODO this is a sim value, real value must be found in sysid
+        public static final double kALinear =
+            0.2; // TODO this is a sim value, real value must be found in sysid
 
-        public static final double kVAngular = 1.5; // TODO this is a sim value, real value must be found in sysid
-        public static final double kAAngular = 0.3; // TODO this is a sim value, real value must be found in sysid
-      }
-
-      public static class Stabilization {
-        public static final double kP = 0; // TODO
-        public static final double kI = 0; // TODO
-        public static final double kD = 0; // TODO
+        public static final double kVAngular =
+            1.5; // TODO this is a sim value, real value must be found in sysid
+        public static final double kAAngular =
+            0.3; // TODO this is a sim value, real value must be found in sysid
       }
 
       public static class Trajectory {

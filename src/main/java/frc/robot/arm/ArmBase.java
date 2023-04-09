@@ -3,6 +3,7 @@ package frc.robot.arm;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.extension.ArmExtensionIO;
@@ -73,9 +74,7 @@ public class ArmBase extends SubsystemBase {
 
     Logger.getInstance().recordOutput("Arm/Extension/Calibrated", extensionCalibrated);
     Logger.getInstance().recordOutput("Arm/Disabled", armDisabled());
-
-    // Log the target state
-    Logger.getInstance().processInputs("Arm/TargetState", m_targetState);
+    Logger.getInstance().recordOutput("Arm/AtSetpoint", atSetpoint());
 
     if (armDisabled()) {
       m_targetState = ArmState.IDLE;
@@ -95,16 +94,10 @@ public class ArmBase extends SubsystemBase {
     } else {
       m_disabledVoltageApplied = false;
 
-      ArmState currentState =
-          new ArmState(
-              m_armRotationInputs.AbsoluteArmPositionRad,
-              m_armRotationInputs.ArmVelocityRadPerSecond,
-              m_armExtensionInputs.PivotToEffectorDistanceMeters);
-
       double rotationFeedforward = ArmSystemDynamics.calculateRotationFeedForward(m_targetState);
       double rotationFeedback =
           m_rotationController.calculate(
-              m_armRotationInputs.AbsoluteArmPositionRad, m_targetState.AngleRadians);
+              m_armRotationInputs.AbsoluteArmPositionRad, m_targetState.Angle.getRadians());
       m_rotationIO.setVoltage(rotationFeedforward + rotationFeedback);
 
       double extensionFeedBack =
@@ -119,7 +112,7 @@ public class ArmBase extends SubsystemBase {
         m_armRotationInputs.AbsoluteArmPositionRad,
         m_armExtensionInputs.PivotToEffectorDistanceMeters);
     m_targetVisualizer.update(
-        m_targetState.AngleRadians, m_targetState.PivotToEffectorDistanceMeters);
+        m_targetState.Angle.getRadians(), m_targetState.PivotToEffectorDistanceMeters);
   }
 
   @Override
@@ -127,43 +120,55 @@ public class ArmBase extends SubsystemBase {
     m_rotationIO.updateArmLength(m_armExtensionInputs.PivotToEffectorDistanceMeters);
   }
 
+  public ArmState getCurrentState() {
+    return new ArmState(
+        Rotation2d.fromRadians(m_armRotationInputs.AbsoluteArmPositionRad),
+        m_armRotationInputs.ArmVelocityRadPerSecond,
+        m_armExtensionInputs.PivotToEffectorDistanceMeters);
+  }
+
   public ArmState getTargetState() {
-    try {
-      return m_targetState.clone();
-    } catch (CloneNotSupportedException e) {
-      throw new RuntimeException(e);
-    }
+    return m_targetState;
   }
 
   public void updateState(ArmState state) {
-    state.PivotToEffectorDistanceMeters =
-        MathUtil.clamp(
-            state.PivotToEffectorDistanceMeters,
-            RobotLimits.kMinArmLengthMeters,
-            RobotLimits.kMaxArmLengthMeters);
+    if (state.equals(getTargetState())) return;
 
-    double totalLength =
-        state.PivotToEffectorDistanceMeters + RobotDimensions.Effector.kLengthMeters;
+    double stateAngleRad = state.Angle.getRadians();
+    double stateDistanceMeters = state.PivotToEffectorDistanceMeters;
+
+    double totalLength = stateDistanceMeters + RobotDimensions.Effector.kLengthMeters;
 
     // Prevent from going through the floor
-    if (Math.PI > state.AngleRadians && state.AngleRadians >= -Math.PI / 2.0) {
-      if (Constants.Arm.kArmKinematics.wouldIntersectForward(totalLength, state.AngleRadians)) {
-        state.AngleRadians = Constants.Arm.kArmKinematics.lowestForwardAngle(totalLength);
+    if (Math.PI > stateAngleRad && stateAngleRad >= -Math.PI / 2.0) {
+      if (Constants.Arm.kArmKinematics.wouldIntersectForward(totalLength, stateAngleRad)) {
+        stateAngleRad = Constants.Arm.kArmKinematics.lowestForwardAngle(totalLength);
       }
     } else {
-      if (Constants.Arm.kArmKinematics.wouldIntersectRear(totalLength, state.AngleRadians)) {
-        state.AngleRadians = Constants.Arm.kArmKinematics.lowestRearAngle(totalLength);
+      if (Constants.Arm.kArmKinematics.wouldIntersectRear(totalLength, stateAngleRad)) {
+        stateAngleRad = Constants.Arm.kArmKinematics.lowestRearAngle(totalLength);
       }
     }
 
     // Prevent from breaching extension limit
-    if (Constants.Arm.kArmKinematics.wouldBreakExtensionLimit(totalLength, state.AngleRadians)) {
-      state.PivotToEffectorDistanceMeters =
-          Constants.Arm.kArmKinematics.maxArmAndEffectorLength(state.AngleRadians)
+    if (Constants.Arm.kArmKinematics.wouldBreakExtensionLimit(totalLength, stateAngleRad)) {
+      stateDistanceMeters =
+          Constants.Arm.kArmKinematics.maxArmAndEffectorLength(stateAngleRad)
               - RobotDimensions.Effector.kLengthMeters;
     }
 
-    m_targetState = new ArmState(state.AngleRadians, state.PivotToEffectorDistanceMeters);
+    // Normalize the angle such that PID won't cause the arm to go through the drivetrain itself
+    stateAngleRad %= 2.0 * Math.PI;
+
+    if (stateAngleRad < -Math.PI / 2.0) {
+      stateAngleRad += 2 * Math.PI;
+    } else if (stateAngleRad > 3.0 * Math.PI / 2.0) {
+      stateAngleRad -= 2 * Math.PI;
+    }
+
+    stateAngleRad %= 2.0 * Math.PI;
+
+    m_targetState = new ArmState(Rotation2d.fromRadians(stateAngleRad), stateDistanceMeters);
   }
 
   /**
@@ -180,7 +185,7 @@ public class ArmBase extends SubsystemBase {
   }
 
   public boolean atSetpoint() {
-    return m_rotationController.atSetpoint() && m_extensionController.atSetpoint();
+    return getCurrentState().equals(getTargetState());
   }
 
   public void stopExtension() {

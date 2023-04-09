@@ -51,7 +51,7 @@ public class DriveBase extends SubsystemBase {
 
   /**
    * Drive the robot using standard tank drive from left and right percent. The {@link
-   * RobotDriveBase#kDefaultDeadband} deadband value is used. <b>Input values are not squared</b>
+   * RobotDriveBase#kDefaultDeadband} deadband value is used.
    *
    * @param leftPercent percent to apply to the left side of the drivetrain [-1, 1].
    * @param rightPercent percent to apply to the right side of the drivetrain [-1, 1].
@@ -62,6 +62,9 @@ public class DriveBase extends SubsystemBase {
 
     leftPercent = MathUtil.clamp(leftPercent, -1, 1);
     rightPercent = MathUtil.clamp(rightPercent, -1, 1);
+
+    leftPercent = Math.copySign(Math.pow(leftPercent, 2), leftPercent);
+    rightPercent = Math.copySign(Math.pow(rightPercent, 2), rightPercent);
 
     m_driveIO.setVoltage(leftPercent * 12.0, rightPercent * 12.0);
   }
@@ -81,6 +84,9 @@ public class DriveBase extends SubsystemBase {
 
     forwardPercent = MathUtil.clamp(forwardPercent, -1, 1);
     rotationPercent = MathUtil.clamp(rotationPercent, -1, 1);
+
+    forwardPercent = Math.copySign(Math.pow(forwardPercent, 2), forwardPercent);
+    rotationPercent = Math.copySign(Math.pow(rotationPercent, 2), rotationPercent);
 
     double leftSpeed = forwardPercent - rotationPercent;
     double rightSpeed = forwardPercent + rotationPercent;
@@ -205,15 +211,5 @@ public class DriveBase extends SubsystemBase {
   public void emergencyBrake() {
     setNeutralMode(Constants.NeutralMode.BRAKE);
     stop();
-  }
-
-  /**
-   * Check if the Gyroscope is at a level plane.
-   *
-   * @return whether the gyroscope is level.
-   */
-  public boolean isLevel() {
-    return Math.abs(m_driveInputs.PitchPositionRad)
-        < Math.toRadians(Drivetrain.kRobotStabilizationToleranceDegrees);
   }
 }

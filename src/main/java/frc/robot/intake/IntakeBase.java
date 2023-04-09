@@ -21,7 +21,7 @@ public class IntakeBase extends SubsystemBase {
     m_intakeIO.setVoltage(voltage);
   }
 
-  public void stopIntake() {
+  public void stop() {
     m_intakeIO.setVoltage(0.0);
   }
 }

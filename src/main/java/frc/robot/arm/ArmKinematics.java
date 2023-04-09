@@ -4,6 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
 import frc.robot.constants.RobotDimensions;
+import frc.robot.constants.RobotLimits;
 
 /**
  * Kinematics helper class that can help calculate the state of the Arm for either its current or
@@ -195,6 +196,36 @@ public class ArmKinematics {
         + Math.asin(
             (fulcrumPosition.getZ() - (RobotDimensions.Effector.kWidthMeters / 2 + 0.05))
                 / (totalLengthMeters));
+  }
+
+  /**
+   * Calculate the required ArmState in order to put the beginning of the effector at a given pose.
+   *
+   * @param robotPose position of the robot.
+   * @param targetPose target position to put the beginning of the effector.
+   * @param distanceOffsetMeters distance offset to use. Use this if you need to reduce how far to
+   *     extend the arm (say for shooting cubes instead of placing them).
+   * @return ArmState to reach targetPose
+   */
+  public ArmState calculateArmState(
+      Pose2d robotPose, Translation3d targetPose, double distanceOffsetMeters) {
+    double deltaDistance = 0;
+
+    if (Math.abs(targetPose.getX() - robotPose.getX()) >= 1e-2) {
+      deltaDistance = targetPose.getX() - robotPose.getX();
+    } else if (Math.abs(targetPose.getY() - robotPose.getY()) >= 1e-2) {
+      deltaDistance = targetPose.getY() - robotPose.getY();
+    }
+
+    double armAngleRad = Math.atan2(targetPose.getZ() - fulcrumPosition.getZ(), deltaDistance);
+
+    double totalLength =
+        MathUtil.clamp(
+            Math.hypot(targetPose.getZ() - fulcrumPosition.getZ(), deltaDistance),
+            RobotLimits.kMinArmLengthMeters,
+            RobotLimits.kMaxArmLengthMeters);
+
+    return new ArmState(Rotation2d.fromRadians(armAngleRad), 0, totalLength - distanceOffsetMeters);
   }
 
   /**

@@ -32,6 +32,11 @@ public class ArmControlVoltage extends CommandBase {
   }
 
   @Override
+  public void initialize() {
+    m_armBase.setDisabled(true);
+  }
+
+  @Override
   public void execute() {
     m_armBase.setRotationVoltage(
         m_operatorInterface.getRotationLinearY() * 12.0 * m_rotationSpeedLimiter.get());

@@ -1,6 +1,7 @@
 package frc.robot.arm.commands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.ArmState;
@@ -30,7 +31,7 @@ public class ArmControl extends CommandBase {
 
   @Override
   public void execute() {
-    double armAngleRad = m_armBase.getTargetState().AngleRadians;
+    double armAngleRad = m_armBase.getTargetState().Angle.getRadians();
     double armLength = m_armBase.getTargetState().PivotToEffectorDistanceMeters;
 
     if ((m_operatorInterface.getRotationLinearX() != 0.0
@@ -52,6 +53,6 @@ public class ArmControl extends CommandBase {
             RobotLimits.kMinArmLengthMeters,
             Constants.Arm.kArmKinematics.maxArmAndEffectorLength(armAngleRad));
 
-    m_armBase.updateState(new ArmState(armAngleRad, armLength));
+    m_armBase.updateState(new ArmState(Rotation2d.fromRadians(armAngleRad), armLength));
   }
 }

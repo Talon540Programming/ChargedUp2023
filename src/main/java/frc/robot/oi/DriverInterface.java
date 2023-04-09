@@ -1,21 +1,17 @@
 package frc.robot.oi;
 
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.drivetrain.commands.DriveControl;
 
 /** Represents the inputs required for the primary driver. */
 public interface DriverInterface {
-  public double getLeftPercent(DriveMode mode);
+  double getLeftPercent(DriveControl.DriveMode mode);
 
-  public double getRightPercent(DriveMode mode);
+  double getRightPercent(DriveControl.DriveMode mode);
 
-  public Trigger toggleBalanceMode();
+  Trigger toggleBalanceMode();
 
-  public Trigger enableBrakeMode();
+  Trigger enableBrakeMode();
 
-  public Trigger enableCoastMode();
-
-  public enum DriveMode {
-    Differential,
-    Arcade
-  }
+  Trigger enableCoastMode();
 }

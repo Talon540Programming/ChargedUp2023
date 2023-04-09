@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.simulation.LinearSystemSim;
 import frc.robot.arm.ArmKinematics;
 
 /**
- * Represents a Sim of a Single Joined Arm that has variable length and center of mass. Credit WPI
- * and Contributors for source.
+ * Represents a Sim of a Single Joined Arm that has variable length and center of mass. Credit
+ * WPILIB and Contributors for source.
  */
 public class VariableSingleJoinedArmSim extends LinearSystemSim<N2, N1, N1> {
   private final DCMotor m_gearbox;

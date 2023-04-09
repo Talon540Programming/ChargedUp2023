@@ -10,12 +10,12 @@ public class DriveControl extends CommandBase {
   private final DriverInterface m_driverInterface;
 
   private final LoggedDashboardChooser<Double> m_leftSpeedLimiter =
-      new LoggedDashboardChooser<>("Drive Speed Limiter");
+      new LoggedDashboardChooser<>("Left Drive Speed Limiter");
 
   private final LoggedDashboardChooser<Double> m_rightSpeedLimiter =
-      new LoggedDashboardChooser<>("Drive Speed Limiter");
+      new LoggedDashboardChooser<>("Right Drive Speed Limiter");
 
-  private final LoggedDashboardChooser<DriverInterface.DriveMode> m_driveMode =
+  private final LoggedDashboardChooser<DriveMode> m_driveMode =
       new LoggedDashboardChooser<>("Drive Mode");
 
   public DriveControl(DriveBase driveBase, DriverInterface driverInterface) {
@@ -32,15 +32,15 @@ public class DriveControl extends CommandBase {
     m_rightSpeedLimiter.addOption("Medium (30%)", 0.3);
     m_rightSpeedLimiter.addOption("Slow (15%)", 0.15);
 
-    m_driveMode.addDefaultOption("Arcade Drive", DriverInterface.DriveMode.Arcade);
-    m_driveMode.addOption("Differential (Tank) Drive", DriverInterface.DriveMode.Differential);
+    m_driveMode.addDefaultOption("Arcade Drive", DriveMode.Arcade);
+    m_driveMode.addOption("Differential (Tank) Drive", DriveMode.Differential);
 
     addRequirements(driveBase);
   }
 
   @Override
   public void execute() {
-    DriverInterface.DriveMode mode = m_driveMode.get();
+    DriveMode mode = m_driveMode.get();
 
     switch (mode) {
       case Arcade -> m_driveBase.arcadeDrivePercent(
@@ -50,5 +50,10 @@ public class DriveControl extends CommandBase {
           m_driverInterface.getLeftPercent(mode) * m_leftSpeedLimiter.get(),
           m_driverInterface.getRightPercent(mode) * m_rightSpeedLimiter.get());
     }
+  }
+
+  public enum DriveMode {
+    Differential,
+    Arcade
   }
 }

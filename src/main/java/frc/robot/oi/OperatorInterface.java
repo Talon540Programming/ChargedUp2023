@@ -4,15 +4,29 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /** Represents the inputs required for the operator or "button man". */
 public interface OperatorInterface {
-  public double getRotationLinearX();
+  double getRotationLinearX();
 
-  public double getRotationLinearY();
+  double getRotationLinearY();
 
-  public double getExtensionPercent();
+  double getExtensionPercent();
 
-  public Trigger lockRotation();
+  Trigger lockRotation();
 
-  public Trigger resetExtension();
+  Trigger calibrateExtension();
 
-  public double getIntakePercent();
+  double getIntakePercent();
+
+  Trigger ejectIntake();
+
+  Trigger idle();
+
+  Trigger singleSubstation();
+
+  Trigger cubeHigh();
+
+  Trigger cubeMid();
+
+  Trigger coneMid();
+
+  Trigger hybrid();
 }

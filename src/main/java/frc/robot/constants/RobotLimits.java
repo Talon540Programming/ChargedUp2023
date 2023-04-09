@@ -1,22 +1,19 @@
 package frc.robot.constants;
 
+import com.pathplanner.lib.PathConstraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 public class RobotLimits {
-  public static final double kMaxExtensionHorizontalInches = 48; // 48" Extension Limit
-  public static final double kMaxExtensionHorizontalMeters =
-      Units.inchesToMeters(kMaxExtensionHorizontalInches);
+  public static final double kMaxDrivetrainVelocityMetersPerSecond = 4;
+  public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5;
 
-  public static final double kMaxExtensionVerticalInches = 78; // 6'6" Max Height Limit
-  public static final double kMaxExtensionVerticalMeters =
-      Units.inchesToMeters(kMaxExtensionVerticalInches);
+  public static final PathConstraints kTrajectoryConstraints =
+      new PathConstraints(
+          kMaxDrivetrainVelocityMetersPerSecond, kMaxDrivetrainAccelerationMetersPerSecondSquared);
 
-  public static final double kMaxDrivetrainVelocityMetersPerSecond = 4; // TODO
-  public static final double kMaxDrivetrainAccelerationMetersPerSecondSquared = 3.5; // TODO
-
-  public static final double kMaxArmVelocityRadPerSecond = Math.PI / 4;
-  public static final double kMaxArmAccelerationRadPerSecondSquared = Math.PI / 2;
+  public static final double kMaxArmVelocityRadPerSecond = 3 * Math.PI / 4; // TODO
+  public static final double kMaxArmAccelerationRadPerSecondSquared = Math.PI / 2; // TODO
 
   public static final TrapezoidProfile.Constraints kArmRotationConstraints =
       new TrapezoidProfile.Constraints(
