@@ -12,8 +12,8 @@ public class RobotLimits {
       new PathConstraints(
           kMaxDrivetrainVelocityMetersPerSecond, kMaxDrivetrainAccelerationMetersPerSecondSquared);
 
-  public static final double kMaxArmVelocityRadPerSecond = 3 * Math.PI / 4;
-  public static final double kMaxArmAccelerationRadPerSecondSquared = Math.PI / 3;
+  public static final double kMaxArmVelocityRadPerSecond = 3 * Math.PI / 4; // TODO
+  public static final double kMaxArmAccelerationRadPerSecondSquared = Math.PI / 2; // TODO
 
   public static final TrapezoidProfile.Constraints kArmRotationConstraints =
       new TrapezoidProfile.Constraints(
