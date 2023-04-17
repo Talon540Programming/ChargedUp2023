@@ -97,20 +97,19 @@ public class VisionPoseEstimator {
       ArrayList<AprilTag> knownVisTags = new ArrayList<>();
 
       for (PhotonTrackedTarget target : pipelineResult.getTargets()) {
-        visCorners.addAll(target.getDetectedCorners());
-
         Optional<Pose3d> tagPoseOpt = m_fieldLayout.getTagPose(target.getFiducialId());
 
-        if (tagPoseOpt.isEmpty()) {
+        if(tagPoseOpt.isEmpty()) {
+          // Skip this tag because it isn't in the FieldLayout
           DriverStation.reportWarning(
-              "[VisionPoseEstimator] The found tag was not within the FieldLayout.", false);
+                  "[VisionPoseEstimator] The found tag was not within the FieldLayout.", false);
           continue;
         }
 
-        Pose3d tagPose = tagPoseOpt.get();
+        visCorners.addAll(target.getDetectedCorners());
 
         // actual layout poses of visible tags -- not exposed, so have to recreate
-        knownVisTags.add(new AprilTag(target.getFiducialId(), tagPose));
+        knownVisTags.add(new AprilTag(target.getFiducialId(), tagPoseOpt.get()));
       }
 
       // multi-target solvePNP
