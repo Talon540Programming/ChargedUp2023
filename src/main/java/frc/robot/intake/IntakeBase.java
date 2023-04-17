@@ -24,8 +24,4 @@ public class IntakeBase extends SubsystemBase {
   public void stop() {
     m_intakeIO.setVoltage(0.0);
   }
-
-  public boolean isHoldingGamePiece() {
-    return m_intakeIO.isStalled();
-  }
 }

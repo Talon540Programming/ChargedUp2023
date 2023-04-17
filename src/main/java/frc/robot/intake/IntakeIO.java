@@ -6,7 +6,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 public interface IntakeIO extends LoggedIO<IntakeIO.IntakeInputs> {
   @AutoLog
-  public class IntakeInputs {
+  class IntakeInputs {
     public double[] CurrentAmps = new double[] {};
     public double[] TemperatureCelsius = new double[] {};
 
@@ -17,8 +17,4 @@ public interface IntakeIO extends LoggedIO<IntakeIO.IntakeInputs> {
   default void setVoltage(double voltage) {}
 
   default void setNeutralMode(Constants.NeutralMode mode) {}
-
-  default boolean isStalled() {
-    return false;
-  }
 }

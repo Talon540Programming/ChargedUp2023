@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.SparkMaxBurnManager;
+import frc.lib.trajectory.PathPlannerUtil;
 import frc.robot.arm.ArmBase;
 import frc.robot.arm.ArmState;
 import frc.robot.arm.commands.ArmControl;
@@ -14,14 +15,13 @@ import frc.robot.arm.extension.ArmExtensionIOSparkMax;
 import frc.robot.arm.rotation.ArmRotationIO;
 import frc.robot.arm.rotation.ArmRotationIOSim;
 import frc.robot.arm.rotation.ArmRotationIOSparkMax;
-import frc.robot.autos.*;
+import frc.robot.auto.*;
 import frc.robot.constants.*;
 import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.DriveIO;
 import frc.robot.drivetrain.DriveIOFalcon;
 import frc.robot.drivetrain.DriveIOSim;
 import frc.robot.drivetrain.commands.DriveControl;
-import frc.robot.groups.AutoBalance;
 import frc.robot.intake.IntakeBase;
 import frc.robot.intake.IntakeIO;
 import frc.robot.intake.IntakeIOSim;
@@ -145,10 +145,6 @@ public class RobotContainer {
     // Bind Driver's Buttons
     m_OIManager
         .getDriverInterface()
-        .toggleBalanceMode()
-        .toggleOnTrue(new AutoBalance(m_driveBase, m_armBase));
-    m_OIManager
-        .getDriverInterface()
         .enableBrakeMode()
         .onTrue(
             Commands.run(
@@ -198,16 +194,13 @@ public class RobotContainer {
   }
 
   private void configureAuto() {
-    // spotless:off
+    AutoFactory autoFactory = new AutoFactory(m_driveBase, m_armBase, m_intakeBase);
+
     m_autoChooser.addDefaultOption("Do Nothing", Commands.none());
-    m_autoChooser.addOption("Bottom Cube. Score Two Cubes. Taxi", new BottomCubeTwoCube(m_driveBase, m_armBase, m_intakeBase));
-    m_autoChooser.addOption("Score Cube Only", new DriveTime(m_driveBase, 0.75, -0.5));
-    m_autoChooser.addOption("Drive For 5 Seconds", new DriveTime(m_driveBase, 5, 0.25));
-    m_autoChooser.addOption("Drive For 5 Seconds (inverse)", new DriveTime(m_driveBase, 5, -0.25));
-    m_autoChooser.addOption("Drive For 4 Meters", new DriveDistance(m_driveBase, 4));
-    m_autoChooser.addOption("Drive For 4 Meters (inverse)", new DriveDistance(m_driveBase, -4));
-    m_autoChooser.addOption("Score Cube Hybrid then Taxi", new ScoreCubeHybridTaxi(m_driveBase));
-    // spotless:on
+
+    for (String path : PathPlannerUtil.getDeployedPaths()) {
+      m_autoChooser.addOption(path, autoFactory.createAutoCommandFromPaths(path));
+    }
   }
 
   public Command getAutonomousCommand() {

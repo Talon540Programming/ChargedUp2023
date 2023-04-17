@@ -157,6 +157,17 @@ public class ArmBase extends SubsystemBase {
               - RobotDimensions.Effector.kLengthMeters;
     }
 
+    // Normalize the angle such that PID won't cause the arm to go through the drivetrain itself
+    stateAngleRad %= 2.0 * Math.PI;
+
+    if (stateAngleRad < -Math.PI / 2.0) {
+      stateAngleRad += 2 * Math.PI;
+    } else if (stateAngleRad > 3.0 * Math.PI / 2.0) {
+      stateAngleRad -= 2 * Math.PI;
+    }
+
+    stateAngleRad %= 2.0 * Math.PI;
+
     m_targetState = new ArmState(Rotation2d.fromRadians(stateAngleRad), stateDistanceMeters);
   }
 

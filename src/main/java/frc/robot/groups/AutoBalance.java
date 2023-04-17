@@ -12,7 +12,7 @@ import frc.robot.drivetrain.DriveBase;
 import frc.robot.drivetrain.commands.StabilizeRobot;
 
 public class AutoBalance extends SequentialCommandGroup {
-  public AutoBalance(DriveBase driveBase, ArmBase armBase) {
+  public AutoBalance(DriveBase driveBase, ArmBase armBase, boolean endWithArmUp) {
     addCommands(
         Commands.race(
             new StabilizeRobot(driveBase),
@@ -23,6 +23,7 @@ public class AutoBalance extends SequentialCommandGroup {
                         Rotation2d.fromRadians(
                             (Math.PI / 2) + driveBase.m_driveInputs.PitchPositionRad),
                         RobotLimits.kMinArmLengthMeters))),
-        new GoToState(armBase, ArmState.IDLE));
+        Commands.either(
+            new GoToState(armBase, ArmState.IDLE), Commands.none(), () -> endWithArmUp));
   }
 }
