@@ -3,6 +3,7 @@ package frc.robot.drivetrain;
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
@@ -63,9 +64,12 @@ public class DriveIOFalcon implements DriveIO {
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.voltageCompSaturation = 12.0;
     config.statorCurrLimit = new StatorCurrentLimitConfiguration(true, 40, 0, 0);
+    config.supplyCurrLimit = new SupplyCurrentLimitConfiguration(true, 40, 0, 0);
 
     m_leftLeader.configAllSettings(config);
     m_rightLeader.configAllSettings(config);
+    m_leftFollower.configAllSettings(config);
+    m_rightFollower.configAllSettings(config);
 
     setNeutralMode(Constants.Drivetrain.kDrivetrainDefaultNeutralMode);
 
