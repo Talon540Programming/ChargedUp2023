@@ -7,8 +7,10 @@ public class TalonFXMechanism {
   public static final double IntegratedEncoderResolution = 2048.0;
 
   private final TalonFXSensorCollection m_collection;
+
   private final double m_gearing;
   private final double m_radius;
+
   private boolean m_inverted;
 
   public TalonFXMechanism(
@@ -24,7 +26,7 @@ public class TalonFXMechanism {
   }
 
   public double getVelocityRadPerSecond() {
-    return Units.rotationsPerMinuteToRadiansPerSecond(getMotorRPM());
+    return Units.rotationsPerMinuteToRadiansPerSecond(getMotorRPM()) / m_gearing;
   }
 
   public double getVelocityMetersPerSecond() {
@@ -37,10 +39,6 @@ public class TalonFXMechanism {
 
   public double getPositionMeters() {
     return getPositionRadians() * m_radius;
-  }
-
-  public void resetPosition(double positionTalonFXTicks) {
-    m_collection.setIntegratedSensorPosition(positionTalonFXTicks, 0);
   }
 
   public double getMotorRotations() {
@@ -76,6 +74,10 @@ public class TalonFXMechanism {
    */
   public double getRawAbsolutePosition() {
     return m_collection.getIntegratedSensorAbsolutePosition();
+  }
+
+  public void resetPosition(double positionTalonFXTicks) {
+    m_collection.setIntegratedSensorPosition(positionTalonFXTicks, 0);
   }
 
   public TalonFXSensorCollection getCollection() {
