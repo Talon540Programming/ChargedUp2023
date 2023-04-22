@@ -89,7 +89,8 @@ public class ArmBase extends SubsystemBase {
       }
 
       // Controllers will be continuously reset while the arm is considered disabled.
-      m_rotationController.reset(m_armRotationInputs.AbsoluteArmPositionRad);
+      m_rotationController.reset(
+          m_armRotationInputs.AbsoluteArmPositionRad, m_armRotationInputs.ArmVelocityRadPerSecond);
       m_extensionController.reset();
     } else {
       m_disabledVoltageApplied = false;
