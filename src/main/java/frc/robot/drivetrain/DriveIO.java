@@ -14,7 +14,7 @@ public interface DriveIO extends LoggedIO<DriveIO.DriveIOInputs> {
     public double RightPositionMeters;
     public double RightVelocityMetersPerSecond;
     public double[] TemperatureCelsius = new double[] {};
-    public double[] CurrentAmps = new double[] {};
+    public double[] SupplyCurrentAmps = new double[] {};
 
     public boolean GyroConnected;
 

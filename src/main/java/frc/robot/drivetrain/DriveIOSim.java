@@ -35,7 +35,7 @@ public class DriveIOSim implements DriveIO {
     inputs.RightPositionMeters = m_driveSim.getRightPositionMeters();
     inputs.RightVelocityMetersPerSecond = m_driveSim.getRightVelocityMetersPerSecond();
 
-    inputs.CurrentAmps =
+    inputs.SupplyCurrentAmps =
         new double[] {m_driveSim.getLeftCurrentDrawAmps(), m_driveSim.getRightCurrentDrawAmps()};
 
     inputs.GyroConnected = true;

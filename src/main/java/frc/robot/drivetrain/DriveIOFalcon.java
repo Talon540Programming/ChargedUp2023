@@ -97,7 +97,7 @@ public class DriveIOFalcon implements DriveIO {
           m_rightLeader.getTemperature(), m_rightFollower.getTemperature()
         };
 
-    inputs.CurrentAmps =
+    inputs.SupplyCurrentAmps =
         new double[] {
           m_leftLeader.getSupplyCurrent(), m_leftFollower.getSupplyCurrent(),
           m_rightLeader.getSupplyCurrent(), m_rightFollower.getSupplyCurrent()
