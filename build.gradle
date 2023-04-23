@@ -88,8 +88,7 @@ test {
     systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
 }
 
-wpi.sim.addGui()
-wpi.sim.addDriverstation()
+wpi.sim.addGui().defaultEnabled = true
 
 jar {
     from {
@@ -119,6 +118,7 @@ gversion {
     indent       = "  "
 }
 
+project.compileJava.dependsOn(spotlessApply)
 spotless {
     java {
         target fileTree('.') {
